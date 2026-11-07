@@ -1,0 +1,58 @@
+# Taiwan 2026-27: issue tree
+
+kind: question
+source: rufuspollock/childcare-housekeeper/projects/2601-taiwan/issue-tree.md
+
+- How do we get the family to Taiwan in December and set up well there — childcare, work, and home in France all covered — for an initial ~3 months, keeping the option to stay longer?
+  - 1. When do we leave, and how do we get there? 🔥🔥🔥
+    - 1.1 Which departure plan? ⚖️ 🔥🔥🔥
+      - 1.1.1 Options within E
+        - E1 — fly direct London–Taipei *(EVA — check)* on 27, 28, 29 or 30 Dec
+        - E2 — return to France after Christmas, fly direct Paris–Taipei 27–30 Dec
+        - Getting to England ~23 Dec (and back for E2)
+      - 1.1.2 Criteria, C vs E — cost (P1 ×2), low hassle (P5 ×2; E has an extra leg), Christmas with family in England vs a quieter one in Taiwan (P2 — either is fine)
+      - 1.1.3 Scores — waits on flight prices (1.2.3)
+      - 1.1.4 Ordered shortlist — *(after prices)*
+    - 1.2 Which flights? ⚖️ 🔥🔥🔥
+      - 1.2.1 Options — direct flights (P5), likely EVA Air, from Paris CDG: for C, 22, 23 or 24 Dec; for E (if revived), London–Taipei or Paris–Taipei 27–30 Dec
+      - 1.2.2 Criteria — price (P1), journey ease (P5), getting to the airport
+      - 1.2.3 Scores — Google Flights, 10 Oct 2026 ([details](#appendix-flight-research-10-oct-2026)):
+        - EVA is the only nonstop CDG–TPE (BR 88, 13h). Same price 22/23/24 Dec — date doesn't matter on price
+        - EVA round trip, back 11–20 Mar: €3,884 for all four — less than the EVA one-way (€4,060). Return leg: partial refund, no changes
+        - 1-stop (Cathay via Hong Kong, +2.5–4h) is cheaper one-way (~€2,471) but dearer as a round trip (€4,366)
+      - 1.2.4 Ordered shortlist — EVA nonstop round trip › Cathay round trip › one-ways. A return costs no more than a single, so buy the return even if we might stay longer — an unused return leg still leaves us better off than one-way plus a later one-way home. Return 18 or 20 Mar keeps inside the ~90-day visa-free stay (4.2). Not booked yet; fare may already be stale
+    - 1.3 Getting there 🔥🔥
+      - 1.3.1 Drive to Paris — van, the night before or a day and a half before; 1–2 days in Paris (S6a). Where do we stay?
+      - 1.3.2 The van — where does it stay for ~3 months? *(TODO)*
+      - 1.3.3 The flight — two adults, a 2-year-old and a 7-year-old, no au pair (S8, C5). Seats, night flight, luggage
+    - 1.4 Who travels with us? 🔥🔥
+      - Just the four of us? Does Catalina come, and when? (S14)
+  - 2. How do we get enough childcare in Taiwan to work? 🔥🔥🔥
+    - 2.1 The base 🔥🔥🔥
+      - Ateyan — Montessori school: sorted ✓ *(TODO: start date vs our arrival)*
+      - Aletheya — daycare applied for; answer ~20 Oct (S14). Waiting
+    - 2.2 How big is the gap? 🔥🔥 — hours we need, minus school/daycare, minus Catalina's time. Larger if Aletheya's daycare falls through
+    - 2.3 Who fills the gap? ⚖️ 🔥🔥 (C4)
+      - 2 Nov 2026: we will look for a local nanny before we arrive, aiming to close the search by 10 Jan. Full plan in [Taiwan childcare](../2612-taiwan-childcare/README.md).
+      - 2.3.1 Options — au pair hired in France and brought (neither current one is coming — S8) · local nanny or babysitter · student · more of Catalina
+      - 2.3.2 Criteria — reliability, cost, Mandarin for the kids, hiring lead time, fit with a possible longer stay
+      - 2.3.3 Scores
+      - 2.3.4 Ordered shortlist — and whether to search before we go or after we arrive
+    - 2.4 First weeks 🔥🔥 — arrival to settled routine: jet lag, any gap before school/daycare starts, New Year
+  - 3. How is everything in France looked after while we're away? 🔥🔥
+    - 3.1 The house 🔥🔥 — who looks after it? (S21)
+    - 3.2 The hubs — Farmhouse and Riverside 🔥 — what does each need while we're away? (S22 — doesn't block departure)
+    - 3.3 Au pairs 🔥🔥 — when do Emily's and Cristiana's placements end, and what notice do they need? Could either stay on, e.g. house-sitting? (C6)
+    - 3.4 The cats ⚖️ 🔥🔥 — two cats at the Farmhouse hub move to Arnouville, probably permanently (S23, C12)
+      - 3.4.1 Options — (a) they come with us in the van in December (stressful) · (b) someone drives them up in November — e.g. Cristiana, before Emily goes *(TODO: confirm)*
+      - 3.4.2 Criteria — stress for cats and us, who's free to drive, timing
+      - 3.4.3 Scores · 3.4.4 Shortlist — *(open)*
+    - 3.5 Places to come back to 🔥 — keep paying the nounou to hold Aletheya's place (S15)? What does Ateyan's French school need from us (C10)?
+  - 4. How long do we stay, and what does that need legally? 🔥
+    - 4.1 ~3 months or 6–12 months? ⚖️ 🔥 — decision table in [README](README.md#decision-criteria-france-base-vs-taiwan-2027) already has the method's shape; Sylvie's scores outstanding (bead childcare-q8e). Leaning: 3 months, then decide on the ground
+    - 4.2 Visas, per person 🔥🔥 — Rufus (British) and the kids (French): visa-free 90 days *(check)*; Sylvie and Catalina Taiwanese. Longer stay → Golden Visa or other route (S20)
+    - 4.3 Tax and residency 🔥 — what changes if we stay past a threshold? (README criterion 4)
+  - 5. How do we live and work well there? 🔥
+    - 5.1 Housing — apartment from 13 Dec (S1); what after the first booking?
+    - 5.2 Work setup — timezone with the Life Itself team (README criterion 1)
+    - 5.3 Health — insurance and doctors for the family in Taiwan

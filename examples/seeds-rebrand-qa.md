@@ -1,0 +1,54 @@
+# Seeds of Renaissance rebrand: issue tree with decisions
+
+kind: qa
+source: reasoncommons/issuetrees/tools/viewer/examples/rebrand.md (copied from life-itself/planning/projects/2608-seeds-of-renaissance-rebrand.md)
+
+- What is the Seeds of Renaissance brand, and how does it play out concretely in design and in the naming of, for example, podcasts?
+  - What is our brand narrative?
+    - ⏭️ What is the vision?
+    - What is the mission?
+      - A: In the Canva document: [Seeds of Renaissance Brand Narrative Visual](https://www.canva.com/design/DAHRg8uBCms/omMvwK0L32OejE56i0hPaQ/edit).
+    - To whom?
+      - A: In the Canva document: [Seeds of Renaissance Brand Narrative Visual](https://www.canva.com/design/DAHRg8uBCms/omMvwK0L32OejE56i0hPaQ/edit).
+    - What are our value propositions?
+      - A: In the Canva document: [Seeds of Renaissance Brand Narrative Visual](https://www.canva.com/design/DAHRg8uBCms/omMvwK0L32OejE56i0hPaQ/edit).
+    - What are our offers, and which are core?
+      - A: In the Canva document: [Seeds of Renaissance Brand Narrative Visual](https://www.canva.com/design/DAHRg8uBCms/omMvwK0L32OejE56i0hPaQ/edit).
+  - What distribution platforms and channels do we have (e.g. YouTube, Apple Podcasts), and what sub-channels or "stations" sit within them?
+    - A: Like Nate Hagens: one platform, with one or more stations/series within it.
+    - What YouTube channel(s) do we have?
+      - A: One: Seeds of Renaissance — https://www.youtube.com/@SeedsOfRenaissance.
+    - What podcast(s) do we have?
+      - A: One podcast on the major platforms (Apple Podcasts, Spotify), called Seeds of Renaissance. Stations are distinguished within that single feed by title prefix and episode type, not by separate feeds; revisit a separate feed only once a station has its own proven audience (Rufus, 2026-09-25).
+    - What stations do we have (series that get episode numbers or a YouTube playlist)?
+      - A: Two or more: Over the Mountains for Rufus-led intellectual interviews; probably one for Temple of the Sacred World; possibly an extra one, "Making sense of", like Nate Hagens's Frankly.
+      - Is Seeds of Renaissance itself a station?
+        - A: No — umbrella brand only for now. Material outside the named stations goes out unnumbered on the main channel in topic playlists. If a recurring format emerges (e.g. Rufus–Sylvie conversations), make it a station then and name it for what it has become (Rufus, 2026-09-25).
+      - What is the Over the Mountains podcast called after the rebrand?
+        - A: It keeps the name Over the Mountains, as a station within Seeds of Renaissance: "Seeds of Renaissance presents Over the Mountains". It moves into the single SoR YouTube channel and podcast feed; overthemountains.org is to be set up (Rufus, 2026-09-25). Application is brand-rollout work.
+      - What are the name and editorial line of the Sylvie-led station? Working title Temple of the Sacred World; Sylvie owns the decision. Until it is settled, its pieces can go out as fast releases and be moved into the station once it launches.
+      - Does "Making sense of" become a station, and what is its format?
+      - How are stations presented?
+        - A: One SoR master kit (typeface, logo lockup, sonic sting) with a variant per station (colour, artwork, title card). "Seeds of Renaissance presents…" appears in the intro and on the episode cover/title image, not in written titles. Describe stations publicly by host and format; tone descriptors such as "masculine/feminine" stay internal (Rufus, 2026-09-25).
+      - What belongs in each station?
+        - A: Decided per piece by the station host using the triage rule in the [publication tracks](2602-content-delivery-pipeline/publication-tracks.md); if in doubt it goes out as a fast release.
+    - What are our social media handles?
+      - A: Instagram: @seedsofrenaissance; Facebook: Seeds of Renaissance; X/Twitter: @SeedRenaissance; LinkedIn: seedsofrenaissance; Linktree: @seedsofrenaissance; YouTube: https://www.youtube.com/@SeedsOfRenaissance.
+    - How do the website, YouTube playlists, podcast feed and newsletter relate? Partial direction: the website is the canonical home for numbered episodes; fast releases live on YouTube unless promoted.
+    - What happens to the Over the Mountains Substack? Current direction (Rufus, 2026-09-25): move off Substack, distributing the podcast through Riverside (probable) and YouTube, and switching to our own newsletter. The switchover itself still needs planning.
+  - What is the design system for SoR?
+    - What is the press pack for SoR (blurbs, including for social media)?
+    - What is the logo?
+      - A: In the Canva document: [Seeds of Renaissance Brand Narrative Visual](https://www.canva.com/design/DAHRg8uBCms/omMvwK0L32OejE56i0hPaQ/edit).
+    - ⏫ What is the brand voice?
+    - 🔥 What is the moodboard?
+      - A: Sylvie made a moodboard on Pinterest.
+    - 🔥 What is the design system (fonts, colours, sample PDF, sample web page)? Soon to be developed by the designers.
+  - What are the names and taglines/about text for key properties and channels, e.g. YouTube and the podcast?
+  - What other FAQs should we answer, e.g. the relation to Life Itself?
+  - 🔥 What is our consumer funnel?
+    - What main outcome(s) do we want?
+    - What are our funnel(s)? (Coggle has a stub, "Our funnel is this:", with no content yet.)
+    - What are our CTAs?
+    - Are we using Substack subscriptions?
+      - A: Sure, but not a priority. Recorded before the 2026-09-25 direction to move off Substack; reconcile when planning the switchover.
