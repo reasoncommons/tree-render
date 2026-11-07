@@ -1,113 +1,14 @@
 # Agent instructions
 
-Tree render: turn question and hypothesis trees into beautiful, shareable visuals. Start with [README.md](README.md); the current brief is [docs/plans/2026-11-07-handoff.md](docs/plans/2026-11-07-handoff.md).
+Tree render turns question and hypothesis trees into visuals that are good information design and compelling enough to share. See [README.md](README.md).
 
-- Start from the LTP and the plan that comes out of it. Earlier experiments (the draft `tree-mindmap` skill in `life-itself/skills`, the trials in Rufus's planning repo) are prior art: read them for lessons, but don't copy them in unless the plan calls for it.
+## Start clean
+
+- Work from the [SCQ](docs/plans/2026-10-19-tree-render-scq.md), the [LTP](reports/ltp/tree-render/tree-render.ltp.yaml) and the plan that comes out of them. The current brief is [docs/plans/2026-11-07-handoff.md](docs/plans/2026-11-07-handoff.md).
+- `archive/` is reference only. Don't build on it, import from it or copy code out of it unless a plan explicitly says to. Lessons from it go into new docs in your own words.
 - `reports/ltp/` holds machine-drafted LTP files. Treat them as candidates until Rufus has reviewed them.
-- Application trees (for example the Wise AI trees) live in their own repos and use the skill; don't put them here.
+- Application trees (for example the Wise AI trees) live in their own repos and use the skill. Don't put them here.
 
 ## Beads
 
-Beads issues sync through the repository's Dolt remote. `git push` also runs `bd dolt push` through the repo-local pre-push hook. After `git pull`, run `bd dolt pull`; if the hook push fails or no Git commit is being pushed, run `bd dolt push` manually.
-
-
-## Changelog
-
-This repo keeps a `changelog/` folder, one markdown file per entry
-(`changelog/YYYY-MM-DD-slug.md`, with `date`/`title`/`promote`
-frontmatter). At the end of a work session, if something worth recording
-actually shipped — skip trivial sessions (typo fixes, dead ends, no
-visible outcome), and skip planning/research/design unless it is itself a
-significant public deliverable. Drafting ahead of a ship is fine — draft a new
-entry file. Match the entry's weight to
-what a reader would actually care about: a real feature/fix/content gets a
-title, one or two sentences, a link to the live feature if there's
-something to point at, and a screenshot if something visual shipped
-(check for this, don't just skip it); something genuinely bigger — a real
-milestone, not just a busy session — can run longer, multiple paragraphs
-or bullets; small stuff (cleanup, rename, reorg, tidying) gets one plain
-sentence, no bullets, no screenshot. Never link the title itself. Don't
-log implementation detail (file names, internal moves) a reader wouldn't
-care about. First time writing an entry in this repo, or if the format is
-unclear: fetch and follow
-https://raw.githubusercontent.com/life-itself/changelog/main/CONVENTION.md
-
-<!-- BEGIN BEADS INTEGRATION v:1 profile:minimal hash:46cd31e7 -->
-## Beads Issue Tracker
-
-This project uses **bd (beads)** for issue tracking. Run `bd prime` to see full workflow context and commands.
-
-### Quick Reference
-
-```bash
-bd ready              # Find available work
-bd show <id>          # View issue details
-bd update <id> --claim  # Claim work
-bd close <id>         # Complete work
-```
-
-### Rules
-
-- Use `bd` for ALL task tracking — do NOT use TodoWrite, TaskCreate, or markdown TODO lists
-- Run `bd prime` for detailed command reference and session close protocol
-- Use `bd remember` for persistent knowledge — do NOT use MEMORY.md files
-
-**Architecture in one line:** issues live in a local Dolt DB; sync uses `refs/dolt/data` on your git remote; `.beads/issues.jsonl` is a passive export. See https://github.com/gastownhall/beads/blob/main/docs/core-concepts/sync-concepts.md for details and anti-patterns.
-
-## Agent Context Profiles
-
-The managed Beads block is task-tracking guidance, not permission to override repository, user, or orchestrator instructions.
-
-- **Conservative (default)**: Use `bd` for task tracking. Do not run git commits, git pushes, or Dolt remote sync unless explicitly asked. At handoff, report changed files, validation, and suggested next commands.
-- **Minimal**: Keep tool instruction files as pointers to `bd prime`; use the same conservative git policy unless active instructions say otherwise.
-- **Team-maintainer**: Only when the repository explicitly opts in, agents may close beads, run quality gates, commit, and push as part of session close. A current "do not commit" or "do not push" instruction still wins.
-
-## Session Completion
-
-This protocol applies when ending a Beads implementation workflow. It is subordinate to explicit user, repository, and orchestrator instructions.
-
-1. **File issues for remaining work** - Create beads for anything that needs follow-up
-2. **Run quality gates** (if code changed) - Tests, linters, builds
-3. **Update issue status** - Close finished work, update in-progress items
-4. **Handle git/sync by active profile**:
-   ```bash
-   # Conservative/minimal/default: report status and proposed commands; wait for approval.
-   git status
-
-   # Team-maintainer opt-in only, unless current instructions forbid it:
-   git pull --rebase
-   bd dolt push
-   git push
-   git status
-   ```
-5. **Hand off** - Summarize changes, validation, issue status, and any blocked sync/commit/push step
-
-**Critical rules:**
-- Explicit user or orchestrator instructions override this Beads block.
-- Do not commit or push without clear authority from the active profile or the current user request.
-- If a required sync or push is blocked, stop and report the exact command and error.
-<!-- END BEADS INTEGRATION -->
-
-<!-- BEGIN BEADS CODEX SETUP: generated by bd setup codex -->
-## Beads Issue Tracker
-
-Use Beads (`bd`) for durable task tracking in repositories that include it. Use the `beads` skill at `.agents/skills/beads/SKILL.md` (project install) or `~/.agents/skills/beads/SKILL.md` (global install) for Beads workflow guidance, then use the `bd` CLI for issue operations.
-
-### Quick Reference
-
-```bash
-bd ready                # Find available work
-bd show <id>            # View issue details
-bd update <id> --claim  # Claim work
-bd close <id>           # Complete work
-bd prime                # Refresh Beads context
-```
-
-### Rules
-
-- Use `bd` for all task tracking; do not create markdown TODO lists.
-- Run `bd prime` when Beads context is missing or stale. Codex 0.129.0+ can load Beads context automatically through native hooks; use `/hooks` to inspect or toggle them.
-- Keep persistent project memory in Beads via `bd remember`; do not create ad hoc memory files.
-
-**Architecture in one line:** issues live in a local Dolt DB; sync uses `refs/dolt/data` on your git remote; `.beads/issues.jsonl` is a passive export. See https://github.com/gastownhall/beads/blob/main/docs/core-concepts/sync-concepts.md for details and anti-patterns.
-<!-- END BEADS CODEX SETUP -->
+Tasks live only in Beads (`bd ready`). Issues sync through the repository's Dolt remote. `git push` also runs `bd dolt push` through the pre-push hook in `.beads/hooks`. After `git pull`, run `bd dolt pull`. If the hook push fails, or no Git commit is being pushed, run `bd dolt push` by hand.
