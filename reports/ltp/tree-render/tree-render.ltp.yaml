@@ -1,0 +1,234 @@
+# Candidate LTP project, machine-extracted from docs/plans/2026-10-19-tree-render-scq.md.
+# Not machine-validated. Read tree-render.report.md before ratifying anything here.
+ltp:
+  schema_version: "1.0"
+  project_id: tree-render
+  title: Render question and hypothesis trees beautifully
+
+  entities:
+    # ── Goal (from the Question and its criteria) ─────────────────────────
+    - id: g-e-trees-become-good-visuals
+      tree: goal
+      statement: Any question or hypothesis tree is turned reliably and quickly into a visual that is good information design and compelling enough to share, for both thinking together and sharing publicly.
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L33" }
+    - id: g-e-good-enough-to-post
+      tree: goal
+      statement: Each visual is good enough to post or put in front of the team as it is, better than "okay".
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L37" }
+    - id: g-e-fifteen-minutes-per-visual
+      tree: goal
+      statement: A new visual takes about 15 minutes of AI work and 5 minutes or less of human input, and regenerates quickly when the tree changes (a guess).
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L38" }
+    - id: g-e-compelling-to-share
+      tree: goal
+      statement: A tree visual is compelling enough that people share it as it is.
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L33" }
+    - id: g-e-usable-for-thinking
+      tree: goal
+      statement: A tree visual is a usable view for thinking together on the web or a phone.
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L24" }
+    - id: g-e-team-first-audience
+      tree: goal
+      statement: The visuals serve Rufus and the Life Itself team first, and the people they share with.
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L36" }
+
+    # ── Current reality (Situation and Complication) ─────────────────────
+    - id: r-e-we-generate-trees
+      tree: current_reality
+      statement: The team generates question trees and hypothesis trees that mirror them, one assertion per node.
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L11" }
+    - id: r-e-bullets-most-editable
+      tree: current_reality
+      statement: Nested bullets are the most editable structure for a tree.
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L12" }
+    - id: r-e-default-is-bullets
+      tree: current_reality
+      statement: The default form for reading a tree is nested bullets in Markdown or a Google Doc.
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L12" }
+    - id: r-e-folding-unused
+      tree: current_reality
+      statement: Most people do not use the list folding their editors offer.
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L13" }
+    - id: r-e-bullets-poor-design
+      tree: current_reality
+      statement: Bullet trees are poor information design and are neither visually nor socially compelling, for every reader.
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L19" }
+    - id: r-e-subbranches-push-out
+      tree: current_reality
+      statement: In a bullet tree the first branch's sub-branches push the second branch out of view.
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L20" }
+    - id: r-e-reader-misses-shape
+      tree: current_reality
+      statement: An attentive reader of a bullet tree misses its top-level shape and obvious main points.
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L20" }
+    - id: r-e-bullets-overwhelm
+      tree: current_reality
+      statement: A bullet tree shows everything at once and overwhelms the reader.
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L21" }
+    - id: r-e-bullets-not-shared
+      tree: current_reality
+      statement: Nobody shares a screenshot of a bullet tree.
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L22" }
+    - id: r-e-mindmaps-get-shared
+      tree: current_reality
+      statement: A beautiful mindmap of a thesis gets shared on social media.
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L22" }
+    - id: r-e-no-reliable-way
+      tree: current_reality
+      statement: There is no reliable, quick way to make a better visual of a tree.
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L23" }
+    - id: r-e-hand-judgment
+      tree: current_reality
+      statement: Each tree visual takes hand judgment to make.
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L23" }
+    - id: r-e-results-only-okay
+      tree: current_reality
+      statement: Tree visuals made so far are only okay.
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L23" }
+    - id: r-e-uses-pull-apart
+      tree: current_reality
+      statement: Sharing and thinking together need different density and interactivity from a tree visual.
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L24" }
+    - id: r-e-design-choices-unresolved
+      tree: current_reality
+      statement: The design choices for a tree visual (depth, expand and collapse, answers, question/hypothesis switch, theme) are unresolved and are made by hand each time.
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L25" }
+    - id: r-e-coggle-can-be-garish
+      tree: current_reality
+      statement: A Coggle-style theme is lovely but can be garish.
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L30" }
+    - id: r-e-audiences-differ
+      tree: current_reality
+      statement: Audiences for tree visuals differ in taste, from calm/editorial to engineering to fun and funky.
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L30" }
+    - id: r-e-posters-rejected
+      tree: current_reality
+      statement: Block and poster layouts were rejected in the trials of 2026-10-17 to 19.
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L14" }
+    - id: r-e-mindmaps-okay
+      tree: current_reality
+      statement: Static left-to-right mindmaps in the Seeds of Renaissance style, rendered by an AI skill from a small JSON file, were judged "okay, not yet good".
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L14" }
+
+    # ── Conflict (the two uses) ──────────────────────────────────────────
+    - id: c-e-both-uses
+      tree: conflict
+      statement: Tree visuals serve both thinking together and sharing publicly.
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L33" }
+    - id: c-e-compelling-to-share
+      tree: conflict
+      statement: A shared tree visual is a compelling image.
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L24" }
+    - id: c-e-usable-for-thinking
+      tree: conflict
+      statement: A tree visual for thinking together is a usable view on the web or a phone.
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L24" }
+    - id: c-e-sharing-density
+      tree: conflict
+      statement: The visual has the density and interactivity that sharing needs.
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L24" }
+    - id: c-e-thinking-density
+      tree: conflict
+      statement: The visual has the density and interactivity that thinking together needs.
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L24" }
+
+    # ── Future reality (decided or committed changes) ────────────────────
+    - id: f-e-left-to-right-layout
+      tree: future_reality
+      statement: Tree visuals use a left-to-right mindmap layout.
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L54" }
+    - id: f-e-skill-and-principles
+      tree: future_reality
+      statement: Tree visuals are made with a skill built on written patterns and principles.
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L39" }
+    - id: f-e-themes-per-audience
+      tree: future_reality
+      statement: Two or three themes serve different audiences, such as calm/editorial, Coggle-like colour and engineering.
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L67" }
+
+    # ── Transition (the one concrete action named) ───────────────────────
+    - id: t-e-skill-in-skills-repo
+      tree: transition
+      statement: The draft tree-mindmap skill and renderer live in ~/src/life-itself/skills/skills/tree-mindmap/.
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L73" }
+    - id: t-e-move-skill-to-render
+      tree: transition
+      statement: Move the tree-mindmap skill and renderer into a render/ folder in the issuetrees.com repo, separate from the viewer.
+      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L64" }
+
+  designations:
+    - { id: g-d-trees-become-good-visuals, entity_id: g-e-trees-become-good-visuals, role: goal }
+    - { id: g-d-good-enough-to-post, entity_id: g-e-good-enough-to-post, role: critical_success_factor, parent_designation_id: g-d-trees-become-good-visuals }
+    - { id: g-d-fifteen-minutes-per-visual, entity_id: g-e-fifteen-minutes-per-visual, role: critical_success_factor, parent_designation_id: g-d-trees-become-good-visuals }
+    - { id: g-d-compelling-to-share, entity_id: g-e-compelling-to-share, role: critical_success_factor, parent_designation_id: g-d-trees-become-good-visuals }
+    - { id: g-d-usable-for-thinking, entity_id: g-e-usable-for-thinking, role: critical_success_factor, parent_designation_id: g-d-trees-become-good-visuals }
+    - { id: g-d-team-first-audience, entity_id: g-e-team-first-audience, role: observation }
+
+    - { id: r-d-we-generate-trees, entity_id: r-e-we-generate-trees, role: observation }
+    - { id: r-d-bullets-most-editable, entity_id: r-e-bullets-most-editable, role: root_cause }
+    - { id: r-d-default-is-bullets, entity_id: r-e-default-is-bullets, role: intermediate_cause }
+    - { id: r-d-folding-unused, entity_id: r-e-folding-unused, role: root_cause }
+    - { id: r-d-bullets-poor-design, entity_id: r-e-bullets-poor-design, role: undesirable_effect }
+    - { id: r-d-subbranches-push-out, entity_id: r-e-subbranches-push-out, role: intermediate_cause }
+    - { id: r-d-reader-misses-shape, entity_id: r-e-reader-misses-shape, role: undesirable_effect }
+    - { id: r-d-bullets-overwhelm, entity_id: r-e-bullets-overwhelm, role: undesirable_effect }
+    - { id: r-d-bullets-not-shared, entity_id: r-e-bullets-not-shared, role: undesirable_effect }
+    - { id: r-d-mindmaps-get-shared, entity_id: r-e-mindmaps-get-shared, role: observation }
+    - { id: r-d-no-reliable-way, entity_id: r-e-no-reliable-way, role: undesirable_effect }
+    - { id: r-d-hand-judgment, entity_id: r-e-hand-judgment, role: observation }
+    - { id: r-d-results-only-okay, entity_id: r-e-results-only-okay, role: undesirable_effect }
+    - { id: r-d-uses-pull-apart, entity_id: r-e-uses-pull-apart, role: root_cause }
+    - { id: r-d-design-choices-unresolved, entity_id: r-e-design-choices-unresolved, role: root_cause }
+    - { id: r-d-coggle-can-be-garish, entity_id: r-e-coggle-can-be-garish, role: observation }
+    - { id: r-d-audiences-differ, entity_id: r-e-audiences-differ, role: observation }
+    - { id: r-d-posters-rejected, entity_id: r-e-posters-rejected, role: evidence }
+    - { id: r-d-mindmaps-okay, entity_id: r-e-mindmaps-okay, role: evidence }
+
+    - { id: c-d-both-uses, entity_id: c-e-both-uses, role: cloud_objective }
+    - { id: c-d-compelling-to-share, entity_id: c-e-compelling-to-share, role: cloud_requirement, parent_designation_id: c-d-both-uses }
+    - { id: c-d-usable-for-thinking, entity_id: c-e-usable-for-thinking, role: cloud_requirement, parent_designation_id: c-d-both-uses }
+    - { id: c-d-sharing-density, entity_id: c-e-sharing-density, role: cloud_prerequisite, parent_designation_id: c-d-compelling-to-share }
+    - { id: c-d-thinking-density, entity_id: c-e-thinking-density, role: cloud_prerequisite, parent_designation_id: c-d-usable-for-thinking }
+
+    - { id: f-d-left-to-right-layout, entity_id: f-e-left-to-right-layout, role: injection }
+    - { id: f-d-skill-and-principles, entity_id: f-e-skill-and-principles, role: injection }
+    - { id: f-d-themes-per-audience, entity_id: f-e-themes-per-audience, role: injection }
+
+    - { id: t-d-skill-in-skills-repo, entity_id: t-e-skill-in-skills-repo, role: transition_existing_reality }
+    - { id: t-d-move-skill-to-render, entity_id: t-e-move-skill-to-render, role: transition_action }
+
+  relationships:
+    # Goal: the Question's two uses and its quality and effort criteria, read as
+    # conditions of success. Reviewed with Rufus 2026-11-07: the 2026-11-02 date
+    # is a plan milestone, and "skill before tool" is an approach (f-e-skill-and-principles).
+    - { id: g-rel-post-needed, tree: goal, kind: necessary_for, from_entity_ids: [g-e-good-enough-to-post], to_entity_id: g-e-trees-become-good-visuals }
+    - { id: g-rel-speed-needed, tree: goal, kind: necessary_for, from_entity_ids: [g-e-fifteen-minutes-per-visual], to_entity_id: g-e-trees-become-good-visuals }
+    - { id: g-rel-sharing-needed, tree: goal, kind: necessary_for, from_entity_ids: [g-e-compelling-to-share], to_entity_id: g-e-trees-become-good-visuals }
+    - { id: g-rel-thinking-needed, tree: goal, kind: necessary_for, from_entity_ids: [g-e-usable-for-thinking], to_entity_id: g-e-trees-become-good-visuals }
+
+    # Current reality
+    - { id: r-rel-editable-causes-default, tree: current_reality, kind: causes, from_entity_ids: [r-e-bullets-most-editable], to_entity_id: r-e-default-is-bullets }
+    - { id: r-rel-pushout-causes-missed-shape, tree: current_reality, kind: causes, from_entity_ids: [r-e-subbranches-push-out], to_entity_id: r-e-reader-misses-shape }
+    - { id: r-rel-missed-shape-supports-poor, tree: current_reality, kind: supports, from_entity_ids: [r-e-reader-misses-shape], to_entity_id: r-e-bullets-poor-design }
+    - { id: r-rel-overwhelm-supports-poor, tree: current_reality, kind: supports, from_entity_ids: [r-e-bullets-overwhelm], to_entity_id: r-e-bullets-poor-design }
+    - { id: r-rel-not-shared-supports-poor, tree: current_reality, kind: supports, from_entity_ids: [r-e-bullets-not-shared], to_entity_id: r-e-bullets-poor-design }
+    - { id: r-rel-pull-apart-drives, tree: current_reality, kind: contributes_to, from_entity_ids: [r-e-uses-pull-apart], to_entity_id: r-e-no-reliable-way }
+    - { id: r-rel-unresolved-drives, tree: current_reality, kind: contributes_to, from_entity_ids: [r-e-design-choices-unresolved], to_entity_id: r-e-no-reliable-way }
+    - { id: r-rel-okay-supports-results, tree: current_reality, kind: supports, from_entity_ids: [r-e-mindmaps-okay], to_entity_id: r-e-results-only-okay }
+
+    # Conflict
+    - { id: c-rel-densities-conflict, tree: conflict, kind: conflicts_with, from_entity_ids: [c-e-sharing-density], to_entity_id: c-e-thinking-density }
+
+  assumptions:
+    # Candidate assumptions drawn from the SCQ's open issue-tree questions.
+    # Each restates the belief the question puts in doubt. None is the author's
+    # assertion; see the report.
+    - { id: c-asm-shared-is-static, relationship_id: c-rel-densities-conflict, statement: A visual made for sharing has to be a static image with no interactivity. }
+    - { id: c-asm-one-visual-per-use, relationship_id: c-rel-densities-conflict, statement: One visual cannot serve both uses, for example by folding or by being cropped from a fuller view. }
+    - { id: g-asm-cold-read-measures-quality, relationship_id: g-rel-post-needed, statement: A 10-second cold read and "shared as it is" are fair tests of whether a visual is good enough. }
+    - { id: g-asm-ai-can-check-output, relationship_id: g-rel-speed-needed, statement: The AI can check its own output (cold reading, overflow) well enough that human input stays at 5 minutes or less. }
+    - { id: g-asm-text-shortens-faithfully, relationship_id: g-rel-speed-needed, statement: Node text can be shortened faithfully without a person rewriting it each time. }
+    - { id: r-asm-choices-can-be-settled, relationship_id: r-rel-unresolved-drives, statement: The design choices can be settled once, as defaults per use and audience, rather than made per tree. }
+
+  assessments: []
+  changes: []
