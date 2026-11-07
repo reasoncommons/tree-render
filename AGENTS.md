@@ -2,7 +2,7 @@
 
 Tree render: turn question and hypothesis trees into beautiful, shareable visuals. Start with [README.md](README.md); the current brief is [docs/plans/2026-11-07-handoff.md](docs/plans/2026-11-07-handoff.md).
 
-- `skills/tree-mindmap/` is the skill and renderer. It is the canonical copy; install it by symlink, don't copy it.
+- Start from the LTP and the plan that comes out of it. Earlier experiments (the draft `tree-mindmap` skill in `life-itself/skills`, the trials in Rufus's planning repo) are prior art: read them for lessons, but don't copy them in unless the plan calls for it.
 - `reports/ltp/` holds machine-drafted LTP files. Treat them as candidates until Rufus has reviewed them.
 - Application trees (for example the Wise AI trees) live in their own repos and use the skill; don't put them here.
 

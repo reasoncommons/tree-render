@@ -73,6 +73,8 @@ Issue tree (first pass; deliberately not built out further — feed into LTP):
 - Draft skill and renderer (HTML → headless Chrome → SVG with embedded Apfel + PNG): `~/src/life-itself/skills/skills/tree-mindmap/`.
 
 ## Next
+2026-11-07: decided to start clean from the LTP. The draft `tree-mindmap` skill stays in `life-itself/skills` as prior art and is not moved here (this replaces the "Where does it live?" proposal above).
+
 2026-11-07: moved to its own repo, `reasoncommons/tree-render`. LTP candidate drafted; see [the handoff](2026-11-07-handoff.md) and Beads.
 
 LTP not yet run. Run `ltp-project` (`~/src/life-itself/reasoncommons/skills/ltp-project/`) on this file in a new session in this repo. When done, return to turn the result into beads and an implementation plan. After that: publishing trees on issuetrees.com.

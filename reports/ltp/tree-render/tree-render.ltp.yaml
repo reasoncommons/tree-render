@@ -146,16 +146,6 @@ ltp:
       statement: Two or three themes serve different audiences, such as calm/editorial, Coggle-like colour and engineering.
       provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L67" }
 
-    # ── Transition (the one concrete action named) ───────────────────────
-    - id: t-e-skill-in-skills-repo
-      tree: transition
-      statement: The draft tree-mindmap skill and renderer live in ~/src/life-itself/skills/skills/tree-mindmap/.
-      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L73" }
-    - id: t-e-move-skill-to-render
-      tree: transition
-      statement: Move the tree-mindmap skill and renderer into a render/ folder in the issuetrees.com repo, separate from the viewer.
-      provenance: { path: "docs/plans/2026-10-19-tree-render-scq.md#L64" }
-
   designations:
     - { id: g-d-trees-become-good-visuals, entity_id: g-e-trees-become-good-visuals, role: goal }
     - { id: g-d-good-enough-to-post, entity_id: g-e-good-enough-to-post, role: critical_success_factor, parent_designation_id: g-d-trees-become-good-visuals }
@@ -194,8 +184,6 @@ ltp:
     - { id: f-d-skill-and-principles, entity_id: f-e-skill-and-principles, role: injection }
     - { id: f-d-themes-per-audience, entity_id: f-e-themes-per-audience, role: injection }
 
-    - { id: t-d-skill-in-skills-repo, entity_id: t-e-skill-in-skills-repo, role: transition_existing_reality }
-    - { id: t-d-move-skill-to-render, entity_id: t-e-move-skill-to-render, role: transition_action }
 
   relationships:
     # Goal: the Question's two uses and its quality and effort criteria, read as
