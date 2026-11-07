@@ -73,4 +73,4 @@
 
 sync.remote: "git+ssh://git@github.com/reasoncommons/tree-render.git"
 export:
-    auto: true
+    auto: false
