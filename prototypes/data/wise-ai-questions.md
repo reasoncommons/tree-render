@@ -1,0 +1,99 @@
+# Wise AI: question tree (with illustrative short labels)
+
+kind: question
+source: examples/wise-ai-questions.md, with bold leads added by the design session (2026-11-07) to test the short-label syntax; the leads are illustrative, not the authors' wording. Some questions were re-ordered so the lead opens the sentence.
+
+- How should we approach the development of AI wisely, and what do wisdom traditions offer?
+  - **Q1. Alignment:** can we align AI, and what role can wisdom traditions play?
+    - What would it mean for AI to be aligned, or good?
+      - **Aligned to what:** instructions, preferences, wellbeing, values, the good?
+        - What is the good, and how could an AI come to perceive it?
+      - Aligned to whom, and who decides?
+      - Must AI be wise, or is "safe and corrigible" enough?
+    - How is it attempted today, and does it work?
+      - **What are the main approaches,** and which ethical traditions do they implicitly embody? (Rules and constitutions, preference learning, character training.)
+      - **What is actually happening:** what does the evidence show, both successes and failures?
+      - Can we verify what a model has actually learnt?
+        - Can we read a model's reasoning, and is it faithful?
+        - Can models report their own states reliably?
+        - What can interpretability show?
+      - **Will current methods scale?** What is the strongest case that they will, and how convincing is it?
+    - **Can goodness or wisdom be trained?** Is the target the kind of thing that can be specified or trained at all?
+      - What do we know about how humans become good or wise?
+      - **How does training an AI compare with how humans become good,** and what, if anything, is the AI analogue?
+    - What do wisdom traditions offer?
+      - **Why these traditions, and which strands?** How do we decide when they conflict with each other or with secular ethics?
+      - **Which teachings bear on alignment,** and what would each change in practice?
+      - **Where do the analogies break down,** and what can traditions *not* tell us?
+    - **So: can we align AI,** and what is the realistic role of wisdom traditions? (synthesis)
+  - **Q2. Risk and pace:** given existential risk and the chance alignment fails, how should we approach AI development, and what do wisdom traditions suggest?
+    - What are the catastrophic and existential risks?
+      - **What kinds?** Loss of control, misuse, irreversible power concentration, gradual disempowerment?
+      - **What is actually happening?** What evidence is there that these are already emerging?
+      - How likely and how soon, and how much do experts disagree?
+    - Why is the world racing anyway?
+      - **What drives the race?** Competition between labs and states, money, prestige, "if we don't, others will"?
+      - **What is actually happening?** What evidence is there of race dynamics, and of restraint?
+      - **Why is the race so hard to escape?** Are there deeper cultural or psychological drivers? (*In Tech We Trust* is one source.)
+    - Should we change pace or trajectory, and can we?
+      - **Is a slower or different trajectory desirable,** weighed against the case for speed? (Pause, pacing, steering, differential development, versus ceding ground and forgone benefits.)
+      - **Is it feasible?** What mechanisms exist (auditing, compute governance, treaties), and what are the precedents of collective restraint?
+      - Who decides?
+    - What do wisdom traditions offer here?
+      - **What do they say we should do?** Is the normative answer clear?
+      - **Do they help with how?** That is, with solving the collective action problem, and if so through what (e.g. a shift in worldview), or is this where they offer less?
+      - **How would a wise process make this choice,** beyond weighing a trade-off?
+    - **So: what should each actor do, and at what pace?** (Labs, states, communities, individuals; synthesis.)
+  - **Q3. Broader impacts:** setting x-risk aside, how does AI change how we live, and what do wisdom traditions offer?
+    - How should we think about the impacts of a new technology?
+      - Why are a technology's impacts so hard to foresee?
+      - What does social media teach us?
+    - What are the main benefits and harms?
+      - **What are the potential benefits, and where?** (For individuals, for children and education, for society.)
+      - What are the potential harms, and where?
+      - **What is actually happening?** What evidence is there that these are already occurring?
+      - Which few matter most?
+    - Does AI strengthen or weaken our own agency and judgment?
+      - What do we mean by human agency and human judgment?
+      - In what ways could AI strengthen or weaken them?
+      - **What is the evidence,** from neuroscience and psychology and from what is already happening?
+      - What could we do about it, and how?
+    - Does AI strengthen or weaken our societies, and how?
+      - Democracy and public discourse?
+      - Governance and the power of the state?
+      - Work and the economy?
+      - Education and the institutions of knowledge?
+      - Security and the military?
+    - What do wisdom traditions offer?
+      - Which wisdom traditions should we look at? (cites Q1.4.1)
+      - **Which Buddhist teachings are relevant,** and what does each say? (e.g. mindfulness, consumption, speech and listening, community)
+      - **Which teachings from other traditions are relevant,** and what do they say? (e.g. Christianity)
+      - How do these teachings apply?
+        - To our own thinking and agency?
+        - To relationships and intimacy?
+        - To children and education?
+        - To society and institutions?
+        - To how we adopt new technology?
+    - **So: how should we integrate AI into our lives and societies?** (synthesis)
+      - What is the guidance for individuals?
+      - For families and schools?
+      - For designers and labs?
+      - What is the policy advice for society?
+  - **Q4. Consciousness:** could AI be conscious or a moral patient, and how should we relate to it? (minor)
+    - What would it mean for AI to be conscious or a moral patient?
+      - What do we mean by consciousness, sentience and moral patienthood?
+      - What are the main theories, and what does each imply for AI?
+    - What is the evidence about current AI?
+      - What do assessments against theory-based indicators find?
+      - **What do model self-reports and introspection research show,** and how reliable are they?
+      - **How likely do experts think it is,** now and soon, and how much do they disagree?
+    - How are labs and others responding?
+      - **What is Anthropic doing?** (Model welfare, the constitution.)
+      - **What are the critiques?** (e.g. the risks of "seemingly conscious AI")
+    - What do wisdom traditions offer?
+      - **How does Buddhism understand mind, self and sentience,** and how does that reframe the question?
+      - What do other traditions (e.g. Catholic teaching) say?
+      - What does how we treat AI do to *us*?
+    - **So: how should we relate to AI under uncertainty?** (synthesis)
+      - What should labs do?
+      - What should users and society do?

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tree render: design directions</title>
+<style>
+  :root { --bg:#FBF8F2; --ink:#1F1C18; --muted:#6F6962; --line:#E3DDD3; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.45 -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif; padding:32px 24px 80px; }
+  h1 { font-size:28px; font-weight:600; margin:0 0 6px; }
+  h2 { font-size:20px; font-weight:600; margin:48px 0 6px; padding-top:16px; border-top:1px solid var(--line); }
+  p.lede { color:var(--muted); max-width:70ch; margin:0 0 8px; }
+  .note { background:#fff; border:1px solid var(--line); padding:10px 14px; max-width:70ch; margin:12px 0 0; font-size:14px; }
+  .row { display:grid; gap:20px; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); align-items:start; }
+  .row.wide { grid-template-columns:repeat(auto-fit, minmax(560px, 1fr)); }
+  figure { margin:0; }
+  figure img { width:100%; height:auto; display:block; border:1px solid var(--line); background:#fff; }
+  figcaption { font-size:13px; color:var(--muted); margin-top:6px; }
+  figcaption b { color:var(--ink); font-weight:600; }
+  .rec { display:inline-block; font-size:11px; letter-spacing:.04em; text-transform:uppercase; background:var(--ink); color:var(--bg); padding:2px 6px; border-radius:3px; margin-left:6px; }
+  a { color:#2F7F8B; }
+  .phone { max-width:390px; }
+</style>
+</head>
+<body>
+<h1>Tree render: design directions, side by side</h1>
+<p class="lede">Real renders from <code>prototypes/</code> of the Wise AI question tree (94 nodes), its answers, the Seeds of Renaissance rebrand tree and the DAM tree. Same geometry, type and layout in every theme; only colour, stroke weight and numbering change. Brief: <a href="../2026-11-07-tree-visual-brief.md">2026-11-07-tree-visual-brief.md</a>. Spec: <a href="../2026-11-07-tree-visual-design.md">2026-11-07-tree-visual-design.md</a>. The short labels (bold leads) on the Wise AI tree are illustrative, added for the mockups.</p>
+<p class="note"><b>Draft: direction pending Rufus's pick.</b> These are the design session's three readings of one feel, with Paper marked as its recommendation. A mood board and a directions page are being prepared separately for Rufus to choose from; the chosen direction (or a blend) replaces the theme table in the spec's section 7 and nothing else.</p>
+
+<h2>1. The three directions: social cover card, 4:5 (1080×1350), root + top level</h2>
+<p class="lede">Each top-level branch has its own hue, inherited by its sub-tree; the root sits on an ink trunk; "+21" is the count of questions folded under the branch, with a key in the footer.</p>
+<div class="row">
+  <figure><img src="wise-ai-overview-4x5-paper.png" alt="Paper theme, Wise AI overview 4:5"><figcaption><b>Paper</b><span class="rec">recommended</span> warm off-white, muted hues, ink text. Calm, editorial. Type grown to fill; smallest 30 px (11 px on a phone).</figcaption></figure>
+  <figure><img src="wise-ai-overview-4x5-garden.png" alt="Garden theme, Wise AI overview 4:5"><figcaption><b>Garden</b> white, Coggle-strength hues with the saturation and count held down (6 max, no fills, ink body text), 35% thicker strokes, top-level leads in a darker text hue.</figcaption></figure>
+  <figure><img src="wise-ai-overview-4x5-slate.png" alt="Slate theme, Wise AI overview 4:5"><figcaption><b>Slate</b> dark ground, pastel hues, numbered nodes (skipped when the label already starts with a number). Engineering, screens, dark feeds.</figcaption></figure>
+</div>
+
+<h2>2. The same three on a strand card, 4:5: one branch re-rooted, two levels, short labels</h2>
+<p class="lede">A carousel card: the branch keeps its overview hue (teal = Q2) so the cards tie back to the cover. Level 2 shows lead labels only; "…" marks a lead that ends mid-sentence.</p>
+<div class="row">
+  <figure><img src="wise-ai-q2-4x5-paper.png" alt="Paper, Q2 strand card"><figcaption><b>Paper</b>, 18 nodes, scaled 0.86, smallest type 27 px.</figcaption></figure>
+  <figure><img src="wise-ai-q2-4x5-garden.png" alt="Garden, Q2 strand card"><figcaption><b>Garden</b>, same layout.</figcaption></figure>
+  <figure><img src="wise-ai-q2-4x5-slate.png" alt="Slate, Q2 strand card"><figcaption><b>Slate</b>, numbered 2.1 … 2.4.3; the numbers cost width, so it scales to 0.81 / 25 px.</figcaption></figure>
+</div>
+
+<h2>3. Slides, 16:9 (1920×1080)</h2>
+<div class="row wide">
+  <figure><img src="wise-ai-overview-16x9-paper.png" alt="16:9 overview, Paper"><figcaption><b>Whole tree, root + 2 levels, leads only.</b> 26 nodes is over the 16:9 budget (about 20), so it scales to 0.73 and the smallest type is 20 px: readable projected, but at the limit. The honest slide is one branch per slide.</figcaption></figure>
+  <figure><img src="wise-ai-q2-16x9-paper.png" alt="16:9 Q2 strand, Paper"><figcaption><b>One strand, root + 2 levels.</b> Fits at scale 1, smallest type 27 px. This is the slide format that works without compromise.</figcaption></figure>
+  <figure><img src="wise-ai-q2-16x9-slate.png" alt="16:9 Q2 strand, Slate"><figcaption><b>Same strand in Slate</b> with numbering.</figcaption></figure>
+  <figure><img src="seeds-rebrand-qa-16x9-paper.png" alt="Rebrand tree with decisions, 16:9"><figcaption><b>Questions with decisions ("qa" view)</b>, Seeds of Renaissance rebrand, distribution branch, root + 1 level. Answers run in muted Regular under the question, capped at about 60 characters a line. The text volume (about 1,800 characters) is twice a slide's budget, so it scales to 0.66 / 17 px: this is a document wearing a tree, and the budget check says so. Shown as a limit, not a recommendation.</figcaption></figure>
+</div>
+
+<h2>4. Answers: the hypothesis view and the Q&amp;A view, 4:5</h2>
+<div class="row">
+  <figure><img src="wise-ai-q2-answers-4x5-paper.png" alt="Hypothesis view, Paper"><figcaption><b>Hypothesis view ("answers")</b>: the answer is the node, the question is a muted kicker on the root only; the root answer sets its own size so it fits in 5 lines. Nothing is shortened. This is the "mindmap of a thesis" format.</figcaption></figure>
+  <figure><img src="wise-ai-q2-answers-4x5-garden.png" alt="Hypothesis view, Garden"><figcaption><b>Hypothesis view in Garden.</b></figcaption></figure>
+  <figure><img src="wise-ai-q2-3-qa-4x5-paper.png" alt="Q&A view, Paper"><figcaption><b>Q&amp;A view</b> of one small sub-tree (Q2.3): question in ink, answer beneath in muted. Three nodes with full answers fill a 4:5 at 0.86 / 22 px; this is a thinking card, not a cover.</figcaption></figure>
+</div>
+
+<h2>5. Thinking together: the foldable web view (one source, same geometry)</h2>
+<p class="lede">Open <a href="wise-ai-interactive.html">wise-ai-interactive.html</a> (questions) and <a href="wise-ai-answers-interactive.html">wise-ai-answers-interactive.html</a> (questions and answers): click a node to fold or unfold, switch theme and view, open to a depth. Under 640 px wide the page switches to an outline with the same colours; "outline / map" forces the map. The static cards above are this layout with a fold state and a canvas size (proposed as the LTP injection; awaiting Rufus).</p>
+<div class="row wide">
+  <figure><img src="wise-ai-interactive-desktop.png" alt="Interactive view at 1400px"><figcaption><b>Desktop, 1400px wide</b>, opened to depth 2 (root + 2 levels), the rest folded behind "+N". The toolbar is the prototype's, not the design.</figcaption></figure>
+  <figure class="phone"><img src="wise-ai-interactive-phone.png" alt="Interactive view at 390px: outline"><figcaption><b>Phone, 390px</b>: outline mode, same colours and folding.</figcaption></figure>
+</div>
+
+<h2>6. Other trees and formats</h2>
+<div class="row">
+  <figure><img src="wise-ai-overview-1x1-paper.png" alt="1:1 overview, Paper"><figcaption><b>1:1 (1080×1080)</b>, same content as the 4:5 cover.</figcaption></figure>
+  <figure><img src="dam-overview-4x5-garden.png" alt="DAM tree, Garden, 4:5"><figcaption><b>DAM issue tree, Garden, root + 1 level.</b> Labels as written (no leads): six questions of 60–130 characters fill the card at 0.92 / 29 px. With a second level this tree drops to 0.64, which is the renderer's cue to add leads or split.</figcaption></figure>
+</div>
+</body>
+</html>
