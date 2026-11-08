@@ -163,3 +163,11 @@ test('fit: the map is left-aligned at the margin and centred vertically', () => 
   const availH = F.H - 2 * F.margin - kickerH - footerH;
   assert.ok(Math.abs(L.oy - (F.margin + kickerH + Math.max(0, (availH - L.mapH * L.scale) / 2))) < 1e-9);
 });
+
+test('a fan that would cross a wider sibling below starts past it (shelf extended within the column)', () => {
+  const L = layout(parse(readExample('seeds-rebrand-qa.md')), { format: '16x9', frame: { kicker: 'k', footer: 'f' } }, measure);
+  const p = L.nodes.find(n => n.num === '3');
+  assert.ok(p.shelfExtra > 0, 'shelf of node 3 extended');
+  assert.ok(p.x + p.w + p.moreW + L.format.shelfOver + p.shelfExtra <= L.colX[1] + L.depthW[1] + 1e-6, 'within its column');
+  for (const n of L.nodes) if (n.num !== '3') assert.ok(!(n.shelfExtra > 0) || n.children.length, `${n.num} only parents extend`);
+});

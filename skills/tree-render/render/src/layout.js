@@ -4,11 +4,12 @@
 //   measure(text, size, weight) → px, from measure-node.js or measure-browser.js.
 // Steps: re-root and prune; text blocks; column budget; columns; flextree; fill pass; fit; grow to fill.
 // Pure with respect to the input tree: everything returned is a fresh object.
-import { getFormat, levelStyle, gapAfter } from './formats.js';
+import { getFormat, levelStyle, gapAfter, strokeAt } from './formats.js';
 import { getTheme, textHueOf } from './themes.js';
 import { wrap } from './wrap.js';
 import { prune, reroot } from './parse.js';
 import { flextree } from './flextree.js';
+import { curvePoints } from './draw.js';
 
 const LABELS_NUMBERED = /^Q?\d+(\.\d+)*[.)]?\s/;
 
@@ -280,8 +281,36 @@ function layoutOnce(visible, opts, measure, F, T) {
     n.top = n.cy - n.h / 2;
     n.shelf = n.top + n.h + n.lines[n.lines.length - 1].size * F.shelfLift;
   }
+  clearFans(nodes, F, T);
   const mapW = colX[colX.length - 1] + depthW[depthW.length - 1];
   return { nodes, root, mapW, mapH: maxY - minY, colX, depthW, theme: T, warnings: [], markersFell: nodes.some(n => n.moreFell) };
+}
+
+// A fan leaves its parent's shelf end; when a sibling below (or above) the parent is wider, a curve to a
+// far child can cut across that sibling's text. Then the parent's shelf runs on past the sibling
+// (shelfExtra), never beyond the column, so nothing else moves.
+function clearFans(nodes, F, T) {
+  for (const p of nodes) {
+    p.shelfExtra = 0;
+    if (!p.children.length || p.depth === 0) continue;
+    const others = nodes.filter(q => q.depth === p.depth && q !== p);
+    const base = p.x + p.w + p.moreW + F.shelfOver;
+    const r = strokeAt(F, p.depth) * T.strokeScale / 2;
+    for (let iter = 0; iter < 4; iter++) {
+      const x0 = base + p.shelfExtra;
+      let need = p.shelfExtra;
+      for (const c of p.children) {
+        const pts = curvePoints(x0, p.shelf, c.x, c.shelf, F.curveK, F.ribbonSamples);
+        for (const q of others) {
+          const right = q.x + q.w + q.moreW;
+          if (right <= x0) continue;
+          if (pts.some(([x, y]) => x > q.x && x < right && y + r > q.top && y - r < q.top + q.h)) need = Math.max(need, right + F.shelfOver - base);
+        }
+      }
+      if (need <= p.shelfExtra) break;
+      p.shelfExtra = need;
+    }
+  }
 }
 
 // Lead-only label (spec 5): "," or ";" at the end → "…"; ":" dropped; "?" and "." stand.

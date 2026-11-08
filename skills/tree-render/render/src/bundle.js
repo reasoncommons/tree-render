@@ -13,7 +13,7 @@ const SRC = path.dirname(fileURLToPath(import.meta.url));
 export const VENDOR_FLEXTREE = path.join(SRC, '..', 'vendor', 'd3-flextree.min.js');
 
 // In dependency order.
-export const BROWSER_MODULES = ['themes', 'formats', 'wrap', 'parse', 'flextree', 'state', 'measure-browser', 'layout', 'draw', 'interactive'];
+export const BROWSER_MODULES = ['themes', 'formats', 'wrap', 'parse', 'flextree', 'state', 'measure-browser', 'draw', 'layout', 'interactive'];
 
 function transform(name, src) {
   if (name === 'flextree') return { body: 'const flextree = window.d3.flextree;', names: ['flextree'] };

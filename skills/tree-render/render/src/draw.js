@@ -39,8 +39,18 @@ export function branchPath(x0, y0, x1, y1, w0, w1, shelf, w2, k = 0.55, N = 28) 
   return 'M' + pts.map(p => f1(p[0]) + ',' + f1(p[1])).join('L') + 'Z';
 }
 
+// Points [x, y] along the branch curve from (x0, y0) to (x1, y1) (layout and check use it).
+export function curvePoints(x0, y0, x1, y1, k = 0.55, N = 28) {
+  const dx = x1 - x0, c1x = x0 + dx * k, c2x = x1 - dx * k, pts = [];
+  for (let i = 0; i <= N; i++) {
+    const t = i / N, mt = 1 - t;
+    pts.push([mt * mt * mt * x0 + 3 * mt * mt * t * c1x + 3 * mt * t * t * c2x + t * t * t * x1, (mt * mt * mt + 3 * mt * mt * t) * y0 + (3 * mt * t * t + t * t * t) * y1]);
+  }
+  return pts;
+}
+
 // Geometry shared by draw and check: where each node's shelf runs and each branch starts and ends.
-export function shelfLen(L, n) { return n.w + n.moreW + L.format.shelfOver; }
+export function shelfLen(L, n) { return n.w + n.moreW + L.format.shelfOver + (n.shelfExtra || 0); }
 export function branchGeometry(L, n) {
   const F = L.format, T = L.theme, p = n.parent;
   const sw = d => strokeAt(F, d) * T.strokeScale;
