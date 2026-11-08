@@ -10,6 +10,9 @@ import { branchGeometry, shelfLen } from './draw.js';
 import { strokeAt } from './formats.js';
 
 export const REMEDY = 'open one level less (--depth), use lead labels (--labels lead, after adding bold leads at the source), re-root at a branch (--root 2), or split into a carousel (tree-render carousel)';
+const remedyFor = L => L.labels === 'lead'
+  ? 'open one level less (--depth), add or shorten bold leads at the source, re-root at a branch (--root 2.3), or split into a carousel (tree-render carousel)'
+  : REMEDY;
 const BUDGET_SLACK = 1.2;  // budgets are "about": warn only past 1.2 × the number
 const QA_MAX_LINES = 8;    // spec 9.8
 const PHONE_W = 390;
@@ -59,7 +62,7 @@ export function check(L, ctx = {}) {
   const minSize = Math.min(...L.nodes.flatMap(n => n.lines.map(l => l.size)));
   const minFont = round1(minSize * s);
   const phoneFont = F.W === 1080 ? round1(minFont * PHONE_W / 1080) : null;
-  if (minFont < floor - 0.05) warnings.push({ check: 'floor', message: `smallest text is ${minFont} px at scale ${s.toFixed(3)}, below the ${floor} px floor${phoneFont ? ` (${phoneFont} px on a phone)` : ''}`, remedy: REMEDY });
+  if (minFont < floor - 0.05) warnings.push({ check: 'floor', message: `smallest text is ${minFont} px at scale ${s.toFixed(3)}, below the ${floor} px floor${phoneFont ? ` (${phoneFont} px on a phone)` : ''}`, remedy: remedyFor(L) });
 
   // 4. budget (node count always; characters for full labels only, since leads are the remedy)
   const chars = L.nodes.reduce((a, n) => a + n.lines.map(l => l.t).join(' ').length, 0);
@@ -70,7 +73,7 @@ export function check(L, ctx = {}) {
     const over = [];
     if (L.nodes.length > budget.nodes * BUDGET_SLACK) over.push(`${L.nodes.length} nodes (about ${budget.nodes} fit)`);
     if (budget.chars && chars > budget.chars * BUDGET_SLACK) over.push(`${chars} characters (about ${budget.chars} fit)`);
-    if (over.length) warnings.push({ check: 'budget', message: `over the ${F.name} budget: ${over.join(', ')}`, remedy: REMEDY });
+    if (over.length) warnings.push({ check: 'budget', message: `over the ${F.name} budget: ${over.join(', ')}`, remedy: remedyFor(L) });
   }
 
   // 5. fidelity: every drawn label equals the source after cleaning, whole or as its lead

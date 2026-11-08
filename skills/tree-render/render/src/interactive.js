@@ -137,7 +137,7 @@ export async function start(config) {
       const key = n.num == null ? 'root' : n.num;
       const open = n.children.length > 0;
       const foldable = open || n.hidden > 0;
-      const q = n.lead ? `<b>${esc(n.lead)}</b> ${esc(n.cont || '')}` : esc(n.text);
+      const q = n.lead ? `<b>${esc(n.lead)}</b> ${esc(n.cont || '')}` : d === 1 ? `<b>${esc(n.text)}</b>` : esc(n.text);
       let label;
       if (state.view === 'answers' && n.answer) label = `<div class="k">${esc(n.text)}</div><div>${esc(n.answer)}</div>`;
       else if (state.labels === 'lead' && n.lead && d > 0) label = `<div><b>${esc(n.lead)}</b></div>${state.view === 'qa' && n.answer ? `<div class="ans">${esc(n.answer)}</div>` : ''}`;
