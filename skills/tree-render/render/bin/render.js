@@ -1,11 +1,19 @@
 #!/usr/bin/env node
-// tree-render CLI. So far: --help, and `parse` / --emit json (writes the canonical tree JSON,
-// TREE-FORMAT.md). Rendering arrives in task 9 of the implementation plan.
+// tree-render CLI (task 9 of the implementation plan; design spec sections 4, 6, 8, 9).
 import fs from 'node:fs';
+import path from 'node:path';
 import { parse, toJSON } from '../src/parse.js';
+import { layout } from '../src/layout.js';
+import { draw } from '../src/draw.js';
+import { check } from '../src/check.js';
+import { getFormat } from '../src/formats.js';
+import { getTheme } from '../src/themes.js';
+import { parseState } from '../src/state.js';
+import { createMeasurer, fontFaceCSS } from '../src/measure-node.js';
+
 const USAGE = `Usage: tree-render <tree.md|tree.json> [options]
-       tree-render carousel <tree.md|tree.json> [options]
-       tree-render check <tree.md|tree.json> [options]
+       tree-render carousel <tree.md|tree.json> [options]   cover + one branch card per level-1 node
+       tree-render check <tree.md|tree.json> [options]      print the self-check report only
        tree-render parse <tree.md|tree.json> [--out tree.json]
 
 Options:
@@ -14,33 +22,150 @@ Options:
   --view questions|qa|answers   what each node shows
   --labels full|lead            full sentences or bold leads only
   --depth N                     levels below the root to open
-  --root 2.3                    re-root at that node number
+  --root 2.3                    re-root at that node number (keeps its branch hue)
   --kicker TEXT                 frame line, top left
   --footer TEXT                 frame line, bottom right
-  --out PATH                    output path without extension
-  --png [--scale 2]             also write a PNG (needs Chrome)
-  --html                        write the interactive page
-  --state '#depth=1'            render a saved fold state
+  --out PATH                    output path without extension (default <tree>-<format>)
+  --png [--scale 2]             also write a PNG (needs Chrome or Playwright's chromium)
+  --html                        also write the interactive page (<out>.html)
+  --state '#depth=1&fold=2.3'   render a saved fold state (the page's URL hash); flags win
   --emit json                   write the parsed tree as canonical JSON (to --out or stdout)
   -h, --help                    show this help
+
+Writes <out>.svg and <out>.report.json and prints the report. Exit 1 on a hard check failure
+(overlap, overflow, fidelity, fonts, markers), 2 on a usage error, 3 when a PNG needs a browser.
 `;
 
-const args = process.argv.slice(2);
-if (!args.length || args.includes('--help') || args.includes('-h')) {
-  process.stdout.write(USAGE);
-  process.exit(0);
-}
-const flag = (k) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : undefined; };
-const positional = args.filter((a, i) => !a.startsWith('--') && !(i > 0 && args[i - 1].startsWith('--') && !['--png', '--html'].includes(args[i - 1])));
-const sub = ['parse', 'carousel', 'check'].includes(positional[0]) ? positional.shift() : null;
+const VALUE_FLAGS = ['format', 'theme', 'view', 'labels', 'depth', 'root', 'kicker', 'footer', 'out', 'scale', 'state', 'emit', 'hue'];
+const BOOL_FLAGS = ['png', 'html', 'help'];
 
-if (sub === 'parse' || flag('--emit') === 'json') {
-  const file = positional[0];
-  if (!file) { process.stderr.write('tree-render: no tree file given\n'); process.exit(2); }
-  const json = JSON.stringify(toJSON(parse(fs.readFileSync(file, 'utf8'))), null, 2) + '\n';
-  const out = flag('--out');
-  if (out) fs.writeFileSync(out, json); else process.stdout.write(json);
-  process.exit(0);
+class UsageError extends Error {}
+
+function parseArgs(argv) {
+  const a = { _: [] };
+  for (let i = 0; i < argv.length; i++) {
+    const t = argv[i];
+    if (t === '-h') { a.help = true; continue; }
+    if (!t.startsWith('--')) { a._.push(t); continue; }
+    const k = t.slice(2);
+    if (BOOL_FLAGS.includes(k)) { a[k] = true; continue; }
+    if (!VALUE_FLAGS.includes(k)) throw new UsageError(`unknown option --${k}`);
+    if (i + 1 >= argv.length) throw new UsageError(`--${k} needs a value`);
+    a[k] = argv[++i];
+  }
+  return a;
 }
-process.stderr.write('tree-render: rendering is not implemented yet (task 9).\n');
-process.exit(2);
+
+// Render options from --state, then the explicit flags.
+function renderOptions(a) {
+  const s = a.state ? parseState(a.state) : {};
+  const o = { format: a.format || '4x5' };
+  getFormat(o.format);
+  for (const k of ['theme', 'view', 'labels', 'depth', 'root', 'fold', 'open']) if (s[k] != null) o[k] = s[k];
+  for (const k of ['theme', 'view', 'labels', 'root']) if (a[k] != null) o[k] = a[k];
+  if (a.depth != null) { if (!/^\d+$/.test(a.depth)) throw new UsageError('--depth takes a whole number'); o.depth = +a.depth; }
+  if (a.hue != null) o.hue = a.hue;
+  if (o.theme) getTheme(o.theme);
+  if (o.view && !['questions', 'qa', 'answers'].includes(o.view)) throw new UsageError(`unknown view "${o.view}"`);
+  if (o.labels && !['full', 'lead'].includes(o.labels)) throw new UsageError(`unknown labels "${o.labels}"`);
+  o.frame = { kicker: a.kicker || '', footer: a.footer || '' };
+  return o;
+}
+
+function readTree(file) {
+  if (!file) throw new UsageError('no tree file given');
+  if (!fs.existsSync(file)) throw new UsageError(`no such file: ${file}`);
+  const tree = parse(fs.readFileSync(file, 'utf8'));
+  if (!tree.root) throw new UsageError(`${file}: no tree found (expected nested "-" bullets)`);
+  return tree;
+}
+
+function lay(tree, opts, measure) {
+  try { return layout(tree, opts, measure); } catch (e) {
+    if (/^no node numbered|^unknown (format|theme)/.test(e.message)) throw new UsageError(e.message);
+    throw e;
+  }
+}
+
+function summary(name, rep) {
+  const m = rep.metrics;
+  const lines = [`${name}  ${m.format} ${m.theme} ${m.view}${m.labels === 'lead' ? ' lead' : ''} · scale ${m.scale} · smallest ${m.minFont} px (floor ${m.floor})${m.phoneFont ? ` · ${m.phoneFont} px on a phone` : ''} · ${m.nodes} nodes · ${rep.ok ? (rep.warnings.length ? 'ok with warnings' : 'ok') : 'FAILED'}`];
+  for (const [kind, list] of [['error', rep.errors], ['warning', rep.warnings]]) {
+    for (const x of list) {
+      lines.push(`  ${kind} ${x.check}: ${x.message}`);
+      if (x.nodes && x.nodes.length) lines.push(`    nodes: ${x.nodes.slice(0, 8).map(n => Array.isArray(n) ? n.join(' × ') : n).join('; ')}${x.nodes.length > 8 ? ' …' : ''}`);
+      if (x.remedy) lines.push(`    remedy: ${x.remedy}`);
+    }
+  }
+  return lines.join('\n');
+}
+
+async function renderOne(tree, opts, a, out, measure) {
+  const L = lay(tree, opts, measure);
+  const svg = draw(L, { fontCSS: fontFaceCSS() });
+  const rep = check(L, { tree, svg, measure });
+  fs.mkdirSync(path.dirname(path.resolve(out)), { recursive: true });
+  fs.writeFileSync(out + '.svg', svg);
+  fs.writeFileSync(out + '.report.json', JSON.stringify(rep, null, 2) + '\n');
+  const written = [out + '.svg'];
+  if (a.png) {
+    const { svgToPng } = await import('../scripts/png.js');
+    svgToPng(svg, { out: out + '.png', scale: +(a.scale || 1) });
+    written.push(out + '.png');
+  }
+  console.log(summary(written.map(f => path.basename(f)).join(', '), rep));
+  return rep;
+}
+
+async function main(argv) {
+  const a = parseArgs(argv);
+  if (a.help || !argv.length) { process.stdout.write(USAGE); return 0; }
+  const sub = ['parse', 'carousel', 'check'].includes(a._[0]) ? a._.shift() : null;
+  const file = a._[0];
+
+  if (sub === 'parse' || a.emit === 'json') {
+    const json = JSON.stringify(toJSON(readTree(file)), null, 2) + '\n';
+    if (a.out) fs.writeFileSync(a.out, json); else process.stdout.write(json);
+    return 0;
+  }
+
+  const tree = readTree(file);
+  const opts = renderOptions(a);
+  const measure = await createMeasurer();
+  const base = a.out || `${path.basename(file).replace(/\.(md|json|markdown)$/i, '')}-${opts.format}`;
+
+  if (sub === 'check') {
+    const L = lay(tree, opts, measure);
+    const rep = check(L, { tree, svg: draw(L, { fontCSS: fontFaceCSS() }), measure });
+    process.stdout.write(JSON.stringify(rep, null, 2) + '\n');
+    return rep.ok ? 0 : 1;
+  }
+
+  if (sub === 'carousel') {
+    const F = getFormat(opts.format);
+    const branches = tree.root.children;
+    const N = branches.length;
+    const reps = [await renderOne(tree, { ...opts, root: null, depth: 1, fold: [], open: [] }, a, `${base}-0-cover`, measure)];
+    for (let i = 0; i < N; i++) {
+      const kicker = (opts.frame.kicker ? opts.frame.kicker + ' · ' : '') + `Q${i + 1} of ${N}`;
+      const card = { ...opts, root: branches[i].num, depth: a.depth != null ? opts.depth : F.depthCard, labels: opts.labels || 'lead', frame: { ...opts.frame, kicker } };
+      reps.push(await renderOne(tree, card, a, `${base}-${i + 1}`, measure));
+    }
+    return reps.every(r => r.ok) ? 0 : 1;
+  }
+
+  const rep = await renderOne(tree, opts, a, base, measure);
+  if (a.html) {
+    const { buildPage } = await import('../src/bundle.js');
+    fs.writeFileSync(base + '.html', buildPage(tree, { theme: opts.theme, view: opts.view, labels: opts.labels, depth: opts.depth, root: opts.root }));
+    console.log(path.basename(base + '.html') + '  interactive page');
+  }
+  return rep.ok ? 0 : 1;
+}
+
+main(process.argv.slice(2)).then(code => process.exit(code), e => {
+  if (e instanceof UsageError || /^unknown (format|theme)/.test(e.message)) { process.stderr.write(`tree-render: ${e.message}\n`); process.exit(2); }
+  if (e && e.constructor && e.constructor.name === 'NoBrowserError') { process.stderr.write(e.message + '\n'); process.exit(3); }
+  process.stderr.write(String(e && e.stack || e) + '\n');
+  process.exit(1);
+});
