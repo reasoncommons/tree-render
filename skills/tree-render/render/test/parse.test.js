@@ -1,6 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { parse, clean, count, find, prune, reroot } from '../src/parse.js';
+import { parse, clean, count, find, prune, reroot, toJSON } from '../src/parse.js';
+import { execFileSync } from 'node:child_process';
+import path from 'node:path';
+import { here, EXAMPLES, FIXTURES } from './helpers.js';
 import { EXAMPLE_FILES, readExample, readFixture } from './helpers.js';
 
 const expected = {
@@ -169,4 +172,37 @@ test('leads fixture: leads are found', () => {
   const q1 = t.root.children[0];
   assert.equal(q1.lead, 'Q1. Alignment:');
   assert.ok(all(t.root).filter(n => n.lead).length >= 30);
+});
+
+const roundTripFiles = [...EXAMPLE_FILES.map(f => path.join(EXAMPLES, f)), ...['wise-ai-questions-leads.md', 'wise-ai-answers-leads.md'].map(f => path.join(FIXTURES, f))];
+for (const file of roundTripFiles) {
+  test(`${path.basename(file)}: md → json → parse gives an identical tree`, async () => {
+    const md = (await import('node:fs')).readFileSync(file, 'utf8');
+    const t = parse(md);
+    const json = JSON.stringify(toJSON(t));
+    assert.deepEqual(parse(json), t);
+    assert.deepEqual(parse(JSON.parse(json)), t);
+    assert.deepEqual(toJSON(parse(json)), JSON.parse(json));
+  });
+}
+
+test('canonical JSON: only documented fields are emitted', () => {
+  const j = toJSON(parse(readFixture('wise-ai-answers-leads.md')));
+  assert.deepEqual(Object.keys(j), ['title', 'kind', 'source', 'root']);
+  const keys = new Set();
+  const walk = (n) => { Object.keys(n).forEach(k => keys.add(k)); n.children.forEach(walk); };
+  walk(j.root);
+  assert.deepEqual([...keys].sort(), ['answer', 'children', 'lead', 'text']);
+});
+
+test('canonical JSON: a lead that does not open the text is rejected', () => {
+  assert.throws(() => parse({ root: { text: 'abc def', lead: 'xyz' } }), /does not open/);
+});
+
+test('CLI: parse subcommand and --emit json write the canonical JSON', () => {
+  const bin = path.join(here, '..', 'bin', 'render.js');
+  const file = path.join(EXAMPLES, 'wise-ai-answers.md');
+  const expected = toJSON(parse(readExample('wise-ai-answers.md')));
+  assert.deepEqual(JSON.parse(execFileSync(process.execPath, [bin, 'parse', file]).toString()), expected);
+  assert.deepEqual(JSON.parse(execFileSync(process.execPath, [bin, file, '--emit', 'json']).toString()), expected);
 });

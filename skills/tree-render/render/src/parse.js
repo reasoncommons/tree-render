@@ -1,4 +1,5 @@
-// parse.js: Markdown (spec 10) or JSON → { title, kind, source, root }.
+// parse.js: Markdown (spec 10) or canonical tree JSON (TREE-FORMAT.md) → { title, kind, source, root }.
+// Markdown is one front-end; layout and draw only ever see the parsed tree.
 // Node: { text, lead, cont, answer, children, depth, index, num }. The root has num null and index null.
 // prune and reroot are pure: they return copies and never touch the parsed tree.
 
@@ -72,12 +73,22 @@ function number(n, depth = 0, prefix = '') {
   });
 }
 
+// Canonical tree JSON (TREE-FORMAT.md) → parsed tree. Node: { text, lead?, answer?, children? };
+// `lead`, when present, opens `text` and the continuation is the rest. `cont` is accepted as an
+// alternative to a full `text` (text = lead + ' ' + cont).
 function fromJSON(obj) {
   const conv = (j) => {
-    let lead = j.lead == null ? null : clean(j.lead);
-    let cont = lead == null ? null : clean(j.cont || '');
-    let text = j.text != null ? clean(j.text) : (lead == null ? '' : (cont ? lead + ' ' + cont : lead));
-    if (lead == null && j.text != null) ({ lead, cont, text } = splitLead(String(j.text)));
+    let lead = j.lead == null || j.lead === '' ? null : clean(j.lead);
+    let text, cont = null;
+    if (j.text != null) {
+      text = clean(j.text);
+      if (lead == null) ({ lead, cont, text } = splitLead(String(j.text)));
+      else if (text.startsWith(lead)) cont = text.slice(lead.length).trim();
+      else throw new Error(`tree JSON: lead "${lead}" does not open text "${text}"`);
+    } else {
+      cont = lead == null ? null : clean(j.cont || '');
+      text = lead == null ? '' : (cont ? lead + ' ' + cont : lead);
+    }
     const n = makeNode({ text, lead, cont });
     n.answer = j.answer ? clean(j.answer) : null;
     n.children = (j.children || []).map(conv);
@@ -86,6 +97,19 @@ function fromJSON(obj) {
   const root = obj.root ? conv(obj.root) : null;
   if (root) number(root);
   return { title: obj.title || '', kind: obj.kind || '', source: obj.source || '', root };
+}
+
+// Parsed tree → canonical tree JSON object (TREE-FORMAT.md). Derived fields (cont, depth, index,
+// num, hidden) are left out; parse(toJSON(t)) rebuilds them.
+export function toJSON(tree) {
+  const conv = (n) => {
+    const o = { text: n.text };
+    if (n.lead != null) o.lead = n.lead;
+    if (n.answer) o.answer = n.answer;
+    o.children = n.children.map(conv);
+    return o;
+  };
+  return { title: tree.title || '', kind: tree.kind || '', source: tree.source || '', root: tree.root ? conv(tree.root) : null };
 }
 
 // Number of descendants (not counting n).
