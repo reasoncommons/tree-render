@@ -1,0 +1,19 @@
+{
+  "name": "tree-render",
+  "version": "0.1.0",
+  "description": "Render question and hypothesis trees as left-to-right mindmaps (SVG, PNG, interactive HTML).",
+  "type": "module",
+  "bin": {
+    "tree-render": "bin/render.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "opentype.js": "^2.0.0"
+  }
+}

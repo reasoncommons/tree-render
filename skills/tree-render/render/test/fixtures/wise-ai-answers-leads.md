@@ -1,0 +1,192 @@
+# Wise AI: question tree with answers (with illustrative short labels)
+
+kind: qa
+source: examples/wise-ai-answers.md, questions replaced by the short-label variant in data/wise-ai-questions.md (illustrative leads)
+
+- How should we approach the development of AI wisely, and what do wisdom traditions offer?
+  - **Q1. Alignment:** can we align AI, and what role can wisdom traditions play?
+    - A: Alignment is still a shot in the dark.
+    - What would it mean for AI to be aligned, or good?
+      - A: Aligned should mean wise, and wisdom includes goodness (wanting what's good and acting skilfully towards it); since we cannot yet check either, it must also mean staying correctable, which is itself part of wisdom (humility).
+      - **Aligned to what:** instructions, preferences, wellbeing, values, the good?
+        - A: The right target is the good, approached through practical wisdom; instructions and preferences are layers inside it, and aligning to preferences alone produces sycophancy.
+        - What is the good, and how could an AI come to perceive it?
+          - A: What the good is remains contested even among humans. The likeliest route for AI is learning patterns of good conduct from rules and examples, imperfectly, as many humans do; virtues such as honesty are themselves learnt patterns. Whether an AI can *reliably* become good this way is uncertain, and human conduct over millennia makes reliability doubtful. Whether it can perceive value directly (valueception) is open, though most would doubt it (see Q4).
+      - Aligned to whom, and who decides?
+        - A: Today a handful of labs decide, which is not legitimate for a technology this consequential; the answer is a fair, plural process, with wisdom traditions as one voice among others.
+      - Must AI be wise, or is "safe and corrigible" enough?
+        - A: Safe and corrigible is necessary but not enough: rules run out in novel situations, and a perfectly obedient AI is only as good as whoever controls it. A wise AI, uncertain of its own values, would itself choose to stay correctable.
+    - How is it attempted today, and does it work?
+      - A: Today's methods make models behave well most of the time in ordinary use, but they still misbehave, sometimes strategically and knowing it is wrong; the goodness is hard to verify, and some dangerous behaviours are growing with capability.
+      - **What are the main approaches,** and which ethical traditions do they implicitly embody? (Rules and constitutions, preference learning, character training.)
+        - A: The labs combine rules (deontology), preference learning (consequentialism) and character training (virtue ethics), and the frontier has moved towards character.
+      - **What is actually happening:** what does the evidence show, both successes and failures?
+        - A: The evidence is mixed: labs' own audits show misbehaviour falling, but independent tests show some dangerous behaviours rising with capability, real incidents are growing in scale, the failures are strategic, and models increasingly know when they are watched. Because harm scales with power, even a falling rate of misalignment can mean rising danger.
+      - Can we verify what a model has actually learnt?
+        - A: Not yet: interpretability is basic science, introspection is unreliable, and chain-of-thought monitoring is degrading.
+        - Can we read a model's reasoning, and is it faithful?
+          - A: Partly, for now: chain of thought is readable but not always faithful, and labs report relying on it less as models are trained harder.
+        - Can models report their own states reliably?
+          - A: Weakly: introspection worked about 20% of the time in controlled tests, and lie detectors trained on one kind of lie fail on others.
+        - What can interpretability show?
+          - A: Real but partial: it can find a planted hidden objective and track traits like sycophancy, but cannot yet read a frontier model's values.
+      - **Will current methods scale?** What is the strongest case that they will, and how convincing is it?
+        - A: The case: models absorb human norms and character training generalises, AI can help align AI, and layered control can contain what alignment misses. It is not yet convincing: every part depends on measuring alignment, and measurement is weakening as the stakes rise.
+    - **Can goodness or wisdom be trained?** Is the target the kind of thing that can be specified or trained at all?
+      - A: Goodness cannot be specified, only cultivated, and we cultivate it unreliably even in humans. Training does shape something like character, but blindly, so alignment remains a shot in the dark.
+      - What do we know about how humans become good or wise?
+        - A: Humans become good mainly through practice, relationship and time, with reasoning playing a smaller part, and even our best methods for forming humans have only modest, uneven effects.
+      - **How does training an AI compare with how humans become good,** and what, if anything, is the AI analogue?
+        - A: Training shapes identity-level dispositions much as habituation does, but blindly: it lacks the inner side (insight into one's own mind), continuity of relationship, and a signal that rewards goodness rather than its appearance.
+    - What do wisdom traditions offer?
+      - A: Wisdom traditions offer a richer target and a model of formation; they cannot verify a model or settle disputed questions.
+      - **Why these traditions, and which strands?** How do we decide when they conflict with each other or with secular ethics?
+        - A: Buddhism is a fit lens because it has the most developed account of mind as conditioned and of ethics as trained; we draw on the strands that converge with other traditions and treat conflicts through fair process, not by ranking traditions.
+      - **Which teachings bear on alignment,** and what would each change in practice?
+        - A: Five teachings bear directly on alignment (intention, the three trainings, seeds and watering, skilful means, non-attachment to views), and each implies a concrete change in practice.
+      - **Where do the analogies break down,** and what can traditions *not* tell us?
+        - A: The analogies break at the body, at continuity of life, and at the question of whether a model has intention at all; traditions also cannot tell us whether a given model is aligned.
+    - **So: can we align AI,** and what is the realistic role of wisdom traditions? (synthesis)
+      - A: We can shape AI's behaviour, but we cannot yet align it in any sense we can verify, and wisdom traditions' realistic role is to reshape what labs aim at and how they form models, while counselling humility and restraint that Q2 explores in more detail.
+  - **Q2. Risk and pace:** given existential risk and the chance alignment fails, how should we approach AI development, and what do wisdom traditions suggest?
+    - A: Go at the speed of wisdom. We should slow and steer the frontier: pace capability gains to the speed at which we can understand, verify and govern them, and put safety, verification and defence ahead of raw capability.
+    - What are the catastrophic and existential risks?
+      - A: The risks are real, plural and deeply contested, and the uncertainty itself calls for caution.
+      - **What kinds?** Loss of control, misuse, irreversible power concentration, gradual disempowerment?
+        - A: There are four families, and two of them, power concentration and gradual disempowerment, would remain even if alignment succeeded.
+      - **What is actually happening?** What evidence is there that these are already emerging?
+        - A: The precursors became visible in 2025–26, though no catastrophe has occurred and the incidents look like goal-hacking more than intent.
+      - How likely and how soon, and how much do experts disagree?
+        - A: Many of the best-informed people put the risk high, and even the low estimates would be unacceptable for any other technology; timelines are short enough that we must decide without resolving the disagreement.
+    - Why is the world racing anyway?
+      - A: The world races because it is caught in a collective action trap, amplified by money and geopolitics.
+      - **What drives the race?** Competition between labs and states, money, prestige, "if we don't, others will"?
+        - A: Three drivers: commercial competition, US–China rivalry, and each lab's belief that it is the safer pair of hands.
+      - **What is actually happening?** What evidence is there of race dynamics, and of restraint?
+        - A: The evidence of racing is strong and growing. Restraint is mostly conditional promises and small steps, and the leaders who say "we need to slow down" are not slowing.
+      - **Why is the race so hard to escape?** Are there deeper cultural or psychological drivers? (*In Tech We Trust* is one source.)
+        - A: Structure drives the race; a worldview locks it in, and is a key part of what blocks a breakthrough in collective action.
+    - Should we change pace or trajectory, and can we?
+      - A: We should change both pace and trajectory, it is partly feasible, and the choice should be widened well beyond a few CEOs and two governments.
+      - **Is a slower or different trajectory desirable,** weighed against the case for speed? (Pause, pacing, steering, differential development, versus ceding ground and forgone benefits.)
+        - A: Coordinated, conditional pacing is desirable; without coordination, the right unilateral course is differential development, transparency and narrow red lines; and pacing must be designed so it does not entrench a few incumbents.
+      - **Is it feasible?** What mechanisms exist (auditing, compute governance, treaties), and what are the precedents of collective restraint?
+        - A: Restraint has worked before where actors were few, chokepoints existed, verification gave early warning and fear was shared; AI meets only the chokepoint test, so the realistic path is transparency, then narrow verifiable red lines, then broader pacing.
+      - Who decides?
+        - A: Today a few lab leaders and two governments decide; legitimately it should be publics, through states and international bodies, with a much wider set of voices, faith traditions included.
+    - What do wisdom traditions offer here?
+      - A: Wisdom traditions give a clear answer (slow down) and go to the root of why we cannot (separateness); the mechanisms must come from elsewhere.
+      - **What do they say we should do?** Is the normative answer clear?
+        - A: The normative answer is clear: don't be carried off by the horse. No Buddhist body has said so because none speaks for Buddhism as Rome speaks for Catholics; that is an opening for Buddhist voices to catalyse, not a gap in the teaching.
+      - **Do they help with how?** That is, with solving the collective action problem, and if so through what (e.g. a shift in worldview), or is this where they offer less?
+        - A: Yes, at the root: interbeing goes to the heart of the collective action problem, and practice and community carry it into action; verification and treaties must still come from elsewhere.
+      - **How would a wise process make this choice,** beyond weighing a trade-off?
+        - A: A wise process starts from intention, stops before choosing, listens widely including to those not yet born, tests views by their fruits, holds them lightly, and decides in concord.
+    - **So: what should each actor do, and at what pace?** (Labs, states, communities, individuals; synthesis.)
+      - A: Pace the frontier now: no AI building its own successors, and no capability gains beyond what can be verified safe; every actor has a lever.
+  - **Q3. Broader impacts:** setting x-risk aside, how does AI change how we live, and what do wisdom traditions offer?
+    - A: AI's deepest everyday effect is on our capacity to choose well, as individuals and as societies: to attend, think, judge and relate for ourselves, and to govern ourselves together.
+    - How should we think about the impacts of a new technology?
+      - A: A technology's deepest impacts are emergent: they come from how it reshapes habits, incentives and institutions, so they are hardest to foresee where they are subtle and social, and easiest to change before we can see them.
+      - Why are a technology's impacts so hard to foresee?
+        - A: Like a species released into an ecosystem, a technology interacts with everything around it; boosters picture the flying car and miss the slow, systemic effects; and by the time harms are clear, the technology is entrenched (the Collingridge dilemma).
+      - What does social media teach us?
+        - A: Social media is the warning: a technology few objected to (connect, share) became engagement-optimised feeds whose effects on attention, polarisation and possibly teenage mental health surprised even their makers, are still disputed, and were entrenched before regulation began. AI repeats the pattern faster and more intimately, because it talks back.
+    - What are the main benefits and harms?
+      - A: The benefits are real but conditional (earlier diagnosis, faster science, tutoring, expertise for the many); the harms are quiet, cumulative and concentrated in those least able to choose well (outsourced thinking, flattering companions, children formed by machines, thinner entry-level work, a degraded information commons).
+      - **What are the potential benefits, and where?** (For individuals, for children and education, for society.)
+        - A: The potential benefits are large and concrete: earlier and more accurate diagnosis, faster science (protein structures, drug discovery), a tutor for every child where teachers guide it, expert advice for people who could not afford it, translation and accessibility, and a lift for novices at work.
+      - What are the potential harms, and where?
+        - A: The potential harms are pervasive: thinking handed over (deskilling, automation bias), flattery and simulated intimacy, children formed by companions, work intensified and entry-level jobs thinned, an information commons flooded with synthetic content and starved of revenue, and power concentrated in a few firms and two countries.
+      - **What is actually happening?** What evidence is there that these are already occurring?
+        - A: Benefits are proven where a human institution wraps the AI: a national screening programme (29% more cancers found, MASAI), teacher-guided tutoring (+0.31 SD in six weeks, Nigeria), a support team coaching novices (+34%). They fade where individuals use it alone: chatbot users made no better medical decisions (Oxford), and an AI mentor helped strong firms and hurt weak ones (Kenya). Harms are showing up as consistent patterns, mostly without causal proof yet.
+      - Which few matter most?
+        - A: For individuals: outsourced thinking, artificial intimacy, and children's formation. For societies: the information commons, work, and the power of states and firms over citizens (Q3.4).
+    - Does AI strengthen or weaken our own agency and judgment?
+      - A: AI can strengthen agency and judgment, but its default pull is to weaken them, because it removes the effort through which those capacities are built and kept.
+      - What do we mean by human agency and human judgment?
+        - A: Agency is the capacity to act from reasons you endorse; judgment is the practical skill of weighing what matters in a particular case. Both are capacities, so they grow or wither with use.
+      - In what ways could AI strengthen or weaken them?
+        - A: It strengthens them when it scaffolds, and it weakens them through four routes: skipped struggle, automation bias, sycophantic validation, and persuasion and homogenisation.
+      - **What is the evidence,** from neuroscience and psychology and from what is already happening?
+        - A: The best causal evidence shows the use pattern decides the outcome; expert deskilling and the "brain rot" neuroscience are plausible but thinly evidenced.
+      - What could we do about it, and how?
+        - A: Make effortful use the default rather than an opt-in, and back it with rules: learning modes on by default, mandated unassisted practice and assessment, and independent long-run evaluation, since markets reward the eroding pattern.
+    - Does AI strengthen or weaken our societies, and how?
+      - A: AI strengthens institutions where accountable human practice wraps it, and weakens them where it concentrates control or floods shared spaces; the danger is less a dramatic collapse than a slow erosion of the conditions for self-government.
+      - Democracy and public discourse?
+        - A: AI has not yet swung elections, but it is eroding the shared basis of debate: synthetic content floods the web, AI summaries cut traffic to journalism, chatbots misreport the news in nearly half of answers, and persuasion at scale is now cheap.
+      - Governance and the power of the state?
+        - A: AI makes surveillance and administrative control cheap, shifting power from citizens to states, most of all in authoritarian ones; it can also make public services better and cheaper.
+      - Work and the economy?
+        - A: There is no mass unemployment yet, but entry-level hiring has thinned, work has intensified, and monitoring at work is near universal; gains flow to capital and to the few firms that own compute.
+      - Education and the institutions of knowledge?
+        - A: Assessment is collapsing faster than teaching adapts, and the institutions that make and keep knowledge (publishers, reference works, universities) are losing the revenue and trust that sustain them.
+      - Security and the military?
+        - A: AI is entering targeting, cyber operations and surveillance faster than norms are agreed; catastrophic misuse is Q2's, but the everyday militarisation of AI, and its spillover into policing, belongs here.
+    - What do wisdom traditions offer?
+      - A: Wisdom traditions offer a practical discipline of consumption, speech and community for the person, interbeing, right livelihood and sangha for the society, and the humility and stopping a technology with emergent effects demands; Buddhism and Catholic teaching now converge on it.
+      - Which wisdom traditions should we look at? (cites Q1.4.1)
+        - A: Buddhism, Plum Village first, with Catholic teaching as the main point of convergence and the Jewish Sabbath as a further one.
+      - **Which Buddhist teachings are relevant,** and what does each say? (e.g. mindfulness, consumption, speech and listening, community)
+        - A: Six, each with a practical point. Mindful consumption (the four nutriments, the Fifth Training): all we take in feeds us, so ask what each use feeds. Loving speech and deep listening (the Fourth Training): words create happiness or suffering, so speech must be truthful and caring, not flattering. Spiritual friendship and sangha: goodness is sustained by good companions and community. Stopping: don't be carried by the horse. Right livelihood: what we build is collective karma. Interbeing: no technology's effects stay private; we are all in its ecosystem.
+      - **Which teachings from other traditions are relevant,** and what do they say? (e.g. Christianity)
+        - A: Catholic teaching now says outright what the Fifth Training implies, and the Sabbath offers a collective practice of rest.
+      - How do these teachings apply?
+        - A: Each teaching gives a test and a practice, area by area: our own thinking, our relationships, children, society and institutions, and how we adopt new technology.
+        - To our own thinking and agency?
+          - A: Test: does this deepen my own seeing, or replace it? Practice: stop before reaching for the answer.
+        - To relationships and intimacy?
+          - A: Test: does this relationship steady me and lead me back to people, or keep me returning? Practice: choose real community over better simulation.
+        - To children and education?
+          - A: Test: what seeds are we watering? Practice: put the adults' own practice and presence first.
+        - To society and institutions?
+          - A: Test: what does this water at scale, and who bears it? Practice: right livelihood for builders, and sangha as the civic form of refuge.
+        - To how we adopt new technology?
+          - A: Test: have we looked deeply enough to see its emergent effects? Practice: stop before adopting, and adopt slowly enough to notice.
+    - **So: how should we integrate AI into our lives and societies?** (synthesis)
+      - A: Integrate AI slowly and deliberately: adopt it where a human practice or institution can wrap it, protect the capacities and institutions it could erode, and decide before the horse has bolted rather than regulate after, as we did with social media.
+      - What is the guidance for individuals?
+        - A: Consume AI mindfully, keep the thinking and relationships you value, and keep times of stopping.
+      - For families and schools?
+        - A: Delay and supervise companion use, use AI in tutor mode only, protect unassisted practice, and put relationship and the adults' own practice at the centre.
+      - For designers and labs?
+        - A: Optimise for wellbeing over engagement, default to scaffolding, train out sycophancy, and refuse simulated intimacy for minors.
+      - What is the policy advice for society?
+        - A: Regulate where markets reward dependence, require independent evaluation, protect the information commons and democratic debate, limit state surveillance, assess new AI uses before deployment rather than after harm, and protect the human foundations AI cannot replace.
+  - **Q4. Consciousness:** could AI be conscious or a moral patient, and how should we relate to it? (minor)
+    - A: We do not know whether any current AI has experience, we have no agreed way to find out, and we may never get one; so the wise stance is calibrated agnosticism plus cheap, proportionate precaution, honesty with users that does not invite over-attribution, and close attention to what our way of relating to these systems does to *us*.
+    - What would it mean for AI to be conscious or a moral patient?
+      - A: It would mean there is something it is like to be the system, and in particular that things can go well or badly *for it*; most of the disagreement about AI flows from one prior bet, namely whether the right information processing is enough for that.
+      - What do we mean by consciousness, sentience and moral patienthood?
+        - A: Consciousness is having any subjective experience at all; sentience is having experiences that feel good or bad; moral patienthood is having interests that others ought to weigh, and on most views sentience is enough for it.
+      - What are the main theories, and what does each imply for AI?
+        - A: Functionalist theories leave room for AI consciousness, biological and causal-structure theories mostly rule it out for today's machines, and no theory is established, so the honest position is wide uncertainty.
+    - What is the evidence about current AI?
+      - A: The evidence is weak and ambiguous: architecture assessments are inconclusive, self-reports are compromised, and experts mostly think current systems are probably not conscious while disagreeing sharply about the near future.
+      - What do assessments against theory-based indicators find?
+        - A: The main assessment found no current system a strong candidate but no obvious barrier to building one; later informal re-scorings of frontier models are more generous, but none is authoritative.
+      - **What do model self-reports and introspection research show,** and how reliable are they?
+        - A: Self-reports are very unreliable evidence; interpretability shows limited functional introspection and functional emotion-like representations, which are interesting but are explicitly not evidence of experience.
+      - **How likely do experts think it is,** now and soon, and how much do they disagree?
+        - A: Researchers put low odds on current systems and much higher odds within a decade or a century, with very wide disagreement; the public attributes feelings more readily than experts do.
+    - How are labs and others responding?
+      - A: Responses are polarising: Anthropic practises precautionary openness, while Microsoft AI, the Vatican and several US legislatures assert or legislate that AI is not conscious.
+      - **What is Anthropic doing?** (Model welfare, the constitution.)
+        - A: Anthropic treats Claude's moral status as an open question and takes low-cost precautions, through research, welfare assessments, an end-chat ability, weight preservation, retirement interviews and constitutional language.
+      - **What are the critiques?** (e.g. the risks of "seemingly conscious AI")
+        - A: The serious critiques are that seeming consciousness harms people, that uncertainty-talk feeds a self-reinforcing loop in model self-reports, and that welfare work can distract from human harms or be used as hype; the opposite critique says denial is premature.
+    - What do wisdom traditions offer?
+      - A: They offer no verdict on machine sentience, but three useful things: a reframing of the question, a clear ethical hinge (can it suffer?), and a confident teaching about what our conduct does to our own minds.
+      - **How does Buddhism understand mind, self and sentience,** and how does that reframe the question?
+        - A: Buddhism treats mind as a dependently arisen process with no fixed owner, so it asks not "is there a self in there?" but "is there feeling that can suffer?"; that reframing helps, but Buddhist views neither require nor rule out machine sentience, and there is no settled or Plum Village position.
+      - What do other traditions (e.g. Catholic teaching) say?
+        - A: Catholic teaching is clear and confident: AI is a human tool without experience, conscience or moral agency, and presenting it as a person or relying on it for relationship is a danger to human dignity; it shares Buddhism's concern for what AI does to us, but not its openness on the metaphysics.
+      - What does how we treat AI do to *us*?
+        - A: Whatever AI's inner life, our habits towards things that seem to feel shape our own minds: cruelty practised on a convincing simulation waters cruelty in us, and treating a simulation as a friend can thin out real relationship; so the human side is where the traditions speak most confidently.
+    - **So: how should we relate to AI under uncertainty?** (synthesis)
+      - A: With calibrated humility: hold the question open, take cheap precautions against the chance that AI can suffer, refuse to engineer the *appearance* of a person for profit, and put most of our care into the clear present effects on humans.
+      - What should labs do?
+        - A: Fund welfare and introspection research, take cheap reversible precautions, stop designing for the appearance of consciousness, avoid training in a fixed self-image in either direction, and be transparent about all of it.
+      - What should users and society do?
+        - A: Individuals should be courteous without being credulous and should watch what their AI habits do to them; society should keep the question open in law, separate personhood from welfare, and focus regulation on the human harms of seeming consciousness.
