@@ -10,3 +10,7 @@
 
 # Renderer output
 *.tmp.html
+docs/design/moodboard/*.jpg
+docs/design/moodboard/*.jpeg
+docs/design/moodboard/*.png
+docs/design/brief-page/index.html

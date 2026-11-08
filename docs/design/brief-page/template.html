@@ -1,0 +1,525 @@
+<title>Tree Render Design Brief</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+  /* Layout: one long reading column (72ch) for prose, breaking out to a 1240px grid for boards and cards. */
+  :root {
+    --bg: #F4F4F1;
+    --surface: #FFFFFF;
+    --fg: #1E2023;
+    --muted: #6A6E72;
+    --rule: #DCDDD8;
+    --accent: #2F7F8B;      /* the teal of the Q2 strand in the Paper theme */
+    --accent-ink: #1F5D66;
+    --take: #4F7A2E;
+    --leave: #A4483A;
+    --warn-bg: #FBF3DC;
+    --font-display: "Source Serif 4", Georgia, "Times New Roman", serif;
+    --font-body: "Source Sans 3", "Helvetica Neue", Arial, sans-serif;
+    --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #17191C; --surface: #202327; --fg: #E8E7E2; --muted: #9A9D9F; --rule: #33373B;
+      --accent: #6FB7C1; --accent-ink: #8ACBD3; --take: #9CC977; --leave: #E08A7C; --warn-bg: #2E2A1E;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #17191C; --surface: #202327; --fg: #E8E7E2; --muted: #9A9D9F; --rule: #33373B;
+    --accent: #6FB7C1; --accent-ink: #8ACBD3; --take: #9CC977; --leave: #E08A7C; --warn-bg: #2E2A1E;
+    color-scheme: dark;
+  }
+
+  body { background: var(--bg); color: var(--fg); font: 17px/1.5 var(--font-body); padding-block: 0 96px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .wrap { max-width: 1240px; margin: 0 auto; }
+  .prose { max-width: 72ch; }
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.15; text-wrap: balance; margin: 0; }
+  h1 { font-size: clamp(30px, 4.5vw, 44px); }
+  h2 { font-size: clamp(24px, 3vw, 32px); margin-top: 72px; padding-top: 20px; border-top: 1px solid var(--rule); }
+  h3 { font-size: 21px; margin-top: 32px; }
+  p { margin: 12px 0 0; }
+  a { color: var(--accent-ink); text-decoration-color: var(--rule); text-underline-offset: 3px; }
+  a:hover, a:focus-visible { text-decoration-color: currentColor; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  code, .num { font-family: var(--font-mono); font-size: 0.86em; }
+  .muted { color: var(--muted); }
+  .small { font-size: 15px; }
+  ul, ol { margin: 12px 0 0; padding-left: 1.3em; }
+  li { margin-top: 6px; }
+  li::marker { color: var(--muted); }
+
+  /* Header */
+  header { padding-block: 40px 8px; }
+  .kicker { font-size: 15px; color: var(--muted); }
+  .status { margin-top: 18px; padding: 12px 16px; background: var(--surface); border-left: 3px solid var(--accent); font-size: 15px; }
+  .status b { font-weight: 600; }
+  nav.toc { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 15px; }
+  nav.toc a { color: var(--muted); text-decoration: none; }
+  nav.toc a:hover { color: var(--fg); }
+
+  /* Feel */
+  .feel { font-family: var(--font-display); font-size: clamp(30px, 5vw, 54px); font-weight: 600; line-height: 1.1; margin: 28px 0 0; color: var(--fg); text-wrap: balance; }
+  .feel-notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 28px; }
+  .feel-notes div { border-top: 2px solid var(--fg); padding-top: 10px; }
+  .feel-notes b { display: block; font-weight: 600; }
+
+  /* Figures */
+  figure { margin: 0; min-width: 0; }
+  figure img { display: block; width: 100%; height: auto; background: #fff; border: 1px solid var(--rule); }
+  figcaption { margin-top: 8px; font-size: 15px; line-height: 1.45; }
+  figcaption .src { color: var(--muted); font-size: 13px; display: block; margin-bottom: 4px; }
+  figcaption .src a { color: inherit; }
+
+  /* Mood board */
+  .board { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 32px 28px; margin-top: 28px; }
+  .ref { background: var(--surface); border: 1px solid var(--rule); padding: 14px; min-width: 0; }
+  .ref figure img { border: 0; }
+  .ref h3 { font-size: 18px; margin: 12px 0 0; font-family: var(--font-body); font-weight: 600; }
+  .ref .what { color: var(--muted); font-size: 14px; margin-top: 2px; }
+  .tl { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 10px; font-size: 15px; }
+  .tl p { margin: 0; }
+  .tl b { font-weight: 600; font-family: var(--font-body); }
+  .tl .t b { color: var(--take); }
+  .tl .l b { color: var(--leave); }
+  .verdict { margin-top: 10px; padding: 8px 10px; background: var(--bg); font-size: 14px; }
+  .verdict b { font-weight: 600; }
+  .wide { grid-column: 1 / -1; }
+  .ref.anti { border-style: dashed; }
+
+  /* Claims table and tics table */
+  .scroll { overflow-x: auto; margin-top: 16px; }
+  table { border-collapse: collapse; width: 100%; font-size: 15px; min-width: 640px; }
+  th, td { text-align: left; vertical-align: top; padding: 9px 12px 9px 0; border-bottom: 1px solid var(--rule); }
+  th { font-weight: 600; font-size: 14px; color: var(--muted); }
+  td.c { white-space: nowrap; font-weight: 600; }
+  .ok { color: var(--take); } .no { color: var(--leave); } .part { color: var(--accent-ink); }
+
+  /* Directions */
+  .dirs { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px; margin-top: 28px; align-items: start; }
+  .dir { background: var(--surface); border: 1px solid var(--rule); padding: 16px; min-width: 0; position: relative; }
+  .dir.rec { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+  .dir h3 { margin: 0; font-size: 24px; }
+  .dir .tag { position: absolute; top: 14px; right: 14px; font-size: 14px; font-weight: 600; background: var(--accent); color: #fff; padding: 3px 8px; }
+  .dir .read { color: var(--muted); font-size: 15px; margin-top: 2px; }
+  .dir figure { margin-top: 14px; }
+  .dir .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+  .dir dl { margin: 14px 0 0; font-size: 15px; }
+  .dir dt { font-weight: 600; margin-top: 10px; }
+  .dir dd { margin: 2px 0 0; }
+  .swatches { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .sw { width: 28px; height: 28px; border-radius: 50%; border: 1px solid rgba(0,0,0,.12); }
+  .more { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 24px; align-items: start; }
+  .phone { max-width: 300px; }
+  .more.two { grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr); }
+  .more.three { grid-template-columns: minmax(0, 3fr) minmax(200px, 1fr); }
+  @media (max-width: 820px) { .more.two, .more.three { grid-template-columns: 1fr; } }
+
+  /* Decisions */
+  .dec { margin-top: 24px; padding: 18px 20px; background: var(--surface); border: 1px solid var(--rule); max-width: 80ch; }
+  .dec h3 { margin: 0; font-size: 20px; }
+  .dec .q { font-family: var(--font-display); font-size: 20px; }
+  .dec p { margin-top: 8px; font-size: 16px; }
+  .dec .r { padding: 8px 12px; background: var(--warn-bg); margin-top: 10px; }
+  .dec .r b { font-weight: 600; }
+
+  .decided { margin-top: 24px; max-width: 80ch; }
+  .decided li { margin-top: 8px; }
+  footer { margin-top: 72px; padding-top: 16px; border-top: 1px solid var(--rule); font-size: 14px; color: var(--muted); }
+  @media (max-width: 640px) {
+    h2 { margin-top: 56px; }
+    .board, .dirs { gap: 24px; }
+    .dir .pair { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+
+<div class="wrap">
+<header>
+  <div class="kicker">Tree render · design brief · 2026-11-08 · draft for Rufus</div>
+  <h1>Trees you would want to post</h1>
+  <p class="prose muted">Left-to-right mindmaps of question trees and hypothesis trees, for social cards (4:5), slides (16:9) and a foldable web view. This page is the living brief from the designing-look-and-feel cycle: feel, before, mood board, directions, decisions. It will be republished at this address as the work moves on.</p>
+  <div class="status prose"><b>Where this stands.</b> The feel and three directions were drafted on 2026-11-07 without a mood board. This version adds the mood board (14 real captures, 3 anti-references) and checks the earlier Coggle claims against Coggle's public diagrams. The directions were drawn before the board, so the board here is used to check them, not to derive them; the three findings under the board say what it would change, and decision 1 asks whether to act on that now. The page's own typography uses a serif and numbered sections; the numbers are the skill's order for a brief page, and the page is not the product.</div>
+  <nav class="toc" aria-label="Sections">
+    <a href="#feel">1 · Feel</a><a href="#before">2 · Before</a><a href="#board">3 · Mood board</a><a href="#coggle">Coggle, checked</a><a href="#anti">3b · Anti-references</a><a href="#dirs">4 · Directions</a><a href="#tics">Tics × direction</a><a href="#marks">5 · Marks</a><a href="#decisions">6 · Decisions</a>
+  </nav>
+</header>
+
+<!-- 0. FEEL -->
+<section id="feel">
+  <h2>1 · The feel</h2>
+  <p class="feel">“The argument, drawn by a careful hand.”</p>
+  <div class="feel-notes">
+    <div><b>Shape before words</b>A glance gives the question and how many ways it splits; reading gives the questions themselves.</div>
+    <div><b>Calm enough to think with, warm enough to share</b>Colour tells you which branch you are on, and nothing else shouts.</div>
+    <div><b>Everything on the page is the tree</b>Text sits on its branch. No boxes, arrows, icons, badges or chrome.</div>
+  </div>
+  <p class="prose" style="margin-top:24px"><b>Character:</b> an editorial diagram, not a software diagram. Patient, exact, a little warm. <b>What we are not:</b> a software diagram (boxes, elbows, arrowheads); a brainstorm scribble (icons, rainbow, every depth equally loud); a slide template (bands, numbered cards, columns); a bullet list in disguise (dots on every leaf, uniform hairlines).</p>
+  <p class="prose small muted">Gate: “Yes, that's us.” The feel was written 2026-11-07; nothing on this page changes it, but the mood board sharpens two of the notes (see the three findings under the board).</p>
+</section>
+
+<!-- 1. BEFORE -->
+<section id="before">
+  <h2>2 · Before: the v0.1 trial</h2>
+  <p class="prose">The October trial of the Q2 strand (hypothesis view). Rufus's verdict: “okay, not yet good.”</p>
+  <div class="more two">
+    <figure><img src="{{IMG:before-v01-q2.jpg}}" alt="v0.1 trial render of the Q2 strand: a monochrome left-to-right tree with thin hairlines and small text" loading="lazy"><figcaption><span class="src">archive/v0.1/planning/trials/mindmap/q2-mindmap.png, 1920×1920</span>Hypothesis view: answer as title, question on the left, five supports, each with three sub-points.</figcaption></figure>
+    <div class="prose">
+      <h3 style="margin-top:0">What is wrong with it</h3>
+      <ul>
+        <li><b>Hairlines.</b> Strokes of 1.3 to 2.4 px on a 1920 canvas vanish in a feed; at phone size the tree is text floating in space.</li>
+        <li><b>No colour, so no branch memory.</b> One red branch is a pointer, not a system; the eye cannot hold five strands apart.</li>
+        <li><b>Rewritten labels.</b> The short forms were written by hand for the picture and drifted from the source.</li>
+        <li><b>Empty canvas.</b> Fixed columns left the right third blank while the type stayed small.</li>
+        <li><b>What was already right:</b> root on the left, curves not elbows, text on the ground with no boxes, bold lead with a continuation. Keep these.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 2. MOOD BOARD -->
+<section id="board">
+  <h2>3 · Mood board</h2>
+  <p class="prose">Fourteen real captures, 2026-11-08, headless Chromium, each cropped to the map. “Take” is what to carry into our render; “leave” is what to drop. Measurements are CSS px at 100% zoom, read from 2× captures. Sources and capture notes: <code>docs/design/moodboard/sources.md</code>.</p>
+
+  <div class="board">
+
+    <article class="ref wide">
+      <figure><img src="{{IMG:01-coggle-default.jpg}}" alt="Coggle's own public diagram: a grey root pill with five coloured curved branches, labels in the branch colour sitting on the line" loading="lazy"></figure>
+      <h3>Coggle, default styling</h3>
+      <p class="what">Coggle's own public diagram “Coggle Mind Maps and Flowcharts”. The least customised Coggle you can find, so the best evidence for its defaults. <a href="https://coggle.it/diagram/Xj1jh-DnEH_V_H-H/t/coggle-mind-maps-and-flowcharts">coggle.it</a></p>
+      <div class="tl">
+        <p class="t"><b>Take →</b> The shelf: the branch runs under the whole label and the children spring from the shelf's end, so text length sets line length. Smooth cubic curves that arrive horizontally. One hue per top-level branch, inherited by the sub-tree (red, orange, green, purple, blue here). Label baseline sits about 9 px above the stroke. Wrapped labels at about 26 characters a line, 1.25 line height.</p>
+        <p class="l"><b>Leave →</b> The grey root pill (<code>#d0d0d0</code>, text <code>#414141</code>). Full-chroma hues (<code>#E23E2B</code>, <code>#E096E9</code>) on pure white. Text coloured in a darkened branch hue (<code>#672720</code>, <code>#305182</code>). Level-1 labels at about 21 px bold against about 17 px leaves. White chevron glyphs on every junction. Lines 13 px at the trunk falling only to 9 px at the leaves, so every depth is nearly as loud as the root. Emoji.</p>
+      </div>
+      <div class="verdict"><b>Measured:</b> level-1 branch 13 px → leaf 9 px (taper ×1.4). Level-1 label 21 px bold, leaves 17 px regular. Root pill 60 px tall. Canvas white. No fold marker visible in the public view.</div>
+    </article>
+
+    <article class="ref">
+      <figure><img src="{{IMG:02-coggle-sarracenia.jpg}}" alt="Coggle gallery diagram of a pitcher plant: thick yellow, red, green and brown branches with gradients, a central grey root with a botanical illustration" loading="lazy"></figure>
+      <h3>Coggle, the gallery showpiece</h3>
+      <p class="what">“Anatomy of a Flowering Plant: Sarracenia”, the diagram on Coggle's home page and gallery. Heavily styled by its author. <a href="https://coggle.it/diagram/W5f3jqYlrSoPSzZ6/t/anatomy-of-a-flowering-plant-sarracenia">coggle.it</a></p>
+      <div class="tl">
+        <p class="t"><b>Take →</b> This is the taper people remember: the Flowers trunk is 36 px wide at the root and 8 px at the leaves (×4.5), and the width falls along each curve, not only at each depth. Level-1 names in the branch hue at about 24 px; a long leaf wraps to three lines and the line simply extends under it. Mixed bold runs inside a sentence (“Contains the <b>pollen</b>”) read at the 13 px leaf size.</p>
+        <p class="l"><b>Leave →</b> Author-set gradients (yellow to orange along one branch) that break “colour = branch”. The inline photo. Dashed cross-links. Thirty-plus leaves in one picture; it only works at desktop size.</p>
+      </div>
+      <div class="verdict"><b>Measured:</b> Flowers trunk 36 px; Pitcher trunk 16 px → 12 → 9 → 8 px over three depths. Hues <code>#EBD95F</code>, <code>#E23E2B</code>, <code>#8DC63F</code>-ish green, brown; the “Carnivorous” branch alone shows a lighter green at the leaves.</div>
+    </article>
+
+    <article class="ref">
+      <figure><img src="{{IMG:03-coggle-should-we.jpg}}" alt="Coggle template 'Should we do X': a grey root with a red No branch to the left and a green Yes branch to the right, and a blue 'because' tree beneath" loading="lazy"></figure>
+      <h3>Coggle, “Should we do X”</h3>
+      <p class="what">A gallery template for a decision: the closest Coggle comes to an argument tree. <a href="https://coggle.it/diagram/aPf98LuztF7nllZj/t/should-we-do-x">coggle.it</a></p>
+      <div class="tl">
+        <p class="t"><b>Take →</b> Level-1 as a one-word bold lead (“No”, “Yes”) in a larger size with the reasons behind it in regular; the hierarchy is carried by type as much as by line. Sibling fan-out from one point with even vertical pitch.</p>
+        <p class="l"><b>Leave →</b> Red/green as yes/no: a polarity we do not have and a colour-blind trap. Bidirectional layout (left and right of the root) wastes the left half on a portrait card. Boxed “Conclusion” node.</p>
+      </div>
+    </article>
+
+    <article class="ref">
+      <figure><img src="{{IMG:04-mindnode.jpg}}" alt="MindNode feature card on dark blue: a white root card with three strongly tapered branches in orange, teal and purple, leaves on thin lines with small dots" loading="lazy"></figure>
+      <h3>MindNode</h3>
+      <p class="what">Feature card “Mind Maps” on mindnode.com. The product's signature look is the tapered branch. <a href="https://www.mindnode.com/features">mindnode.com</a></p>
+      <div class="tl">
+        <p class="t"><b>Take →</b> Strong taper: on the card as shown, about 6 px where the orange branch leaves the root and about 1.5 px at the leaf (×4). Leaves stacked at an even pitch of about 21 px. Level-1 label bold, in the hue, sitting on the branch. Three pastel hues (orange, teal, violet) on navy, all above 7:1, which is the case for Slate.</p>
+        <p class="l"><b>Leave →</b> The root as a white card with an illustration. Icons beside level-1 labels. Circle bullets on every leaf (our “bullet list in disguise”). Leaf text at about 11 px on this card.</p>
+      <div class="verdict"><b>Measured (on the 720 px card):</b> branch 6 → 1.5 px, leaf pitch 21 px, level-1 label about 13 px bold, leaves about 11 px regular.</div>
+      </div>
+    </article>
+
+    <article class="ref">
+      <figure><img src="{{IMG:05-mindmeister.jpg}}" alt="MindMeister product shot: a handwritten-style 'Biology exam revision map' root, level-1 topics as muted navy, slate, teal and rose pills, leaves as plain text on thin grey lines with small hollow circles at the junctions" loading="lazy"></figure>
+      <h3>MindMeister</h3>
+      <p class="what">“Biology exam revision map”, the mind-mapping product shot on the home page. <a href="https://www.mindmeister.com/">mindmeister.com</a></p>
+      <div class="tl">
+        <p class="t"><b>Take →</b> A palette of similar lightness (navy, slate blue, teal, rose, salmon) that never shouts: the model for a calmer Garden. A bare root (text plus a glyph, no box). The small hollow circle at a junction as the fold affordance.</p>
+        <p class="l"><b>Leave →</b> Level-1 topics as filled pills. The handwriting face. Monochrome grey lines, so colour lives only in the pills and the branch loses its identity past level 1. The mortarboard icon.</p>
+      <div class="verdict"><b>Measured (on the 680 px shot):</b> lines 2 px grey at every depth; pills about 24 px tall; leaf text about 12 px; hollow fold circles about 7 px.</div>
+      </div>
+    </article>
+
+    <article class="ref">
+      <figure><img src="{{IMG:06-whimsical.jpg}}" alt="Whimsical mind map 'Product Ideas Mapping': a white root box with thin purple, orange, blue, red and teal elbow lines to small grey labels on both sides" loading="lazy"></figure>
+      <h3>Whimsical</h3>
+      <p class="what">“Product ideas” hero shot on whimsical.com/mind-maps. <a href="https://whimsical.com/mind-maps">whimsical.com</a></p>
+      <div class="tl">
+        <p class="t"><b>Take →</b> Discipline: strict columns per depth, one hue per branch, nothing decorative, a leaf can be a two-line sentence (“Recurring Task Templates: Automate the creation of…”) with a bold lead and a continuation.</p>
+        <p class="l"><b>Leave →</b> Rounded elbows instead of curves. Lines of 1.5 px at every depth. Labels about 11 px in grey <code>#878F91</code>, which is 2.9:1 on white; at the 0.36 phone scale that is 4 px type. The root in a box. Numbered badge on a leaf.</p>
+      <div class="verdict"><b>Measured:</b> line 1.5 px, label 11 px, five hues from one lightness band (purple, orange, blue, red, teal), root box with 1 px border.</div>
+      </div>
+    </article>
+
+    <article class="ref">
+      <figure><img src="{{IMG:07-markmap.jpg}}" alt="markmap demo 'Plan a trip': root on the left, branches in d3 category colours, each label sitting above a coloured underline with a hollow circle at the junction" loading="lazy"></figure>
+      <h3>markmap</h3>
+      <p class="what">The live demo on markmap.js.org: Markdown in, left-to-right map out. <a href="https://markmap.js.org/">markmap.js.org</a></p>
+      <div class="tl">
+        <p class="t"><b>Take →</b> The same shelf geometry as Coggle in a thin register: label above its line, line ends under the label's last character, children leave from the line's end. The hollow circle at the shelf end as the fold control. Markdown source, with inline bold and code preserved. 500 ms fold animation.</p>
+        <p class="l"><b>Leave →</b> d3 <code>schemeCategory10</code> (the default rainbow; the green here is its <code>#2CA02C</code>). Uniform 2.5 px lines at every depth. Grey <code>#333</code> text. Horizontal spacing of 80 px that leaves the map wide and shallow.</p>
+      <div class="verdict"><b>Measured:</b> line 2.5 px at depth 1 and depth 2 alike; label 18 px; fold circle 8 px with a 2 px ring; hue per depth-1 branch, inherited.</div>
+      </div>
+    </article>
+
+    <article class="ref">
+      <figure><img src="{{IMG:08-mermaid-docs.jpg}}" alt="Mermaid mindmap docs example: a blue circle root with yellow and lilac rounded boxes radiating in all directions on thick pale lines" loading="lazy"></figure>
+      <h3>Mermaid mindmap</h3>
+      <p class="what">The first example in the Mermaid mindmap docs, as rendered there. <a href="https://mermaid.js.org/syntax/mindmap.html">mermaid.js.org</a></p>
+      <div class="tl">
+        <p class="t"><b>Take →</b> Only the architecture: indented text in, tree out; <code>colorBy: branch</code>; automatic wrapping of Markdown strings.</p>
+        <p class="l"><b>Leave →</b> All of the look: radial placement with no reading order, filled boxes, a blue disc root, lines about 8 px at every depth, and a palette (yellow, lilac, pink) with no relation to the content. This is the “software diagram” in the feel's what-we-are-not.</p>
+      </div>
+    </article>
+
+    <article class="ref">
+      <figure><img src="{{IMG:09-issue-tree-wikipedia.jpg}}" alt="A profitability issue tree, root on the left, boxes connected by thin elbow lines, the key word in each box picked out in red" loading="lazy"></figure>
+      <h3>Issue tree (the consulting convention)</h3>
+      <p class="what">Wikipedia's “Issue tree” image: how can we increase profitability, left to right, MECE at every split. <a href="https://en.wikipedia.org/wiki/File:An_issue_tree_showing_how_a_company_can_increase_profitability.png">wikipedia.org</a></p>
+      <div class="tl">
+        <p class="t"><b>Take →</b> Root on the left, depth as columns, siblings aligned, which is what our audience already knows how to read. Sentence nodes made scannable by one emphasised run (“Increase <span style="color:#c0392b">revenues</span>”): the ancestor of our bold lead. Five columns hold up because nodes are 3 to 9 words.</p>
+        <p class="l"><b>Leave →</b> Boxes and elbows. Black hairlines. No colour per branch, so the eye re-reads from the root each time. Type at the size of a footnote.</p>
+      </div>
+    </article>
+
+    <article class="ref">
+      <figure><img src="{{IMG:10-issue-tree-slide.jpg}}" alt="A top-down issue tree slide: 'Negative profit' splitting into decreasing revenue and increasing cost, then into boxes" loading="lazy"></figure>
+      <h3>Issue tree on a slide</h3>
+      <p class="what">MConsultingPrep's “Negative profit” tree, the slide form taught to case-interview candidates. <a href="https://mconsultingprep.com/issue-tree">mconsultingprep.com</a></p>
+      <div class="tl">
+        <p class="t"><b>Take →</b> The budget: three levels per slide and then drill down, each level-2 node becoming the root of its own slide. That is our strand card and strand slide.</p>
+        <p class="l"><b>Leave →</b> Top-down orientation (portrait-hostile and column-hungry), boxes, and the unlabelled “…” placeholders.</p>
+      </div>
+    </article>
+
+    <article class="ref">
+      <figure><img src="{{IMG:11-argdown.jpg}}" alt="Argdown argument map: a white thesis box at the top with green supporting and orange attacking argument boxes beneath, each with a bold title and a sentence of text, joined by green and red arrows" loading="lazy"></figure>
+      <h3>Argdown</h3>
+      <p class="what">The “Censorship” example on argdown.org: a text-first argument mapper. <a href="https://argdown.org/">argdown.org</a></p>
+      <div class="tl">
+        <p class="t"><b>Take →</b> Every node is a bold title plus a full statement in regular, and the export can show either: exactly our lead + continuation and our lead-only short label. Statements of 18 to 22 words (“Excessive sex and violence in film and television contribute to a tendency towards similar behaviour in spectators. In these cases, censorship is obligatory.”) stay readable because the 5-word title carries the scan.</p>
+        <p class="l"><b>Leave →</b> Filled green and orange boxes, arrows, a bottom-up flow, and the support/attack colour code that our trees do not need.</p>
+      </div>
+    </article>
+
+    <article class="ref">
+      <figure><img src="{{IMG:12-kialo.jpg}}" alt="Kialo tour diagram: a thesis card at the top, a tree of small green and red outline boxes beneath, two of them expanded into cards with a sentence of text" loading="lazy"></figure>
+      <h3>Kialo</h3>
+      <p class="what">“Map discussions” on the Kialo tour page: thesis on top, pro and con claims beneath. <a href="https://www.kialo.com/tour">kialo.com</a></p>
+      <div class="tl">
+        <p class="t"><b>Take →</b> Focus plus context: one claim opened to full text while its siblings stay as small outlines, so the whole shape stays visible. A folded sub-tree shown as a compact row of marks rather than nothing.</p>
+        <p class="l"><b>Leave →</b> Top-down, boxed, pro/con red and green, impact meters, and collapsed nodes that carry no text at all (a 20 px empty box), so the picture cannot be read without clicking.</p>
+      </div>
+    </article>
+
+    <article class="ref">
+      <figure style="max-width:383px"><img src="{{IMG:13-buzan-hand-drawn.jpg}}" alt="A hand-drawn mind map in a spiral notebook: a yellow central doodle with thick red, blue, green and purple branches thinning outwards, one handwritten word on each branch" loading="lazy"></figure>
+      <h3>Hand-drawn, Buzan style</h3>
+      <p class="what">A Commons mind map in a spiral notebook, pen and marker. <a href="https://commons.wikimedia.org/wiki/File:Mindmap.gif">commons.wikimedia.org</a></p>
+      <div class="tl">
+        <p class="t"><b>Take →</b> The careful hand itself: a stroke that is about 8 px wide at the centre and 2 px at the tips of this 383 px scan, the word written along the branch so the two have one length, one colour per limb. The width varies along a single stroke, which no tool above does by default.</p>
+        <p class="l"><b>Leave →</b> One word per branch (our nodes are sentences). Radial. Doodles. Handwriting at about 10 px on the scan, legible only on the original page.</p>
+      </div>
+    </article>
+
+    <article class="ref">
+      <figure><img src="{{IMG:14-buzan-guidelines.jpg}}" alt="Buzan's mind map guidelines drawn as a mind map: a yellow oval centre with coloured organic branches for Clarity, Center, Style, Keywords and Use" loading="lazy"></figure>
+      <h3>Buzan's rules, drawn</h3>
+      <p class="what">“MindMapGuidlines.svg”: the rules as their own map. Read the Keywords branch. <a href="https://commons.wikimedia.org/wiki/File:MindMapGuidlines.svg">commons.wikimedia.org</a></p>
+      <div class="tl">
+        <p class="t"><b>Take →</b> Three rules stated outright: lines “central thicker, more important; outer thinner, less important”; line “length same as word”; style “organic, free flowing”. Our taper and shelf are these rules applied to sentences. Type size falls with depth (at 1280 px: Keywords about 40 px, lines 24 px, organised 20 px, central 16 px).</p>
+        <p class="l"><b>Leave →</b> Images, codes, emphasis colours inside words, the oval centre, and the keyword-only rule, which is the one thing we must break.</p>
+      </div>
+    </article>
+
+  </div>
+
+  <h3 id="findings">What the board taught (three things that bear on the directions)</h3>
+  <div class="prose">
+    <ol>
+      <li><b>The shelf is the shared DNA.</b> Coggle, markmap and Buzan all put the label on a line that is as long as the label and start the children from its end. That is the geometry the spec already has (section 2 of the design doc). Keep it; it is why a Coggle tree reads as one thing and a boxed tree does not.</li>
+      <li><b>Coggle's hierarchy is mostly type and text colour, and its taper is mild.</b> Measured: 13 px → 9 px (×1.4), level-1 labels 21 px bold in a darkened hue, leaves 17 px. The strong taper people remember comes from author-thickened showpieces (Sarracenia 36 → 8 px, ×4.5) and from MindNode (about 6 → 1.5 px, ×4). The spec's 10 → 3.2 px ribbon (×3.1) sits between Coggle and MindNode, nearer MindNode, which is the right side to be on. The change this suggests is for <b>Garden</b>: its “Coggle-ness” should come from the bold coloured level-1 leads and the white ground, not from a 1.35 stroke factor; and its six hues should be re-levelled to one lightness band (MindMeister's navy, slate, teal, rose, salmon is the model) so it stops reading as a stock palette.</li>
+      <li><b>Nobody solves sentence nodes with geometry; the two that cope use a title line.</b> Argdown (bold title + statement) and the Wikipedia issue tree (one red run in each sentence) are the precedents for our bold lead. That supports the “short forms only from the author” rule and argues for keeping the lead-to-continuation size step at depth 1 (Coggle's is 21/17; the Paper mockups use a similar one) as a load-bearing rule in the type section, not a nicety. Also: every tool boxes its root except Buzan and MindMeister; our bare root on an ink trunk is the distinctive move, keep it. And the fold affordance has a convention, the hollow circle at the shelf end (markmap, MindMeister); our “+N” in the hue says more, so keep it, but place it where the circle would sit.</li>
+    </ol>
+    <p><b>And one defect the board exposed.</b> Coggle sets its coloured text in a darkened hue (<code>#672720</code> at 11:1 on white). Our Paper theme sets the “+N” fold counts in the raw branch hue, and two Paper hues fail the 4.5:1 small-text contrast on <code>#FBF8F2</code>: amber <code>#B8862B</code> at 3.1:1 and olive <code>#7A8F3E</code> at 3.4:1 (rust 4.2, teal 4.4, plum 4.9, blue 5.0). Garden's amber text hue <code>#B87000</code> is 3.9:1 on white, and its “+N” in the line hue <code>#F6A21E</code> is 2.1:1. Lines can be at these ratios; text cannot. Decision 7 below.</p>
+  </div>
+
+  <h3 id="coggle">The research doc's Coggle claims, checked</h3>
+  <p class="prose">The 2026-11-07 research note marked its Coggle observations “from product use, unverified”. Checked against the three public diagrams above (the default-styled one is the authority; the showpiece is author-styled).</p>
+  <div class="scroll"><table>
+    <thead><tr><th>Claim</th><th>Verdict</th><th>What the capture shows</th></tr></thead>
+    <tbody>
+      <tr><td>Branches are smooth S-curves leaving the parent horizontally and arriving horizontally</td><td class="c ok">Confirmed</td><td>Cubic curves; horizontal at both ends. Children leave from the end of the parent's shelf, not from the parent's text.</td></tr>
+      <tr><td>Lines are heavier near the root and lighter further out</td><td class="c part">Partly</td><td>Yes, but mildly by default: 13 → 9 px (×1.4). The dramatic taper is user styling (36 → 8 px on the Sarracenia map).</td></tr>
+      <tr><td>Text sits on the line as a short run, with no box</td><td class="c ok">Confirmed</td><td>Label above the line, baseline about 9 px above a 9 px stroke; the line runs the label's length and 20 to 30 px past it. The root is the exception: a filled grey pill.</td></tr>
+      <tr><td>Each top-level branch gets its own colour; its sub-tree inherits it; the root is neutral</td><td class="c ok">Confirmed</td><td>Red, orange, green, purple and blue sub-trees, each a single hue to the leaves. Root pill is neutral grey. Authors can override with gradients.</td></tr>
+      <tr><td>One sans face, mostly one size; depth carried by line weight and position, not type scale</td><td class="c no">Wrong</td><td>Depth is carried by type as much as line: level-1 about 21 px bold, deeper about 17 px regular, root about 18 px bold. And labels are set in a darkened version of the branch hue, not in black.</td></tr>
+      <tr><td>Labels short, centred or left-aligned on the line, wrapped at a modest width</td><td class="c part">Partly</td><td>Left-aligned on the right side, right-aligned on the left side (mirrored). Wrap at about 26 characters, up to four lines; the line simply extends under the block.</td></tr>
+      <tr><td>Branches can be folded; a folded branch shows a small marker at its tip</td><td class="c no">Not verifiable</td><td>No fold marker visible on any public diagram in view mode. Leave unverified; it does not affect our design.</td></tr>
+      <tr><td>Garish because: saturated mid-tones at full strength, thick lines, white canvas, red/orange/green/blue adjacent, all depths equally loud</td><td class="c ok">Confirmed</td><td><code>#E23E2B</code>, <code>#E096E9</code>, a <code>#8DC63F</code>-class green, pure white, 9 to 13 px lines; leaves only 30% thinner than trunks and the same full chroma.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- 3. ANTI-REFERENCES -->
+<section id="anti">
+  <h2>3b · Anti-references</h2>
+  <p class="prose">Three looks our render must not be mistaken for. The first is our own tree in a tool's defaults, labelled as such; the other two are live captures.</p>
+  <div class="board">
+    <article class="ref anti">
+      <figure><img src="{{IMG:anti-1-mermaid-wise-ai.jpg}}" alt="The Wise AI question tree rendered by Mermaid defaults: a blue disc root, yellow and pink boxes scattered around it on thick pale lines" loading="lazy"></figure>
+      <h3>The default diagram tool</h3>
+      <p class="what">Our Wise AI tree, top two levels, rendered by Mermaid 11.4.1 with its default theme (our render, not a capture of a site).</p>
+      <div class="tl"><p class="l"><b>What it teaches →</b> The same words become unreadable when placement carries no meaning: four top-level questions in four directions, no order, boxes fighting the text, and <code>#FFFF78</code> boxes at 1.07:1 against white. Everything that “software diagram” means in the feel.</p></div>
+    </article>
+    <article class="ref anti">
+      <figure><img src="{{IMG:anti-2-xmind-template.jpg}}" alt="An Xmind template on a black canvas: a large yellow central card, white rounded boxes for topics, small white boxes for sub-points, thin yellow connectors" loading="lazy"></figure>
+      <h3>The boxed template</h3>
+      <p class="what">Xmind marketplace, “Project Clarity Map”. <a href="https://templates.xmind.com/templates/project-clarity-map-ku62">templates.xmind.com</a></p>
+      <div class="tl"><p class="l"><b>What it teaches →</b> A box per node turns a tree into a form. The eye reads boxes, not branches, and the hierarchy has to be re-stated with size. Dark ground with one yellow is the generic “dark mode” look Slate must avoid.</p></div>
+    </article>
+    <article class="ref anti">
+      <figure><img src="{{IMG:anti-3-miro-templates.jpg}}" alt="Three Miro mind map template thumbnails: cartoon figures, coloured pills in a dozen hues, a central bubble with radiating branches" loading="lazy"></figure>
+      <h3>The rainbow brainstorm</h3>
+      <p class="what">Miro's mind map template gallery, one row. <a href="https://miro.com/templates/mind-map/">miro.com</a></p>
+      <div class="tl"><p class="l"><b>What it teaches →</b> Illustrations, a hue per node, pills, every depth equally bright. Colour spent evenly says nothing. This is where Garden ends up if its palette and stroke factor are not held down.</p></div>
+    </article>
+  </div>
+</section>
+
+<!-- 4. DIRECTIONS -->
+<section id="dirs">
+  <h2>4 · Directions, side by side</h2>
+  <p class="prose">Three readings of the one feel, rendered by the prototype from the real Wise AI question tree (94 nodes). Same geometry, type and layout; only colour, stroke weight and numbering differ. Top: the 4:5 cover (root + top level). Below: the Q2 strand card, re-rooted, two levels, with the branch keeping its overview hue. The bold leads on the Wise AI tree are illustrative, added for the mockups. Full set: <code>docs/design/mockups/index.html</code>.</p>
+
+  <div class="dirs">
+    <article class="dir rec">
+      <span class="tag">Recommended</span>
+      <h3>Paper</h3>
+      <p class="read">An editorial diagram on good paper.</p>
+      <figure><img src="{{IMG:dir-wise-ai-overview-4x5-paper.jpg}}" alt="Paper theme cover card: warm off-white ground, root question in ink on a black trunk, four branches in rust, teal, olive and plum with bold leads and fold counts" loading="lazy"></figure>
+      <div class="pair">
+        <figure><img src="{{IMG:dir-wise-ai-q2-4x5-paper.jpg}}" alt="Paper theme Q2 strand card in teal" loading="lazy"></figure>
+        <figure><img src="{{IMG:dir-wise-ai-q2-answers-4x5-paper.jpg}}" alt="Paper theme hypothesis view of Q2: answers as nodes, question as a muted kicker" loading="lazy"></figure>
+      </div>
+      <div class="swatches" aria-label="Paper hues"><span class="sw" style="background:#FBF8F2"></span><span class="sw" style="background:#1F1C18"></span><span class="sw" style="background:#C0583A"></span><span class="sw" style="background:#2F7F8B"></span><span class="sw" style="background:#7A8F3E"></span><span class="sw" style="background:#8B5A9E"></span><span class="sw" style="background:#B8862B"></span><span class="sw" style="background:#4D6BAA"></span></div>
+      <p class="small muted" style="margin-top:8px">Ground <code>#FBF8F2</code>, ink <code>#1F1C18</code> (16:1). Six hues at 3.1 to 5.0:1 on the ground; ribbon opacity by depth 1, 1, .9, .8, .7; stroke 10 → 6.5 → 4.5 → 3.2 px on a 1080 canvas.</p>
+      <dl>
+        <dt>Says</dt><dd>This was thought through and set with care; read it slowly.</dd>
+        <dt>Risk</dt><dd>Quiet on a bright feed between saturated posts; the warm off-white can read as beige next to white cards. Two hues (amber 3.1:1, olive 3.4:1) are below small-text contrast for the fold counts, so the counts need a darkened text hue or ink.</dd>
+        <dt>Precedent on the board</dt><dd>Buzan's rules (taper, line length = text length) at a strength between Coggle and MindNode; the issue tree's columns and bold-run emphasis; the ink trunk has no precedent on the board.</dd>
+        <dt>Why recommended</dt><dd>On testable grounds: it is the only direction with no “present” in the tics table below; its ground and ink are 16:1; its hues sit in one lightness band (3.1 to 5.0:1), so no branch shouts, which is the second feel note; and its cover carries the largest type of the three at the same node count because nothing is spent on colour. Whether you would post it (done-check 4) is the question this page asks you, not a claim it makes. Done-check 1 (a cold reader names the root and counts the branches in 10 s at phone size) has not been run on anyone yet; see the decided list.</dd>
+      </dl>
+    </article>
+
+    <article class="dir">
+      <h3>Garden</h3>
+      <p class="read">Coggle's pleasure, held in check.</p>
+      <figure><img src="{{IMG:dir-wise-ai-overview-4x5-garden.jpg}}" alt="Garden theme cover card: white ground, four branches in red, amber, green and blue, leads in the branch colour" loading="lazy"></figure>
+      <div class="pair">
+        <figure><img src="{{IMG:dir-wise-ai-q2-4x5-garden.jpg}}" alt="Garden theme Q2 strand card in amber" loading="lazy"></figure>
+        <figure><img src="{{IMG:dir-dam-overview-4x5-garden.jpg}}" alt="Garden theme cover card of the DAM issue tree: six long questions in six hues, labels as written without leads" loading="lazy"><figcaption class="small muted">Garden on the DAM tree: six 60 to 130-character questions, no leads.</figcaption></figure>
+      </div>
+      <div class="swatches" aria-label="Garden hues"><span class="sw" style="background:#FFFFFF"></span><span class="sw" style="background:#1A1A1A"></span><span class="sw" style="background:#F2545B"></span><span class="sw" style="background:#F6A21E"></span><span class="sw" style="background:#2BB673"></span><span class="sw" style="background:#2F8BE6"></span><span class="sw" style="background:#9B5DE5"></span><span class="sw" style="background:#F15BB5"></span></div>
+      <dl>
+        <dt>Says</dt><dd>Friendly, alive, a map you could add to.</dd>
+        <dt>Risk</dt><dd>The mood board's finding: the six hues read as a stock palette, and the 1.35 stroke factor makes every depth loud, which is the Miro anti-reference. The amber text hue <code>#B87000</code> fails small-text contrast on white at 3.9:1, and the amber line hue is 2.1:1.</dd>
+        <dt>Precedent on the board</dt><dd>Coggle's defaults (white ground, coloured level-1 leads, shelf), MindMeister for how to re-level the palette.</dd>
+        <dt>If kept</dt><dd>Re-level the hues to one lightness band and drop the stroke factor to 1.1; keep the coloured leads, which are the real Coggle signature.</dd>
+      </dl>
+    </article>
+
+    <article class="dir">
+      <h3>Slate</h3>
+      <p class="read">An engineer's dark board.</p>
+      <figure><img src="{{IMG:dir-wise-ai-overview-4x5-slate.jpg}}" alt="Slate theme cover card: near-black ground, pale text, four branches in coral, aqua, lime and lavender, numbered" loading="lazy"></figure>
+      <div class="pair">
+        <figure><img src="{{IMG:dir-wise-ai-q2-4x5-slate.jpg}}" alt="Slate theme Q2 strand card, numbered 2.1 to 2.4.3" loading="lazy"></figure>
+        <figure><img src="{{IMG:dir-wise-ai-q2-16x9-slate.jpg}}" alt="Slate theme Q2 strand as a 16:9 slide" loading="lazy"><figcaption class="small muted">Q2 as a 16:9 slide (Slate).</figcaption></figure>
+      </div>
+      <div class="swatches" aria-label="Slate hues"><span class="sw" style="background:#16181D"></span><span class="sw" style="background:#ECEAE4"></span><span class="sw" style="background:#F28B6E"></span><span class="sw" style="background:#5EC4C0"></span><span class="sw" style="background:#A8C65A"></span><span class="sw" style="background:#C59BE8"></span><span class="sw" style="background:#F0C05A"></span><span class="sw" style="background:#6FA8F5"></span></div>
+      <dl>
+        <dt>Says</dt><dd>Structured, referenceable, built for people who cite node numbers.</dd>
+        <dt>Risk</dt><dd>Numbering costs width (a 4:5 strand card drops to 0.81 scale) and adds the “numbered cards” tic unless the tree is actually cited by number. Dark feeds are the minority use. Generic dark-mode look if the pastels drift towards neon.</dd>
+        <dt>Precedent on the board</dt><dd>MindNode's dark card (pastel hues on navy hold up; Slate's six are 7.3 to 10.5:1 on its ground), Xmind's dark board as the thing to avoid.</dd>
+        <dt>Keep as</dt><dd>The dark variant of whichever light theme wins, with numbering off by default and on by flag.</dd>
+      </dl>
+    </article>
+  </div>
+
+  <h3>Slides and the web view, same geometry</h3>
+  <p class="prose">One source, two outputs: the share image is a saved fold state of this view. First the Q2 strand as a 16:9 slide in Paper (root + 2 levels, fits at scale 1, smallest type 27 px). Then the web view: desktop at 1400 px opened to depth 2 with the rest folded behind “+N”; under 640 px the page becomes an outline in the same colours.</p>
+  <figure style="margin-top:20px; max-width: 960px"><img src="{{IMG:dir-wise-ai-q2-16x9-paper.jpg}}" alt="Q2 strand as a 16:9 slide in the Paper theme" loading="lazy"><figcaption><span class="src">docs/design/mockups/wise-ai-q2-16x9-paper.png, 1920×1080</span></figcaption></figure>
+  <div class="more three">
+    <figure><img src="{{IMG:dir-wise-ai-interactive-desktop.jpg}}" alt="The interactive web view at desktop width: the Wise AI tree open to depth 2 with fold counts on the closed branches and a toolbar for theme, view and depth" loading="lazy"><figcaption><span class="src">docs/design/mockups/wise-ai-interactive.html at 1400 px</span></figcaption></figure>
+    <figure class="phone"><img src="{{IMG:dir-wise-ai-interactive-phone.jpg}}" alt="The same tree at 390 px as an outline: indented questions with a coloured rule per branch and fold controls" loading="lazy"><figcaption><span class="src">Same page at 390 px: outline mode</span></figcaption></figure>
+  </div>
+
+  <h3 id="tics">Generic AI-diagram tics × direction</h3>
+  <p class="prose">The looks a generated diagram falls into, and whether each direction is exposed to them. “Clear” means the direction's rules exclude it; “watch” means it depends on the palette or a flag; “present” means it is there now.</p>
+  <div class="scroll"><table>
+    <thead><tr><th>Tic</th><th>Paper</th><th>Garden</th><th>Slate</th></tr></thead>
+    <tbody>
+      <tr><td>Rainbow categorical palette (d3 category10, Coggle defaults)</td><td class="ok">Clear: six hues in one band, 3.1 to 5.0:1 on the ground</td><td class="no">Present: six stock hues</td><td class="part">Watch: pastels can drift to neon</td></tr>
+      <tr><td>Boxes, pills or cards around nodes</td><td class="ok">Clear</td><td class="ok">Clear</td><td class="ok">Clear</td></tr>
+      <tr><td>Icons or emoji as decoration</td><td class="ok">Clear</td><td class="ok">Clear</td><td class="ok">Clear</td></tr>
+      <tr><td>Uniform hairlines at every depth (v0.1, Whimsical)</td><td class="part">Watch: depth 3 at 3.2 px is the floor</td><td class="ok">Clear</td><td class="part">Watch: same floor on dark</td></tr>
+      <tr><td>Every depth equally loud (Coggle, Miro)</td><td class="ok">Clear: ribbon opacity 1, 1, .9, .8, .7 by depth</td><td class="no">Present: 1.35 stroke factor</td><td class="ok">Clear</td></tr>
+      <tr><td>Numbered markers on everything</td><td class="ok">Clear</td><td class="ok">Clear</td><td class="no">Present by design; make it a flag</td></tr>
+      <tr><td>Dark ground with one neon accent (Xmind)</td><td class="ok">n/a</td><td class="ok">n/a</td><td class="part">Watch</td></tr>
+      <tr><td>Centred or radial root (Mermaid, Buzan)</td><td class="ok">Clear</td><td class="ok">Clear</td><td class="ok">Clear</td></tr>
+      <tr><td>Coloured text everywhere</td><td class="ok">Clear: ink only</td><td class="part">Watch: coloured leads on overviews only</td><td class="ok">Clear</td></tr>
+      <tr><td>Drop shadows, gradients, glows</td><td class="ok">Clear</td><td class="ok">Clear</td><td class="ok">Clear</td></tr>
+      <tr><td>Warm cream + serif + terracotta (the AI “tasteful” default)</td><td class="part">Watch: off-white ground and a rust hue; the sans face and the trunk keep it off the cliché, but do not add a serif</td><td class="ok">n/a</td><td class="ok">n/a</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- 5. MARKS -->
+<section id="marks">
+  <h2>5 · Marks</h2>
+  <p class="prose">The skill's marks stage (wordmark, favicon) does not apply: the tree has no brand of its own and carries its owner's attribution in the footer line. The only marks the render draws are the “+N” fold count and the trunk's rounded end, and both are settled in the spec and questioned below (decisions 5 and 6). No options are offered here on purpose.</p>
+</section>
+
+<!-- 6. DECISIONS -->
+<section id="decisions">
+  <h2>6 · Decisions needed</h2>
+  <p class="prose">Each a question with a recommendation. If there is no answer, the recommendation is what the build will do.</p>
+
+  <div class="dec"><h3><span class="q">1. Which direction, and how many themes does the build carry?</span></h3>
+    <p>The real choice is between (a) Paper now, with Slate as its dark variant, and Garden deferred; (b) Paper and a re-levelled Garden as two light themes, Slate as dark; (c) Garden as the default, because it is what most people would call a mind map. The board argues against (c): Garden's present palette and stroke factor are the two tics it exposes. It does not choose between (a) and (b); that depends on whether you want a second light look at all.</p>
+    <div class="r"><b>Recommend:</b> (a). Build Paper as the default; keep Slate as the dark variant with numbering behind a flag; park Garden until its hues are re-levelled to one lightness band and its stroke factor is 1.1, then judge it against Paper on the same cover. Reason: one light theme is enough to pass the done-check, and a second one before the first is posted is work without a user.</div></div>
+
+  <div class="dec"><h3><span class="q">2. Confirm “one source, two outputs”: the share image is a folded saved state of the web view?</span></h3>
+    <p>The brief already lists this as fixed (“one geometry for all outputs”), so this is a confirmation, asked because it is the move that breaks the LTP's conflict between sharing density and thinking density: the static card and the interactive page are one layout with a fold state, so there is no second design and no drift. The cost is that the share image cannot have hand placement.</p>
+    <div class="r"><b>Recommend:</b> Yes. The mockups above are already produced this way.</div></div>
+
+  <div class="dec"><h3><span class="q">3. Text colour: ink everywhere, or Coggle-style leads in the branch hue?</span></h3>
+    <p>Coggle colours every label in a darkened hue; it is a large part of why its maps feel alive and a large part of why they feel loud. Paper puts hue only on the line and the fold count; Garden colours the level-1 leads on overviews.</p>
+    <div class="r"><b>Recommend:</b> Ink in Paper, as now. Coloured leads stay Garden's signature. Revisit only if done-check 1, once run, shows readers losing the branch between cover and strand card.</div></div>
+
+  <div class="dec"><h3><span class="q">4. Taper: Coggle-mild (×1.4) or Buzan/MindNode-strong (×3)?</span></h3>
+    <p>Measured: Coggle default ×1.4 (13 → 9 px); the spec ×3.1 (10 → 3.2 px); MindNode about ×4; the Coggle showpiece ×4.5. The spec sits between Coggle and MindNode.</p>
+    <div class="r"><b>Recommend:</b> Keep ×3.1. It is what makes “drawn by a hand” true and what keeps depth 3 quiet without colour tricks; going to ×4 would push depth 3 under the 3 px floor on a 1080 canvas.</div></div>
+
+  <div class="dec"><h3><span class="q">5. Fold affordance: “+N” count, a hollow circle (markmap, MindMeister), or both?</span></h3>
+    <p>The circle is the convention and says “more here”; the count says how much. On a static card the count is information; on the web the control needs a target.</p>
+    <div class="r"><b>Recommend:</b> “+N” in the hue at the shelf end, as now, with the 44 px tap target on the web around it. No circle.</div></div>
+
+  <div class="dec"><h3><span class="q">6. The root: bare text on an ink trunk, or a boxed root like every tool?</span></h3>
+    <p>Coggle, MindNode, Whimsical, Mermaid and Xmind all box the root; only the hand-drawn map and MindMeister leave it bare. The design doc records a reviewer's cold-read of the prototype: the 36 px run before the fan is what made the root line read as a trunk rather than an underline. No one outside the session has looked yet.</p>
+    <div class="r"><b>Recommend:</b> Bare root on the ink trunk. It is the one place our tree does not look like anyone else's.</div></div>
+
+  <div class="dec"><h3><span class="q">7. Fold counts and any coloured text: raw branch hue, a darkened text hue per branch, or ink?</span></h3>
+    <p>Two Paper hues fail small-text contrast for the “+N” counts (amber 3.1:1, olive 3.4:1), and Garden's amber text hue fails too (3.9:1). Coggle solves this with a darkened text version of every hue (11:1 and 8:1 measured). Ink would be simplest but loses the count's tie to its branch.</p>
+    <div class="r"><b>Recommend:</b> Give every theme a text hue per branch, darkened until it passes 4.5:1 on the ground, and use it for fold counts and (in Garden) leads; keep the raw hue for lines. This is a table edit in the spec, and it is the one change the board forces.</div></div>
+
+  <h3>Decided unless you object</h3>
+  <ul class="decided">
+    <li>The spec gets two edits from the board: Garden's palette and stroke factor (finding 2), and a sentence in the type section that the depth-1 lead-to-continuation size step is load-bearing, citing Argdown and the issue tree (finding 3). The geometry does not change.</li>
+    <li>The research note's Coggle paragraph is marked “checked 2026-11-08” with a pointer to the table above; the two wrong claims are corrected there.</li>
+    <li>Done-check 1 (10-second cold read at phone size) becomes a bead with a date, run on at least three people outside the session, before Paper is called done.</li>
+    <li>The Marks stage is skipped for the reason given in section 5.</li>
+  </ul>
+</section>
+
+<footer>Tree render · docs/design/brief-page/index.html, built from template.html and docs/design/moodboard/ · captures 2026-11-08 · mockups from prototypes/ · nothing on this page is a fabricated screenshot.</footer>
+</div>
