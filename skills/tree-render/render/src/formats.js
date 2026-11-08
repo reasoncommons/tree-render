@@ -22,7 +22,13 @@ export const COMMON = {
   kickerBand: 2.2,          // frame kicker band height × kicker size (spec 3.7)
   footerBand: 2.4,          // frame footer band height × footer size (spec 3.7)
   baseline: 0.78,           // baseline at 0.78 × size below the line's ink top (spec 5)
-  airAfterBranch: 0.5,      // candidate rule (spec 13): extra × lh before a childless node after a sibling with visible children
+  airAfterBranch: 0.5,
+  curveK: 0.55,             // branch Bézier control points at 0.55 × dx (spec 2)
+  ribbonSamples: 28,        // points sampled along a branch to build its ribbon (spec 2)
+  taperRoot: 0.75,          // w0 = stroke[d − 1] × this at depth 1 …
+  taperDeep: 0.9,           // … and × this deeper (spec 2)
+  shelfTaper: 0.85,         // the shelf is drawn at 0.85 × the branch's end width (spec 2)
+  hitMin: 44,               // interactive fold targets at least this tall (spec 8)      // candidate rule (spec 13): extra × lh before a childless node after a sibling with visible children
 };
 
 const SQUARE = {

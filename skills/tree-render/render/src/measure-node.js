@@ -58,3 +58,15 @@ function unitWidth(font, text) {
   flush();
   return total;
 }
+
+// The two @font-face rules (families ApfelRegular and ApfelMittel) with the OTFs as base64 data URLs,
+// for embedding in an SVG or HTML page.
+export const FAMILIES = { R: 'ApfelRegular', M: 'ApfelMittel' };
+const fontCSSCache = new Map();
+export function fontFaceCSS(dir = FONT_DIR) {
+  if (!fontCSSCache.has(dir)) {
+    fontCSSCache.set(dir, Object.entries(FONT_FILES).map(([k, f]) =>
+      `@font-face{font-family:${FAMILIES[k]};src:url(data:font/otf;base64,${fs.readFileSync(path.join(dir, f)).toString('base64')}) format("opentype")}`).join('\n'));
+  }
+  return fontCSSCache.get(dir);
+}

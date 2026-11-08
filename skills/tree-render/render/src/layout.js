@@ -5,7 +5,7 @@
 // Steps: re-root and prune; text blocks; column budget; columns; flextree; fill pass; fit; grow to fill.
 // Pure with respect to the input tree: everything returned is a fresh object.
 import { getFormat, levelStyle, gapAfter } from './formats.js';
-import { getTheme, hueOf } from './themes.js';
+import { getTheme, textHueOf } from './themes.js';
 import { wrap } from './wrap.js';
 import { prune, reroot } from './parse.js';
 import { flextree } from './flextree.js';
@@ -42,7 +42,7 @@ function resolveOptions(tree, o = {}) {
     format, theme: o.theme || undefined, depth, noun, moreWord,
     view: o.view || (kind === 'qa' || kind === 'hypothesis' ? 'answers' : 'questions'),
     labels: o.labels || 'full',
-    root: o.root || null, hue: o.hue, kickers: o.kickers || 'root', fold: o.fold || [],
+    root: o.root || null, hue: o.hue, kickers: o.kickers || 'root', fold: o.fold || [], open: o.open || [],
     frame: { kicker: (o.frame && o.frame.kicker) || '', footer: (o.frame && o.frame.footer) || '' },
     maxScale: o.maxScale || 1,
     airAfterBranch: o.airAfterBranch !== false,
@@ -61,7 +61,7 @@ function visibleTree(tree, opts) {
   }
   if (typeof opts.hue === 'number') hue = opts.hue;
   else if (opts.hue != null && opts.hue !== 'fresh' && !isNaN(+opts.hue)) hue = +opts.hue;
-  const root = prune(base, opts.depth, opts.fold);
+  const root = prune(base, opts.depth, opts.fold, opts.open);
   return { root, hue };
 }
 
@@ -151,7 +151,7 @@ function fit(L, opts, F) {
   return {
     ...L, scale, W, H, ox, oy, format: F,
     frame: { ...frame, kickerH, footerH },
-    markers, view: opts.view, labels: opts.labels, depth: opts.depth,
+    markers, view: opts.view, labels: opts.labels, depth: opts.depth, options: opts,
   };
 }
 
@@ -171,12 +171,12 @@ function layoutOnce(visible, opts, measure, F, T) {
   function block(src, depth, hueIndex, parent) {
     const lines = [];
     let y = 0;
-    const push = (ls, role, color, lh, gapBefore = 0) => {
+    const push = (ls, role, color, lh, gapBefore = 0, part = 'main') => {
       if (!ls.length) return;
       y += gapBefore;
       for (const l of ls) {
         const h = l.size * lh;
-        lines.push({ ...l, role, color, y: y + (h - l.size) / 2 + l.size * F.baseline });
+        lines.push({ ...l, role, part, color, y: y + (h - l.size) / 2 + l.size * F.baseline });
         y += h;
       }
     };
@@ -192,34 +192,34 @@ function layoutOnce(visible, opts, measure, F, T) {
         }
       };
       if (showAnswer) {
-        push(wr(src.text, F.root.wrap * 1.1, F.answer.size, 'R'), 'muted', T.muted, F.answer.lh);
-        push(fitRoot(src.answer), 'ink', T.ink, F.root.lh, F.answer.size * 0.4);
+        push(wr(src.text, F.root.wrap * 1.1, F.answer.size, 'R'), 'muted', T.muted, F.answer.lh, 0, 'question');
+        push(fitRoot(src.answer), 'ink', T.ink, F.root.lh, F.answer.size * 0.4, 'answer');
       } else if (src.lead) {
-        push(fitRoot(src.lead), 'ink', T.ink, F.root.lh);
-        if (src.cont) push(wr(src.cont, F.root.wrap * 1.1, F.levels[0].cont, 'R'), 'ink', T.ink, F.levels[0].lh, F.root.size * 0.25);
-      } else push(fitRoot(src.text), 'ink', T.ink, F.root.lh);
-      if (view === 'qa' && src.answer) push(wr(src.answer, answerWidth(F.root.wrap, 1.15), F.answer.size, 'R'), 'muted', T.muted, F.answer.lh, F.answer.size * 0.45);
+        push(fitRoot(src.lead), 'ink', T.ink, F.root.lh, 0, 'lead');
+        if (src.cont) push(wr(src.cont, F.root.wrap * 1.1, F.levels[0].cont, 'R'), 'ink', T.ink, F.levels[0].lh, F.root.size * 0.25, 'cont');
+      } else push(fitRoot(src.text), 'ink', T.ink, F.root.lh, 0, 'text');
+      if (view === 'qa' && src.answer) push(wr(src.answer, answerWidth(F.root.wrap, 1.15), F.answer.size, 'R'), 'muted', T.muted, F.answer.lh, F.answer.size * 0.45, 'answer');
     } else {
       const S = levelStyle(F, depth);
       const multiHue = rootHue < 0;
-      const leadColor = T.textHues && depth === 1 && src.lead && multiHue ? hueOf({ hues: T.textHues }, hueIndex) : T.ink;
+      const leadColor = T.leadInHue && depth === 1 && src.lead && multiHue ? textHueOf(T, hueIndex) : T.ink;
       const leadRole = leadColor === T.ink ? 'ink' : 'textHue';
       const num = T.numbers && !LABELS_NUMBERED.test(src.lead || src.text) ? src.num + '  ' : '';
       if (showAnswer) {
         const kick = opts.kickers === 'all';
-        if (kick) push(wr(num + (src.lead || src.text), S.wrap * 1.05, F.answer.size, 'R'), 'muted', T.muted, F.answer.lh);
-        push(wr(src.answer, S.wrap, S.cont, depth === 1 ? 'M' : 'R'), 'ink', T.ink, S.lh, kick ? F.answer.size * 0.35 : 0);
+        if (kick) push(wr(num + (src.lead || src.text), S.wrap * 1.05, F.answer.size, 'R'), 'muted', T.muted, F.answer.lh, 0, 'question');
+        push(wr(src.answer, S.wrap, S.cont, depth === 1 ? 'M' : 'R'), 'ink', T.ink, S.lh, kick ? F.answer.size * 0.35 : 0, 'answer');
       } else if (src.lead) {
         const showCont = !leadOnly && src.cont;
         const lead = showCont ? src.lead : leadOnlyText(src.lead);
         const weight = depth === 1 || showCont ? 'M' : 'R';
-        push(wr(num + lead, S.wrap, weight === 'M' ? S.lead : S.cont, weight), leadRole, leadColor, S.lh);
-        if (showCont) push(wr(src.cont, S.wrap, S.cont, 'R'), 'ink', T.ink, S.lh);
+        push(wr(num + lead, S.wrap, weight === 'M' ? S.lead : S.cont, weight), leadRole, leadColor, S.lh, 0, 'lead');
+        if (showCont) push(wr(src.cont, S.wrap, S.cont, 'R'), 'ink', T.ink, S.lh, 0, 'cont');
       } else {
         const d1 = depth === 1;
-        push(wr(num + src.text, S.wrap, d1 ? S.lead : S.cont, d1 ? 'M' : 'R'), d1 ? leadRole : 'ink', d1 ? leadColor : T.ink, S.lh);
+        push(wr(num + src.text, S.wrap, d1 ? S.lead : S.cont, d1 ? 'M' : 'R'), d1 ? leadRole : 'ink', d1 ? leadColor : T.ink, S.lh, 0, 'text');
       }
-      if (view === 'qa' && src.answer) push(wr(src.answer, answerWidth(S.wrap, 1.05), F.answer.size, 'R'), 'muted', T.muted, F.answer.lh, F.answer.size * F.answerGap);
+      if (view === 'qa' && src.answer) push(wr(src.answer, answerWidth(S.wrap, 1.05), F.answer.size, 'R'), 'muted', T.muted, F.answer.lh, F.answer.size * F.answerGap, 'answer');
     }
 
     const n = {

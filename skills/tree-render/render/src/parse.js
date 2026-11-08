@@ -122,11 +122,13 @@ export function find(n, pred) {
 }
 
 // Copy of the tree opened to `depth` levels below the root (root = 0), plus any node nums in `folded`
-// closed. Every copied node gets `hidden` = number of descendants folded away under it (0 if open).
-export function prune(root, depth, folded = []) {
-  const fold = new Set(folded);
+// closed and any in `opened` open beyond the depth (one level each). Every copied node gets
+// `hidden` = number of descendants folded away under it (0 if open).
+export function prune(root, depth, folded = [], opened = []) {
+  const fold = new Set(folded), open = new Set(opened);
   const copy = (n, d) => {
-    const cut = d >= depth || fold.has(n.num == null ? 'root' : n.num);
+    const key = n.num == null ? 'root' : n.num;
+    const cut = fold.has(key) || (d >= depth && !open.has(key));
     const out = { ...n, children: [], hidden: 0 };
     if (cut) out.hidden = count(n);
     else out.children = n.children.map(c => copy(c, d + 1));
