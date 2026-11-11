@@ -10,7 +10,9 @@ export function branchesUnderText(L) {
   const boxes = lineBoxes(L);
   const bad = [];
   const segs = L.branches.map(g => ({ id: g.num, pts: g.points }))
-    .concat(L.stems.map(s => ({ id: 'stem ' + s.num, pts: Array.from({ length: 21 }, (_, i) => [s.x0 + (s.x1 - s.x0) * i / 20, s.y]) })));
+    .concat(L.stems.map(s => ({ id: 'stem ' + s.num, pts: Array.from({ length: 21 }, (_, i) => [s.x0 + (s.x1 - s.x0) * i / 20, s.y]) })))
+    .concat((L.spines || []).map(s => ({ id: 'spine ' + s.num, pts: s.points })))
+    .concat(L.rootSpine ? [{ id: 'root spine', pts: Array.from({ length: 21 }, (_, i) => [L.rootSpine.x, L.rootSpine.y0 + (L.rootSpine.y1 - L.rootSpine.y0) * i / 20]) }] : []);
   for (const s of segs) {
     for (const b of boxes) {
       if (s.pts.some(([x, y]) => inside(x, y, b))) { bad.push({ branch: s.id, node: b.num }); break; }

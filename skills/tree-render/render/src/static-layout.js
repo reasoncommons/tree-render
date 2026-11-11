@@ -24,7 +24,8 @@ export function staticLayout(tree, S, measure) {
       if (src.cont) parts.push([src.cont, Math.round(size * at(S.font.contScale, depth) * 10) / 10, 'R', 'cont']);
     } else parts.push([src.text, size, weightOf(at(S.font.plainWeight, depth)), 'text']);
     const maxLines = at(S.wrap.maxLines, depth);
-    const { lines, truncated } = wrapParts(parts, maxW, measure, S.wrap, maxLines);
+    const runIn = parts.length === 2 ? runInLines(parts, maxW, measure, S.wrap, at(S.font.leadRunIn, depth)) : null;
+    const { lines, truncated } = runIn ? cutLines(runIn, maxW, measure, S.wrap, maxLines) : wrapParts(parts, maxW, measure, S.wrap, maxLines);
     const n = { src, depth, index: src.index, num: src.num || 'root', parent, limb, children: [], lines, truncated, wrapW: maxW, lh: size * lh, size };
     n.hue = hueOf(n);
     n.textHue = textHueOf(n);
@@ -33,7 +34,9 @@ export function staticLayout(tree, S, measure) {
       const h = l.size * lh;
       l.top = y; l.h = h;
       l.y = y + (h - l.size) / 2 + l.size * S.font.baseline;
-      l.color = colourName(l.role === 'cont' && S.font.contColor ? at(S.font.contColor, depth) : at(S.font.color, depth), n);
+      const colourOf = role => colourName(role === 'cont' && S.font.contColor ? at(S.font.contColor, depth) : at(S.font.color, depth), n);
+      l.color = colourOf(l.role);
+      if (l.runs) for (const r of l.runs) r.color = colourOf(r.role);
       y += h;
     }
     n.textW = Math.max(...lines.map(l => l.w));
@@ -55,7 +58,7 @@ export function staticLayout(tree, S, measure) {
     const top = n.depth === 1 ? n.src : n.limb.src;
     const i = n.depth === 1 ? n.index : n.limb.index;
     if (n.depth > 1 && !C.inherit) return branchInk;
-    if (C.mode === 'palette') return C.palette[i % C.palette.length];
+    if (C.mode === 'palette') return top.accent && C.accentInPalette ? C.accent : C.palette[i % C.palette.length];
     return top.accent ? C.accent : branchInk;
   }
   function textHueOf(n) {
@@ -63,7 +66,10 @@ export function staticLayout(tree, S, measure) {
     const i = n.depth === 1 ? n.index : n.limb.index;
     const top = n.depth === 1 ? n.src : n.limb.src;
     if (n.depth > 1 && !C.inherit) return C.ink;
-    if (C.mode === 'palette') { const p = C.textPalette || C.palette; return p[i % p.length]; }
+    if (C.mode === 'palette') {
+      if (top.accent && C.accentInPalette) return C.accentText || C.accent;
+      const p = C.textPalette || C.palette; return p[i % p.length];
+    }
     return top.accent ? C.accent : C.ink;
   }
   function colourName(v, n) {
@@ -109,7 +115,8 @@ export function staticLayout(tree, S, measure) {
   const mode = A.mode === 'coggle' ? 'side' : A.mode;
 
   // attach points, start points
-  for (const n of nodes) {
+  const attachAll = () => { for (const n of nodes) attachOne(n); };
+  function attachOne(n) {
     n.tx = n.x + n.padX; n.ty = n.y + n.padY; // text origin
     if (n.cog) {
       const jx = colX[n.depth] + colW[n.depth] + at(A.startGap, n.depth);
@@ -118,7 +125,7 @@ export function staticLayout(tree, S, measure) {
       else n.ay = n.y + n.textH + A.labelGap + n.win / 2;
       n.anchorLine = null; n.shelf = false;
       n.ex = n.sx = jx; n.sy = n.ay;
-      continue;
+      return;
     }
     const first = n.lines[0], last = n.lines[n.lines.length - 1];
     if (n.depth === 0 && (n.box || (A.rootAnchor || 'mid') === 'mid')) n.ay = n.y + n.h / 2, n.anchorLine = null;
@@ -137,16 +144,51 @@ export function staticLayout(tree, S, measure) {
       n.sy = n.ay;
     }
   }
+  attachAll();
+
+  // root placement: move the root to the mean (or the middle) of its children's attach points, then
+  // shift the map so its top is at 0 again
+  if (S.root.place && S.root.place !== 'span' && root.children.length) {
+    const ys = root.children.map(c => c.ay), m = ys.length;
+    const want = S.root.place === 'middle' ? (m % 2 ? ys[(m - 1) / 2] : (ys[m / 2 - 1] + ys[m / 2]) / 2) : ys.reduce((a, b) => a + b, 0) / m;
+    root.y += want - root.ay;
+    const top = Math.min(...nodes.map(n => n.y));
+    for (const n of nodes) n.y -= top;
+    attachAll();
+  }
+
+  // root spine: the root's trunks leave a vertical spine at its start point, each at its child's height
+  let rootSpine = null;
+  const spineLen = S.root.spine || 0;
+  if (spineLen > 0 && root.children.length && root.sx != null) {
+    const ys = root.children.map(c => c.ay);
+    const y0 = Math.max(root.sy - spineLen / 2, Math.min(...ys)), y1 = Math.min(root.sy + spineLen / 2, Math.max(...ys));
+    if (y1 > y0) rootSpine = { x: root.sx, y0, y1, w: branchWidths(S, 0)[0], colour: C.rootBranch || branchInk };
+  }
 
   // branches, stems, shelves, dots
-  const branches = [], stems = [], dots = [], shelves = [], notches = [];
+  const branches = [], stems = [], dots = [], shelves = [], notches = [], spines = [], caps = [];
+  const leafCount = n => n.children.length ? n.children.reduce((s, c) => s + leafCount(c), 0) : 1;
+  const fans = new Map(); // parent → shared-spine geometry
   for (const n of nodes) {
     if (n.depth > 0) {
       const p = n.parent;
-      const [w0, w1] = branchWidths(S, p.depth);
-      const g = { num: n.num, depth: n.depth, x0: p.sx, y0: p.sy, x1: n.cog ? n.x - at(A.gap, n.depth) : n.ex, y1: n.ay, w0, w1, colour: n.hue, opacity: at(S.branch.opacity, p.depth) };
-      g.points = branchPoints(g, S.branch, p.depth);
+      let [w0, w1] = branchWidths(S, p.depth);
+      const e = at(S.branch.weight, p.depth) || 0;
+      if (e && p.children.length > 1) {
+        const mean = p.children.reduce((s, c) => s + leafCount(c), 0) / p.children.length;
+        const [lo, hi] = S.branch.weightClamp || [0, Infinity];
+        w0 *= Math.max(lo, Math.min(hi, Math.pow(leafCount(n) / mean, e)));
+      }
+      const y0 = rootSpine && p === root ? Math.max(rootSpine.y0, Math.min(rootSpine.y1, n.ay)) : p.sy;
+      const g = { num: n.num, depth: n.depth, x0: p.sx, y0, x1: n.cog ? n.x - at(A.gap, n.depth) : n.ex, y1: n.ay, w0, w1, colour: n.hue, opacity: at(S.branch.opacity, p.depth) };
+      const spine = at(S.branch.spine, p.depth) && at(S.branch.shape, p.depth) === 'elbow-rounded' && p.children.length > 1;
+      if (spine) {
+        if (!fans.has(p)) fans.set(p, fanSpine(p, S, A));
+        g.points = fans.get(p).leaf(g);
+      } else g.points = branchPoints(g, S.branch, p.depth);
       if (n.cog) { g.points.push([n.ex, n.ay]); g.x1 = n.ex; }
+      if (at(S.branch.junctionCap, p.depth)) caps.push({ x: g.x0, y: g.y0, r: g.w0 / 2, colour: g.colour, kind: 'cap' });
       if (n.cog && A.notch) notches.push({ num: n.num, x: n.ex, y: n.ay, s: n.win, colour: S.colour.bg });
       branches.push(g);
       if (S.branch.cap === 'dot') dots.push({ x: n.ex, y: n.ay, r: at(S.branch.dotRadius, n.depth), colour: n.hue, kind: 'end' });
@@ -162,6 +204,16 @@ export function staticLayout(tree, S, measure) {
       if (r > 0) dots.push({ x: n.sx, y: n.sy, r, colour: n.hue, kind: 'fan' });
     }
   }
+
+  for (const [p, f] of fans) for (const pts of f.spines) {
+    const c = p.children[0];
+    const w = Math.max(...branches.filter(g => p.children.some(k => k.num === g.num)).map(g => g.w0));
+    spines.push({ num: p.num, depth: p.depth + 1, points: pts, w, colour: c.hue, opacity: at(S.branch.opacity, p.depth) });
+  }
+  // junction caps: one disc per start point and colour (the widest), widest first
+  const capAt = new Map();
+  for (const c of caps) { const k = [c.x.toFixed(2), c.y.toFixed(2), c.colour].join(); if (!capAt.has(k) || capAt.get(k).r < c.r) capAt.set(k, c); }
+  dots.unshift(...[...capAt.values()].sort((a, b) => b.r - a.r));
 
   // map extents
   let mw = 0, mh = 0;
@@ -198,7 +250,7 @@ export function staticLayout(tree, S, measure) {
   }
   H = Math.ceil(H + M.b);
 
-  return { nodes, root, branches, stems, shelves, dots, notches, colX, colW, map: { x0: mx0, w: mw, h: mh }, W, H, scale, ox, oy, header, footer, style: S, title: tree.title || tree.root.text, alt: tree.alt || '' };
+  return { nodes, root, branches, stems, shelves, dots, notches, spines, rootSpine, colX, colW, map: { x0: mx0, w: mw, h: mh }, W, H, scale, ox, oy, header, footer, style: S, title: tree.title || tree.root.text, alt: tree.alt || '' };
 }
 
 export function wrapWidth(S, depth, size, measure) {
@@ -223,22 +275,30 @@ function wrapLines(text, maxW, measure, size, weight, balance = true, floor = 0.
 // Wraps lead and continuation (or plain text) at maxW; with maxLines, cuts the block there and, with
 // ellipsis, ends the last kept line with "…" (still within maxW).
 export function wrapParts(parts, maxW, measure, W, maxLines) {
-  let lines = [];
+  const lines = [];
   for (const [text, size, weight, role] of parts) {
     for (const l of wrapLines(text, maxW, measure, size, weight, W.balance, W.balanceFloor)) lines.push({ ...l, role });
   }
+  return cutLines(lines, maxW, measure, W, maxLines);
+}
+
+// Cuts wrapped lines at maxLines; with ellipsis, the last kept line (or its last run) ends with "…".
+export function cutLines(lines, maxW, measure, W, maxLines) {
   let truncated = false;
   if (maxLines && lines.length > maxLines) {
     truncated = true;
     if (W.ellipsis) {
       lines = lines.slice(0, maxLines);
-      const last = lines[maxLines - 1];
+      const line = lines[maxLines - 1];
+      const last = line.runs ? line.runs[line.runs.length - 1] : line;
+      const room = maxW - (line.runs ? last.x : 0);
       let words = last.t.split(' ');
       const withDots = ws => ws.join(' ').replace(/[\s,;:.–—-]+$/, '') + '…';
-      while (words.length > 1 && measure(withDots(words), last.size, last.weight) > maxW) words = words.slice(0, -1);
+      while (words.length > 1 && measure(withDots(words), last.size, last.weight) > room) words = words.slice(0, -1);
       last.t = withDots(words);
       last.w = measure(last.t, last.size, last.weight);
-      last.ellipsis = true;
+      if (line.runs) { line.t = line.runs.map(r => r.t).join(' '); line.w = last.x + last.w; }
+      line.ellipsis = true;
     }
   }
   return { lines, truncated };
@@ -275,6 +335,70 @@ export function branchPoints(g, B0, depth = 0) {
     return pts;
   }
   return cubic(x0 + dx * B.k, x1 - dx * B.k);
+}
+
+// Shared fan spine for an elbow-rounded fan (Coggle's bracket): one constant-width spine runs from the
+// parent's start point to a vertical at xm, up to the outermost leaf above and down to the outermost
+// below; each leaf peels off the vertical with its own corner. Returns { spines: [points…], leaf(g) → points }.
+function fanSpine(p, S, A) {
+  const B = S.branch, d = p.depth;
+  const x0 = p.sx, y0 = p.sy;
+  const ends = p.children.map(c => ({ x1: c.cog ? c.x - at(A.gap, c.depth) : c.ex, y1: c.ay }));
+  const dxMin = Math.min(...ends.map(e => e.x1 - x0));
+  const xm = x0 + dxMin * at(B.elbow, d);
+  const radius = at(B.radius, d);
+  const dirs = {};
+  for (const sy of [-1, 1]) {
+    const own = ends.filter(e => Math.sign(e.y1 - y0) === sy && Math.abs(e.y1 - y0) >= 0.5);
+    if (!own.length) continue;
+    const r1 = Math.max(0, Math.min(radius, xm - x0, Math.min(...own.map(e => Math.abs(e.y1 - y0))) / 2));
+    dirs[sy] = { r1, far: Math.max(...own.map(e => Math.abs(e.y1 - y0))) };
+  }
+  const r2Of = (e, sy) => Math.max(0, Math.min(radius, Math.abs(e.y1 - y0) - dirs[sy].r1, e.x1 - xm));
+  const arc = (pts, cx, cy, r, a0, a1) => { for (let i = 1; i <= 8; i++) { const a = a0 + (a1 - a0) * i / 8; pts.push([cx + r * Math.cos(a), cy + r * Math.sin(a)]); } };
+  const spines = [];
+  for (const sy of [-1, 1]) {
+    const D = dirs[sy];
+    if (!D) continue;
+    const farE = ends.find(e => Math.sign(e.y1 - y0) === sy && Math.abs(e.y1 - y0) === D.far);
+    const pts = [[x0, y0], [xm - D.r1, y0]];
+    if (D.r1 > 0) arc(pts, xm - D.r1, y0 + sy * D.r1, D.r1, -sy * Math.PI / 2, 0);
+    pts.push([xm, farE.y1 - sy * r2Of(farE, sy)]);
+    spines.push(pts);
+  }
+  return {
+    spines,
+    leaf(g) {
+      const dy = g.y1 - y0, sy = Math.sign(dy);
+      if (Math.abs(dy) < 0.5) return [[x0, y0], [xm, g.y1], [g.x1, g.y1]];
+      const r = r2Of(g, sy);
+      const pts = [[xm, g.y1 - sy * r]];
+      if (r > 0) arc(pts, xm + r, g.y1 - sy * r, r, Math.PI, sy > 0 ? Math.PI / 2 : 3 * Math.PI / 2);
+      pts.push([g.x1, g.y1]);
+      return pts;
+    },
+  };
+}
+
+// Run-in lead: [lead, cont] parts → lines, the first holding the lead and the continuation's first
+// words as two runs; null when off, when the lead is wider than ratio × maxW, or when no word fits.
+export function runInLines(parts, maxW, measure, W, ratio) {
+  if (!ratio || parts[0][3] !== 'lead' || parts[1][3] !== 'cont') return null;
+  const [[lt, ls, lw], [ct, cs, cw]] = parts;
+  const leadW = measure(lt, ls, lw);
+  if (leadW > ratio * maxW) return null;
+  const space = measure('a a', cs, cw) - measure('aa', cs, cw);
+  const x = leadW + space;
+  const words = String(ct).split(/\s+/).filter(Boolean);
+  const first = greedy(words, maxW - x, measure, cs, cw)[0];
+  if (!first || measure(first, cs, cw) > maxW - x) return null;
+  const n = first.split(' ').length;
+  const lead = { t: lt, w: leadW, size: ls, weight: lw, role: 'lead', x: 0 };
+  const cont = { t: first, w: measure(first, cs, cw), size: cs, weight: cw, role: 'cont', x };
+  const lines = [{ t: lt + ' ' + first, w: x + cont.w, size: ls, weight: lw, role: 'lead', runs: [lead, cont] }];
+  const rest = words.slice(n).join(' ');
+  if (rest) for (const l of wrapLines(rest, maxW, measure, cs, cw, W.balance, W.balanceFloor)) lines.push({ ...l, role: 'cont' });
+  return lines;
 }
 
 // Line boxes of every node, in map coordinates: { num, x, y, w, h }.

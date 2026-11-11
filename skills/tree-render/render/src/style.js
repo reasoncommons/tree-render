@@ -37,6 +37,10 @@ export const DEFAULT_STYLE = {
     color: 'ink',          // lead / plain text colour per depth: ink | muted | branch | #hex
     contColor: null,       // continuation colour per depth (null = same as color)
     baseline: 0.78,        // baseline at 0.78 × size below the top of the line's ink box
+    leadRunIn: 0,          // per depth; > 0: a lead no wider than leadRunIn × the wrap width shares its line with the
+                           // start of the continuation ("Alignment Partly, and not yet…"); 0 = the continuation starts a new line
+    halo: 0,               // px, per depth: a stroke in haloColor behind the text so a branch passing near never obscures it
+    haloColor: null,       // null = colour.bg
   },
   wrap: {
     width: [320, 420, 440], // per depth, in px (unit px) or characters (unit ch)
@@ -59,6 +63,10 @@ export const DEFAULT_STYLE = {
     cap: 'round',          // round | butt | point (a chevron tip, ribbon only) | dot (a dot at the end, radius dotRadius)
     dotRadius: 4,          // per depth arrived at
     samples: 40,
+    junctionCap: false,    // per depth left: a disc (radius = half the start width) in the branch colour at every branch start
+    spine: false,          // per depth left, elbow-rounded only: one shared vertical spine per fan, leaves peeling off it
+    weight: 0,             // per depth left: start width × (leaves in the subtree ÷ siblings' mean)^weight; 0 = off
+    weightClamp: [0.75, 1.35], // bounds of that factor
   },
   colour: {
     bg: '#FFFFFF',
@@ -71,6 +79,8 @@ export const DEFAULT_STYLE = {
     textPalette: null,     // palette for text coloured "branch" (null = palette)
     inherit: true,         // deeper branches take their top-level branch's colour (false: branchInk)
     rootBranch: null,      // colour of the root's fan dot and stem (null = branchInk)
+    accentInPalette: false, // palette mode: a top-level node marked accent (and its subtree) takes accent, not its palette slot
+    accentText: null,      // text colour of that branch when text is coloured "branch" (null = accent)
   },
   root: {
     style: 'plain',        // plain | box
@@ -78,6 +88,8 @@ export const DEFAULT_STYLE = {
     radius: 4,
     padX: 18,
     padY: 12,
+    place: 'span',         // root's height: span (centre of its subtree) | mean (mean of its children's attach points) | middle (the middle child's)
+    spine: 0,              // px; > 0: the root's trunks leave a vertical spine this long (cut to the children's span), in rootBranch
   },
   space: {
     canvas: 1760,          // px wide; the height fits the content
