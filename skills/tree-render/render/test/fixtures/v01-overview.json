@@ -1,0 +1,102 @@
+{
+  "title": "Wise AI in four questions",
+  "kind": "hypothesis",
+  "source": "archive/v0.1/planning/trials/mindmap/overview-mindmap.json",
+  "subtitle": "Draft answers from the Wise AI briefing, with what wisdom traditions offer on each.",
+  "footer": "Rufus Pollock · Wise AI briefing · Draft, October 2026",
+  "alt": "Mindmap. How should we approach the development of AI wisely, and what do wisdom traditions offer? Alignment: partly, and not yet in a way anyone can check. Risk and pace: go at the speed of wisdom, slow the frontier, speed up safety. Broader impacts: AI's deepest effect is on our capacity to choose well; keep it a servant. Consciousness: we do not know and may never; relate with humility, low-cost care and clear honesty. Each with three or four supporting points, including what wisdom traditions offer.",
+  "root": {
+    "text": "How should we approach AI wisely?",
+    "note": "And what do wisdom traditions offer?",
+    "children": [
+      {
+        "lead": "Alignment",
+        "text": "Alignment Partly, and not yet in a way anyone can check.",
+        "note": "Can we make AI good?",
+        "children": [
+          {
+            "text": "Aligned should mean good, which includes wise.",
+            "children": []
+          },
+          {
+            "text": "Today's methods: mostly good, hard to verify.",
+            "children": []
+          },
+          {
+            "text": "Goodness can be cultivated, not specified.",
+            "children": []
+          },
+          {
+            "text": "Traditions: a richer target and a model of formation.",
+            "children": []
+          }
+        ]
+      },
+      {
+        "lead": "Risk and pace",
+        "text": "Risk and pace Go at the speed of wisdom: slow the frontier, speed up safety.",
+        "note": "If we can't be sure, how fast should we go?",
+        "children": [
+          {
+            "text": "The risks are real and contested.",
+            "children": []
+          },
+          {
+            "text": "The world races: a collective action trap.",
+            "children": []
+          },
+          {
+            "text": "Slow and steer; far more people should decide.",
+            "children": []
+          },
+          {
+            "text": "Traditions: restraint, strongest on will and process.",
+            "children": []
+          }
+        ]
+      },
+      {
+        "lead": "Broader impacts",
+        "text": "Broader impacts AI's deepest effect is on our capacity to choose well; keep it a servant.",
+        "note": "Setting catastrophe aside, how should we live with AI?",
+        "children": [
+          {
+            "text": "Benefits are real but conditional.",
+            "children": []
+          },
+          {
+            "text": "Its default pull weakens agency and judgment.",
+            "children": []
+          },
+          {
+            "text": "Traditions: consumption, speech, friendship, community.",
+            "children": []
+          }
+        ]
+      },
+      {
+        "lead": "Consciousness (minor)",
+        "text": "Consciousness (minor) We do not know and may never; relate with humility, low-cost care and clear honesty.",
+        "note": "Could AI feel?",
+        "children": [
+          {
+            "text": "Sentience is what matters morally.",
+            "children": []
+          },
+          {
+            "text": "The evidence is weak either way.",
+            "children": []
+          },
+          {
+            "text": "Labs split: precaution versus denial.",
+            "children": []
+          },
+          {
+            "text": "Traditions ask: is there feeling that can suffer?",
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+}

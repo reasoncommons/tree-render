@@ -206,3 +206,20 @@ test('CLI: parse subcommand and --emit json write the canonical JSON', () => {
   assert.deepEqual(JSON.parse(execFileSync(process.execPath, [bin, 'parse', file]).toString()), expected);
   assert.deepEqual(JSON.parse(execFileSync(process.execPath, [bin, file, '--emit', 'json']).toString()), expected);
 });
+
+test('tree JSON keeps the frame fields (subtitle, footer) and node accent and note', async () => {
+  const { readFixture } = await import('./helpers.js');
+  const t = parse(readFixture('v01-q2.json'));
+  assert.equal(t.root.text, 'How fast should we develop AI?');
+  assert.match(t.subtitle, /^Pace AI/);
+  assert.match(t.footer, /Rufus Pollock/);
+  const so = t.root.children[4];
+  assert.equal(so.lead, 'So every actor should push');
+  assert.equal(so.cont, 'towards the speed of wisdom, each with its own lever.');
+  assert.equal(so.accent, true);
+  assert.equal(t.root.children[0].accent, undefined);
+  const again = parse(JSON.stringify(toJSON(t)));
+  assert.deepEqual(toJSON(again), toJSON(t));
+  const o = parse(readFixture('v01-overview.json'));
+  assert.equal(o.root.children[0].note, 'Can we make AI good?');
+});

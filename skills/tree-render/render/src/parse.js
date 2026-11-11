@@ -91,13 +91,20 @@ function fromJSON(obj) {
     }
     const n = makeNode({ text, lead, cont });
     n.answer = j.answer ? clean(j.answer) : null;
+    if (j.accent) n.accent = true;
+    if (j.note) n.note = clean(j.note);
     n.children = (j.children || []).map(conv);
     return n;
   };
   const root = obj.root ? conv(obj.root) : null;
   if (root) number(root);
-  return { title: obj.title || '', kind: obj.kind || '', source: obj.source || '', root };
+  const tree = { title: obj.title || '', kind: obj.kind || '', source: obj.source || '', root };
+  for (const k of FRAME_FIELDS) if (obj[k]) tree[k] = String(obj[k]);
+  return tree;
 }
+
+// Optional frame text a static render can show (title is always present).
+const FRAME_FIELDS = ['subtitle', 'footer', 'alt'];
 
 // Parsed tree → canonical tree JSON object (TREE-FORMAT.md). Derived fields (cont, depth, index,
 // num, hidden) are left out; parse(toJSON(t)) rebuilds them.
@@ -106,10 +113,15 @@ export function toJSON(tree) {
     const o = { text: n.text };
     if (n.lead != null) o.lead = n.lead;
     if (n.answer) o.answer = n.answer;
+    if (n.accent) o.accent = true;
+    if (n.note) o.note = n.note;
     o.children = n.children.map(conv);
     return o;
   };
-  return { title: tree.title || '', kind: tree.kind || '', source: tree.source || '', root: tree.root ? conv(tree.root) : null };
+  const out = { title: tree.title || '', kind: tree.kind || '', source: tree.source || '' };
+  for (const k of FRAME_FIELDS) if (tree[k]) out[k] = tree[k];
+  out.root = tree.root ? conv(tree.root) : null;
+  return out;
 }
 
 // Number of descendants (not counting n).

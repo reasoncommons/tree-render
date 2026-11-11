@@ -24,12 +24,15 @@ The renderer's one input is a parsed tree. Markdown (spec section 10) is one fro
 - `kind` (string): `question`, `qa` or `hypothesis`; empty if not given. It sets the default view and the fold-marker noun.
 - `source` (string): where the tree came from; empty if not given.
 - `root` (node): the root node.
+- `subtitle`, `footer`, `alt` (strings, optional): frame text for a static render (subtitle under the title, footer bottom right, alt text). Kept only when present.
 
 A node has:
 
 - `text` (string, required): the full label, plain text (Markdown links reduced to their text, emphasis removed, whitespace collapsed). The renderer never changes it.
 - `lead` (string, optional): the short label; it must open `text` exactly (the Markdown bold lead). The continuation is the rest of `text`. Omitted when there is no lead.
 - `answer` (string, optional): the answer or hypothesis (the Markdown `- A:` line), plain text. Omitted when there is none.
+- `accent` (boolean, optional): mark this branch for the accent colour (for example the "So…" branch of a hypothesis tree).
+- `note` (string, optional): a side note, such as the question a node answers. Not drawn yet.
 - `children` (array of nodes): may be empty.
 
 Numbering (`2.3`), depth, the continuation and fold counts are derived when the tree is parsed and are not part of the format. Parsing the JSON of a Markdown tree gives an identical tree (tested).

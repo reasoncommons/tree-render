@@ -1,0 +1,108 @@
+{
+  "title": "Go at the speed of wisdom",
+  "kind": "hypothesis",
+  "source": "archive/v0.1/planning/trials/mindmap/q2-mindmap.json",
+  "subtitle": "Pace AI to the speed at which we can understand, verify and govern it: catastrophe would be permanent, while most of what delay costs can be recovered.",
+  "footer": "Rufus Pollock · Wise AI briefing · Draft, October 2026",
+  "alt": "Mindmap. How fast should we develop AI? Go at the speed of wisdom. Four reasons: the risks are real and contested; the world races because it is caught in a collective action trap; we should slow and steer, we partly can, and far more people should decide; wisdom traditions point towards restraint and are strongest on will and process. So every actor should push towards the speed of wisdom with its own lever.",
+  "root": {
+    "text": "How fast should we develop AI?",
+    "children": [
+      {
+        "lead": "The risks are real",
+        "text": "The risks are real and contested, and the uncertainty itself calls for caution.",
+        "children": [
+          {
+            "text": "Four kinds of catastrophe threaten, and two would survive successful alignment.",
+            "children": []
+          },
+          {
+            "text": "The precursors became visible in 2026.",
+            "children": []
+          },
+          {
+            "text": "Experts disagree deeply on the odds, and we must decide anyway.",
+            "children": []
+          }
+        ]
+      },
+      {
+        "lead": "The world races",
+        "text": "The world races because it is caught in a collective action trap.",
+        "children": [
+          {
+            "text": "Each actor's reason to race is the others.",
+            "children": []
+          },
+          {
+            "text": "The race is accelerating, and restraint so far is mostly words.",
+            "children": []
+          },
+          {
+            "text": "Culture plausibly amplifies the race; structure alone would drive it.",
+            "children": []
+          }
+        ]
+      },
+      {
+        "lead": "We should slow and steer,",
+        "text": "We should slow and steer, we partly can, and far more people should decide.",
+        "children": [
+          {
+            "text": "Slower at the frontier, faster on safety.",
+            "children": []
+          },
+          {
+            "text": "Restraint is possible, but AI is the hardest case, so start narrow.",
+            "children": []
+          },
+          {
+            "text": "The choice belongs to publics, not a few firms and two governments.",
+            "children": []
+          }
+        ]
+      },
+      {
+        "lead": "Wisdom traditions point towards restraint",
+        "text": "Wisdom traditions point towards restraint and are strongest on will and process.",
+        "children": [
+          {
+            "text": "The direction is clear (don't be carried by the horse), though the pace is not.",
+            "children": []
+          },
+          {
+            "text": "Traditions build the will for restraint more than the mechanisms.",
+            "children": []
+          },
+          {
+            "text": "A wise process starts from intention and decides in concord.",
+            "children": []
+          }
+        ]
+      },
+      {
+        "lead": "So every actor should push",
+        "text": "So every actor should push towards the speed of wisdom, each with its own lever.",
+        "accent": true,
+        "children": [
+          {
+            "text": "Labs: accept binding external checks.",
+            "children": []
+          },
+          {
+            "text": "States: build verification, agree red lines.",
+            "children": []
+          },
+          {
+            "text": "Communities: make restraint legitimate.",
+            "children": []
+          },
+          {
+            "text": "Individuals: back pacing; insiders refuse to be carried.",
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+}
