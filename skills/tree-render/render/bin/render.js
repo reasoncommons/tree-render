@@ -11,7 +11,9 @@ import { getTheme } from '../src/themes.js';
 import { parseState } from '../src/state.js';
 import { createMeasurer, fontFaceCSS } from '../src/measure-node.js';
 
-const USAGE = `Usage: tree-render <tree.md|tree.json> [options]
+const USAGE = `Usage: tree-render <tree.md|tree.json> [--out DIR] [--name N] [--scale 2] [--no-png]
+                                     static render in the default style (styles/default.json): DIR/<tree>.svg, .png (2×), .report.json
+       tree-render <tree.md|tree.json> --format 4x5|1x1|16x9|web [options]   framed canvas render (any option below but --style)
        tree-render carousel <tree.md|tree.json> [options]   cover + one branch card per level-1 node
        tree-render check <tree.md|tree.json> [options]      print the self-check report only
        tree-render parse <tree.md|tree.json> [--out tree.json]
@@ -32,9 +34,9 @@ Options:
   --html                        also write the interactive page (<out>.html)
   --state '#depth=1&fold=2.3'   render a saved fold state (the page's URL hash); flags win
   --emit json                   write the parsed tree as canonical JSON (to --out or stdout)
-  --style FILE|NAME             static render with a style (see above); --out is then a folder
-  --name N                      file name (no extension) for --style output (default: the style's name)
-  --no-png                      with --style, skip the PNG
+  --style FILE|NAME             static render with a style (see above; default, river, …); --out is then a folder
+  --name N                      file name (no extension) for static output (default: the style's name with --style, else the tree's)
+  --no-png                      static render: skip the PNG
   -h, --help                    show this help
 
 Writes <out>.svg and <out>.report.json and prints the report. Exit 1 on a hard check failure
@@ -43,6 +45,8 @@ Writes <out>.svg and <out>.report.json and prints the report. Exit 1 on a hard c
 
 const VALUE_FLAGS = ['style', 'name', 'format', 'theme', 'view', 'labels', 'depth', 'root', 'kicker', 'footer', 'out', 'scale', 'state', 'emit', 'hue'];
 const BOOL_FLAGS = ['png', 'no-png', 'html', 'help'];
+// Flags of the framed canvas render; with none of them (and no --style) a tree renders statically in the default style.
+const CANVAS_FLAGS = ['format', 'theme', 'view', 'labels', 'depth', 'root', 'kicker', 'footer', 'state', 'hue', 'html'];
 
 class UsageError extends Error {}
 
@@ -135,11 +139,12 @@ async function main(argv) {
   }
 
   const tree = readTree(file);
-  if (a.style) {
+  if (a.style || (!sub && !CANVAS_FLAGS.some(k => a[k] != null))) {
     const { renderStatic, reportLines, findStyle } = await import('../src/static-render.js');
     let styleFile;
-    try { styleFile = findStyle(a.style); } catch (e) { throw new UsageError(e.message); }
-    const r = await renderStatic(tree, styleFile, { outDir: a.out || '.', name: a.name, measure: await createMeasurer(), png: !a['no-png'], scale: +(a.scale || 2) });
+    try { styleFile = findStyle(a.style || 'default'); } catch (e) { throw new UsageError(e.message); }
+    const name = a.name || (a.style ? undefined : path.basename(file).replace(/\.(md|json|markdown)$/i, ''));
+    const r = await renderStatic(tree, styleFile, { outDir: a.out || '.', name, measure: await createMeasurer(), png: !a['no-png'], scale: +(a.scale || 2) });
     console.log(reportLines(Object.values(r.files).map(f => path.basename(f)).join(', '), r.report));
     return r.report.ok ? 0 : 1;
   }

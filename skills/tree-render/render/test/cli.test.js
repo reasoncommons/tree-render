@@ -125,6 +125,18 @@ test('--style: writes <out>/<name>.svg, a 2× PNG and the report', { skip }, () 
   assert.equal(JSON.parse(fs.readFileSync(out('opts/q2.report.json'), 'utf8')).ok, true);
 });
 
+test('no --style and no format flags: a static render in the default style, named after the tree', () => {
+  const r = cli(path.join(FIXTURES, 'v01-q2.json'), '--no-png', '--out', out('def'));
+  assert.equal(r.code, 0, r.err + r.out);
+  const svg = fs.readFileSync(out('def/v01-q2.svg'), 'utf8');
+  assert.match(svg, /data-style="default"/);
+  assert.ok(fs.existsSync(out('def/v01-q2.report.json')));
+  // a named style keeps its own name as the file name; river is a named style
+  const v = cli(path.join(FIXTURES, 'v01-q2.json'), '--style', 'river', '--no-png', '--out', out('def'));
+  assert.equal(v.code, 0, v.err + v.out);
+  assert.match(fs.readFileSync(out('def/river.svg'), 'utf8'), /data-style="river"/);
+});
+
 test('--style with an unknown style is a usage error', () => {
   const r = cli(path.join(FIXTURES, 'v01-q2.json'), '--style', 'no-such-style', '--no-png', '--out', out('x'));
   assert.equal(r.code, 2);
