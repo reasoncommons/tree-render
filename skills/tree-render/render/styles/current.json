@@ -1,0 +1,10 @@
+{
+  "name": "current",
+  "description": "Today's Paper theme (2026-11-08) for comparison: warm paper ground, a coloured shelf under each text block, the branch running in under the text.",
+  "attach": {"mode": "shelf", "shelfLift": 0.26, "shelfOver": 12, "stem": false, "fanDot": 0},
+  "font": {"size": [46, 36, 27], "leadWeight": "M", "contScale": [1, 0.83, 1], "lineHeight": [1.12, 1.22, 1.25], "color": "ink"},
+  "wrap": {"width": [340, 420, 520]},
+  "branch": {"width": [[7.5, 6.5], [5.85, 4.5]], "shape": "cubic", "k": 0.55, "fill": "ribbon", "cap": "round", "opacity": [1, 0.9]},
+  "colour": {"bg": "#FBF8F2", "ink": "#1F1C18", "muted": "#6F6962", "mode": "palette", "palette": ["#C0583A", "#2F7F8B", "#7A8F3E", "#8B5A9E", "#B8862B", "#4D6BAA"], "inherit": true, "rootBranch": "#1F1C18"},
+  "space": {"canvas": 1760, "margin": 72, "run": [110, 70], "sib": 0.45, "cousin": 1.0}
+}

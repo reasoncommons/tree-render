@@ -1,0 +1,11 @@
+{
+  "extends": "v01",
+  "name": "v01-thick",
+  "description": "v0.1 text with Coggle-like branches: thicker tapered ribbons, a colour per top-level branch carried down, the branch meeting the text's side at the first line.",
+  "attach": {"mode": "side", "from": "text-end", "gap": 10, "startGap": [0, 12], "stem": true, "fanDot": 0, "stemWidth": null},
+  "font": {"color": ["ink", "branch", "ink"], "contColor": "ink"},
+  "branch": {"width": [[11, 5], [5, 2]], "shape": "cubic", "k": 0.55, "cap": "round", "opacity": [1, 0.9]},
+  "colour": {"mode": "palette", "palette": ["#E0533D", "#2C8C99", "#7BA23F", "#8E5BA6", "#D99A1E"], "textPalette": ["#C2432F", "#23727D", "#5E7F2C", "#7A4B91", "#9C6D10"], "inherit": true, "rootBranch": null},
+  "root": {"style": "box", "fill": "#EDEDEB", "radius": 3, "padX": 20, "padY": 14},
+  "space": {"run": [120, 100]}
+}
