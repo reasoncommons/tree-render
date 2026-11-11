@@ -82,26 +82,48 @@ export function staticLayout(tree, S, measure) {
   const out = d => A.mode === 'shelf' ? A.shelfOver : at(A.from === 'fan' ? A.fanGap : A.startGap, d);
   for (let d = 1; d <= maxD; d++) colX[d] = colX[d - 1] + colW[d - 1] + out(d - 1) + at(S.space.run, d - 1);
 
+  // coggle: an interior node's label is right-aligned in its column and sits on the branch that runs
+  // beneath it to the junction where its children fan out; its laid-out height includes that branch
+  const cog = n => A.mode === 'coggle' && n.depth > 0 && n.children.length > 0;
+  for (const n of nodes) {
+    n.hLay = n.h;
+    if (!cog(n)) continue;
+    n.cog = true;
+    n.win = branchWidths(S, n.depth - 1)[1];
+    n.hLay = n.h + A.labelGap + n.win;
+    for (const l of n.lines) l.dx = n.textW - l.w;
+  }
+
   // vertical placement
   const lhOf = n => n.lh;
   const ft = flextree({
     children: n => n.children,
-    nodeSize: d => [d.data.h + S.space.sib * lhOf(d.data), 1],
+    nodeSize: d => [d.data.hLay + S.space.sib * lhOf(d.data), 1],
     spacing: (a, b) => a.parent === b.parent ? 0 : lhOf(a.data) * Math.max(0, S.space.cousin - S.space.sib),
   });
   const h = ft.hierarchy(root);
   ft(h);
   let minY = Infinity;
-  h.each(d => { minY = Math.min(minY, d.x - d.data.h / 2); });
-  h.each(d => { const n = d.data; n.x = colX[n.depth]; n.y = d.x - n.h / 2 - minY; });
+  h.each(d => { minY = Math.min(minY, d.x - d.data.hLay / 2); });
+  h.each(d => { const n = d.data; n.x = n.cog ? colX[n.depth] + colW[n.depth] - n.w : colX[n.depth]; n.y = d.x - n.hLay / 2 - minY; });
+  const mode = A.mode === 'coggle' ? 'side' : A.mode;
 
   // attach points, start points
   for (const n of nodes) {
     n.tx = n.x + n.padX; n.ty = n.y + n.padY; // text origin
+    if (n.cog) {
+      const jx = colX[n.depth] + colW[n.depth] + at(A.startGap, n.depth);
+      n.labelBelow = A.label === 'outside' && n.y + n.hLay / 2 > n.parent.sy;
+      if (n.labelBelow) { n.ay = n.y + n.win / 2; n.ty = n.y + n.win + A.labelGap; }
+      else n.ay = n.y + n.textH + A.labelGap + n.win / 2;
+      n.anchorLine = null; n.shelf = false;
+      n.ex = n.sx = jx; n.sy = n.ay;
+      continue;
+    }
     const first = n.lines[0], last = n.lines[n.lines.length - 1];
     if (n.depth === 0 && (n.box || (A.rootAnchor || 'mid') === 'mid')) n.ay = n.y + n.h / 2, n.anchorLine = null;
-    else if (A.mode === 'side') n.ay = n.ty + first.y - first.size * A.midline, n.anchorLine = first;
-    else if (A.mode === 'side-mid') n.ay = n.y + n.h / 2, n.anchorLine = null;
+    else if (mode === 'side') n.ay = n.ty + first.y - first.size * A.midline, n.anchorLine = first;
+    else if (mode === 'side-mid') n.ay = n.y + n.h / 2, n.anchorLine = null;
     else n.ay = n.ty + n.textH + last.size * A.shelfLift, n.anchorLine = null;
     n.shelf = A.mode === 'shelf';
     if (n.shelf) n.ay = n.ty + n.textH + last.size * A.shelfLift;
@@ -117,13 +139,15 @@ export function staticLayout(tree, S, measure) {
   }
 
   // branches, stems, shelves, dots
-  const branches = [], stems = [], dots = [], shelves = [];
+  const branches = [], stems = [], dots = [], shelves = [], notches = [];
   for (const n of nodes) {
     if (n.depth > 0) {
       const p = n.parent;
       const [w0, w1] = branchWidths(S, p.depth);
-      const g = { num: n.num, depth: n.depth, x0: p.sx, y0: p.sy, x1: n.ex, y1: n.ay, w0, w1, colour: n.hue, opacity: at(S.branch.opacity, p.depth) };
-      g.points = branchPoints(g, S.branch);
+      const g = { num: n.num, depth: n.depth, x0: p.sx, y0: p.sy, x1: n.cog ? n.x - at(A.gap, n.depth) : n.ex, y1: n.ay, w0, w1, colour: n.hue, opacity: at(S.branch.opacity, p.depth) };
+      g.points = branchPoints(g, S.branch, p.depth);
+      if (n.cog) { g.points.push([n.ex, n.ay]); g.x1 = n.ex; }
+      if (n.cog && A.notch) notches.push({ num: n.num, x: n.ex, y: n.ay, s: n.win, colour: S.colour.bg });
       branches.push(g);
       if (S.branch.cap === 'dot') dots.push({ x: n.ex, y: n.ay, r: at(S.branch.dotRadius, n.depth), colour: n.hue, kind: 'end' });
     }
@@ -141,7 +165,7 @@ export function staticLayout(tree, S, measure) {
 
   // map extents
   let mw = 0, mh = 0;
-  for (const n of nodes) { mw = Math.max(mw, n.x + n.w); mh = Math.max(mh, n.y + n.h); }
+  for (const n of nodes) { mw = Math.max(mw, n.x + n.w, n.sx || 0); mh = Math.max(mh, n.y + n.hLay); }
   for (const s of shelves) mw = Math.max(mw, s.x1 + s.w / 2), mh = Math.max(mh, s.y + s.w / 2);
   for (const d of dots) mw = Math.max(mw, d.x + d.r);
   let mx0 = 0;
@@ -174,11 +198,12 @@ export function staticLayout(tree, S, measure) {
   }
   H = Math.ceil(H + M.b);
 
-  return { nodes, root, branches, stems, shelves, dots, colX, colW, map: { x0: mx0, w: mw, h: mh }, W, H, scale, ox, oy, header, footer, style: S, title: tree.title || tree.root.text, alt: tree.alt || '' };
+  return { nodes, root, branches, stems, shelves, dots, notches, colX, colW, map: { x0: mx0, w: mw, h: mh }, W, H, scale, ox, oy, header, footer, style: S, title: tree.title || tree.root.text, alt: tree.alt || '' };
 }
 
 export function wrapWidth(S, depth, size, measure) {
   const w = at(S.wrap.width, depth);
+  if (S.wrap.unit === 'em') return w * size;
   if (S.wrap.unit === 'ch') return w * measure('abcdefghijklmnopqrstuvwxyz ', size, 'R') / 27;
   return w;
 }
@@ -220,9 +245,11 @@ export function wrapParts(parts, maxW, measure, W, maxLines) {
 }
 
 // Centre line of a branch: [[x, y], …] from (x0, y0) to (x1, y1).
-export function branchPoints(g, B) {
+export function branchPoints(g, B0, depth = 0) {
   const { x0, y0, x1, y1 } = g;
-  const dx = x1 - x0, N = B.samples || 40;
+  const B = {};
+  for (const k of ['shape', 'k', 'kStart', 'kEnd', 'elbow', 'radius']) B[k] = at(B0[k], depth);
+  const dx = x1 - x0, N = B0.samples || 40;
   const cubic = (c1x, c2x) => {
     const pts = [];
     for (let i = 0; i <= N; i++) {
@@ -253,6 +280,6 @@ export function branchPoints(g, B) {
 // Line boxes of every node, in map coordinates: { num, x, y, w, h }.
 export function lineBoxes(L) {
   const out = [];
-  for (const n of L.nodes) for (const l of n.lines) out.push({ num: n.num, x: n.tx, y: n.ty + l.top, w: l.w, h: l.h, line: l });
+  for (const n of L.nodes) for (const l of n.lines) out.push({ num: n.num, x: n.tx + (l.dx || 0), y: n.ty + l.top, w: l.w, h: l.h, line: l });
   return out;
 }

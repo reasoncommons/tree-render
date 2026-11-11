@@ -114,3 +114,35 @@ test('default output path: <tree>-<format> in the working directory', () => {
   assert.equal(r.code, 0, r.err);
   assert.ok(fs.existsSync(out('wise-ai-questions-1x1.svg')));
 });
+
+test('--style: writes <out>/<name>.svg, a 2× PNG and the report', { skip }, () => {
+  const r = cli(path.join(FIXTURES, 'v01-q2.json'), '--style', 'v01', '--out', out('opts'), '--name', 'q2');
+  assert.equal(r.code, 0, r.err + r.out);
+  const svg = fs.readFileSync(out('opts/q2.svg'), 'utf8');
+  assert.match(svg, /width="1735"/);
+  assert.match(svg, /@font-face\{font-family:ApfelMittel/);
+  assert.equal(pngSize(out('opts/q2.png')).width, 3470);
+  assert.equal(JSON.parse(fs.readFileSync(out('opts/q2.report.json'), 'utf8')).ok, true);
+});
+
+test('--style with an unknown style is a usage error', () => {
+  const r = cli(path.join(FIXTURES, 'v01-q2.json'), '--style', 'no-such-style', '--no-png', '--out', out('x'));
+  assert.equal(r.code, 2);
+  assert.match(r.err, /no such style/);
+});
+
+test('scripts/options.js renders every style in a folder and writes index.html', () => {
+  const styles = out('styles');
+  fs.mkdirSync(styles, { recursive: true });
+  fs.writeFileSync(path.join(styles, 'a.json'), JSON.stringify({ extends: 'v01', description: 'first' }));
+  fs.writeFileSync(path.join(styles, 'b.json'), JSON.stringify({ extends: 'v01-thick' }));
+  const r = spawnSync(process.execPath, [path.join(here, '..', 'scripts', 'options.js'), path.join(FIXTURES, 'v01-q2.json'), styles, out('cmp'), '--no-png'], { encoding: 'utf8' });
+  assert.equal(r.status, 0, r.stderr + r.stdout);
+  const html = fs.readFileSync(out('cmp/index.html'), 'utf8');
+  for (const n of ['a', 'b']) {
+    assert.ok(fs.existsSync(out(`cmp/${n}.svg`)));
+    assert.match(html, new RegExp(`<figure id="${n}">`));
+  }
+  assert.match(html, /<details><summary>Style JSON<\/summary>/);
+  assert.match(html, /first/);
+});

@@ -57,7 +57,7 @@ test('per-depth values: arrays repeat their last entry; size as { base, ratio }'
 });
 
 test('the starter styles load and resolve', () => {
-  for (const f of ['v01', 'v01-thick', 'current']) {
+  for (const f of ['v01', 'v01-thick', 'current', 'coggle-tree']) {
     const S = loadStyle(path.join(STYLE_DIR, f + '.json'));
     assert.equal(S.name, f);
     assert.ok(S.font && S.branch && S.space);
@@ -223,7 +223,7 @@ test('canvas: fixed width, height fits the content; a too-wide map is shrunk wit
 });
 
 test('the starter styles render both v0.1 trees with no check errors', () => {
-  for (const f of ['v01', 'v01-thick', 'current']) {
+  for (const f of ['v01', 'v01-thick', 'current', 'coggle-tree']) {
     const S = loadStyle(path.join(STYLE_DIR, f + '.json'));
     for (const tree of [Q2, OVERVIEW]) {
       const L = staticLayout(tree, S, measure);
@@ -234,5 +234,56 @@ test('the starter styles render both v0.1 trees with no check errors', () => {
       assert.match(svg, /@font-face\{font-family:ApfelMittel/);
       assert.equal((svg.match(/class="branch"/g) || []).length, L.nodes.length - 1);
     }
+  }
+});
+
+// --- coggle attach ---------------------------------------------------------------------------------
+
+test('attach coggle: interior labels right-aligned, ending startGap before the junction, the branch beneath', () => {
+  for (const label of ['above', 'outside']) {
+    const L = lay({ attach: { mode: 'coggle', label, startGap: [0, 10], labelGap: 4, notch: true }, branch: { width: [[18, 12], [10, 7]] } });
+    const interior = L.nodes.filter(n => n.depth > 0 && n.children.length);
+    assert.ok(interior.length);
+    for (const n of interior) {
+      const right = Math.max(...n.lines.map(l => n.tx + l.dx + l.w));
+      for (const l of n.lines) assert.ok(near(n.tx + l.dx + l.w, right), `${n.num} line not right-aligned`);
+      const g = L.branches.find(b => b.num === n.num);
+      const [jx, jy] = lastPt(g);
+      assert.ok(near(jx, right + 10), `${n.num} junction ${jx} vs label end ${right}`);
+      // the last stretch is horizontal and runs under (or over) the whole label, clear of its text
+      const pre = g.points[g.points.length - 2];
+      assert.ok(near(pre[1], jy) && pre[0] <= n.tx + 0.5, `${n.num} final run`);
+      const top = n.ty, bottom = n.ty + n.textH;
+      assert.ok(jy - 6 >= bottom + 4 - 1 || jy + 6 <= top - 4 + 1, `${n.num} branch at ${jy} vs text ${top}–${bottom}`);
+      if (label === 'above') assert.ok(jy > bottom);
+      // children fan from the junction
+      for (const c of n.children) assert.deepEqual(L.branches.find(b => b.num === c.num).points[0].map(Math.round), [Math.round(jx), Math.round(jy)]);
+    }
+    assert.equal(L.notches.length, interior.length);
+    // leaves: left-aligned, tip gap before the text, at the first line's centre
+    for (const n of L.nodes.filter(m => !m.children.length)) {
+      const g = L.branches.find(b => b.num === n.num), first = n.lines[0];
+      assert.ok(near(lastPt(g)[0], n.tx - at(L.style.attach.gap, n.depth)));
+      assert.ok(near(lastPt(g)[1], n.ty + first.y - first.size * L.style.attach.midline));
+    }
+    for (const tree of [Q2, OVERVIEW]) {
+      const T = lay({ attach: { mode: 'coggle', label } }, tree);
+      assert.deepEqual(branchesUnderText(T), [], label);
+      assert.deepEqual(textOverlaps(T), [], label);
+    }
+  }
+});
+
+test('wrap width in em is width × the depth\'s font size', () => {
+  const S = resolveStyle({ wrap: { unit: 'em', width: 20 } });
+  assert.equal(wrapWidth(S, 1, 25, measure), 500);
+});
+
+test('the coggle-tree starter style renders both trees with no check errors', () => {
+  const S = loadStyle(path.join(STYLE_DIR, 'coggle-tree.json'));
+  for (const tree of [Q2, OVERVIEW]) {
+    const L = staticLayout(tree, S, measure);
+    assert.deepEqual(checkStatic(L).errors, []);
+    assert.match(drawStatic(L, {}), /class="notch"/);
   }
 });

@@ -1,0 +1,12 @@
+{
+  "name": "coggle-tree",
+  "description": "Coggle tree grammar, as measured (docs/design/references/coggle-measurements.md): grey square root box, a pastel hue per top-level branch with text in a darkened shade, interior labels right-aligned on the branch that runs beneath them to a notched junction, bracket fans to pointed tips, leaves 0.5 em after the tip at the first line's centre, font step 0.86.",
+  "attach": {"mode": "coggle", "label": "above", "labelGap": 4, "notch": true, "gap": [0, 12, 11], "startGap": [0, 10], "stem": false, "fanDot": 0},
+  "font": {"size": {"base": 30, "ratio": 0.86}, "leadWeight": "M", "plainWeight": "R", "rootWeight": "R", "contScale": 1, "lineHeight": [1.15, 1.18, 1.2], "color": ["#383838", "branch", "branch"]},
+  "wrap": {"unit": "em", "width": [15, 15, 22], "balance": true},
+  "branch": {"width": [[18, 12.5], [10, 7]], "shape": ["cubic", "elbow-rounded"], "k": 0.5, "elbow": 0.38, "radius": 26, "fill": "ribbon", "cap": "point", "opacity": 1},
+  "colour": {"bg": "#FFFFFF", "ink": "#383838", "muted": "#777777", "mode": "palette", "palette": ["#E096E9", "#7AA3E5", "#67D7C4", "#9ED56B", "#F0B067"], "textPalette": ["#7C3386", "#2E5081", "#317266", "#506E32", "#8A5413"], "inherit": true},
+  "root": {"style": "box", "fill": "#D0D0D0", "radius": 0, "padX": 20, "padY": 16},
+  "space": {"canvas": 1760, "margin": 72, "run": [110, 100], "sib": 0.92, "cousin": 2.0},
+  "frame": {"show": true, "titleSize": 46, "subtitleSize": 28, "footerSize": 22, "subtitleWrap": 1100, "gap": 72}
+}

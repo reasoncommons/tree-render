@@ -27,6 +27,10 @@ export function ribbonPath(pts, w0, w1, cap = 'round') {
     const [nx, ny, tx, ty, w] = normals[n - 1], [cx, cy] = pts[n - 1];
     for (let k = 1; k < 8; k++) { const a = Math.PI * k / 8; ring.push([cx + w * (nx * Math.cos(a) + tx * Math.sin(a)), cy + w * (ny * Math.cos(a) + ty * Math.sin(a))]); }
   }
+  if (cap === 'point') {
+    const [, , tx, ty, w] = normals[n - 1], [cx, cy] = pts[n - 1];
+    ring.push([cx + tx * w * 1.4, cy + ty * w * 1.4]);
+  }
   ring.push(...dn.reverse());
   if (cap === 'round') {
     const [nx, ny, tx, ty, w] = normals[0], [cx, cy] = pts[0];
@@ -53,15 +57,16 @@ export function drawStatic(L, opts = {}) {
   // shallow branches first, so deeper ones lie on top
   for (const g of [...L.branches].sort((a, b) => a.depth - b.depth)) {
     if (B.fill === 'stroke') out.push(`<path class="branch" data-num="${esc(g.num)}" d="M${P(g.points).join('L')}" fill="none" stroke="${g.colour}" stroke-width="${f1(g.w0)}" stroke-linecap="${capEnd}" stroke-linejoin="round"${op(g.opacity)}/>`);
-    else out.push(`<path class="branch" data-num="${esc(g.num)}" d="${ribbonPath(g.points, g.w0, g.w1, B.cap === 'round' ? 'round' : 'butt')}" fill="${g.colour}"${op(g.opacity)}/>`);
+    else out.push(`<path class="branch" data-num="${esc(g.num)}" d="${ribbonPath(g.points, g.w0, g.w1, B.cap === 'round' || B.cap === 'point' ? B.cap : 'butt')}" fill="${g.colour}"${op(g.opacity)}/>`);
   }
   for (const s of L.shelves) out.push(`<path class="shelf" data-num="${esc(s.num)}" d="M${f1(s.x0)},${f1(s.y - s.w / 2)}H${f1(s.x1 - s.w / 2)}a${f1(s.w / 2)},${f1(s.w / 2)} 0 0 1 0,${f1(s.w)}H${f1(s.x0)}Z" fill="${s.colour}"${op(s.opacity)}/>`);
   for (const s of L.stems) out.push(`<line class="stem" data-num="${esc(s.num)}" x1="${f1(s.x0)}" y1="${f1(s.y)}" x2="${f1(s.x1)}" y2="${f1(s.y)}" stroke="${s.colour}" stroke-width="${f1(s.w)}"/>`);
+  for (const c of L.notches || []) out.push(`<path class="notch" data-num="${esc(c.num)}" d="M${f1(c.x - c.s * 0.35)},${f1(c.y - c.s * 0.75)}L${f1(c.x + c.s * 0.15)},${f1(c.y)}L${f1(c.x - c.s * 0.35)},${f1(c.y + c.s * 0.75)}" fill="none" stroke="${c.colour}" stroke-width="${f1(Math.max(1.5, c.s * 0.16))}" stroke-linejoin="miter"/>`);
   for (const d of L.dots) out.push(`<circle class="dot ${d.kind}" cx="${f1(d.x)}" cy="${f1(d.y)}" r="${f1(d.r)}" fill="${d.colour}"/>`);
   for (const n of L.nodes) {
-    const g = [`<g class="node" data-num="${esc(n.num)}" data-depth="${n.depth}" transform="translate(${f1(n.x)},${f1(n.y)})">`];
-    if (n.box) g.push(`<rect class="root-box" width="${f1(n.w)}" height="${f1(n.h)}" rx="${S.root.radius}" fill="${S.root.fill}"/>`);
-    for (const l of n.lines) g.push(`<text x="${f1(n.padX)}" y="${f1(n.padY + l.y)}" font-size="${l.size}"${l.weight === 'M' ? ` font-family="${FAMILY.M}"` : ''} fill="${l.color}">${escText(l.t)}</text>`);
+    const g = [`<g class="node" data-num="${esc(n.num)}" data-depth="${n.depth}" transform="translate(${f1(n.tx)},${f1(n.ty)})">`];
+    if (n.box) g.push(`<rect class="root-box" x="${f1(-n.padX)}" y="${f1(-n.padY)}" width="${f1(n.w)}" height="${f1(n.h)}" rx="${S.root.radius}" fill="${S.root.fill}"/>`);
+    for (const l of n.lines) g.push(`<text x="${f1(l.dx || 0)}" y="${f1(l.y)}" font-size="${l.size}"${l.weight === 'M' ? ` font-family="${FAMILY.M}"` : ''} fill="${l.color}">${escText(l.t)}</text>`);
     g.push('</g>');
     out.push(g.join(''));
   }

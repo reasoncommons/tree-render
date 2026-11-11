@@ -12,6 +12,7 @@ export const DEFAULT_STYLE = {
   name: 'default',
   attach: {
     mode: 'side',          // side: branch ends at the text's left edge, first line's centre | side-mid: the block's centre | shelf: under the text
+                           // | coggle: interior labels right-aligned on the branch that runs beneath them to a junction; leaves as side
     from: 'text-end',      // where a parent's branches start: text-end (its own block's right edge) | fan (a fan point shared by the column)
     gap: 10,               // px between a branch's end (or its dot) and the text's left edge, per depth arrived at
     startGap: 12,          // px between a text's right edge (or its anchor line's end, for a stem) and its outgoing branches, per depth
@@ -22,6 +23,9 @@ export const DEFAULT_STYLE = {
     midline: 0.32,         // a line's visual centre sits midline × size above its baseline
     shelfLift: 0.26,       // shelf: the shelf runs shelfLift × last line size below the block
     shelfOver: 12,         // shelf: the shelf runs this far past the text's end
+    labelGap: 4,           // coggle: px between an interior label's text box and the branch beneath (or above) it
+    label: 'above',        // coggle: above (label always above its branch) | outside (above for nodes above their parent's junction, below for nodes below)
+    notch: false,          // coggle: a chevron notch cut (in the background colour) at each junction
   },
   font: {
     size: [40, 32, 26],    // px per depth, or { base, ratio }: size(d) = base × ratio^d
@@ -36,7 +40,7 @@ export const DEFAULT_STYLE = {
   },
   wrap: {
     width: [320, 420, 440], // per depth, in px (unit px) or characters (unit ch)
-    unit: 'px',
+    unit: 'px',            // px | ch (average characters) | em (× the depth's font size)
     maxLines: null,        // per depth; null = no limit (lead and continuation lines count together)
     ellipsis: true,        // past maxLines: cut with "…" (false: keep every line and warn)
     balance: true,         // balanced lines (CSS text-wrap: balance) rather than greedy
@@ -44,7 +48,7 @@ export const DEFAULT_STYLE = {
   },
   branch: {
     width: [[2.4, 1.3], [1.6, 0.9]], // per depth left: [start, end] or one number
-    shape: 'cubic',        // cubic | bezier-s | elbow-rounded
+    shape: 'cubic',        // cubic | bezier-s | elbow-rounded; this and k, kStart, kEnd, elbow, radius may be per depth left
     k: 0.5,                // cubic: control points at k × dx from each end
     kStart: 0.15,          // bezier-s: control point at kStart × dx from the start …
     kEnd: 0.6,             // … and kEnd × dx back from the end (bends early, lands flat)
@@ -52,7 +56,7 @@ export const DEFAULT_STYLE = {
     radius: 14,            // elbow-rounded: corner radius
     fill: 'ribbon',        // ribbon (filled, tapered) | stroke (one width: start)
     opacity: 1,            // per depth left
-    cap: 'round',          // round | butt | dot (a dot at the end, radius dotRadius)
+    cap: 'round',          // round | butt | point (a chevron tip, ribbon only) | dot (a dot at the end, radius dotRadius)
     dotRadius: 4,          // per depth arrived at
     samples: 40,
   },
