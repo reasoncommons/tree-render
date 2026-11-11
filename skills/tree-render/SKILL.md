@@ -27,6 +27,8 @@ This writes `out/tree.svg`, `out/tree.png` (2x) and `out/tree.report.json`, and 
 
 `node bin/render.js check tree.json` prints the self-check report only. `node bin/render.js parse tree.md --out tree.json` converts Markdown to canonical JSON.
 
+`--style coggle-exact` is a faithful copy of Coggle's own drawing (one stroked S-curve per branch with Coggle's widths, notched tails and arrow tips, its palette, each label in a darker shade of its branch, Arimo at 17/15.3/13/12 px, Coggle's label placement and spacing); it has its own engine in `render/src/coggle/` and the rules are in [docs/design/references/coggle-spec.md](../../docs/design/references/coggle-spec.md). It writes SVG and PNG only (no report). A node may set `colour` and `textSize` (see `render/TREE-FORMAT.md`).
+
 Other styles live in `render/styles/` (`coggle`, `v01`, `v01-thick`, `coggle-tree`, `current`, and the 2026-11-11 experiments in `options-2026-11-11/`); pass the name or a file path to `--style`. Old, parked flags (`--format`, `--theme`, `carousel`, `--html`) are for framed social cards and the interactive view; ignore them for web and report images.
 
 ## 3. Look, then fix
