@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1292" height="674" viewBox="0 0 1292 674" data-root-x="221" data-root-y="336.75">
+<svg xmlns="http://www.w3.org/2000/svg" width="1292" height="674" viewBox="0 0 1292 674" data-style="coggle-exact" data-root-x="221" data-root-y="336.75">
 <title>[Web3] Evaluation (Coggle original)</title>
 <defs><style>text{font-family:Arimo, Helvetica, Arial, sans-serif;font-kerning:normal}</style><filter id="cg-halo" x="-50%" y="-100%" width="200%" height="300%" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceAlpha" stdDeviation="3" result="b"/><feComponentTransfer in="b" result="b4"><feFuncA type="table" tableValues="0 0.3439 0.5904 0.7599 0.8704 0.9375 0.9744 0.9919 0.9984 0.9999 1"/></feComponentTransfer><feFlood flood-color="#ffffff"/><feComposite in2="b4" operator="in" result="h"/><feMerge><feMergeNode in="h"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
 <rect width="1292" height="674" fill="#ffffff"/>

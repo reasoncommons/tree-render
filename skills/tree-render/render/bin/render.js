@@ -12,7 +12,7 @@ import { parseState } from '../src/state.js';
 import { createMeasurer, fontFaceCSS } from '../src/measure-node.js';
 
 const USAGE = `Usage: tree-render <tree.md|tree.json> [--out DIR] [--name N] [--scale 2] [--no-png]
-                                     static render in the default style (styles/river.json): DIR/<tree>.svg, .png (2×), .report.json
+                                     static render in the default style (styles/coggle-exact.json): DIR/<tree>.svg, .png (2×), .report.json
        tree-render <tree.md|tree.json> --format 4x5|1x1|16x9|web [options]   framed canvas render (any option below but --style)
        tree-render carousel <tree.md|tree.json> [options]   cover + one branch card per level-1 node
        tree-render check <tree.md|tree.json> [options]      print the self-check report only
@@ -141,9 +141,9 @@ async function main(argv) {
   }
 
   const tree = readTree(file);
-  if (a.style === 'coggle-exact') {
+  if (a.style === 'coggle-exact' || (!a.style && !sub && !CANVAS_FLAGS.some(k => a[k] != null))) {
     const { renderCoggle } = await import('../src/coggle/render.js');
-    const r = await renderCoggle(tree, { outDir: a.out || '.', name: a.name, png: !a['no-png'], scale: +(a.scale || 2) });
+    const r = await renderCoggle(tree, { outDir: a.out || '.', name: a.name || (a.style ? undefined : path.basename(file).replace(/\.(md|json|markdown)$/i, '')), png: !a['no-png'], scale: +(a.scale || 2) });
     const b = r.L.bounds;
     console.log(`${Object.values(r.files).map(f => path.basename(f)).join(', ')}  style coggle-exact · ${Math.ceil(b.w + 60)}×${Math.ceil(b.h + 60)} · ${r.L.nodes.length} nodes`);
     return 0;
@@ -151,7 +151,7 @@ async function main(argv) {
   if (a.style || (!sub && !CANVAS_FLAGS.some(k => a[k] != null))) {
     const { renderStatic, reportLines, findStyle } = await import('../src/static-render.js');
     let styleFile;
-    try { styleFile = findStyle(a.style || 'river'); } catch (e) { throw new UsageError(e.message); }
+    try { styleFile = findStyle(a.style); } catch (e) { throw new UsageError(e.message); }
     const name = a.name || (a.style ? undefined : path.basename(file).replace(/\.(md|json|markdown)$/i, ''));
     const r = await renderStatic(tree, styleFile, { outDir: a.out || '.', name, measure: await createMeasurer(), png: !a['no-png'], scale: +(a.scale || 2) });
     console.log(reportLines(Object.values(r.files).map(f => path.basename(f)).join(', '), r.report));

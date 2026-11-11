@@ -24,7 +24,7 @@ export function drawCoggle(L, { fontCSS = '', bg = BG, pad = PAD } = {}) {
   const W = Math.ceil(L.bounds.w + 2 * pad), H = Math.ceil(L.bounds.h + 2 * pad);
   const ox = pad - L.bounds.x, oy = pad - L.bounds.y;
   const out = [];
-  out.push(`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" data-root-x="${n2(ox)}" data-root-y="${n2(oy)}">`);
+  out.push(`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" data-style="coggle-exact" data-root-x="${n2(ox)}" data-root-y="${n2(oy)}">`);
   if (L.title) out.push(`<title>${esc(L.title)}</title>`);
   out.push(`<defs><style>${fontCSS}text{font-family:${FONT_STACK};font-kerning:normal}</style>${haloFilter(bg)}</defs>`);
   out.push(`<rect width="${W}" height="${H}" fill="${bg}"/>`);
