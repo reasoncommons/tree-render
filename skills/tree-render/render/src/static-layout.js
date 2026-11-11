@@ -184,11 +184,11 @@ export function staticLayout(tree, S, measure) {
       const g = { num: n.num, depth: n.depth, x0: p.sx, y0, x1: n.cog ? n.x - at(A.gap, n.depth) : n.ex, y1: n.ay, w0, w1, colour: n.hue, opacity: at(S.branch.opacity, p.depth) };
       const spine = at(S.branch.spine, p.depth) && at(S.branch.shape, p.depth) === 'elbow-rounded' && p.children.length > 1;
       if (spine) {
-        if (!fans.has(p)) fans.set(p, fanSpine(p, S, A));
+        if (!fans.has(p)) fans.set(p, fanSpine(p, S, A, colX[p.depth] + colW[p.depth] + at(A.startGap, p.depth)));
         g.points = fans.get(p).leaf(g);
       } else g.points = branchPoints(g, S.branch, p.depth);
       if (n.cog) { g.points.push([n.ex, n.ay]); g.x1 = n.ex; }
-      if (at(S.branch.junctionCap, p.depth)) caps.push({ x: g.x0, y: g.y0, r: g.w0 / 2, colour: g.colour, kind: 'cap' });
+      if (at(S.branch.junctionCap, p.depth)) caps.push({ x: g.x0, y: g.y0, r: g.w0 / 2, colour: g.colour, parentColour: p.hue, kind: 'cap' });
       if (n.cog && A.notch) notches.push({ num: n.num, x: n.ex, y: n.ay, s: n.win, colour: S.colour.bg });
       branches.push(g);
       if (S.branch.cap === 'dot') dots.push({ x: n.ex, y: n.ay, r: at(S.branch.dotRadius, n.depth), colour: n.hue, kind: 'end' });
@@ -210,9 +210,15 @@ export function staticLayout(tree, S, measure) {
     const w = Math.max(...branches.filter(g => p.children.some(k => k.num === g.num)).map(g => g.w0));
     spines.push({ num: p.num, depth: p.depth + 1, points: pts, w, colour: c.hue, opacity: at(S.branch.opacity, p.depth) });
   }
-  // junction caps: one disc per start point and colour (the widest), widest first
+  // junction caps: one disc per start point, as wide as the widest branch leaving it, in the branches'
+  // colour, or in the parent's hue (colour.rootBranch at the root) where several colours leave one point
   const capAt = new Map();
-  for (const c of caps) { const k = [c.x.toFixed(2), c.y.toFixed(2), c.colour].join(); if (!capAt.has(k) || capAt.get(k).r < c.r) capAt.set(k, c); }
+  for (const c of caps) {
+    const k = c.x.toFixed(2) + ',' + c.y.toFixed(2), o = capAt.get(k);
+    if (!o) { capAt.set(k, { x: c.x, y: c.y, r: c.r, colour: c.colour, kind: 'cap' }); continue; }
+    o.r = Math.max(o.r, c.r);
+    if (o.colour !== c.colour) o.colour = c.parentColour;
+  }
   dots.unshift(...[...capAt.values()].sort((a, b) => b.r - a.r));
 
   // map extents
@@ -308,7 +314,7 @@ export function cutLines(lines, maxW, measure, W, maxLines) {
 export function branchPoints(g, B0, depth = 0) {
   const { x0, y0, x1, y1 } = g;
   const B = {};
-  for (const k of ['shape', 'k', 'kStart', 'kEnd', 'elbow', 'radius']) B[k] = at(B0[k], depth);
+  for (const k of ['shape', 'k', 'kStart', 'kEnd', 'elbow', 'radius', 'elbowSmall']) B[k] = at(B0[k], depth);
   const dx = x1 - x0, N = B0.samples || 40;
   const cubic = (c1x, c2x) => {
     const pts = [];
@@ -322,6 +328,7 @@ export function branchPoints(g, B0, depth = 0) {
   if (B.shape === 'elbow-rounded') {
     const dy = y1 - y0, sy = Math.sign(dy);
     if (Math.abs(dy) < 0.5) return [[x0, y0], [x1, y1]];
+    if (B.elbowSmall === 'curve' && Math.abs(dy) < 2 * B.radius) return cubic(x0 + dx * B.kStart, x1 - dx * B.kEnd);
     const xm = x0 + dx * B.elbow;
     const r = Math.max(0, Math.min(B.radius, Math.abs(dy) / 2, xm - x0, x1 - xm));
     const pts = [[x0, y0], [xm - r, y0]];
@@ -340,16 +347,20 @@ export function branchPoints(g, B0, depth = 0) {
 // Shared fan spine for an elbow-rounded fan (Coggle's bracket): one constant-width spine runs from the
 // parent's start point to a vertical at xm, up to the outermost leaf above and down to the outermost
 // below; each leaf peels off the vertical with its own corner. Returns { spines: [points…], leaf(g) → points }.
-function fanSpine(p, S, A) {
+// The vertical never runs inside the parent's text column: it sits at least at colEnd.
+function fanSpine(p, S, A, colEnd = -Infinity) {
   const B = S.branch, d = p.depth;
   const x0 = p.sx, y0 = p.sy;
   const ends = p.children.map(c => ({ x1: c.cog ? c.x - at(A.gap, c.depth) : c.ex, y1: c.ay }));
   const dxMin = Math.min(...ends.map(e => e.x1 - x0));
-  const xm = x0 + dxMin * at(B.elbow, d);
+  const from = Math.min(Math.max(x0, colEnd), x0 + dxMin - 1); // elbow × the run from the column's end to the leaves
+  const xm = from + (x0 + dxMin - from) * at(B.elbow, d);
   const radius = at(B.radius, d);
+  // a leaf within one start width of the junction's height runs straight on from it
+  const flatDy = Math.max(0.5, branchWidths(S, d)[0]);
   const dirs = {};
   for (const sy of [-1, 1]) {
-    const own = ends.filter(e => Math.sign(e.y1 - y0) === sy && Math.abs(e.y1 - y0) >= 0.5);
+    const own = ends.filter(e => Math.sign(e.y1 - y0) === sy && Math.abs(e.y1 - y0) >= flatDy);
     if (!own.length) continue;
     const r1 = Math.max(0, Math.min(radius, xm - x0, Math.min(...own.map(e => Math.abs(e.y1 - y0))) / 2));
     dirs[sy] = { r1, far: Math.max(...own.map(e => Math.abs(e.y1 - y0))) };
@@ -360,7 +371,7 @@ function fanSpine(p, S, A) {
   for (const sy of [-1, 1]) {
     const D = dirs[sy];
     if (!D) continue;
-    const farE = ends.find(e => Math.sign(e.y1 - y0) === sy && Math.abs(e.y1 - y0) === D.far);
+    const farE = ends.find(e => Math.sign(e.y1 - y0) === sy && Math.abs(e.y1 - y0) === D.far && Math.abs(e.y1 - y0) >= flatDy);
     const pts = [[x0, y0], [xm - D.r1, y0]];
     if (D.r1 > 0) arc(pts, xm - D.r1, y0 + sy * D.r1, D.r1, -sy * Math.PI / 2, 0);
     pts.push([xm, farE.y1 - sy * r2Of(farE, sy)]);
@@ -370,9 +381,10 @@ function fanSpine(p, S, A) {
     spines,
     leaf(g) {
       const dy = g.y1 - y0, sy = Math.sign(dy);
-      if (Math.abs(dy) < 0.5) return [[x0, y0], [xm, g.y1], [g.x1, g.y1]];
+      if (Math.abs(dy) < flatDy) return [[x0, y0], [xm, y0], [g.x1, g.y1]];
       const r = r2Of(g, sy);
-      const pts = [[xm, g.y1 - sy * r]];
+      // start 1 px back up the spine so the two shapes overlap (no antialiasing seam at the join)
+      const pts = [[xm, g.y1 - sy * r - sy], [xm, g.y1 - sy * r]];
       if (r > 0) arc(pts, xm + r, g.y1 - sy * r, r, Math.PI, sy > 0 ? Math.PI / 2 : 3 * Math.PI / 2);
       pts.push([g.x1, g.y1]);
       return pts;

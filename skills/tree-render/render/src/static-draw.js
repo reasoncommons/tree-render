@@ -54,6 +54,9 @@ export function drawStatic(L, opts = {}) {
 
   const op = o => (o != null && o < 1 ? ` opacity="${o}"` : '');
   const capEnd = B.cap === 'round' ? 'round' : 'butt';
+  // junction caps lie beneath the ribbons: they fill the gap where ribbons leave one point, and where
+  // several colours meet none covers another
+  for (const d of L.dots.filter(d => d.kind === 'cap')) out.push(`<circle class="dot cap" cx="${f1(d.x)}" cy="${f1(d.y)}" r="${f1(d.r)}" fill="${d.colour}"/>`);
   if (L.rootSpine) { const r = L.rootSpine; out.push(`<line class="root-spine" x1="${f1(r.x)}" y1="${f1(r.y0)}" x2="${f1(r.x)}" y2="${f1(r.y1)}" stroke="${r.colour}" stroke-width="${f1(r.w)}" stroke-linecap="round"/>`); }
   // shallow branches first, so deeper ones lie on top; a fan's shared spine just before its leaves
   const items = [...(L.spines || []).map(s => ({ ...s, spine: true })), ...L.branches];
@@ -69,7 +72,7 @@ export function drawStatic(L, opts = {}) {
   for (const s of L.shelves) out.push(`<path class="shelf" data-num="${esc(s.num)}" d="M${f1(s.x0)},${f1(s.y - s.w / 2)}H${f1(s.x1 - s.w / 2)}a${f1(s.w / 2)},${f1(s.w / 2)} 0 0 1 0,${f1(s.w)}H${f1(s.x0)}Z" fill="${s.colour}"${op(s.opacity)}/>`);
   for (const s of L.stems) out.push(`<line class="stem" data-num="${esc(s.num)}" x1="${f1(s.x0)}" y1="${f1(s.y)}" x2="${f1(s.x1)}" y2="${f1(s.y)}" stroke="${s.colour}" stroke-width="${f1(s.w)}"/>`);
   for (const c of L.notches || []) out.push(`<path class="notch" data-num="${esc(c.num)}" d="M${f1(c.x - c.s * 0.35)},${f1(c.y - c.s * 0.75)}L${f1(c.x + c.s * 0.15)},${f1(c.y)}L${f1(c.x - c.s * 0.35)},${f1(c.y + c.s * 0.75)}" fill="none" stroke="${c.colour}" stroke-width="${f1(Math.max(1.5, c.s * 0.16))}" stroke-linejoin="miter"/>`);
-  for (const d of L.dots) out.push(`<circle class="dot ${d.kind}" cx="${f1(d.x)}" cy="${f1(d.y)}" r="${f1(d.r)}" fill="${d.colour}"/>`);
+  for (const d of L.dots.filter(d => d.kind !== 'cap')) out.push(`<circle class="dot ${d.kind}" cx="${f1(d.x)}" cy="${f1(d.y)}" r="${f1(d.r)}" fill="${d.colour}"/>`);
   const halo = n => {
     const h = Array.isArray(S.font.halo) ? S.font.halo[Math.min(n.depth, S.font.halo.length - 1)] : S.font.halo;
     return h > 0 ? ` stroke="${S.font.haloColor || C.bg}" stroke-width="${h}" stroke-linejoin="round" paint-order="stroke"` : '';

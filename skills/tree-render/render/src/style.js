@@ -58,6 +58,7 @@ export const DEFAULT_STYLE = {
     kEnd: 0.6,             // … and kEnd × dx back from the end (bends early, lands flat)
     elbow: 0.35,           // elbow-rounded: the vertical run sits at elbow × dx
     radius: 14,            // elbow-rounded: corner radius
+    elbowSmall: 'step',    // elbow-rounded, when the rise is under 2 × radius (the corners can't be full): step (small corners) | curve (an S-curve, bezier-s)
     fill: 'ribbon',        // ribbon (filled, tapered) | stroke (one width: start)
     opacity: 1,            // per depth left
     cap: 'round',          // round | butt | point (a chevron tip, ribbon only) | dot (a dot at the end, radius dotRadius)

@@ -5,7 +5,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { parse } from '../src/parse.js';
 import { resolveStyle, DEFAULT_STYLE } from '../src/style.js';
-import { staticLayout, lineBoxes } from '../src/static-layout.js';
+import { staticLayout, lineBoxes, branchPoints } from '../src/static-layout.js';
 import { drawStatic } from '../src/static-draw.js';
 import { checkStatic, branchesUnderText, textOverlaps } from '../src/static-check.js';
 import { createMeasurer } from '../src/measure-node.js';
@@ -42,14 +42,22 @@ test('junction cap: a disc of half the start width in the branch colour at every
     const L = lay({ attach: { from }, branch: { junctionCap: true, width: [[15, 9], [8, 5]] }, colour: { mode: 'palette' } });
     const caps = L.dots.filter(d => d.kind === 'cap');
     for (const g of L.branches) {
-      const c = caps.find(d => near(d.x, g.x0, 0.01) && near(d.y, g.y0, 0.01) && d.colour === g.colour);
+      const c = caps.find(d => near(d.x, g.x0, 0.01) && near(d.y, g.y0, 0.01));
       assert.ok(c, `${from}: no cap at the start of ${g.num}`);
-      assert.ok(near(c.r, g.w0 / 2, 0.01));
+      assert.ok(c.r >= g.w0 / 2 - 0.01);
+      const same = L.branches.filter(b => near(b.x0, g.x0, 0.01) && near(b.y0, g.y0, 0.01));
+      assert.ok(near(c.r, Math.max(...same.map(b => b.w0)) / 2, 0.01));
+      // the branch colour, or the parent's hue where several colours leave the point
+      const want = new Set(same.map(b => b.colour)).size > 1 ? node(L, g.num).parent.hue : g.colour;
+      assert.equal(c.colour, want, g.num);
     }
-    // one disc per start point and colour
-    const keys = caps.map(d => [d.x.toFixed(2), d.y.toFixed(2), d.colour].join());
+    assert.ok(caps.some(c => c.colour === L.root.hue), 'the root junction, where all hues meet');
+    // one disc per start point
+    const keys = caps.map(d => [d.x.toFixed(2), d.y.toFixed(2)].join());
     assert.equal(new Set(keys).size, keys.length);
-    assert.equal((drawStatic(L).match(/class="dot cap"/g) || []).length, caps.length);
+    const svg = drawStatic(L);
+    assert.equal((svg.match(/class="dot cap"/g) || []).length, caps.length);
+    assert.ok(svg.lastIndexOf('class="dot cap"') < svg.indexOf('class="branch"'), 'caps lie beneath the ribbons');
   }
 });
 
@@ -197,14 +205,16 @@ test('shared fan spine: elbow fans draw one spine per parent and each leaf peels
           assert.deepEqual(s.points[0].map(v => +v.toFixed(2)), [+p.sx.toFixed(2), +p.sy.toFixed(2)]);
           assert.equal(s.w, 8);
         }
-        const xs = p.children.map(c => branch(L, c.num)).filter(g => Math.abs(g.y1 - g.y0) >= 0.5).map(g => g.points[0][0]);
+        const xs = p.children.map(c => branch(L, c.num)).filter(g => Math.abs(g.y1 - g.y0) >= 8).map(g => g.points[0][0]);
         assert.ok(xs.every(x => near(x, xs[0], 0.01)), 'all leaves peel off the same x');
         const spineX = sp[0].points[sp[0].points.length - 1][0];
         assert.ok(near(xs[0], spineX, 0.01));
+        // the vertical sits past the parent column's widest text, whatever this parent's own width
+        assert.ok(spineX > L.colX[p.depth] + L.colW[p.depth], `${mode} ${p.num} spine inside its text column`);
         // the outermost leaf above and below starts where its spine ends
         for (const s of sp) {
           const end = s.points[s.points.length - 1];
-          assert.ok(p.children.some(c => { const st = branch(L, c.num).points[0]; return near(st[0], end[0], 0.01) && near(st[1], end[1], 0.01); }));
+          assert.ok(p.children.some(c => { const st = branch(L, c.num).points[0]; return near(st[0], end[0], 0.01) && near(st[1], end[1], 1.01); }), 'overlapping the spine by 1 px');
         }
         // leaves still end where they did
         for (const c of p.children) {
@@ -241,4 +251,17 @@ test('trunk width by subtree size: more leaves, a wider start; clamped; equal su
   assert.ok(L.branches.filter(g => g.depth === 2).every(g => g.w0 === 8));
   const C = lay({ branch: { width: [[15, 9]], weight: 4, weightClamp: [0.9, 1.1] } });
   for (const g of C.branches.filter(b => b.depth === 1)) assert.ok(g.w0 >= 13.5 - 1e-9 && g.w0 <= 16.5 + 1e-9);
+});
+
+test('elbow-rounded with a small rise: step (default) keeps small corners; curve draws an S-curve', () => {
+  const B = { ...DEFAULT_STYLE.branch, shape: 'elbow-rounded', radius: 24, kStart: 0.25, kEnd: 0.55 };
+  const g = { x0: 0, y0: 0, x1: 200, y1: 20 };
+  const step = branchPoints(g, B), curve = branchPoints(g, { ...B, elbowSmall: 'curve' });
+  // a step has a horizontal run at y0 then one at y1; the curve has no flat run at y0 past the start
+  assert.ok(step.some(p => p[0] >= 55 && p[1] === 0), 'flat at y0 up to the first corner');
+  assert.ok(curve.filter(p => p[0] > 60 && p[0] < 140).every(p => p[1] > 0.5 && p[1] < 19.5));
+  assert.deepEqual(curve.at(-1).map(Math.round), [200, 20]);
+  // a large rise keeps the elbow
+  const big = branchPoints({ ...g, y1: 120 }, { ...B, elbowSmall: 'curve' });
+  assert.ok(big.filter(p => Math.abs(p[0] - 70) < 0.5).length >= 2, 'vertical run at elbow × dx');
 });

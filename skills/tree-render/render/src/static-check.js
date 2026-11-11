@@ -14,11 +14,22 @@ export function branchesUnderText(L) {
     .concat((L.spines || []).map(s => ({ id: 'spine ' + s.num, pts: s.points })))
     .concat(L.rootSpine ? [{ id: 'root spine', pts: Array.from({ length: 21 }, (_, i) => [L.rootSpine.x, L.rootSpine.y0 + (L.rootSpine.y1 - L.rootSpine.y0) * i / 20]) }] : []);
   for (const s of segs) {
+    s.pts = densify(s.pts);
     for (const b of boxes) {
       if (s.pts.some(([x, y]) => inside(x, y, b))) { bad.push({ branch: s.id, node: b.num }); break; }
     }
   }
   return bad;
+}
+
+// Polyline with a point at least every 4 px, so long straight runs are checked along their length.
+function densify(pts) {
+  const out = [pts[0]];
+  for (let i = 1; i < pts.length; i++) {
+    const [x0, y0] = pts[i - 1], [x1, y1] = pts[i], k = Math.ceil(Math.hypot(x1 - x0, y1 - y0) / 4);
+    for (let j = 1; j <= k; j++) out.push([x0 + (x1 - x0) * j / k, y0 + (y1 - y0) * j / k]);
+  }
+  return out;
 }
 
 export function textOverlaps(L) {
