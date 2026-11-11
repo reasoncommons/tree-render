@@ -1,0 +1,11 @@
+# Engine asks from the 2026-11-11 options run
+
+Things the five options in `skills/tree-render/render/styles/options-2026-11-11/` could not get from parameters alone. Each is one line plus the reason; none blocks the recommendation.
+
+- **Junction cap.** Fill a disc (radius = half the start width) in the branch colour at every branch start, including `from: text-end` starts; today `fanDot` only draws at fan points, so where several ribbons leave one point (every L1 junction in `2-coggle-refined`) a small white hole shows at the shared origin.
+- **Honour `accent` in palette mode.** Let a node marked `accent: true` take `colour.accent` instead of its palette slot, so the "So…" branch can be red (as in v0.1) without ordering the palette by hand (`3-editorial` relies on red being slot 5).
+- **Run-in lead.** An option (`font.leadRunIn`) to set the continuation on the same line as the bold lead when the lead is short ("Alignment Partly, and not yet…"), as in Coggle's public "trees" diagram; today the continuation always starts a new line, which spends a line per node on the overview tree.
+- **Text halo.** A background-coloured stroke behind text (d3 tidy-tree style, about 3 px) so that on dense trees a branch passing near or under a label never obscures it; the measured Coggle trees show this failure when crowded, and the halo is the standard fix.
+- **Root vertical placement.** An option to place the root at the mean of its children's attach points weighted toward the middle child, or to let the root's trunks start from a short vertical spine, so a 5-branch tree does not leave the root alone in a tall empty left column (visible in all options; worst in `1-coggle-faithful`).
+- **Shared fan spine.** For `elbow-rounded` fans, draw one vertical spine with leaves peeling off (Coggle's bracket) instead of one elbow per leaf; the overlapping elbows nearly coincide but the outer leaves' corners show a double edge at 2x zoom.
+- **Trunk start width per child.** Let `branch.width` accept a per-child weight (for example by subtree size) so a branch with four leaves can leave the root a little wider than one with three, which is what makes OneZoom-style taper read as organic rather than uniform.

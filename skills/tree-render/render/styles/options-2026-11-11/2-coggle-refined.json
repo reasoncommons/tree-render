@@ -1,0 +1,127 @@
+{
+  "name": "2-coggle-refined",
+  "_why": "Coggle's organic ribbons and colour-per-branch, but the branch meets the text's side at the first line (never under it), the palette is calmer, the lead is bold in the branch's dark hue with the continuation in ink, and the type steps down 0.82 per level. Coggle's feel with editorial typography.",
+  "description": "Refined Coggle: tapered pastel ribbons that end at the lead's side, late S-bend, bracket fans with pointed tips, calmer palette, bold lead in the branch hue and the continuation in ink, font step 0.82, soft root box.",
+  "attach": {
+    "mode": "side",
+    "from": "text-end",
+    "gap": [
+      0,
+      14,
+      12
+    ],
+    "startGap": [
+      14,
+      14
+    ],
+    "stem": false,
+    "fanDot": [
+      0,
+      5
+    ]
+  },
+  "font": {
+    "size": {
+      "base": 36,
+      "ratio": 0.82
+    },
+    "leadWeight": "M",
+    "plainWeight": "R",
+    "rootWeight": "R",
+    "contScale": [
+      1,
+      0.86,
+      1
+    ],
+    "lineHeight": [
+      1.15,
+      1.2,
+      1.25
+    ],
+    "color": [
+      "ink",
+      "branch",
+      "ink"
+    ],
+    "contColor": "ink"
+  },
+  "wrap": {
+    "width": [
+      300,
+      400,
+      460
+    ],
+    "unit": "px",
+    "balance": true
+  },
+  "branch": {
+    "width": [
+      [
+        15,
+        9.5
+      ],
+      [
+        8,
+        5
+      ]
+    ],
+    "shape": [
+      "bezier-s",
+      "elbow-rounded"
+    ],
+    "kStart": 0.25,
+    "kEnd": 0.55,
+    "elbow": 0.42,
+    "radius": 24,
+    "fill": "ribbon",
+    "cap": "point",
+    "opacity": 1
+  },
+  "colour": {
+    "bg": "#FFFFFF",
+    "ink": "#24221F",
+    "muted": "#6E6A64",
+    "mode": "palette",
+    "palette": [
+      "#D39AC9",
+      "#88ABD6",
+      "#74C2B2",
+      "#A9C47A",
+      "#E7B373"
+    ],
+    "textPalette": [
+      "#7A3A74",
+      "#2F5283",
+      "#276A5E",
+      "#4E6A26",
+      "#8A5716"
+    ],
+    "inherit": true
+  },
+  "root": {
+    "style": "box",
+    "fill": "#EFEDE9",
+    "radius": 6,
+    "padX": 22,
+    "padY": 16
+  },
+  "space": {
+    "canvas": 1760,
+    "margin": 72,
+    "run": [
+      130,
+      90
+    ],
+    "sib": 0.6,
+    "cousin": 1.4,
+    "align": "left"
+  },
+  "frame": {
+    "show": true,
+    "titleSize": 46,
+    "subtitleSize": 28,
+    "footerSize": 22,
+    "subtitleWrap": 1100,
+    "gap": 72
+  }
+}

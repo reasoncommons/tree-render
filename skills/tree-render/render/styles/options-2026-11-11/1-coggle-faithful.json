@@ -1,0 +1,11 @@
+{
+  "extends": "coggle-tree",
+  "name": "1-coggle-faithful",
+  "_why": "The measured Coggle tree grammar, as is: grey box root, pastel ribbon per branch with text in the same hue darkened, right-aligned labels riding the trunk into a notched junction, bracket fans to pointed tips. The baseline Rufus already likes, so the other options can be judged as departures from it.",
+  "description": "Faithful Coggle tree (measured): grey root box, pastel ribbons, labels above/below the trunk end, notched junction, bracket fans, font step 0.86, no bold except the lead.",
+  "attach": {"mode": "coggle", "label": "outside", "labelGap": 8, "notch": true, "gap": [0, 12, 12], "startGap": [0, 12]},
+  "font": {"size": {"base": 30, "ratio": 0.86}, "leadWeight": "M", "contScale": 1, "lineHeight": [1.15, 1.18, 1.2], "color": ["#383838", "branch", "branch"]},
+  "wrap": {"unit": "em", "width": [15, 18, 24]},
+  "branch": {"width": [[19, 13], [12, 8]], "shape": ["bezier-s", "elbow-rounded"], "kStart": 0.3, "kEnd": 0.55, "elbow": 0.4, "radius": 28, "cap": "point"},
+  "space": {"run": [120, 90], "sib": 0.85, "cousin": 1.9}
+}

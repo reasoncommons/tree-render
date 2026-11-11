@@ -1,0 +1,118 @@
+{
+  "name": "3-editorial",
+  "_why": "v0.1's typography kept whole (ink text, bold lead, lighter continuation, 40/32/26 sizes) and only the drawing fixed: real tapered branches, one strong colour per branch, a fan from a dot at the root. The least change from the version Rufus rated best.",
+  "description": "v0.1 editorial with real branches: ink text, bold lead and lighter continuation, 40/32/26 type, tapered coloured ribbons from a root fan dot, S-curves that land flat, leaf fans from the lead's end.",
+  "attach": {
+    "mode": "side",
+    "from": "fan",
+    "gap": [
+      10,
+      14,
+      12
+    ],
+    "startGap": 12,
+    "fanGap": [
+      26,
+      12
+    ],
+    "stem": true,
+    "stemWidth": [
+      3,
+      2
+    ],
+    "fanDot": [
+      7,
+      0
+    ]
+  },
+  "font": {
+    "size": [
+      40,
+      32,
+      26
+    ],
+    "leadWeight": "M",
+    "plainWeight": "R",
+    "rootWeight": "R",
+    "contScale": [
+      1,
+      0.845,
+      1
+    ],
+    "lineHeight": [
+      1.12,
+      1.18,
+      1.3
+    ],
+    "color": "ink",
+    "contColor": [
+      "ink",
+      "muted",
+      "ink"
+    ]
+  },
+  "wrap": {
+    "width": [
+      310,
+      440,
+      470
+    ],
+    "unit": "px",
+    "balance": true
+  },
+  "branch": {
+    "width": [
+      [
+        8,
+        4.5
+      ],
+      [
+        4,
+        2.2
+      ]
+    ],
+    "shape": "bezier-s",
+    "kStart": 0.2,
+    "kEnd": 0.55,
+    "fill": "ribbon",
+    "cap": "round",
+    "opacity": 1
+  },
+  "colour": {
+    "bg": "#FFFFFF",
+    "ink": "#1B1916",
+    "muted": "#5F5B55",
+    "mode": "palette",
+    "palette": [
+      "#3B6FA8",
+      "#2A8A78",
+      "#6E962F",
+      "#7B57A4",
+      "#C9321F"
+    ],
+    "inherit": true,
+    "rootBranch": "#1B1916"
+  },
+  "root": {
+    "style": "plain"
+  },
+  "space": {
+    "canvas": 1760,
+    "margin": 72,
+    "run": [
+      230,
+      100
+    ],
+    "sib": 0.6,
+    "cousin": 1.1,
+    "align": "left"
+  },
+  "frame": {
+    "show": true,
+    "titleSize": 46,
+    "subtitleSize": 28,
+    "footerSize": 22,
+    "subtitleWrap": 1100,
+    "gap": 72
+  }
+}
