@@ -12,7 +12,7 @@ import { parseState } from '../src/state.js';
 import { createMeasurer, fontFaceCSS } from '../src/measure-node.js';
 
 const USAGE = `Usage: tree-render <tree.md|tree.json> [--out DIR] [--name N] [--scale 2] [--no-png]
-                                     static render in the default style (styles/default.json): DIR/<tree>.svg, .png (2×), .report.json
+                                     static render in the default style (styles/river.json): DIR/<tree>.svg, .png (2×), .report.json
        tree-render <tree.md|tree.json> --format 4x5|1x1|16x9|web [options]   framed canvas render (any option below but --style)
        tree-render carousel <tree.md|tree.json> [options]   cover + one branch card per level-1 node
        tree-render check <tree.md|tree.json> [options]      print the self-check report only

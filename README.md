@@ -10,3 +10,12 @@ General-purpose: issuetrees.com, Reason Commons and media projects (such as the 
 - **Work:** tracked in Beads (`bd ready`); the epic is "First good set of tree visuals".
 
 History: the SCQ and LTP draft started in `reasoncommons/issuetrees` and moved here on 2026-11-07.
+
+## What lives where
+
+- `skills/tree-render/`: the skill (SKILL.md, CONTENT-GUIDE.md) and the renderer (`render/`).
+- `docs/design/`: design work: brief, references, options.
+- `docs/plans/`: plans, including the [2026-11-11 revision](docs/plans/2026-11-11-revision.md) (current direction: content then render; static images first).
+- `examples/`: example trees in Markdown.
+- `prototypes/`: superseded prototype, kept for history.
+- `archive/`: v0.1, reference only.
