@@ -142,7 +142,7 @@ async function main(argv) {
   if (a.style || (!sub && !CANVAS_FLAGS.some(k => a[k] != null))) {
     const { renderStatic, reportLines, findStyle } = await import('../src/static-render.js');
     let styleFile;
-    try { styleFile = findStyle(a.style || 'default'); } catch (e) { throw new UsageError(e.message); }
+    try { styleFile = findStyle(a.style || 'river'); } catch (e) { throw new UsageError(e.message); }
     const name = a.name || (a.style ? undefined : path.basename(file).replace(/\.(md|json|markdown)$/i, ''));
     const r = await renderStatic(tree, styleFile, { outDir: a.out || '.', name, measure: await createMeasurer(), png: !a['no-png'], scale: +(a.scale || 2) });
     console.log(reportLines(Object.values(r.files).map(f => path.basename(f)).join(', '), r.report));

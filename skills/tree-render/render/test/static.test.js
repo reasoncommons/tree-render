@@ -290,8 +290,8 @@ test('the coggle-tree starter style renders both trees with no check errors', ()
 
 // --- default and river styles ----------------------------------------------------------------------
 
-test('the default and river styles render both v0.1 trees with no check errors; So… takes the accent', () => {
-  for (const f of ['default', 'river']) {
+test('the coggle and river styles render both v0.1 trees with no check errors; So… takes the accent', () => {
+  for (const f of ['coggle', 'river']) {
     const S = loadStyle(path.join(STYLE_DIR, f + '.json'));
     assert.equal(S.name, f);
     assert.equal(S.branch.junctionCap, true);
@@ -303,10 +303,10 @@ test('the default and river styles render both v0.1 trees with no check errors; 
 
 // Golden renders of the default style on the v0.1 fixtures (fonts not embedded). UPDATE_GOLDEN=1 rewrites.
 for (const f of ['v01-q2', 'v01-overview']) {
-  test(`golden default ${f}`, () => {
-    const S = loadStyle(path.join(STYLE_DIR, 'default.json'));
+  test(`golden coggle ${f}`, () => {
+    const S = loadStyle(path.join(STYLE_DIR, 'coggle.json'));
     const svg = drawStatic(staticLayout(parse(readFixture(f + '.json')), S, measure));
-    const file = path.join(path.dirname(new URL(import.meta.url).pathname), 'golden', `static-default-${f}.svg`);
+    const file = path.join(path.dirname(new URL(import.meta.url).pathname), 'golden', `static-coggle-${f}.svg`);
     if (process.env.UPDATE_GOLDEN || !fs.existsSync(file)) {
       if (!process.env.UPDATE_GOLDEN) assert.fail(`missing golden ${path.basename(file)} (run with UPDATE_GOLDEN=1)`);
       fs.writeFileSync(file, svg);

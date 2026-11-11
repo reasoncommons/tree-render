@@ -9,3 +9,12 @@ Things the five options in `skills/tree-render/render/styles/options-2026-11-11/
 - **Root vertical placement.** An option to place the root at the mean of its children's attach points weighted toward the middle child, or to let the root's trunks start from a short vertical spine, so a 5-branch tree does not leave the root alone in a tall empty left column (visible in all options; worst in `1-coggle-faithful`).
 - **Shared fan spine.** For `elbow-rounded` fans, draw one vertical spine with leaves peeling off (Coggle's bracket) instead of one elbow per leaf; the overlapping elbows nearly coincide but the outer leaves' corners show a double edge at 2x zoom.
 - **Trunk start width per child.** Let `branch.width` accept a per-child weight (for example by subtree size) so a branch with four leaves can leave the root a little wider than one with three, which is what makes OneZoom-style taper read as organic rather than uniform.
+
+## Round 2
+
+From tuning `default` and `river` on the five Wise AI trees (the cold reader's four points); parameters covered the type step, the junction tidy-up, the weight progression and most of the dead band. Left over:
+
+- **Canvas fitted to content.** A `space.canvas: "fit"` (with a min and max width) that sizes the canvas to the map plus margins, so a narrow tree embedded in a report page has no dead band on the right; today the width is fixed per style and `fit: shrink` only scales down.
+- **Per-depth wrap balance.** Let `wrap.balance` be per depth (for example `[true, true, false]`) so leaf lines can be greedy to the column width while leads and continuations stay balanced; balanced leaves are what leaves the right edge ragged.
+- **Stem from the lead's end, straight to the fan point, at the fan's width.** For `from: fan` with a shared bracket spine, draw the stem and the first spine segment as one ribbon so the thin stem, the dot and the thick spine read as one element rather than three; today the stem is a separate `stemWidth` line and the cap sits between.
+- **Root junction without a bar.** For `root.spine`, an option to stagger the trunks' start points along the spine but draw no spine (or draw it in the box fill), so five pastel trunks do not pile on one point without the heavy ink bar that `root.spine` paints today.

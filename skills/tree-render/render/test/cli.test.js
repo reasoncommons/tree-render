@@ -129,7 +129,7 @@ test('no --style and no format flags: a static render in the default style, name
   const r = cli(path.join(FIXTURES, 'v01-q2.json'), '--no-png', '--out', out('def'));
   assert.equal(r.code, 0, r.err + r.out);
   const svg = fs.readFileSync(out('def/v01-q2.svg'), 'utf8');
-  assert.match(svg, /data-style="default"/);
+  assert.match(svg, /data-style="river"/);
   assert.ok(fs.existsSync(out('def/v01-q2.report.json')));
   // a named style keeps its own name as the file name; river is a named style
   const v = cli(path.join(FIXTURES, 'v01-q2.json'), '--style', 'river', '--no-png', '--out', out('def'));

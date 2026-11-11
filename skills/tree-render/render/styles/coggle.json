@@ -1,9 +1,9 @@
 {
-  "name": "default",
-  "description": "Default (from options-2026-11-11/2-coggle-refined): tapered pastel ribbons that end at the lead’s side, late S-bend, bracket fans on a shared spine with pointed tips, a junction cap at every branch start, the accent branch (So…) in v0.1 red, bold lead in the branch hue and the continuation in ink, font step 0.82, text halo, soft root box.",
+  "name": "coggle",
+  "description": "Default (from options-2026-11-11/2-coggle-refined, tuned 2026-11-11): tapered pastel ribbons (12 to 9) that diverge early from the root, bracket fans on a shared spine with pointed tips, every L1 junction on one column edge (fan point) tied to its heading by a thin stem, a junction cap at every branch start, the accent branch (So\u2026) in v0.1 red, bold lead in the branch hue and the continuation in ink, type 44/36/28/25 (root, lead, continuation, leaf), leaf wrap 540, text halo, soft root box.",
   "attach": {
     "mode": "side",
-    "from": "text-end",
+    "from": "fan",
     "gap": [
       0,
       14,
@@ -11,25 +11,34 @@
     ],
     "startGap": [
       14,
-      14
+      8
     ],
-    "stem": false,
+    "stem": true,
     "fanDot": [
       0,
       5
+    ],
+    "fanGap": [
+      14,
+      12
+    ],
+    "stemWidth": [
+      15,
+      3
     ]
   },
   "font": {
-    "size": {
-      "base": 36,
-      "ratio": 0.82
-    },
+    "size": [
+      44,
+      36,
+      25
+    ],
     "leadWeight": "M",
     "plainWeight": "R",
     "rootWeight": "R",
     "contScale": [
       1,
-      0.86,
+      0.78,
       1
     ],
     "lineHeight": [
@@ -48,8 +57,8 @@
   "wrap": {
     "width": [
       300,
-      400,
-      460
+      460,
+      540
     ],
     "unit": "px",
     "balance": true
@@ -57,8 +66,8 @@
   "branch": {
     "width": [
       [
-        15,
-        9.5
+        12,
+        9
       ],
       [
         8,
@@ -69,9 +78,12 @@
       "bezier-s",
       "elbow-rounded"
     ],
-    "kStart": 0.25,
+    "kStart": [
+      0.12,
+      0.25
+    ],
     "kEnd": 0.55,
-    "elbow": 0.42,
+    "elbow": 0.32,
     "radius": 24,
     "fill": "ribbon",
     "cap": "point",
@@ -118,7 +130,7 @@
     "margin": 72,
     "run": [
       130,
-      90
+      80
     ],
     "sib": 0.6,
     "cousin": 1.4,
