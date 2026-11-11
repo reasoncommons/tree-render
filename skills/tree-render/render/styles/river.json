@@ -1,6 +1,6 @@
 {
   "name": "river",
-  "description": "River (from options-2026-11-11/5-river): strong taper by level (22 to 11, 10 to 4), saturated hues, late S-bend from a single root point, a junction cap at every branch start, the accent branch (So…) in v0.1 red, bold lead in the deep hue, steep type step (44/31/23), text halo, plain root.",
+  "description": "River (from options-2026-11-11/5-river): strong taper by level (22 to 11, 10 to 4), saturated hues, late S-bend from a single root point, a junction cap at every branch start, the accent branch (So\u2026) in v0.1 red, bold lead in the deep hue, steep type step (44/31/23), text halo, plain root.",
   "attach": {
     "mode": "side",
     "from": "fan",
@@ -82,14 +82,14 @@
     "muted": "#6E6A64",
     "mode": "palette",
     "palette": [
-      "#D9634F",
+      "#7FA33A",
       "#3F86C6",
       "#35A693",
       "#9A66C2",
       "#E8A32A"
     ],
     "textPalette": [
-      "#A33A2A",
+      "#4E6B1C",
       "#255A8E",
       "#1F6E60",
       "#6A3F8F",
