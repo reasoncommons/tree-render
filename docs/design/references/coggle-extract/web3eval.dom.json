@@ -1,0 +1,1841 @@
+{
+ "origin": {
+  "left": "13656px",
+  "top": "8128px"
+ },
+ "rootG": "translate(21,-252)",
+ "pannableRect": {
+  "x": -12770,
+  "y": -7353.09375
+ },
+ "viewBox": "-13656 -8128 28040 15768",
+ "editorClass": "diagram-editor readonly lod-1",
+ "bodyBg": "rgba(0, 0, 0, 0)",
+ "nodes": [
+  {
+   "id": "61f59388782d193b5364e9e4",
+   "cls": "node-container shape lr-center tb-middle root titleroot root-shape haschildren",
+   "style": "color: rgb(65, 65, 65); --c-text: #414141; left: 21px; top: -252px; font-size: 17px;",
+   "contentStyle": "--c-errfg: var(--c-error-red); --c-errbg: #fff; font-size: 17px; width: 350px;",
+   "text": "[Web3] What is the evaluation of the various claims (+ve or -ve) for web3/crypto (and the supporting reasoning/sensemaking) so that … we (collectively as individuals, societies etc) make good choices te the technology (whether to support, improve or curb) and allocate our resources (attention, energy, money) effectively and this all happens in as a constructive, intersectional and (de-polarizing) way as possible?",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "17px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(65, 65, 65)",
+   "textAlign": "center",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 723,
+    "y": 413.90625,
+    "w": 368,
+    "h": 218
+   },
+   "textBox": {
+    "x": 732,
+    "y": 422.90625,
+    "w": 350,
+    "h": 200
+   },
+   "lineRects": [
+    {
+     "x": 732,
+     "y": 422.90625,
+     "w": 350,
+     "h": 200
+    },
+    {
+     "x": 740.828125,
+     "y": 422.90625,
+     "w": 332.328125,
+     "h": 20
+    },
+    {
+     "x": 742.828125,
+     "y": 442.90625,
+     "w": 328.328125,
+     "h": 20
+    },
+    {
+     "x": 733.59375,
+     "y": 462.90625,
+     "w": 346.8125,
+     "h": 20
+    },
+    {
+     "x": 742.125,
+     "y": 482.90625,
+     "w": 329.75,
+     "h": 20
+    },
+    {
+     "x": 766.65625,
+     "y": 502.90625,
+     "w": 280.6875,
+     "h": 20
+    },
+    {
+     "x": 750.609375,
+     "y": 522.90625,
+     "w": 312.765625,
+     "h": 20
+    },
+    {
+     "x": 753.109375,
+     "y": 542.90625,
+     "w": 307.765625,
+     "h": 20
+    },
+    {
+     "x": 733.265625,
+     "y": 562.90625,
+     "w": 347.46875,
+     "h": 20
+    },
+    {
+     "x": 733.59375,
+     "y": 582.90625,
+     "w": 346.796875,
+     "h": 20
+    },
+    {
+     "x": 842.265625,
+     "y": 602.90625,
+     "w": 129.46875,
+     "h": 20
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "[Web3] What is the evaluation of the various claims (+ve or -ve) for web3/crypto (and the supporting reasoning/sensemaking) so that … we (collectively as individuals, societies etc) make good choices te the technology (whether to support, improve or curb) and allocate our resources (attention, energy, money) effectively and this all happens in as a constructive, intersectional and (de-polarizing) way as possible?",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(65, 65, 65)",
+     "size": "17px"
+    }
+   ],
+   "shape": {
+    "d": "M -184,4.9 L -191,0,-184,-4.9,-184,-103.5 A 2.5,2.5,0,0,1,-181.5,-106 L -4.9,-106,0,-113,4.9,-106,181.5,-106 A 2.5,2.5,0,0,1,184,-103.5 L 184,-4.9,191,0,184,4.9,184,103.5 A 2.5,2.5,0,0,1,181.5,106 L 4.9,106,0,113,-4.9,106,-181.5,106 A 2.5,2.5,0,0,1,-184,103.5 Z",
+    "fill": "#d0d0d0",
+    "svg": "<svg class=\"shapebackground\" height=\"226\" width=\"382\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" viewBox=\"-191 -113 382 226\" style=\"margin: -113px 0px 0px -191px;\"><path d=\"M -184,4.9 L -191,0,-184,-4.9,-184,-103.5 A 2.5,2.5,0,0,1,-181.5,-106 L -4.9,-"
+   }
+  },
+  {
+   "id": "7b0992ef677e25abc1b94615",
+   "cls": "node-container lr-left tb-top haschildren",
+   "style": "color: rgb(130, 52, 140); --c-text: #82348c; left: 652px; top: -502px; font-size: 15.3px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 15.3px; width: 350px;",
+   "text": "What are the core high level problems/aspirations/hopes that crypto/web3 movement talks to ...",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "15.3px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(130, 52, 140)",
+   "textAlign": "right",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1170,
+    "y": 200.90625,
+    "w": 368,
+    "h": 72
+   },
+   "textBox": {
+    "x": 1179,
+    "y": 209.90625,
+    "w": 350,
+    "h": 54
+   },
+   "lineRects": [
+    {
+     "x": 1179,
+     "y": 209.90625,
+     "w": 350,
+     "h": 54
+    },
+    {
+     "x": 1338.484375,
+     "y": 209.90625,
+     "w": 190.515625,
+     "h": 18
+    },
+    {
+     "x": 1225.375,
+     "y": 227.90625,
+     "w": 303.625,
+     "h": 18
+    },
+    {
+     "x": 1387.84375,
+     "y": 245.90625,
+     "w": 141.15625,
+     "h": 18
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "What are the core high level problems/aspirations/hopes that crypto/web3 movement talks to ...",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(130, 52, 140)",
+     "size": "15.3px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "5d9856d51f2e0f46ab92ab1d",
+   "cls": "node-container lr-left tb-bottom haschildren",
+   "style": "color: rgb(79, 111, 49); --c-text: #4f6f31; left: 652px; top: -19px; font-size: 15.3px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 15.3px; width: auto; white-space: nowrap;",
+   "text": "How does this contribute to wider sensemaking?",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "15.3px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(79, 111, 49)",
+   "textAlign": "right",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1191.71875,
+    "y": 755.90625,
+    "w": 346.28125,
+    "h": 36
+   },
+   "textBox": {
+    "x": 1200.71875,
+    "y": 764.90625,
+    "w": 328.28125,
+    "h": 18
+   },
+   "lineRects": [
+    {
+     "x": 1200.71875,
+     "y": 764.90625,
+     "w": 328.28125,
+     "h": 18
+    },
+    {
+     "x": 1200.71875,
+     "y": 764.90625,
+     "w": 328.28125,
+     "h": 18
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "How does this contribute to wider sensemaking?",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(79, 111, 49)",
+     "size": "15.3px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "63b634bd8bba6282bf28233b",
+   "cls": "node-container lr-left tb-top haschildren",
+   "style": "color: rgb(46, 78, 129); --c-text: #2e4e81; left: 652px; top: -352px; font-size: 15.3px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 15.3px; width: 350px;",
+   "text": "What is our evaluation i.e. how would crypto/web3 address those aspirations, how else could they be addressed (outside web3 etc), and what are the risks of web3 / crypto?",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "15.3px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(46, 78, 129)",
+   "textAlign": "right",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1170,
+    "y": 332.90625,
+    "w": 368,
+    "h": 90
+   },
+   "textBox": {
+    "x": 1179,
+    "y": 341.90625,
+    "w": 350,
+    "h": 72
+   },
+   "lineRects": [
+    {
+     "x": 1179,
+     "y": 341.90625,
+     "w": 350,
+     "h": 72
+    },
+    {
+     "x": 1189.671875,
+     "y": 341.90625,
+     "w": 339.328125,
+     "h": 18
+    },
+    {
+     "x": 1190.484375,
+     "y": 359.90625,
+     "w": 338.515625,
+     "h": 18
+    },
+    {
+     "x": 1205.796875,
+     "y": 377.90625,
+     "w": 323.203125,
+     "h": 18
+    },
+    {
+     "x": 1376.78125,
+     "y": 395.90625,
+     "w": 152.21875,
+     "h": 18
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "What is our evaluation i.e. how would crypto/web3 address those aspirations, how else could they be addressed (outside web3 etc), and what are the risks of web3 / crypto?",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(46, 78, 129)",
+     "size": "15.3px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "778628f3849ef9b55c605be6",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(78, 109, 47); --c-text: #4e6d2f; left: 707px; top: -3px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: auto; white-space: nowrap;",
+   "text": "How do we involve others in the sensemaking process?",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(78, 109, 47)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1588,
+    "y": 754.40625,
+    "w": 338.125,
+    "h": 33
+   },
+   "textBox": {
+    "x": 1597,
+    "y": 763.40625,
+    "w": 320.125,
+    "h": 15
+   },
+   "lineRects": [
+    {
+     "x": 1597,
+     "y": 763.40625,
+     "w": 320.125,
+     "h": 15
+    },
+    {
+     "x": 1597,
+     "y": 763.40625,
+     "w": 320.125,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "How do we involve others in the sensemaking process?",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(78, 109, 47)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "169117933bf5e0937a12cbdc",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(124, 51, 134); --c-text: #7c3386; left: 707px; top: -527px; font-size: 15.3px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 15.3px; width: 350px;",
+   "text": "What is an inventory of these aspirations and what are the most important?",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "15.3px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(124, 51, 134)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1588,
+    "y": 219.90625,
+    "w": 368,
+    "h": 54
+   },
+   "textBox": {
+    "x": 1597,
+    "y": 228.90625,
+    "w": 350,
+    "h": 36
+   },
+   "lineRects": [
+    {
+     "x": 1597,
+     "y": 228.90625,
+     "w": 350,
+     "h": 36
+    },
+    {
+     "x": 1597,
+     "y": 228.90625,
+     "w": 341.890625,
+     "h": 18
+    },
+    {
+     "x": 1597,
+     "y": 246.90625,
+     "w": 161.578125,
+     "h": 18
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "What is an inventory of these aspirations and what are the most important?",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(124, 51, 134)",
+     "size": "15.3px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "f7c222893bf24ca790f19120",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(126, 50, 137); --c-text: #7e3289; left: 707px; top: -477px; font-size: 15.3px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 15.3px; width: 350px;",
+   "text": "What are the political imaginaries/ideologies that relate to this?",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "15.3px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(126, 50, 137)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1588,
+    "y": 269.90625,
+    "w": 368,
+    "h": 54
+   },
+   "textBox": {
+    "x": 1597,
+    "y": 278.90625,
+    "w": 350,
+    "h": 36
+   },
+   "lineRects": [
+    {
+     "x": 1597,
+     "y": 278.90625,
+     "w": 350,
+     "h": 36
+    },
+    {
+     "x": 1597,
+     "y": 278.90625,
+     "w": 328.28125,
+     "h": 18
+    },
+    {
+     "x": 1597,
+     "y": 296.90625,
+     "w": 91.859375,
+     "h": 18
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "What are the political imaginaries/ideologies that relate to this?",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(126, 50, 137)",
+     "size": "15.3px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "d77340c62aea673eb16fb542",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(46, 80, 129); --c-text: #2e5081; left: 707px; top: -427px; font-size: 15.3px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 15.3px; width: 350px;",
+   "text": "What is the matrix of +ve claims for web3/crypto vs aspirations?",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "15.3px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(46, 80, 129)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1588,
+    "y": 319.90625,
+    "w": 368,
+    "h": 54
+   },
+   "textBox": {
+    "x": 1597,
+    "y": 328.90625,
+    "w": 350,
+    "h": 36
+   },
+   "lineRects": [
+    {
+     "x": 1597,
+     "y": 328.90625,
+     "w": 350,
+     "h": 36
+    },
+    {
+     "x": 1597,
+     "y": 328.90625,
+     "w": 344.796875,
+     "h": 18
+    },
+    {
+     "x": 1597,
+     "y": 346.90625,
+     "w": 82.5,
+     "h": 18
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "What is the matrix of +ve claims for web3/crypto vs aspirations?",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(46, 80, 129)",
+     "size": "15.3px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "400d44e9e22056ec9909bea8",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(47, 82, 133); --c-text: #2f5285; left: 707px; top: -386px; font-size: 15.3px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 15.3px; width: auto; white-space: nowrap;",
+   "text": "What is the evaluation of these claims?",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "15.3px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(47, 82, 133)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1588,
+    "y": 369.90625,
+    "w": 283.34375,
+    "h": 36
+   },
+   "textBox": {
+    "x": 1597,
+    "y": 378.90625,
+    "w": 265.34375,
+    "h": 18
+   },
+   "lineRects": [
+    {
+     "x": 1597,
+     "y": 378.90625,
+     "w": 265.34375,
+     "h": 18
+    },
+    {
+     "x": 1597,
+     "y": 378.90625,
+     "w": 265.34375,
+     "h": 18
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "What is the evaluation of these claims?",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(47, 82, 133)",
+     "size": "15.3px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "acc3b770b57a1f27468415f0",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(47, 81, 131); --c-text: #2f5183; left: 707px; top: -344px; font-size: 15.3px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 15.3px; width: 350px;",
+   "text": "What are the other (non web3) ways of addressing those aspirations ...?",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "15.3px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(47, 81, 131)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1588,
+    "y": 402.90625,
+    "w": 368,
+    "h": 54
+   },
+   "textBox": {
+    "x": 1597,
+    "y": 411.90625,
+    "w": 350,
+    "h": 36
+   },
+   "lineRects": [
+    {
+     "x": 1597,
+     "y": 411.90625,
+     "w": 350,
+     "h": 36
+    },
+    {
+     "x": 1597,
+     "y": 411.90625,
+     "w": 342.734375,
+     "h": 18
+    },
+    {
+     "x": 1597,
+     "y": 429.90625,
+     "w": 141.1875,
+     "h": 18
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "What are the other (non web3) ways of addressing those aspirations ...?",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(47, 81, 131)",
+     "size": "15.3px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "c0176eb5604edcd91f31261c",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(45, 78, 129); --c-text: #2d4e81; left: 707px; top: -285px; font-size: 15.3px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 15.3px; width: 350px;",
+   "text": "What are the risks of the web3 movement (beyond not fulfilling on its aspirations and the opportunity cost of that)?",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "15.3px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(45, 78, 129)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1588,
+    "y": 452.90625,
+    "w": 368,
+    "h": 72
+   },
+   "textBox": {
+    "x": 1597,
+    "y": 461.90625,
+    "w": 350,
+    "h": 54
+   },
+   "lineRects": [
+    {
+     "x": 1597,
+     "y": 461.90625,
+     "w": 350,
+     "h": 54
+    },
+    {
+     "x": 1597,
+     "y": 461.90625,
+     "w": 341.875,
+     "h": 18
+    },
+    {
+     "x": 1597,
+     "y": 479.90625,
+     "w": 330.859375,
+     "h": 18
+    },
+    {
+     "x": 1597,
+     "y": 497.90625,
+     "w": 88.453125,
+     "h": 18
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "What are the risks of the web3 movement (beyond not fulfilling on its aspirations and the opportunity cost of that)?",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(45, 78, 129)",
+     "size": "15.3px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "ddd90483520bc3576425e43b",
+   "cls": "node-container lr-left tb-bottom haschildren",
+   "style": "color: rgb(47, 112, 101); --c-text: #2f7065; left: 652px; top: -174px; font-size: 15.3px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 15.3px; width: 350px;",
+   "text": "What key background ideas are needed / relevant?",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "15.3px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(47, 112, 101)",
+   "textAlign": "right",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1170,
+    "y": 600.90625,
+    "w": 368,
+    "h": 36
+   },
+   "textBox": {
+    "x": 1179,
+    "y": 609.90625,
+    "w": 350,
+    "h": 18
+   },
+   "lineRects": [
+    {
+     "x": 1179,
+     "y": 609.90625,
+     "w": 350,
+     "h": 18
+    },
+    {
+     "x": 1182.828125,
+     "y": 609.90625,
+     "w": 346.171875,
+     "h": 18
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "What key background ideas are needed / relevant?",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(47, 112, 101)",
+     "size": "15.3px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "630206bf1a356e819a4ff71f",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(46, 111, 99); --c-text: #2e6f63; left: 706px; top: -112px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: auto; white-space: nowrap;",
+   "text": "What computer science?",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(46, 111, 99)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1587,
+    "y": 645.40625,
+    "w": 161.078125,
+    "h": 33
+   },
+   "textBox": {
+    "x": 1596,
+    "y": 654.40625,
+    "w": 143.078125,
+    "h": 15
+   },
+   "lineRects": [
+    {
+     "x": 1596,
+     "y": 654.40625,
+     "w": 143.078125,
+     "h": 15
+    },
+    {
+     "x": 1596,
+     "y": 654.40625,
+     "w": 143.078125,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "What computer science?",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(46, 111, 99)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "c18d3380ffcb7fee0e6d39f0",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(45, 113, 100); --c-text: #2d7164; left: 706px; top: -174px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: auto; white-space: nowrap;",
+   "text": "What economics and game theory?",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(45, 113, 100)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1587,
+    "y": 583.40625,
+    "w": 222.5,
+    "h": 33
+   },
+   "textBox": {
+    "x": 1596,
+    "y": 592.40625,
+    "w": 204.5,
+    "h": 15
+   },
+   "lineRects": [
+    {
+     "x": 1596,
+     "y": 592.40625,
+     "w": 204.5,
+     "h": 15
+    },
+    {
+     "x": 1596,
+     "y": 592.40625,
+     "w": 204.5,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "What economics and game theory?",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(45, 113, 100)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "5e1e2e176c302169288cc4ed",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(47, 112, 100); --c-text: #2f7064; left: 706px; top: -205px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: auto; white-space: nowrap;",
+   "text": "What political theory / science?",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(47, 112, 100)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1587,
+    "y": 552.40625,
+    "w": 197.203125,
+    "h": 33
+   },
+   "textBox": {
+    "x": 1596,
+    "y": 561.40625,
+    "w": 179.203125,
+    "h": 15
+   },
+   "lineRects": [
+    {
+     "x": 1596,
+     "y": 561.40625,
+     "w": 179.203125,
+     "h": 15
+    },
+    {
+     "x": 1596,
+     "y": 561.40625,
+     "w": 179.203125,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "What political theory / science?",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(47, 112, 100)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "b51ff77742c92bea6d8ab039",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(49, 114, 102); --c-text: #317266; left: 706px; top: -236px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: auto; white-space: nowrap;",
+   "text": "What do we mean by key terms?",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(49, 114, 102)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1587,
+    "y": 521.40625,
+    "w": 207.3125,
+    "h": 33
+   },
+   "textBox": {
+    "x": 1596,
+    "y": 530.40625,
+    "w": 189.3125,
+    "h": 15
+   },
+   "lineRects": [
+    {
+     "x": 1596,
+     "y": 530.40625,
+     "w": 189.3125,
+     "h": 15
+    },
+    {
+     "x": 1596,
+     "y": 530.40625,
+     "w": 189.3125,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "What do we mean by key terms?",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(49, 114, 102)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "2a7b4d6c85aa52633d2f3943",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(48, 112, 101); --c-text: #307065; left: 706px; top: -143px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: auto; white-space: nowrap;",
+   "text": "What macroeconomics?",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(48, 112, 101)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1587,
+    "y": 614.40625,
+    "w": 157.453125,
+    "h": 33
+   },
+   "textBox": {
+    "x": 1596,
+    "y": 623.40625,
+    "w": 139.453125,
+    "h": 15
+   },
+   "lineRects": [
+    {
+     "x": 1596,
+     "y": 623.40625,
+     "w": 139.453125,
+     "h": 15
+    },
+    {
+     "x": 1596,
+     "y": 623.40625,
+     "w": 139.453125,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "What macroeconomics?",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(48, 112, 101)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "2f92854eaa26e3c29529e3ff",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(79, 110, 49); --c-text: #4f6e31; left: 707px; top: -73px; font-size: 13.8134px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13.8134px; width: 350px;",
+   "text": "Why has crypto/web3 (narrative) been so attractive (successful?)?",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13.8134px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(79, 110, 49)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1588,
+    "y": 675.90625,
+    "w": 368,
+    "h": 50
+   },
+   "textBox": {
+    "x": 1597,
+    "y": 684.90625,
+    "w": 350,
+    "h": 32
+   },
+   "lineRects": [
+    {
+     "x": 1597,
+     "y": 684.90625,
+     "w": 350,
+     "h": 32
+    },
+    {
+     "x": 1597,
+     "y": 684.90625,
+     "w": 311.640625,
+     "h": 16
+    },
+    {
+     "x": 1597,
+     "y": 700.90625,
+     "w": 89.03125,
+     "h": 16
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Why has crypto/web3 (narrative) been so attractive (successful?)?",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(79, 110, 49)",
+     "size": "13.8134px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "16002055dd1c17ccb58adff3",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(80, 110, 50); --c-text: #506e32; left: 707px; top: -34px; font-size: 13.8134px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13.8134px; width: auto; white-space: nowrap;",
+   "text": "How do we share what we are doing?",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13.8134px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(80, 110, 50)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1588,
+    "y": 722.90625,
+    "w": 248.3125,
+    "h": 34
+   },
+   "textBox": {
+    "x": 1597,
+    "y": 731.90625,
+    "w": 230.3125,
+    "h": 16
+   },
+   "lineRects": [
+    {
+     "x": 1597,
+     "y": 731.90625,
+     "w": 230.3125,
+     "h": 16
+    },
+    {
+     "x": 1597,
+     "y": 731.90625,
+     "w": 230.3125,
+     "h": 16
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "How do we share what we are doing?",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(80, 110, 50)",
+     "size": "13.8134px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "d96e33544ee8bc4ac24bbc72",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(77, 108, 47); --c-text: #4d6c2f; left: 707px; top: 36px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: 350px;",
+   "text": "What framework can we use to answer the question of whether crypto or web3 is useful and in what way …?",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(77, 108, 47)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1588,
+    "y": 785.90625,
+    "w": 368,
+    "h": 48
+   },
+   "textBox": {
+    "x": 1597,
+    "y": 794.90625,
+    "w": 350,
+    "h": 30
+   },
+   "lineRects": [
+    {
+     "x": 1597,
+     "y": 794.90625,
+     "w": 350,
+     "h": 30
+    },
+    {
+     "x": 1597,
+     "y": 794.90625,
+     "w": 312.890625,
+     "h": 15
+    },
+    {
+     "x": 1597,
+     "y": 809.90625,
+     "w": 307.109375,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "What framework can we use to answer the question of whether crypto or web3 is useful and in what way …?",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(77, 108, 47)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  }
+ ],
+ "conns": [
+  {
+   "id": "7b0992ef677e25abc1b94615",
+   "parent": null,
+   "transform": "translate(0, 0)",
+   "paths": [
+    {
+     "d": "M 0 -4.595 6.9643 0 0 4.595 6.9643 4.595 6.9643 -4.595 z",
+     "transform": "translate(187.0357,0)",
+     "fill": "#e096e9",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.4450 0.1 -4.4450 6.7396 0 0.1 4.4450 -0.2 4.4450 ",
+     "transform": "translate(621.0257,-250.2725)",
+     "fill": "#e096e9",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M 193 0 C 512.6468 0 331.9361 -250.2725 621.0357 -250.2725 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#e096e9",
+     "sw": "9.19",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "169117933bf5e0937a12cbdc",
+   "parent": "7b0992ef677e25abc1b94615",
+   "transform": "translate(631,-250.2725)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#db8de6",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.2843,-25.005)",
+     "fill": "#db8de6",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 31.7378 0 16.1320 -25.005 45.2943 -25.005 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#db8de6",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "f7c222893bf24ca790f19120",
+   "parent": "7b0992ef677e25abc1b94615",
+   "transform": "translate(631,-250.2725)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#dd8fe8",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.2843,25.0050)",
+     "fill": "#dd8fe8",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 31.7378 0 16.1320 25.0050 45.2943 25.0050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#dd8fe8",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "5d9856d51f2e0f46ab92ab1d",
+   "parent": null,
+   "transform": "translate(0, 0)",
+   "paths": [
+    {
+     "d": "M 0 -4.595 6.9643 0 0 4.595 6.9643 4.595 6.9643 -4.595 z",
+     "transform": "translate(187.0357,0)",
+     "fill": "#9ed56b",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.4450 0.1 -4.4450 6.7396 0 0.1 4.4450 -0.2 4.4450 ",
+     "transform": "translate(621.0257,233.2675)",
+     "fill": "#9ed56b",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M 193 0 C 511.2864 0 337.0376 233.2675 621.0357 233.2675 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#9ed56b",
+     "sw": "9.19",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "778628f3849ef9b55c605be6",
+   "parent": "5d9856d51f2e0f46ab92ab1d",
+   "transform": "translate(631,233.2675)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#9cd464",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.2243,16.0050)",
+     "fill": "#9cd464",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 30.4972 0 19.0974 16.0050 45.2343 16.0050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#9cd464",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "2f92854eaa26e3c29529e3ff",
+   "parent": "5d9856d51f2e0f46ab92ab1d",
+   "transform": "translate(631,233.2675)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#9fd36b",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.2243,-54.005)",
+     "fill": "#9fd36b",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 35.1319 0 6.5078 -54.005 45.2343 -54.005 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#9fd36b",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "16002055dd1c17ccb58adff3",
+   "parent": "5d9856d51f2e0f46ab92ab1d",
+   "transform": "translate(631,233.2675)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#a0d36d",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.2243,-15.0050)",
+     "fill": "#a0d36d",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 30.3694 0 19.4218 -15.0050 45.2343 -15.0050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#a0d36d",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "d96e33544ee8bc4ac24bbc72",
+   "parent": "5d9856d51f2e0f46ab92ab1d",
+   "transform": "translate(631,233.2675)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#9bd462",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.2243,54.505)",
+     "fill": "#9bd462",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 35.1828 0 6.3477 54.505 45.2343 54.505 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#9bd462",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "63b634bd8bba6282bf28233b",
+   "parent": null,
+   "transform": "translate(0, 0)",
+   "paths": [
+    {
+     "d": "M 0 -4.595 6.9643 0 0 4.595 6.9643 4.595 6.9643 -4.595 z",
+     "transform": "translate(187.0357,0)",
+     "fill": "#7aa3e5",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.4450 0.1 -4.4450 6.7396 0 0.1 4.4450 -0.2 4.4450 ",
+     "transform": "translate(621.0257,-99.7625)",
+     "fill": "#7aa3e5",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M 193 0 C 500.6060 0 377.0891 -99.7625 621.0357 -99.7625 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#7aa3e5",
+     "sw": "9.19",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "d77340c62aea673eb16fb542",
+   "parent": "63b634bd8bba6282bf28233b",
+   "transform": "translate(631,-99.7625)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#7aa5e5",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.6443,-75.505)",
+     "fill": "#7aa5e5",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 37.6984 0 -0.3244 -75.505 45.6543 -75.505 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#7aa5e5",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "400d44e9e22056ec9909bea8",
+   "parent": "63b634bd8bba6282bf28233b",
+   "transform": "translate(631,-99.7625)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#81aae7",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.6443,-34.0050)",
+     "fill": "#81aae7",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 33.1766 0 13.2646 -34.0050 45.6543 -34.0050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#81aae7",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "acc3b770b57a1f27468415f0",
+   "parent": "63b634bd8bba6282bf28233b",
+   "transform": "translate(631,-99.7625)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#7fa8e6",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.6443,7.5050)",
+     "fill": "#7fa8e6",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 29.8421 0 21.9340 7.5050 45.6543 7.5050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#7fa8e6",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "c0176eb5604edcd91f31261c",
+   "parent": "63b634bd8bba6282bf28233b",
+   "transform": "translate(631,-99.7625)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#75a2e6",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.6443,66.505)",
+     "fill": "#75a2e6",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 36.9784 0 2.3756 66.505 45.6543 66.505 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#75a2e6",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "ddd90483520bc3576425e43b",
+   "parent": null,
+   "transform": "translate(0, 0)",
+   "paths": [
+    {
+     "d": "M 0 -4.595 6.9643 0 0 4.595 6.9643 4.595 6.9643 -4.595 z",
+     "transform": "translate(187.0357,0)",
+     "fill": "#67d7c4",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.4450 0.1 -4.4450 6.7396 0 0.1 4.4450 -0.2 4.4450 ",
+     "transform": "translate(621.0257,78.2575)",
+     "fill": "#67d7c4",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M 193 0 C 498.8856 0 383.5406 78.2575 621.0357 78.2575 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#67d7c4",
+     "sw": "9.19",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "630206bf1a356e819a4ff71f",
+   "parent": "ddd90483520bc3576425e43b",
+   "transform": "translate(631,78.2575)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#63d7c2",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(44.9043,62.005)",
+     "fill": "#63d7c2",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 36.1004 0 3.3556 62.005 44.9143 62.005 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#63d7c2",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "c18d3380ffcb7fee0e6d39f0",
+   "parent": "ddd90483520bc3576425e43b",
+   "transform": "translate(631,78.2575)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#63d9c3",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(44.9043,-0.0050)",
+     "fill": "#63d9c3",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 28.5436 0 23.8106 -0.0050 44.9143 -0.0050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#63d9c3",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "5e1e2e176c302169288cc4ed",
+   "parent": "ddd90483520bc3576425e43b",
+   "transform": "translate(631,78.2575)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#67d7c2",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(44.9043,-31.0050)",
+     "fill": "#67d7c2",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 32.2421 0 13.9399 -31.0050 44.9143 -31.0050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#67d7c2",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "b51ff77742c92bea6d8ab039",
+   "parent": "ddd90483520bc3576425e43b",
+   "transform": "translate(631,78.2575)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#6fd7c4",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(44.9043,-62.005)",
+     "fill": "#6fd7c4",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 36.1004 0 3.3556 -62.005 44.9143 -62.005 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#6fd7c4",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "2a7b4d6c85aa52633d2f3943",
+   "parent": "ddd90483520bc3576425e43b",
+   "transform": "translate(631,78.2575)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#69d7c3",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(44.9043,31.0050)",
+     "fill": "#69d7c3",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 32.2421 0 13.9399 31.0050 44.9143 31.0050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#69d7c3",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  }
+ ],
+ "url": "https://coggle.it/diagram/Yh-L7j5DfRykGi7e/t/web3-what-is-the-evaluation-polarizing-way-as-possible"
+}

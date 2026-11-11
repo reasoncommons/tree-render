@@ -1,0 +1,5021 @@
+{
+ "origin": {
+  "left": "13688px",
+  "top": "8664px"
+ },
+ "rootG": "translate(-4,-138)",
+ "pannableRect": {
+  "x": -12777,
+  "y": -8003.09375
+ },
+ "viewBox": "-13688 -8664 27960 17024",
+ "editorClass": "diagram-editor readonly lod-1",
+ "bodyBg": "rgba(0, 0, 0, 0)",
+ "nodes": [
+  {
+   "id": "6214f317c6672a28662dda6a",
+   "cls": "node-container shape lr-center tb-middle root titleroot root-shape haschildren",
+   "style": "color: rgb(65, 65, 65); --c-text: #414141; left: -4px; top: -138px; font-size: 17px;",
+   "contentStyle": "--c-errfg: var(--c-error-red); --c-errbg: #fff; font-size: 17px; width: 350px;",
+   "text": "[Web3] Taxonomy of Aspirations and Claims",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "17px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(65, 65, 65)",
+   "textAlign": "center",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 723,
+    "y": 503.90625,
+    "w": 368,
+    "h": 38
+   },
+   "textBox": {
+    "x": 732,
+    "y": 512.90625,
+    "w": 350,
+    "h": 20
+   },
+   "lineRects": [
+    {
+     "x": 732,
+     "y": 512.90625,
+     "w": 350,
+     "h": 20
+    },
+    {
+     "x": 740.984375,
+     "y": 512.90625,
+     "w": 332.015625,
+     "h": 20
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "[Web3] Taxonomy of Aspirations and Claims",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(65, 65, 65)",
+     "size": "17px"
+    }
+   ],
+   "shape": {
+    "d": "M -184,4.9 L -191,0,-184,-4.9,-184,-13.5 A 2.5,2.5,0,0,1,-181.5,-16 L -4.9,-16,0,-23,4.9,-16,181.5,-16 A 2.5,2.5,0,0,1,184,-13.5 L 184,-4.9,191,0,184,4.9,184,13.5 A 2.5,2.5,0,0,1,181.5,16 L 4.9,16,0,23,-4.9,16,-181.5,16 A 2.5,2.5,0,0,1,-184,13.5 Z",
+    "fill": "#d0d0d0",
+    "svg": "<svg class=\"shapebackground\" height=\"46\" width=\"382\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" viewBox=\"-191 -23 382 46\" style=\"margin: -23px 0px 0px -191px;\"><path d=\"M -184,4.9 L -191,0,-184,-4.9,-184,-13.5 A 2.5,2.5,0,0,1,-181.5,-16 L -4.9,-16,0,-"
+   }
+  },
+  {
+   "id": "9a055e3591773a659beced07",
+   "cls": "node-container lr-left tb-bottom haschildren",
+   "style": "color: rgb(62, 53, 131); --c-text: #3e3583; left: 537px; top: -96px; font-size: 15.5403px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 15.5403px; width: 240px;",
+   "text": "Solve wicked problems in governance and coordination e.g. fund public goods, operate at scale in teams and organizations without oppressive hierarchy or sclerotic bureaucracy",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "15.5403px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(62, 53, 131)",
+   "textAlign": "right",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1190,
+    "y": 564.90625,
+    "w": 258,
+    "h": 126
+   },
+   "textBox": {
+    "x": 1199,
+    "y": 573.90625,
+    "w": 240,
+    "h": 108
+   },
+   "lineRects": [
+    {
+     "x": 1199,
+     "y": 573.90625,
+     "w": 240,
+     "h": 108
+    },
+    {
+     "x": 1263.65625,
+     "y": 573.90625,
+     "w": 175.34375,
+     "h": 18
+    },
+    {
+     "x": 1208.3125,
+     "y": 591.90625,
+     "w": 230.6875,
+     "h": 18
+    },
+    {
+     "x": 1238.546875,
+     "y": 609.90625,
+     "w": 200.453125,
+     "h": 18
+    },
+    {
+     "x": 1212.671875,
+     "y": 627.90625,
+     "w": 226.328125,
+     "h": 18
+    },
+    {
+     "x": 1223.921875,
+     "y": 645.90625,
+     "w": 215.078125,
+     "h": 18
+    },
+    {
+     "x": 1292.171875,
+     "y": 663.90625,
+     "w": 146.828125,
+     "h": 18
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Solve wicked problems in governance and coordination e.g. fund public goods, operate at scale in teams and organizations without oppressive hierarchy or sclerotic bureaucracy",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(62, 53, 131)",
+     "size": "15.5403px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "cae5647a6b6295dd44682a62",
+   "cls": "node-container lr-left tb-top haschildren",
+   "style": "color: rgb(79, 111, 49); --c-text: #4f6f31; left: 537px; top: -293px; font-size: 16.2002px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 16.2002px; width: 257px;",
+   "text": "Make money or raise money",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "16.2002px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(79, 111, 49)",
+   "textAlign": "right",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1173,
+    "y": 331.90625,
+    "w": 275,
+    "h": 36
+   },
+   "textBox": {
+    "x": 1182,
+    "y": 340.90625,
+    "w": 257,
+    "h": 18
+   },
+   "lineRects": [
+    {
+     "x": 1182,
+     "y": 340.90625,
+     "w": 257,
+     "h": 18
+    },
+    {
+     "x": 1234.609375,
+     "y": 340.90625,
+     "w": 204.390625,
+     "h": 18
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Make money or raise money",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(79, 111, 49)",
+     "size": "16.2002px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "9228b33ee0aad0ab5370f4d7",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(82, 115, 49); --c-text: #527331; left: 591px; top: -257px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: 350px;",
+   "text": "Non-profit fund-raising",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(82, 115, 49)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1497,
+    "y": 386.40625,
+    "w": 368,
+    "h": 33
+   },
+   "textBox": {
+    "x": 1506,
+    "y": 395.40625,
+    "w": 350,
+    "h": 15
+   },
+   "lineRects": [
+    {
+     "x": 1506,
+     "y": 395.40625,
+     "w": 350,
+     "h": 15
+    },
+    {
+     "x": 1506,
+     "y": 395.40625,
+     "w": 128.625,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Non-profit fund-raising",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(82, 115, 49)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "245a9d36c011fb24ac911450",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(83, 111, 51); --c-text: #536f33; left: 591px; top: -359px; font-size: 12px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 12px; width: 350px;",
+   "text": "Make money from trading or investing in crypto",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "12px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(83, 111, 51)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1497,
+    "y": 284.90625,
+    "w": 368,
+    "h": 32
+   },
+   "textBox": {
+    "x": 1506,
+    "y": 293.90625,
+    "w": 350,
+    "h": 14
+   },
+   "lineRects": [
+    {
+     "x": 1506,
+     "y": 293.90625,
+     "w": 350,
+     "h": 14
+    },
+    {
+     "x": 1506,
+     "y": 293.90625,
+     "w": 249.453125,
+     "h": 14
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Make money from trading or investing in crypto",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(83, 111, 51)",
+     "size": "12px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "460c4e5468be12d8e942030d",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(79, 111, 48); --c-text: #4f6f30; left: 591px; top: -228px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: auto; white-space: nowrap;",
+   "text": "Raise money for my city e.g. MIAMI Coin",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(79, 111, 48)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1497,
+    "y": 415.40625,
+    "w": 253.515625,
+    "h": 33
+   },
+   "textBox": {
+    "x": 1506,
+    "y": 424.40625,
+    "w": 235.515625,
+    "h": 15
+   },
+   "lineRects": [
+    {
+     "x": 1506,
+     "y": 424.40625,
+     "w": 235.515625,
+     "h": 15
+    },
+    {
+     "x": 1506,
+     "y": 424.40625,
+     "w": 235.515625,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Raise money for my city e.g. MIAMI Coin",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(79, 111, 48)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "3c466f88177d0d7dfd3f8066",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(80, 110, 50); --c-text: #506e32; left: 591px; top: -293px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: 350px;",
+   "text": "A better, easier way to raise money for my venture (issue shares and do IPOs)",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(80, 110, 50)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1497,
+    "y": 342.90625,
+    "w": 368,
+    "h": 48
+   },
+   "textBox": {
+    "x": 1506,
+    "y": 351.90625,
+    "w": 350,
+    "h": 30
+   },
+   "lineRects": [
+    {
+     "x": 1506,
+     "y": 351.90625,
+     "w": 350,
+     "h": 30
+    },
+    {
+     "x": 1506,
+     "y": 351.90625,
+     "w": 327.328125,
+     "h": 15
+    },
+    {
+     "x": 1506,
+     "y": 366.90625,
+     "w": 119.234375,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "A better, easier way to raise money for my venture (issue shares and do IPOs)",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(80, 110, 50)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "0be2c7493a563fe902153968",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(59, 51, 128); --c-text: #3b3380; left: 592px; top: -89px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: 350px;",
+   "text": "Revolutionise cooperation (e.g. flat collaborative organizations at scale)",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(59, 51, 128)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1498,
+    "y": 546.90625,
+    "w": 368,
+    "h": 48
+   },
+   "textBox": {
+    "x": 1507,
+    "y": 555.90625,
+    "w": 350,
+    "h": 30
+   },
+   "lineRects": [
+    {
+     "x": 1507,
+     "y": 555.90625,
+     "w": 350,
+     "h": 30
+    },
+    {
+     "x": 1507,
+     "y": 555.90625,
+     "w": 276.78125,
+     "h": 15
+    },
+    {
+     "x": 1507,
+     "y": 570.90625,
+     "w": 95.40625,
+     "h": 15
+    },
+    {
+     "x": 1602.40625,
+     "y": 570.90625,
+     "w": 32.546875,
+     "h": 15
+    },
+    {
+     "x": 1634.953125,
+     "y": 570.90625,
+     "w": 4.34375,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "STRONG",
+     "text": "scale",
+     "weight": "700",
+     "style": "normal",
+     "color": "rgb(59, 51, 128)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "4e7713c5cddcbce11743eb36",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(59, 51, 130); --c-text: #3b3382; left: 592px; top: -184px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: 350px;",
+   "text": "Fund public goods and commons esp in a voluntary (non-state) way e.g. gitcoin (software), removing plastic from ocean, increasing the cost of carbon",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(59, 51, 130)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1498,
+    "y": 444.40625,
+    "w": 368,
+    "h": 63
+   },
+   "textBox": {
+    "x": 1507,
+    "y": 453.40625,
+    "w": 350,
+    "h": 45
+   },
+   "lineRects": [
+    {
+     "x": 1507,
+     "y": 453.40625,
+     "w": 350,
+     "h": 45
+    },
+    {
+     "x": 1507,
+     "y": 453.40625,
+     "w": 330.96875,
+     "h": 15
+    },
+    {
+     "x": 1507,
+     "y": 468.40625,
+     "w": 317.890625,
+     "h": 15
+    },
+    {
+     "x": 1507,
+     "y": 483.40625,
+     "w": 208.859375,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Fund public goods and commons esp in a voluntary (non-state) way e.g. gitcoin (software), removing plastic from ocean, increasing the cost of carbon",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(59, 51, 130)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "a6ccfa9d30a3d93dc43eff1e",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(61, 53, 127); --c-text: #3d357f; left: 592px; top: -45px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: 350px;",
+   "text": "Broader and better mechanisms for pricing / financializing value …",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(61, 53, 127)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1498,
+    "y": 590.90625,
+    "w": 368,
+    "h": 48
+   },
+   "textBox": {
+    "x": 1507,
+    "y": 599.90625,
+    "w": 350,
+    "h": 30
+   },
+   "lineRects": [
+    {
+     "x": 1507,
+     "y": 599.90625,
+     "w": 350,
+     "h": 30
+    },
+    {
+     "x": 1507,
+     "y": 599.90625,
+     "w": 330.953125,
+     "h": 15
+    },
+    {
+     "x": 1507,
+     "y": 614.90625,
+     "w": 47.703125,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Broader and better mechanisms for pricing / financializing value … ",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(61, 53, 127)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "752ee2eb27e00200577c6b4b",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(59, 51, 128); --c-text: #3b3380; left: 592px; top: -133px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: 350px;",
+   "text": "Create global organizations with membership and able to manage money etc with the click of a button",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(59, 51, 128)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1498,
+    "y": 502.90625,
+    "w": 368,
+    "h": 48
+   },
+   "textBox": {
+    "x": 1507,
+    "y": 511.90625,
+    "w": 350,
+    "h": 30
+   },
+   "lineRects": [
+    {
+     "x": 1507,
+     "y": 511.90625,
+     "w": 350,
+     "h": 30
+    },
+    {
+     "x": 1507,
+     "y": 511.90625,
+     "w": 328.09375,
+     "h": 15
+    },
+    {
+     "x": 1507,
+     "y": 526.90625,
+     "w": 252.921875,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Create global organizations with membership and able to manage money etc with the click of a button",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(59, 51, 128)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "146af70eda45f2ddee0d066e",
+   "cls": "node-container lr-left tb-top haschildren",
+   "style": "color: rgb(130, 52, 140); --c-text: #82348c; left: 537px; top: -556px; font-size: 15.3px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 15.3px; width: 276px;",
+   "text": "Better economy: more stable, more efficient, more dynamic",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "15.3px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(130, 52, 140)",
+   "textAlign": "right",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1154,
+    "y": 50.90625,
+    "w": 294,
+    "h": 54
+   },
+   "textBox": {
+    "x": 1163,
+    "y": 59.90625,
+    "w": 276,
+    "h": 36
+   },
+   "lineRects": [
+    {
+     "x": 1163,
+     "y": 59.90625,
+     "w": 276,
+     "h": 36
+    },
+    {
+     "x": 1200.046875,
+     "y": 59.90625,
+     "w": 238.953125,
+     "h": 18
+    },
+    {
+     "x": 1281.6875,
+     "y": 77.90625,
+     "w": 157.3125,
+     "h": 18
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Better economy: more stable, more efficient, more dynamic",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(130, 52, 140)",
+     "size": "15.3px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "5b397b9784bf70508e8161c9",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(60, 51, 133); --c-text: #3c3385; left: 592px; top: -1px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: 350px;",
+   "text": "It can gather a critical mass of interested people ... (with high trust, good aspirations ...)",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(60, 51, 133)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1498,
+    "y": 634.90625,
+    "w": 368,
+    "h": 48
+   },
+   "textBox": {
+    "x": 1507,
+    "y": 643.90625,
+    "w": 350,
+    "h": 30
+   },
+   "lineRects": [
+    {
+     "x": 1507,
+     "y": 643.90625,
+     "w": 350,
+     "h": 30
+    },
+    {
+     "x": 1507,
+     "y": 643.90625,
+     "w": 349.734375,
+     "h": 15
+    },
+    {
+     "x": 1507,
+     "y": 658.90625,
+     "w": 146.6875,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "It can gather a critical mass of interested people ... (with high trust, good aspirations ...)",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(60, 51, 133)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "19f80ab0ab4c7fb48d5b3971",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(130, 52, 141); --c-text: #82348d; left: 591px; top: -526px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: 350px;",
+   "text": "Create securities markets without regulation allowing for greater participation and innovation",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(130, 52, 141)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1497,
+    "y": 109.90625,
+    "w": 368,
+    "h": 48
+   },
+   "textBox": {
+    "x": 1506,
+    "y": 118.90625,
+    "w": 350,
+    "h": 30
+   },
+   "lineRects": [
+    {
+     "x": 1506,
+     "y": 118.90625,
+     "w": 350,
+     "h": 30
+    },
+    {
+     "x": 1506,
+     "y": 118.90625,
+     "w": 322.265625,
+     "h": 15
+    },
+    {
+     "x": 1506,
+     "y": 133.90625,
+     "w": 203.09375,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Create securities markets without regulation allowing for greater participation and innovation",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(130, 52, 141)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "63d80a189f03615841ae7436",
+   "cls": "node-container lr-left tb-bottom haschildren",
+   "style": "color: rgb(137, 80, 39); --c-text: #895027; left: 537px; top: 654px; font-size: 15.3px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 15.3px; width: auto; white-space: nowrap;",
+   "text": "Negative for economy and society",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "15.3px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(137, 80, 39)",
+   "textAlign": "right",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1199.515625,
+    "y": 1314.90625,
+    "w": 248.484375,
+    "h": 36
+   },
+   "textBox": {
+    "x": 1208.515625,
+    "y": 1323.90625,
+    "w": 230.484375,
+    "h": 18
+   },
+   "lineRects": [
+    {
+     "x": 1208.515625,
+     "y": 1323.90625,
+     "w": 230.484375,
+     "h": 18
+    },
+    {
+     "x": 1208.515625,
+     "y": 1323.90625,
+     "w": 230.484375,
+     "h": 18
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Negative for economy and society",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(137, 80, 39)",
+     "size": "15.3px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "91c807d590df985884fdaeb9",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(139, 81, 40); --c-text: #8b5128; left: 591px; top: 545px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: auto; white-space: nowrap;",
+   "text": "Proof of Work is harmful to the Environment",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(139, 81, 40)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1497,
+    "y": 1188.40625,
+    "w": 269.9375,
+    "h": 33
+   },
+   "textBox": {
+    "x": 1506,
+    "y": 1197.40625,
+    "w": 251.9375,
+    "h": 15
+   },
+   "lineRects": [
+    {
+     "x": 1506,
+     "y": 1197.40625,
+     "w": 251.9375,
+     "h": 15
+    },
+    {
+     "x": 1506,
+     "y": 1197.40625,
+     "w": 251.9375,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Proof of Work is harmful to the Environment",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(139, 81, 40)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "b3978ae89b3892dd909f42c2",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(141, 82, 40); --c-text: #8d5228; left: 591px; top: 581px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: 350px;",
+   "text": "Crypto investments negative-sum games and predatory investments",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(141, 82, 40)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1497,
+    "y": 1216.90625,
+    "w": 368,
+    "h": 48
+   },
+   "textBox": {
+    "x": 1506,
+    "y": 1225.90625,
+    "w": 350,
+    "h": 30
+   },
+   "lineRects": [
+    {
+     "x": 1506,
+     "y": 1225.90625,
+     "w": 350,
+     "h": 30
+    },
+    {
+     "x": 1506,
+     "y": 1225.90625,
+     "w": 319.390625,
+     "h": 15
+    },
+    {
+     "x": 1506,
+     "y": 1240.90625,
+     "w": 69.375,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Crypto investments negative-sum games and predatory investments",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(141, 82, 40)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "af6e4a3bd6b0714f1d8f8533",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(138, 80, 39); --c-text: #8a5027; left: 591px; top: 516px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: auto; white-space: nowrap;",
+   "text": "Crypto assets are a risk to the state",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(138, 80, 39)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1497,
+    "y": 1159.40625,
+    "w": 222.484375,
+    "h": 33
+   },
+   "textBox": {
+    "x": 1506,
+    "y": 1168.40625,
+    "w": 204.484375,
+    "h": 15
+   },
+   "lineRects": [
+    {
+     "x": 1506,
+     "y": 1168.40625,
+     "w": 204.484375,
+     "h": 15
+    },
+    {
+     "x": 1506,
+     "y": 1168.40625,
+     "w": 204.484375,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Crypto assets are a risk to the state",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(138, 80, 39)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "8d3ff17ca4048aa6e35e1ba2",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(142, 80, 39); --c-text: #8e5027; left: 591px; top: 618px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: auto; white-space: nowrap;",
+   "text": "Crypto assets present a systemic risk to the economy",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(142, 80, 39)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1497,
+    "y": 1261.40625,
+    "w": 325.796875,
+    "h": 33
+   },
+   "textBox": {
+    "x": 1506,
+    "y": 1270.40625,
+    "w": 307.796875,
+    "h": 15
+   },
+   "lineRects": [
+    {
+     "x": 1506,
+     "y": 1270.40625,
+     "w": 307.796875,
+     "h": 15
+    },
+    {
+     "x": 1506,
+     "y": 1270.40625,
+     "w": 307.796875,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Crypto assets present a systemic risk to the economy",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(142, 80, 39)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "f9072ad0825ca9f9f72755df",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(126, 51, 137); --c-text: #7e3389; left: 591px; top: -607px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: auto; white-space: nowrap;",
+   "text": "Censorship resistant payment rail for dissidents",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(126, 51, 137)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1497,
+    "y": 36.40625,
+    "w": 291.125,
+    "h": 33
+   },
+   "textBox": {
+    "x": 1506,
+    "y": 45.40625,
+    "w": 273.125,
+    "h": 15
+   },
+   "lineRects": [
+    {
+     "x": 1506,
+     "y": 45.40625,
+     "w": 273.125,
+     "h": 15
+    },
+    {
+     "x": 1506,
+     "y": 45.40625,
+     "w": 273.125,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Censorship resistant payment rail for dissidents",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(126, 51, 137)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "563d67b4b3e075786adc3812",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(132, 52, 143); --c-text: #84348f; left: 591px; top: -636px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: 350px;",
+   "text": "A new, better payment system (visa 2.0)",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(132, 52, 143)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1497,
+    "y": 7.40625,
+    "w": 368,
+    "h": 33
+   },
+   "textBox": {
+    "x": 1506,
+    "y": 16.40625,
+    "w": 350,
+    "h": 15
+   },
+   "lineRects": [
+    {
+     "x": 1506,
+     "y": 16.40625,
+     "w": 350,
+     "h": 15
+    },
+    {
+     "x": 1506,
+     "y": 16.40625,
+     "w": 230.515625,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "A new, better payment system (visa 2.0)",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(132, 52, 143)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "4d5dc79e8887b77663b75ac3",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(132, 52, 143); --c-text: #84348f; left: 591px; top: -461px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: 350px;",
+   "text": "Algo-stablecoins work and are useful for X",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(132, 52, 143)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1497,
+    "y": 182.40625,
+    "w": 368,
+    "h": 33
+   },
+   "textBox": {
+    "x": 1506,
+    "y": 191.40625,
+    "w": 350,
+    "h": 15
+   },
+   "lineRects": [
+    {
+     "x": 1506,
+     "y": 191.40625,
+     "w": 350,
+     "h": 15
+    },
+    {
+     "x": 1506,
+     "y": 191.40625,
+     "w": 243.515625,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Algo-stablecoins work and are useful for X",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(132, 52, 143)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "7acf6292e64b112465c22f45",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(132, 54, 142); --c-text: #84368e; left: 591px; top: -490px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: 350px;",
+   "text": "Stablecoins work and are useful for X [Tether, USDT]",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(132, 54, 142)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1497,
+    "y": 153.40625,
+    "w": 368,
+    "h": 33
+   },
+   "textBox": {
+    "x": 1506,
+    "y": 162.40625,
+    "w": 350,
+    "h": 15
+   },
+   "lineRects": [
+    {
+     "x": 1506,
+     "y": 162.40625,
+     "w": 350,
+     "h": 15
+    },
+    {
+     "x": 1506,
+     "y": 162.40625,
+     "w": 304.21875,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Stablecoins work and are useful for X [Tether, USDT]",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(132, 54, 142)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "eb6db02eb9aeb72f56ad2ec0",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(128, 53, 138); --c-text: #80358a; left: 591px; top: -716px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: 350px;",
+   "text": "Neo-metallism: Bitcoin is new digital gold and can give us a new gold standard \"The Bitcoin Standard\".",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(128, 53, 138)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1497,
+    "y": -80.09375,
+    "w": 368,
+    "h": 48
+   },
+   "textBox": {
+    "x": 1506,
+    "y": -71.09375,
+    "w": 350,
+    "h": 30
+   },
+   "lineRects": [
+    {
+     "x": 1506,
+     "y": -71.09375,
+     "w": 350,
+     "h": 30
+    },
+    {
+     "x": 1506,
+     "y": -71.09375,
+     "w": 341.0625,
+     "h": 15
+    },
+    {
+     "x": 1506,
+     "y": -56.09375,
+     "w": 244.109375,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Neo-metallism: Bitcoin is new digital gold and can give us a new gold standard \"The Bitcoin Standard\".",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(128, 53, 138)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "06c032a527a44ea66c31229d",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(136, 79, 39); --c-text: #884f27; left: 591px; top: 647px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: auto; white-space: nowrap;",
+   "text": "Crypto is hyper financialization",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(136, 79, 39)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1497,
+    "y": 1290.40625,
+    "w": 194.3125,
+    "h": 33
+   },
+   "textBox": {
+    "x": 1506,
+    "y": 1299.40625,
+    "w": 176.3125,
+    "h": 15
+   },
+   "lineRects": [
+    {
+     "x": 1506,
+     "y": 1299.40625,
+     "w": 176.3125,
+     "h": 15
+    },
+    {
+     "x": 1506,
+     "y": 1299.40625,
+     "w": 176.3125,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Crypto is hyper financialization",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(136, 79, 39)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "e1577f64193490602509d712",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(138, 80, 39); --c-text: #8a5027; left: 591px; top: 676px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: 350px;",
+   "text": "Crypto won't work and is a huge misallocation of resources",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(138, 80, 39)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1497,
+    "y": 1319.40625,
+    "w": 368,
+    "h": 33
+   },
+   "textBox": {
+    "x": 1506,
+    "y": 1328.40625,
+    "w": 350,
+    "h": 15
+   },
+   "lineRects": [
+    {
+     "x": 1506,
+     "y": 1328.40625,
+     "w": 350,
+     "h": 15
+    },
+    {
+     "x": 1506,
+     "y": 1328.40625,
+     "w": 338.484375,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Crypto won't work and is a huge misallocation of resources",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(138, 80, 39)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "ba92c54fbeb6e8746395f38a",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(134, 76, 37); --c-text: #864c25; left: 591px; top: 705px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: auto; white-space: nowrap;",
+   "text": "Crypto is very unequal and will increase inequality",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(134, 76, 37)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1497,
+    "y": 1348.40625,
+    "w": 305.59375,
+    "h": 33
+   },
+   "textBox": {
+    "x": 1506,
+    "y": 1357.40625,
+    "w": 287.59375,
+    "h": 15
+   },
+   "lineRects": [
+    {
+     "x": 1506,
+     "y": 1357.40625,
+     "w": 287.59375,
+     "h": 15
+    },
+    {
+     "x": 1506,
+     "y": 1357.40625,
+     "w": 287.59375,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Crypto is very unequal and will increase inequality",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(134, 76, 37)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "dffbdcc8447fc28c48138db9",
+   "cls": "node-container shape lr-center tb-middle root extraroot root-shape",
+   "style": "color: rgb(90, 90, 90); --c-text: #5a5a5a; left: -4px; top: -39px; font-size: 17px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 17px; width: auto; white-space: nowrap;",
+   "text": "",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "17px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(90, 90, 90)",
+   "textAlign": "center",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 821,
+    "y": 581.90625,
+    "w": 172,
+    "h": 80
+   },
+   "textBox": {
+    "x": 830,
+    "y": 590.90625,
+    "w": 154,
+    "h": 62
+   },
+   "lineRects": [
+    {
+     "x": 830,
+     "y": 590.90625,
+     "w": 154,
+     "h": 62
+    }
+   ],
+   "spans": [
+    {
+     "tag": "IMG",
+     "text": "",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(90, 90, 90)",
+     "size": "17px"
+    }
+   ],
+   "shape": {
+    "d": "M -84,4.9 L -91,0,-84,-4.9,-84,-32.5 A 2.5,2.5,0,0,1,-81.5,-35 L -4.9,-35,0,-42,4.9,-35,81.5,-35 A 2.5,2.5,0,0,1,84,-32.5 L 84,-4.9,91,0,84,4.9,84,32.5 A 2.5,2.5,0,0,1,81.5,35 L 4.9,35,0,42,-4.9,35,-81.5,35 A 2.5,2.5,0,0,1,-84,32.5 Z",
+    "fill": "var(--c-bg)",
+    "svg": "<svg class=\"shapebackground\" height=\"84\" width=\"182\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" viewBox=\"-91 -42 182 84\" style=\"margin: -42px 0px 0px -91px;\"><path d=\"M -84,4.9 L -91,0,-84,-4.9,-84,-32.5 A 2.5,2.5,0,0,1,-81.5,-35 L -4.9,-35,0,-42,4.9,"
+   }
+  },
+  {
+   "id": "e762ba3f89d2f5a7b442cb29",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(125, 51, 136); --c-text: #7d3388; left: 591px; top: -570px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: 350px;",
+   "text": "Important fintech innovation enabling more and better financial products meaning a more efficient market",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(125, 51, 136)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1497,
+    "y": 65.90625,
+    "w": 368,
+    "h": 48
+   },
+   "textBox": {
+    "x": 1506,
+    "y": 74.90625,
+    "w": 350,
+    "h": 30
+   },
+   "lineRects": [
+    {
+     "x": 1506,
+     "y": 74.90625,
+     "w": 350,
+     "h": 30
+    },
+    {
+     "x": 1506,
+     "y": 74.90625,
+     "w": 307.875,
+     "h": 15
+    },
+    {
+     "x": 1506,
+     "y": 89.90625,
+     "w": 290.484375,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Important fintech innovation enabling more and better financial products meaning a more efficient market ",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(125, 51, 136)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "951f1f18d34701ada33aa597",
+   "cls": "node-container lr-left tb-top haschildren",
+   "style": "color: rgb(137, 80, 39); --c-text: #895027; left: 537px; top: -910px; font-size: 15.6684px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 15.6684px; width: 119px;",
+   "text": "Exemplar ones",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "15.6684px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(137, 80, 39)",
+   "textAlign": "right",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1311,
+    "y": -285.09375,
+    "w": 137,
+    "h": 36
+   },
+   "textBox": {
+    "x": 1320,
+    "y": -276.09375,
+    "w": 119,
+    "h": 18
+   },
+   "lineRects": [
+    {
+     "x": 1320,
+     "y": -276.09375,
+     "w": 119,
+     "h": 18
+    },
+    {
+     "x": 1334.546875,
+     "y": -276.09375,
+     "w": 104.453125,
+     "h": 18
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Exemplar ones",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(137, 80, 39)",
+     "size": "15.6684px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "f55ea1df46bc3aa07a9772fa",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(140, 81, 41); --c-text: #8c5129; left: 592px; top: -1028px; font-size: 13.804px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13.804px; width: 350px;",
+   "text": "Fund public goods e.g. software, research, solving climate crisis",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13.804px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(140, 81, 41)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1498,
+    "y": -393.09375,
+    "w": 368,
+    "h": 50
+   },
+   "textBox": {
+    "x": 1507,
+    "y": -384.09375,
+    "w": 350,
+    "h": 32
+   },
+   "lineRects": [
+    {
+     "x": 1507,
+     "y": -384.09375,
+     "w": 350,
+     "h": 32
+    },
+    {
+     "x": 1507,
+     "y": -384.09375,
+     "w": 307.609375,
+     "h": 16
+    },
+    {
+     "x": 1507,
+     "y": -368.09375,
+     "w": 78.984375,
+     "h": 16
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Fund public goods e.g. software, research, solving climate crisis",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(140, 81, 41)",
+     "size": "13.804px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "79a523daa3385d2ef24aeb12",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(135, 79, 40); --c-text: #874f28; left: 592px; top: -981px; font-size: 13.804px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13.804px; width: 350px;",
+   "text": "Reinvent money separate from existing power structures so as to distribute wealth and power more fairly",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13.804px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(135, 79, 40)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1498,
+    "y": -346.09375,
+    "w": 368,
+    "h": 50
+   },
+   "textBox": {
+    "x": 1507,
+    "y": -337.09375,
+    "w": 350,
+    "h": 32
+   },
+   "lineRects": [
+    {
+     "x": 1507,
+     "y": -337.09375,
+     "w": 350,
+     "h": 32
+    },
+    {
+     "x": 1507,
+     "y": -337.09375,
+     "w": 345.15625,
+     "h": 16
+    },
+    {
+     "x": 1507,
+     "y": -321.09375,
+     "w": 288.40625,
+     "h": 16
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Reinvent money separate from existing power structures so as to distribute wealth and power more fairly",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(135, 79, 40)",
+     "size": "13.804px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "b97e1ac35e09defc318b3081",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(137, 79, 39); --c-text: #894f27; left: 592px; top: -942px; font-size: 13.804px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13.804px; width: auto; white-space: nowrap;",
+   "text": "Get power (and redistribute it)",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13.804px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(137, 79, 39)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1498,
+    "y": -299.09375,
+    "w": 200.546875,
+    "h": 34
+   },
+   "textBox": {
+    "x": 1507,
+    "y": -290.09375,
+    "w": 182.546875,
+    "h": 16
+   },
+   "lineRects": [
+    {
+     "x": 1507,
+     "y": -290.09375,
+     "w": 182.546875,
+     "h": 16
+    },
+    {
+     "x": 1507,
+     "y": -290.09375,
+     "w": 182.546875,
+     "h": 16
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Get power (and redistribute it)",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(137, 79, 39)",
+     "size": "13.804px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "e42789922353808dbb44c6ac",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(138, 81, 41); --c-text: #8a5129; left: 592px; top: -903px; font-size: 13.804px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13.804px; width: 350px;",
+   "text": "Fairer, more equal distribution of wealth? More equal ownership of the \"means of production\"?",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13.804px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(138, 81, 41)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1498,
+    "y": -268.09375,
+    "w": 368,
+    "h": 50
+   },
+   "textBox": {
+    "x": 1507,
+    "y": -259.09375,
+    "w": 350,
+    "h": 32
+   },
+   "lineRects": [
+    {
+     "x": 1507,
+     "y": -259.09375,
+     "w": 350,
+     "h": 32
+    },
+    {
+     "x": 1507,
+     "y": -259.09375,
+     "w": 322.1875,
+     "h": 16
+    },
+    {
+     "x": 1507,
+     "y": -243.09375,
+     "w": 247.625,
+     "h": 16
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Fairer, more equal distribution of wealth? More equal ownership of the \"means of production\"?",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(138, 81, 41)",
+     "size": "13.804px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "9bbef484347ab96483271ea3",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(139, 80, 39); --c-text: #8b5027; left: 592px; top: -864px; font-size: 13.804px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13.804px; width: auto; white-space: nowrap;",
+   "text": "More sustainable planet?",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13.804px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(139, 80, 39)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1498,
+    "y": -221.09375,
+    "w": 172.203125,
+    "h": 34
+   },
+   "textBox": {
+    "x": 1507,
+    "y": -212.09375,
+    "w": 154.203125,
+    "h": 16
+   },
+   "lineRects": [
+    {
+     "x": 1507,
+     "y": -212.09375,
+     "w": 154.203125,
+     "h": 16
+    },
+    {
+     "x": 1507,
+     "y": -212.09375,
+     "w": 154.203125,
+     "h": 16
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "More sustainable planet?",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(139, 80, 39)",
+     "size": "13.804px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "9cce286eab1c19ae601f501b",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(140, 81, 41); --c-text: #8c5129; left: 592px; top: -817px; font-size: 13.804px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13.804px; width: 350px;",
+   "text": "Avoid monopolization in tech and its -ve consequences for freedom of choice, enterprise, innovation ... e.g. solving the platform ownership (coop) problem",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13.804px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(140, 81, 41)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1498,
+    "y": -190.09375,
+    "w": 368,
+    "h": 66
+   },
+   "textBox": {
+    "x": 1507,
+    "y": -181.09375,
+    "w": 350,
+    "h": 48
+   },
+   "lineRects": [
+    {
+     "x": 1507,
+     "y": -181.09375,
+     "w": 350,
+     "h": 48
+    },
+    {
+     "x": 1507,
+     "y": -181.09375,
+     "w": 335.765625,
+     "h": 16
+    },
+    {
+     "x": 1507,
+     "y": -165.09375,
+     "w": 311.4375,
+     "h": 16
+    },
+    {
+     "x": 1507,
+     "y": -149.09375,
+     "w": 283.046875,
+     "h": 16
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Avoid monopolization in tech and its -ve consequences for freedom of choice, enterprise, innovation ... e.g. solving the platform ownership (coop) problem",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(140, 81, 41)",
+     "size": "13.804px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "abb9bb124a0038db51ba2fb4",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(138, 80, 41); --c-text: #8a5029; left: 592px; top: -762px; font-size: 13.804px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13.804px; width: 350px;",
+   "text": "More stable economy without credit driven boom and busts?",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13.804px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(138, 80, 41)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1498,
+    "y": -127.09375,
+    "w": 368,
+    "h": 50
+   },
+   "textBox": {
+    "x": 1507,
+    "y": -118.09375,
+    "w": 350,
+    "h": 32
+   },
+   "lineRects": [
+    {
+     "x": 1507,
+     "y": -118.09375,
+     "w": 350,
+     "h": 32
+    },
+    {
+     "x": 1507,
+     "y": -118.09375,
+     "w": 323.703125,
+     "h": 16
+    },
+    {
+     "x": 1507,
+     "y": -102.09375,
+     "w": 40.671875,
+     "h": 16
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "More stable economy without credit driven boom and busts?",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(138, 80, 41)",
+     "size": "13.804px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "002babef1d263390fa9bb76d",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(136, 77, 37); --c-text: #884d25; left: 592px; top: -1067px; font-size: 13.804px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13.804px; width: auto; white-space: nowrap;",
+   "text": "Secure store of wealth for the long-term",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13.804px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(136, 77, 37)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1498,
+    "y": -424.09375,
+    "w": 260.390625,
+    "h": 34
+   },
+   "textBox": {
+    "x": 1507,
+    "y": -415.09375,
+    "w": 242.390625,
+    "h": 16
+   },
+   "lineRects": [
+    {
+     "x": 1507,
+     "y": -415.09375,
+     "w": 242.390625,
+     "h": 16
+    },
+    {
+     "x": 1507,
+     "y": -415.09375,
+     "w": 242.390625,
+     "h": 16
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Secure store of wealth for the long-term",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(136, 77, 37)",
+     "size": "13.804px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "7a60b4bb50484c84632920cc",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(77, 106, 49); --c-text: #4d6a31; left: 591px; top: -330px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: 350px;",
+   "text": "Crypto is a hedge against the \"debasement\" of the dollar",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(77, 106, 49)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1497,
+    "y": 313.40625,
+    "w": 368,
+    "h": 33
+   },
+   "textBox": {
+    "x": 1506,
+    "y": 322.40625,
+    "w": 350,
+    "h": 15
+   },
+   "lineRects": [
+    {
+     "x": 1506,
+     "y": 322.40625,
+     "w": 350,
+     "h": 15
+    },
+    {
+     "x": 1506,
+     "y": 322.40625,
+     "w": 325.046875,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Crypto is a hedge against the \"debasement\" of the dollar",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(77, 106, 49)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "22101353d8e86f8b78092b24",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(128, 51, 139); --c-text: #80338b; left: 591px; top: -432px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: auto; white-space: nowrap;",
+   "text": "Crypto tokens an inflation hedge",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(128, 51, 139)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1497,
+    "y": 211.40625,
+    "w": 204.46875,
+    "h": 33
+   },
+   "textBox": {
+    "x": 1506,
+    "y": 220.40625,
+    "w": 186.46875,
+    "h": 15
+   },
+   "lineRects": [
+    {
+     "x": 1506,
+     "y": 220.40625,
+     "w": 186.46875,
+     "h": 15
+    },
+    {
+     "x": 1506,
+     "y": 220.40625,
+     "w": 186.46875,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Crypto tokens an inflation hedge ",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(128, 51, 139)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "71683bf56b6419e3668141d0",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(139, 81, 41); --c-text: #8b5129; left: 591px; top: 763px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: auto; white-space: nowrap;",
+   "text": "Crypto assets are a bubble",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(139, 81, 41)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1497,
+    "y": 1406.40625,
+    "w": 173.375,
+    "h": 33
+   },
+   "textBox": {
+    "x": 1506,
+    "y": 1415.40625,
+    "w": 155.375,
+    "h": 15
+   },
+   "lineRects": [
+    {
+     "x": 1506,
+     "y": 1415.40625,
+     "w": 155.375,
+     "h": 15
+    },
+    {
+     "x": 1506,
+     "y": 1415.40625,
+     "w": 155.375,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Crypto assets are a bubble",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(139, 81, 41)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "471e8dca205ac303cadf51a7",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(134, 76, 36); --c-text: #864c24; left: 591px; top: 734px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: auto; white-space: nowrap;",
+   "text": "Crypto assets are a form of gambling",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(134, 76, 36)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1497,
+    "y": 1377.40625,
+    "w": 231.15625,
+    "h": 33
+   },
+   "textBox": {
+    "x": 1506,
+    "y": 1386.40625,
+    "w": 213.15625,
+    "h": 15
+   },
+   "lineRects": [
+    {
+     "x": 1506,
+     "y": 1386.40625,
+     "w": 213.15625,
+     "h": 15
+    },
+    {
+     "x": 1506,
+     "y": 1386.40625,
+     "w": 213.15625,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Crypto assets are a form of gambling",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(134, 76, 36)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "c3b38003855372c5d38af82b",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(129, 53, 140); --c-text: #81358c; left: 591px; top: -395px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: 350px;",
+   "text": "Blockchain can help with supply chain tracking problem (e.g. blood diamonds, co2, blood metals etc)",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(129, 53, 140)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1497,
+    "y": 240.90625,
+    "w": 368,
+    "h": 48
+   },
+   "textBox": {
+    "x": 1506,
+    "y": 249.90625,
+    "w": 350,
+    "h": 30
+   },
+   "lineRects": [
+    {
+     "x": 1506,
+     "y": 249.90625,
+     "w": 350,
+     "h": 30
+    },
+    {
+     "x": 1506,
+     "y": 249.90625,
+     "w": 347.578125,
+     "h": 15
+    },
+    {
+     "x": 1506,
+     "y": 264.90625,
+     "w": 226.1875,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Blockchain can help with supply chain tracking problem (e.g. blood diamonds, co2, blood metals etc)",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(129, 53, 140)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "034737eb26d6c6714bf5bfec",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(131, 55, 141); --c-text: #83378d; left: 591px; top: -672px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: 350px;",
+   "text": "Smart contracts can replace traditional contracts enabling much more frictionless commerce",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(131, 55, 141)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1497,
+    "y": -36.09375,
+    "w": 368,
+    "h": 48
+   },
+   "textBox": {
+    "x": 1506,
+    "y": -27.09375,
+    "w": 350,
+    "h": 30
+   },
+   "lineRects": [
+    {
+     "x": 1506,
+     "y": -27.09375,
+     "w": 350,
+     "h": 30
+    },
+    {
+     "x": 1506,
+     "y": -27.09375,
+     "w": 330.953125,
+     "h": 15
+    },
+    {
+     "x": 1506,
+     "y": -12.09375,
+     "w": 194.328125,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Smart contracts can replace traditional contracts enabling much more frictionless commerce",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(131, 55, 141)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "e6b95e5f1886666d0cf8880f",
+   "cls": "node-container lr-left tb-bottom haschildren",
+   "style": "color: rgb(132, 52, 48); --c-text: #843430; left: 537px; top: 261px; font-size: 15.5614px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 15.5614px; width: 198px;",
+   "text": "Better society: fairer, freer etc [everyone has (at least) enough to survive and people can do what they love (rather than what’s needed to put food on the table)]",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "15.5614px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(132, 52, 48)",
+   "textAlign": "right",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1232,
+    "y": 921.90625,
+    "w": 216,
+    "h": 144
+   },
+   "textBox": {
+    "x": 1241,
+    "y": 930.90625,
+    "w": 198,
+    "h": 126
+   },
+   "lineRects": [
+    {
+     "x": 1241,
+     "y": 930.90625,
+     "w": 198,
+     "h": 126
+    },
+    {
+     "x": 1260.84375,
+     "y": 930.90625,
+     "w": 178.15625,
+     "h": 18
+    },
+    {
+     "x": 1251.3125,
+     "y": 948.90625,
+     "w": 187.6875,
+     "h": 18
+    },
+    {
+     "x": 1285.875,
+     "y": 966.90625,
+     "w": 153.125,
+     "h": 18
+    },
+    {
+     "x": 1270.296875,
+     "y": 984.90625,
+     "w": 168.703125,
+     "h": 18
+    },
+    {
+     "x": 1277.53125,
+     "y": 1002.90625,
+     "w": 161.46875,
+     "h": 18
+    },
+    {
+     "x": 1261.625,
+     "y": 1020.90625,
+     "w": 177.375,
+     "h": 18
+    },
+    {
+     "x": 1395.75,
+     "y": 1038.90625,
+     "w": 43.25,
+     "h": 18
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Better society: fairer, freer etc [everyone has (at least) enough to survive and people can do what they love (rather than what’s needed to put food on the table)]",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(132, 52, 48)",
+     "size": "15.5614px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "1e16416417344fd79bc2bd82",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(129, 48, 45); --c-text: #81302d; left: 592px; top: 356px; font-size: 13.9232px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13.9232px; width: 350px;",
+   "text": "Crypto is a means to accelerate the the collapse of capitalism",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13.9232px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(129, 48, 45)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1498,
+    "y": 990.90625,
+    "w": 368,
+    "h": 50
+   },
+   "textBox": {
+    "x": 1507,
+    "y": 999.90625,
+    "w": 350,
+    "h": 32
+   },
+   "lineRects": [
+    {
+     "x": 1507,
+     "y": 999.90625,
+     "w": 350,
+     "h": 32
+    },
+    {
+     "x": 1507,
+     "y": 999.90625,
+     "w": 312.609375,
+     "h": 16
+    },
+    {
+     "x": 1507,
+     "y": 1015.90625,
+     "w": 61.890625,
+     "h": 16
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Crypto is a means to accelerate the the collapse of capitalism",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(129, 48, 45)",
+     "size": "13.9232px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "7d168a0ccd09d8b780299a55",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(135, 53, 51); --c-text: #873533; left: 592px; top: 265px; font-size: 13.9232px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13.9232px; width: 350px;",
+   "text": "Third iteration of internet/web technology that it is more decentralized / democratic",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13.9232px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(135, 53, 51)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1498,
+    "y": 899.90625,
+    "w": 368,
+    "h": 50
+   },
+   "textBox": {
+    "x": 1507,
+    "y": 908.90625,
+    "w": 350,
+    "h": 32
+   },
+   "lineRects": [
+    {
+     "x": 1507,
+     "y": 908.90625,
+     "w": 350,
+     "h": 32
+    },
+    {
+     "x": 1507,
+     "y": 908.90625,
+     "w": 338.90625,
+     "h": 16
+    },
+    {
+     "x": 1507,
+     "y": 924.90625,
+     "w": 162.484375,
+     "h": 16
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Third iteration of internet/web technology that it is more decentralized / democratic",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(135, 53, 51)",
+     "size": "13.9232px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "8d8abe873d75d80439438713",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(130, 48, 45); --c-text: #82302d; left: 592px; top: 155px; font-size: 13.9232px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13.9232px; width: 350px;",
+   "text": "Crypto is a solution for the unbanked (economic inclusion of the global south)",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13.9232px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(130, 48, 45)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1498,
+    "y": 789.90625,
+    "w": 368,
+    "h": 50
+   },
+   "textBox": {
+    "x": 1507,
+    "y": 798.90625,
+    "w": 350,
+    "h": 32
+   },
+   "lineRects": [
+    {
+     "x": 1507,
+     "y": 798.90625,
+     "w": 350,
+     "h": 32
+    },
+    {
+     "x": 1507,
+     "y": 798.90625,
+     "w": 294.8125,
+     "h": 16
+    },
+    {
+     "x": 1507,
+     "y": 814.90625,
+     "w": 176.4375,
+     "h": 16
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Crypto is a solution for the unbanked (economic inclusion of the global south)",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(130, 48, 45)",
+     "size": "13.9232px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "052968fbf848737c9080e853",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(127, 50, 48); --c-text: #7f3230; left: 592px; top: 395px; font-size: 13.9232px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13.9232px; width: auto; white-space: nowrap;",
+   "text": "A fairer deal for artists … (via NFTs)",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13.9232px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(127, 50, 48)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1498,
+    "y": 1037.90625,
+    "w": 238.46875,
+    "h": 34
+   },
+   "textBox": {
+    "x": 1507,
+    "y": 1046.90625,
+    "w": 220.46875,
+    "h": 16
+   },
+   "lineRects": [
+    {
+     "x": 1507,
+     "y": 1046.90625,
+     "w": 220.46875,
+     "h": 16
+    },
+    {
+     "x": 1507,
+     "y": 1046.90625,
+     "w": 220.46875,
+     "h": 16
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "A fairer deal for artists … (via NFTs)",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(127, 50, 48)",
+     "size": "13.9232px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "ebaea208f4aba532222dd4fd",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(131, 49, 47); --c-text: #83312f; left: 592px; top: 210px; font-size: 13.9232px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13.9232px; width: 350px;",
+   "text": "Reinvent money independent of existing power structures as a means to democratise the power of money",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13.9232px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(131, 49, 47)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1498,
+    "y": 836.90625,
+    "w": 368,
+    "h": 66
+   },
+   "textBox": {
+    "x": 1507,
+    "y": 845.90625,
+    "w": 350,
+    "h": 48
+   },
+   "lineRects": [
+    {
+     "x": 1507,
+     "y": 845.90625,
+     "w": 350,
+     "h": 48
+    },
+    {
+     "x": 1507,
+     "y": 845.90625,
+     "w": 289.421875,
+     "h": 16
+    },
+    {
+     "x": 1507,
+     "y": 861.90625,
+     "w": 312.578125,
+     "h": 16
+    },
+    {
+     "x": 1507,
+     "y": 877.90625,
+     "w": 41.78125,
+     "h": 16
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Reinvent money independent of existing power structures as a means to democratise the power of money",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(131, 49, 47)",
+     "size": "13.9232px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "33c3059b88c9ccb39ed65853",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(127, 50, 48); --c-text: #7f3230; left: 592px; top: 108px; font-size: 13.9232px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13.9232px; width: 350px;",
+   "text": "Financial inclusion of historically disenfranchised groups (in global north?)",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13.9232px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(127, 50, 48)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1498,
+    "y": 742.90625,
+    "w": 368,
+    "h": 50
+   },
+   "textBox": {
+    "x": 1507,
+    "y": 751.90625,
+    "w": 350,
+    "h": 32
+   },
+   "lineRects": [
+    {
+     "x": 1507,
+     "y": 751.90625,
+     "w": 350,
+     "h": 32
+    },
+    {
+     "x": 1507,
+     "y": 751.90625,
+     "w": 345.859375,
+     "h": 16
+    },
+    {
+     "x": 1507,
+     "y": 767.90625,
+     "w": 104.46875,
+     "h": 16
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Financial inclusion of historically disenfranchised groups (in global north?)",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(127, 50, 48)",
+     "size": "13.9232px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "d96798c0728b1ccaf51924dd",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(131, 52, 48); --c-text: #833430; left: 592px; top: 487px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: 350px;",
+   "text": "censorship resistant social networks",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(131, 52, 48)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1498,
+    "y": 1130.40625,
+    "w": 368,
+    "h": 33
+   },
+   "textBox": {
+    "x": 1507,
+    "y": 1139.40625,
+    "w": 350,
+    "h": 15
+   },
+   "lineRects": [
+    {
+     "x": 1507,
+     "y": 1139.40625,
+     "w": 350,
+     "h": 15
+    },
+    {
+     "x": 1507,
+     "y": 1139.40625,
+     "w": 208.09375,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "censorship resistant social networks",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(131, 52, 48)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "9af90dffbfa632f0dccf16bf",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(136, 51, 48); --c-text: #883330; left: 592px; top: 310px; font-size: 13px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13px; width: 350px;",
+   "text": "Web3 is basis for fairer, more dynamic tech platforms and thereby a means to reduce or eliminate tech monopoly",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(136, 51, 48)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1498,
+    "y": 945.90625,
+    "w": 368,
+    "h": 48
+   },
+   "textBox": {
+    "x": 1507,
+    "y": 954.90625,
+    "w": 350,
+    "h": 30
+   },
+   "lineRects": [
+    {
+     "x": 1507,
+     "y": 954.90625,
+     "w": 350,
+     "h": 30
+    },
+    {
+     "x": 1507,
+     "y": 954.90625,
+     "w": 331.421875,
+     "h": 15
+    },
+    {
+     "x": 1507,
+     "y": 969.90625,
+     "w": 313.625,
+     "h": 15
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Web3 is basis for fairer, more dynamic tech platforms and thereby a means to reduce or eliminate tech monopoly",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(136, 51, 48)",
+     "size": "13px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "344daed8c2d22b1e9a85ea29",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(134, 49, 47); --c-text: #86312f; left: 592px; top: 457px; font-size: 13.9232px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13.9232px; width: auto; white-space: nowrap;",
+   "text": "Route to a global universal basic income",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13.9232px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(134, 49, 47)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1498,
+    "y": 1099.90625,
+    "w": 267.9375,
+    "h": 34
+   },
+   "textBox": {
+    "x": 1507,
+    "y": 1108.90625,
+    "w": 249.9375,
+    "h": 16
+   },
+   "lineRects": [
+    {
+     "x": 1507,
+     "y": 1108.90625,
+     "w": 249.9375,
+     "h": 16
+    },
+    {
+     "x": 1507,
+     "y": 1108.90625,
+     "w": 249.9375,
+     "h": 16
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Route to a global universal basic income",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(134, 49, 47)",
+     "size": "13.9232px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "420a3318c28b0e5eaa13556e",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(128, 49, 46); --c-text: #80312e; left: 592px; top: 426px; font-size: 13.9232px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13.9232px; width: 350px;",
+   "text": "Overcome hegemony of the dollar",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13.9232px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(128, 49, 46)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1498,
+    "y": 1068.90625,
+    "w": 368,
+    "h": 34
+   },
+   "textBox": {
+    "x": 1507,
+    "y": 1077.90625,
+    "w": 350,
+    "h": 16
+   },
+   "lineRects": [
+    {
+     "x": 1507,
+     "y": 1077.90625,
+     "w": 350,
+     "h": 16
+    },
+    {
+     "x": 1507,
+     "y": 1077.90625,
+     "w": 209.6875,
+     "h": 16
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Overcome hegemony of the dollar",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(128, 49, 46)",
+     "size": "13.9232px"
+    }
+   ],
+   "shape": null
+  },
+  {
+   "id": "90edbc2b7d1a33dc6df15234",
+   "cls": "node-container lr-right tb-middle",
+   "style": "color: rgb(131, 51, 48); --c-text: #833330; left: 592px; top: 53px; font-size: 13.9232px;",
+   "contentStyle": "--c-errfg: #fff; --c-errbg: var(--c-error-red); font-size: 13.9232px; width: 350px;",
+   "text": "Improve/expand democratic participation in economy and ensure fairer allocation amongst producers e.g. workers/creators can own the means of production",
+   "fontFamily": "Helvetica, Arial, sans-serif",
+   "fontSize": "13.9232px",
+   "fontWeight": "400",
+   "lineHeight": "normal",
+   "color": "rgb(131, 51, 48)",
+   "textAlign": "left",
+   "letterSpacing": "normal",
+   "contentPadding": "9px",
+   "contentBox": {
+    "x": 1498,
+    "y": 679.90625,
+    "w": 368,
+    "h": 66
+   },
+   "textBox": {
+    "x": 1507,
+    "y": 688.90625,
+    "w": 350,
+    "h": 48
+   },
+   "lineRects": [
+    {
+     "x": 1507,
+     "y": 688.90625,
+     "w": 350,
+     "h": 48
+    },
+    {
+     "x": 1507,
+     "y": 688.90625,
+     "w": 325.75,
+     "h": 16
+    },
+    {
+     "x": 1507,
+     "y": 704.90625,
+     "w": 318.03125,
+     "h": 16
+    },
+    {
+     "x": 1507,
+     "y": 720.90625,
+     "w": 311.8125,
+     "h": 16
+    }
+   ],
+   "spans": [
+    {
+     "tag": "SPAN",
+     "text": "Improve/expand democratic participation in economy and ensure fairer allocation amongst producers e.g. workers/creators can own the means of production ",
+     "weight": "400",
+     "style": "normal",
+     "color": "rgb(131, 51, 48)",
+     "size": "13.9232px"
+    }
+   ],
+   "shape": null
+  }
+ ],
+ "conns": [
+  {
+   "id": "9a055e3591773a659beced07",
+   "parent": null,
+   "transform": "translate(0, 0)",
+   "paths": [
+    {
+     "d": "M 0 -4.595 6.9643 0 0 4.595 6.9643 4.595 6.9643 -4.595 z",
+     "transform": "translate(187.0357,0)",
+     "fill": "#988ee3",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.4450 0.1 -4.4450 6.7396 0 0.1 4.4450 -0.2 4.4450 ",
+     "transform": "translate(530.7457,42.0100)",
+     "fill": "#988ee3",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M 193 0 C 432.7898 0 349.2748 42.0100 530.7557 42.0100 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#988ee3",
+     "sw": "9.19",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "0be2c7493a563fe902153968",
+   "parent": "9a055e3591773a659beced07",
+   "transform": "translate(540.72,42.0100)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#8e85e2",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.4443,7.0050)",
+     "fill": "#8e85e2",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 29.6227 0 22.0060 7.0050 45.4543 7.0050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#8e85e2",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "4e7713c5cddcbce11743eb36",
+   "parent": "9a055e3591773a659beced07",
+   "transform": "translate(540.72,42.0100)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#9188e3",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.4443,-88.005)",
+     "fill": "#9188e3",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 38.5584 0 -4.1744 -88.005 45.4543 -88.005 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#9188e3",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "a6ccfa9d30a3d93dc43eff1e",
+   "parent": "9a055e3591773a659beced07",
+   "transform": "translate(540.72,42.0100)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#9289e0",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.4443,51.005)",
+     "fill": "#9289e0",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 34.9780 0 7.5788 51.005 45.4543 51.005 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#9289e0",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "752ee2eb27e00200577c6b4b",
+   "parent": "9a055e3591773a659beced07",
+   "transform": "translate(540.72,42.0100)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#8e85e2",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.4443,-37.0050)",
+     "fill": "#8e85e2",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 33.3985 0 12.1706 -37.0050 45.4543 -37.0050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#8e85e2",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "5b397b9784bf70508e8161c9",
+   "parent": "9a055e3591773a659beced07",
+   "transform": "translate(540.72,42.0100)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#958ce5",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.4443,95.005)",
+     "fill": "#958ce5",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 39.1184 0 -6.2744 95.005 45.4543 95.005 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#958ce5",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "cae5647a6b6295dd44682a62",
+   "parent": null,
+   "transform": "translate(0, 0)",
+   "paths": [
+    {
+     "d": "M 0 -4.595 6.9643 0 0 4.595 6.9643 4.595 6.9643 -4.595 z",
+     "transform": "translate(187.0357,0)",
+     "fill": "#9ed56b",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.4450 0.1 -4.4450 6.7396 0 0.1 4.4450 -0.2 4.4450 ",
+     "transform": "translate(530.7457,-155.0100)",
+     "fill": "#9ed56b",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M 193 0 C 441.8298 0 315.3748 -155.0100 530.7557 -155.0100 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#9ed56b",
+     "sw": "9.19",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "9228b33ee0aad0ab5370f4d7",
+   "parent": "cae5647a6b6295dd44682a62",
+   "transform": "translate(540.72,-155.0100)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#a4d870",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.1643,36.5050)",
+     "fill": "#a4d870",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 33.1317 0 12.2084 36.5050 45.1743 36.5050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#a4d870",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "245a9d36c011fb24ac911450",
+   "parent": "cae5647a6b6295dd44682a62",
+   "transform": "translate(540.72,-155.0100)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#a5d372",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.1643,-65.505)",
+     "fill": "#a5d372",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 36.5624 0 2.4356 -65.505 45.1743 -65.505 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#a5d372",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "460c4e5468be12d8e942030d",
+   "parent": "cae5647a6b6295dd44682a62",
+   "transform": "translate(540.72,-155.0100)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#9fd569",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.1643,65.505)",
+     "fill": "#9fd569",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 36.5624 0 2.4356 65.505 45.1743 65.505 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#9fd569",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "3c466f88177d0d7dfd3f8066",
+   "parent": "cae5647a6b6295dd44682a62",
+   "transform": "translate(540.72,-155.0100)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#a0d36d",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.1643,-0.0050)",
+     "fill": "#a0d36d",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 28.7646 0 23.9127 -0.0050 45.1743 -0.0050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#a0d36d",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "7a60b4bb50484c84632920cc",
+   "parent": "cae5647a6b6295dd44682a62",
+   "transform": "translate(540.72,-155.0100)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#9bd066",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.1643,-36.505)",
+     "fill": "#9bd066",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 33.1317 0 12.2084 -36.505 45.1743 -36.505 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#9bd066",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "146af70eda45f2ddee0d066e",
+   "parent": null,
+   "transform": "translate(0, 0)",
+   "paths": [
+    {
+     "d": "M 0 -4.595 6.9643 0 0 4.595 6.9643 4.595 6.9643 -4.595 z",
+     "transform": "translate(187.0357,0)",
+     "fill": "#e096e9",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.4450 0.1 -4.4450 6.7396 0 0.1 4.4450 -0.2 4.4450 ",
+     "transform": "translate(530.7457,-417.5200)",
+     "fill": "#e096e9",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M 193 0 C 462.8306 0 236.6218 -417.5200 530.7557 -417.5200 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#e096e9",
+     "sw": "9.19",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "19f80ab0ab4c7fb48d5b3971",
+   "parent": "146af70eda45f2ddee0d066e",
+   "transform": "translate(540.72,-417.5200)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#e099ea",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.1643,29.5050)",
+     "fill": "#e099ea",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 32.2421 0 14.5620 29.5050 45.1743 29.5050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#e099ea",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "f9072ad0825ca9f9f72755df",
+   "parent": "146af70eda45f2ddee0d066e",
+   "transform": "translate(540.72,-417.5200)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#dd91e8",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.1643,-51.0050)",
+     "fill": "#dd91e8",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 34.7787 0 7.4434 -51.0050 45.1743 -51.0050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#dd91e8",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "563d67b4b3e075786adc3812",
+   "parent": "146af70eda45f2ddee0d066e",
+   "transform": "translate(540.72,-417.5200)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#e19aeb",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.1643,-80.005)",
+     "fill": "#e19aeb",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 37.7224 0 -1.9144 -80.005 45.1743 -80.005 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#e19aeb",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "4d5dc79e8887b77663b75ac3",
+   "parent": "146af70eda45f2ddee0d066e",
+   "transform": "translate(540.72,-417.5200)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#e19aeb",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.1643,95.005)",
+     "fill": "#e19aeb",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 38.9224 0 -6.4144 95.005 45.1743 95.005 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#e19aeb",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "7acf6292e64b112465c22f45",
+   "parent": "146af70eda45f2ddee0d066e",
+   "transform": "translate(540.72,-417.5200)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#e19fea",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.1643,66.005)",
+     "fill": "#e19fea",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 36.6024 0 2.2856 66.005 45.1743 66.005 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#e19fea",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "eb6db02eb9aeb72f56ad2ec0",
+   "parent": "146af70eda45f2ddee0d066e",
+   "transform": "translate(540.72,-417.5200)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#de97e8",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.1643,-160.505)",
+     "fill": "#de97e8",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 44.1624 0 -26.0644 -160.505 45.1743 -160.505 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#de97e8",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "e762ba3f89d2f5a7b442cb29",
+   "parent": "146af70eda45f2ddee0d066e",
+   "transform": "translate(540.72,-417.5200)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#dc90e7",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.1643,-14.5050)",
+     "fill": "#dc90e7",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 30.2572 0 19.5592 -14.5050 45.1743 -14.5050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#dc90e7",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "22101353d8e86f8b78092b24",
+   "parent": "146af70eda45f2ddee0d066e",
+   "transform": "translate(540.72,-417.5200)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#de92e9",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.1643,124.005)",
+     "fill": "#de92e9",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 41.2424 0 -15.1144 124.005 45.1743 124.005 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#de92e9",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "c3b38003855372c5d38af82b",
+   "parent": "146af70eda45f2ddee0d066e",
+   "transform": "translate(540.72,-417.5200)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#df98e9",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.1643,160.505)",
+     "fill": "#df98e9",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 44.1624 0 -26.0644 160.505 45.1743 160.505 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#df98e9",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "034737eb26d6c6714bf5bfec",
+   "parent": "146af70eda45f2ddee0d066e",
+   "transform": "translate(540.72,-417.5200)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#e09ee9",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.1643,-116.505)",
+     "fill": "#e09ee9",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 40.6424 0 -12.8644 -116.505 45.1743 -116.505 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#e09ee9",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "63d80a189f03615841ae7436",
+   "parent": null,
+   "transform": "translate(0, 0)",
+   "paths": [
+    {
+     "d": "M 0 -4.595 6.9643 0 0 4.595 6.9643 4.595 6.9643 -4.595 z",
+     "transform": "translate(187.0357,0)",
+     "fill": "#efa670",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.4450 0.1 -4.4450 6.7396 0 0.1 4.4450 -0.2 4.4450 ",
+     "transform": "translate(530.7457,791.53)",
+     "fill": "#efa670",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M 193 0 C 492.7514 0 124.4188 791.53 530.7557 791.53 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#efa670",
+     "sw": "9.19",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "91c807d590df985884fdaeb9",
+   "parent": "63d80a189f03615841ae7436",
+   "transform": "translate(540.72,791.53)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#efa978",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.1643,-109.005)",
+     "fill": "#efa978",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 40.0424 0 -10.6144 -109.005 45.1743 -109.005 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#efa978",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "b3978ae89b3892dd909f42c2",
+   "parent": "63d80a189f03615841ae7436",
+   "transform": "translate(540.72,791.53)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#f0ab7b",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.1643,-72.505)",
+     "fill": "#f0ab7b",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 37.1224 0 0.3356 -72.505 45.1743 -72.505 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#f0ab7b",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "af6e4a3bd6b0714f1d8f8533",
+   "parent": "63d80a189f03615841ae7436",
+   "transform": "translate(540.72,791.53)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#efa674",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.1643,-138.005)",
+     "fill": "#efa674",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 42.3624 0 -19.3144 -138.005 45.1743 -138.005 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#efa674",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "8d3ff17ca4048aa6e35e1ba2",
+   "parent": "63d80a189f03615841ae7436",
+   "transform": "translate(540.72,791.53)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#f1a978",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.1643,-36.0050)",
+     "fill": "#f1a978",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 33.0701 0 12.3756 -36.0050 45.1743 -36.0050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#f1a978",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "06c032a527a44ea66c31229d",
+   "parent": "63d80a189f03615841ae7436",
+   "transform": "translate(540.72,791.53)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#eea471",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.1643,-7.0050)",
+     "fill": "#eea471",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 29.3873 0 21.8969 -7.0050 45.1743 -7.0050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#eea471",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "e1577f64193490602509d712",
+   "parent": "63d80a189f03615841ae7436",
+   "transform": "translate(540.72,791.53)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#efa674",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.1643,22.0050)",
+     "fill": "#efa674",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 31.2424 0 17.0884 22.0050 45.1743 22.0050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#efa674",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "ba92c54fbeb6e8746395f38a",
+   "parent": "63d80a189f03615841ae7436",
+   "transform": "translate(540.72,791.53)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#ef9e66",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.1643,51.0050)",
+     "fill": "#ef9e66",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 34.7787 0 7.4434 51.0050 45.1743 51.0050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#ef9e66",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "71683bf56b6419e3668141d0",
+   "parent": "63d80a189f03615841ae7436",
+   "transform": "translate(540.72,791.53)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#eeaa7b",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.1643,109.0050)",
+     "fill": "#eeaa7b",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 40.0424 0 -10.6144 109.0050 45.1743 109.0050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#eeaa7b",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "471e8dca205ac303cadf51a7",
+   "parent": "63d80a189f03615841ae7436",
+   "transform": "translate(540.72,791.53)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#f09e65",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.1643,80.0050)",
+     "fill": "#f09e65",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 37.7224 0 -1.9144 80.0050 45.1743 80.0050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#f09e65",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "951f1f18d34701ada33aa597",
+   "parent": null,
+   "transform": "translate(0, 0)",
+   "paths": [
+    {
+     "d": "M 0 -4.595 6.9643 0 0 4.595 6.9643 4.595 6.9643 -4.595 z",
+     "transform": "translate(187.0357,0)",
+     "fill": "#efa670",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.4450 0.1 -4.4450 6.7396 0 0.1 4.4450 -0.2 4.4450 ",
+     "transform": "translate(530.7457,-772.03)",
+     "fill": "#efa670",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M 193 0 C 491.1914 0 130.2688 -772.03 530.7557 -772.03 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#efa670",
+     "sw": "9.19",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "f55ea1df46bc3aa07a9772fa",
+   "parent": "951f1f18d34701ada33aa597",
+   "transform": "translate(540.72,-772.03)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#efaa7a",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.5443,-117.505)",
+     "fill": "#efaa7a",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 40.9884 0 -12.9744 -117.505 45.5543 -117.505 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#efaa7a",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "79a523daa3385d2ef24aeb12",
+   "parent": "951f1f18d34701ada33aa597",
+   "transform": "translate(540.72,-772.03)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#eda472",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.5443,-70.505)",
+     "fill": "#eda472",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 37.2284 0 1.1256 -70.505 45.5543 -70.505 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#eda472",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "b97e1ac35e09defc318b3081",
+   "parent": "951f1f18d34701ada33aa597",
+   "transform": "translate(540.72,-772.03)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#efa470",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.5443,-31.5050)",
+     "fill": "#efa470",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 32.7866 0 14.0578 -31.5050 45.5543 -31.5050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#efa470",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "e42789922353808dbb44c6ac",
+   "parent": "951f1f18d34701ada33aa597",
+   "transform": "translate(540.72,-772.03)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#eea979",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.5443,7.5050)",
+     "fill": "#eea979",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 29.7584 0 21.8948 7.5050 45.5543 7.5050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#eea979",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "9bbef484347ab96483271ea3",
+   "parent": "951f1f18d34701ada33aa597",
+   "transform": "translate(540.72,-772.03)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#f0a774",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.5443,46.505)",
+     "fill": "#f0a774",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 34.5674 0 9.0854 46.505 45.5543 46.505 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#f0a774",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "9cce286eab1c19ae601f501b",
+   "parent": "951f1f18d34701ada33aa597",
+   "transform": "translate(540.72,-772.03)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#efaa7a",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.5443,93.505)",
+     "fill": "#efaa7a",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 39.0684 0 -5.7744 93.505 45.5543 93.505 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#efaa7a",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "abb9bb124a0038db51ba2fb4",
+   "parent": "951f1f18d34701ada33aa597",
+   "transform": "translate(540.72,-772.03)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#eea777",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.5443,148.505)",
+     "fill": "#eea777",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 43.4684 0 -22.2744 148.505 45.5543 148.505 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#eea777",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "002babef1d263390fa9bb76d",
+   "parent": "951f1f18d34701ada33aa597",
+   "transform": "translate(540.72,-772.03)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#f0a069",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.5443,-156.505)",
+     "fill": "#f0a069",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 44.1084 0 -24.6744 -156.505 45.5543 -156.505 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#f0a069",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "e6b95e5f1886666d0cf8880f",
+   "parent": null,
+   "transform": "translate(0, 0)",
+   "paths": [
+    {
+     "d": "M 0 -4.595 6.9643 0 0 4.595 6.9643 4.595 6.9643 -4.595 z",
+     "transform": "translate(187.0357,0)",
+     "fill": "#e68782",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.4450 0.1 -4.4450 6.7396 0 0.1 4.4450 -0.2 4.4450 ",
+     "transform": "translate(530.7457,399.0200)",
+     "fill": "#e68782",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M 193 0 C 461.3506 0 242.1718 399.0200 530.7557 399.0200 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#e68782",
+     "sw": "9.19",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "1e16416417344fd79bc2bd82",
+   "parent": "e6b95e5f1886666d0cf8880f",
+   "transform": "translate(540.72,399.0200)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#e67a76",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.5443,94.5050)",
+     "fill": "#e67a76",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 39.1484 0 -6.0744 94.5050 45.5543 94.5050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#e67a76",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "7d168a0ccd09d8b780299a55",
+   "parent": "e6b95e5f1886666d0cf8880f",
+   "transform": "translate(540.72,399.0200)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#e7908d",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.5443,3.5050)",
+     "fill": "#e7908d",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 29.3711 0 23.0741 3.5050 45.5543 3.5050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#e7908d",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "8d8abe873d75d80439438713",
+   "parent": "e6b95e5f1886666d0cf8880f",
+   "transform": "translate(540.72,399.0200)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#e67c78",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.5443,-106.5050)",
+     "fill": "#e67c78",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 40.1084 0 -9.6744 -106.5050 45.5543 -106.5050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#e67c78",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "052968fbf848737c9080e853",
+   "parent": "e6b95e5f1886666d0cf8880f",
+   "transform": "translate(540.72,399.0200)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#e37e7b",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.5443,133.5050)",
+     "fill": "#e37e7b",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 42.2684 0 -17.7744 133.5050 45.5543 133.5050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#e37e7b",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "ebaea208f4aba532222dd4fd",
+   "parent": "e6b95e5f1886666d0cf8880f",
+   "transform": "translate(540.72,399.0200)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#e6817e",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.5443,-51.5050)",
+     "fill": "#e6817e",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 35.1014 0 7.4660 -51.5050 45.5543 -51.5050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#e6817e",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "33c3059b88c9ccb39ed65853",
+   "parent": "e6b95e5f1886666d0cf8880f",
+   "transform": "translate(540.72,399.0200)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#e37e7b",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.5443,-153.5050)",
+     "fill": "#e37e7b",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 43.8684 0 -23.7744 -153.5050 45.5543 -153.5050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#e37e7b",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "d96798c0728b1ccaf51924dd",
+   "parent": "e6b95e5f1886666d0cf8880f",
+   "transform": "translate(540.72,399.0200)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#e58581",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.5443,225.5050)",
+     "fill": "#e58581",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 49.6284 0 -45.3744 225.5050 45.5543 225.5050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#e58581",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "9af90dffbfa632f0dccf16bf",
+   "parent": "e6b95e5f1886666d0cf8880f",
+   "transform": "translate(540.72,399.0200)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#e88b88",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.5443,49.0050)",
+     "fill": "#e88b88",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 34.8377 0 8.2733 49.0050 45.5543 49.0050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#e88b88",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "344daed8c2d22b1e9a85ea29",
+   "parent": "e6b95e5f1886666d0cf8880f",
+   "transform": "translate(540.72,399.0200)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#e88582",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.5443,195.5050)",
+     "fill": "#e88582",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 47.2284 0 -36.3744 195.5050 45.5543 195.5050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#e88582",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "420a3318c28b0e5eaa13556e",
+   "parent": "e6b95e5f1886666d0cf8880f",
+   "transform": "translate(540.72,399.0200)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#e47c78",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.5443,164.5050)",
+     "fill": "#e47c78",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 44.7484 0 -27.0744 164.5050 45.5543 164.5050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#e47c78",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  },
+  {
+   "id": "90edbc2b7d1a33dc6df15234",
+   "parent": "e6b95e5f1886666d0cf8880f",
+   "transform": "translate(540.72,399.0200)",
+   "paths": [
+    {
+     "d": "M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z",
+     "transform": "translate(-6.4057,0)",
+     "fill": "#e58481",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764 ",
+     "transform": "translate(45.5443,-208.5050)",
+     "fill": "#e58481",
+     "stroke": "none",
+     "sw": null,
+     "lj": null,
+     "lc": null
+    },
+    {
+     "d": "M -1 0 C 48.2684 0 -40.2744 -208.5050 45.5543 -208.5050 ",
+     "transform": null,
+     "fill": "none",
+     "stroke": "#e58481",
+     "sw": "8.4529",
+     "lj": "round",
+     "lc": null
+    }
+   ]
+  }
+ ],
+ "url": "https://coggle.it/diagram/YnpnzQ8o3JWk-DSu/t/web3-taxonomy-of-aspirations-and-claims"
+}
