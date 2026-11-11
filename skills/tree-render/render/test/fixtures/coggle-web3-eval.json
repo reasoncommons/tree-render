@@ -1,0 +1,102 @@
+{
+  "title": "[Web3] Evaluation (Coggle original)",
+  "kind": "question",
+  "source": "https://coggle.it/diagram/Yh-L7j5DfRykGi7e/t/web3-what-is-the-evaluation-polarizing-way-as-possible (text and level-1 colours copied from the live DOM, 2026-11-11)",
+  "root": {
+    "text": "[Web3] What is the evaluation of the various claims (+ve or -ve) for web3/crypto (and the supporting reasoning/sensemaking) so that … we (collectively as individuals, societies etc) make good choices te the technology (whether to support, improve or curb) and allocate our resources (attention, energy, money) effectively and this all happens in as a constructive, intersectional and (de-polarizing) way as possible?",
+    "children": [
+      {
+        "text": "What are the core high level problems/aspirations/hopes that crypto/web3 movement talks to ...",
+        "colour": "#e096e9",
+        "children": [
+          {
+            "text": "What is an inventory of these aspirations and what are the most important?",
+            "textSize": 15.3,
+            "children": []
+          },
+          {
+            "text": "What are the political imaginaries/ideologies that relate to this?",
+            "textSize": 15.3,
+            "children": []
+          }
+        ]
+      },
+      {
+        "text": "What is our evaluation i.e. how would crypto/web3 address those aspirations, how else could they be addressed (outside web3 etc), and what are the risks of web3 / crypto?",
+        "colour": "#7aa3e5",
+        "children": [
+          {
+            "text": "What is the matrix of +ve claims for web3/crypto vs aspirations?",
+            "textSize": 15.3,
+            "children": []
+          },
+          {
+            "text": "What is the evaluation of these claims?",
+            "textSize": 15.3,
+            "children": []
+          },
+          {
+            "text": "What are the other (non web3) ways of addressing those aspirations ...?",
+            "textSize": 15.3,
+            "children": []
+          },
+          {
+            "text": "What are the risks of the web3 movement (beyond not fulfilling on its aspirations and the opportunity cost of that)?",
+            "textSize": 15.3,
+            "children": []
+          }
+        ]
+      },
+      {
+        "text": "What key background ideas are needed / relevant?",
+        "colour": "#67d7c4",
+        "children": [
+          {
+            "text": "What do we mean by key terms?",
+            "children": []
+          },
+          {
+            "text": "What political theory / science?",
+            "children": []
+          },
+          {
+            "text": "What economics and game theory?",
+            "children": []
+          },
+          {
+            "text": "What macroeconomics?",
+            "children": []
+          },
+          {
+            "text": "What computer science?",
+            "children": []
+          }
+        ]
+      },
+      {
+        "text": "How does this contribute to wider sensemaking?",
+        "colour": "#9ed56b",
+        "children": [
+          {
+            "text": "Why has crypto/web3 (narrative) been so attractive (successful?)?",
+            "textSize": 13.8134,
+            "children": []
+          },
+          {
+            "text": "How do we share what we are doing?",
+            "textSize": 13.8134,
+            "children": []
+          },
+          {
+            "text": "How do we involve others in the sensemaking process?",
+            "children": []
+          },
+          {
+            "text": "What framework can we use to answer the question of whether crypto or web3 is useful and in what way …?",
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+}

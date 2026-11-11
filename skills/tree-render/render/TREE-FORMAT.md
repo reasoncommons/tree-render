@@ -32,6 +32,8 @@ A node has:
 - `lead` (string, optional): the short label; it must open `text` exactly (the Markdown bold lead). The continuation is the rest of `text`. Omitted when there is no lead.
 - `answer` (string, optional): the answer or hypothesis (the Markdown `- A:` line), plain text. Omitted when there is none.
 - `accent` (boolean, optional): mark this branch for the accent colour (for example the "So…" branch of a hypothesis tree).
+- `colour` (string, optional): a `#rrggbb` branch colour for this node, used by the `coggle-exact` style (Coggle stores a colour per node). Its descendants vary it slightly, as Coggle does.
+- `textSize` (number, optional): font size in px for this node, used by `coggle-exact` (Coggle's per-node `text_size`; the default is 17 / 15.3 / 13 / 12 px by level).
 - `note` (string, optional): a side note, such as the question a node answers. Not drawn yet.
 - `children` (array of nodes): may be empty.
 

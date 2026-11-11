@@ -19,6 +19,8 @@ const USAGE = `Usage: tree-render <tree.md|tree.json> [--out DIR] [--name N] [--
        tree-render parse <tree.md|tree.json> [--out tree.json]
        tree-render <tree.md|tree.json> --style <style.json|name> [--out DIR] [--name N] [--scale 2] [--no-png]
                                      static render with a style (styles/*.json): writes DIR/N.svg, N.png (2×), N.report.json
+       tree-render <tree.md|tree.json> --style coggle-exact [--out DIR] [--name N] [--scale 2] [--no-png]
+                                     a faithful copy of Coggle's look (docs/design/references/coggle-spec.md)
 
 Options:
   --format 4x5|1x1|16x9|web     canvas (default 4x5)
@@ -139,6 +141,13 @@ async function main(argv) {
   }
 
   const tree = readTree(file);
+  if (a.style === 'coggle-exact') {
+    const { renderCoggle } = await import('../src/coggle/render.js');
+    const r = await renderCoggle(tree, { outDir: a.out || '.', name: a.name, png: !a['no-png'], scale: +(a.scale || 2) });
+    const b = r.L.bounds;
+    console.log(`${Object.values(r.files).map(f => path.basename(f)).join(', ')}  style coggle-exact · ${Math.ceil(b.w + 60)}×${Math.ceil(b.h + 60)} · ${r.L.nodes.length} nodes`);
+    return 0;
+  }
   if (a.style || (!sub && !CANVAS_FLAGS.some(k => a[k] != null))) {
     const { renderStatic, reportLines, findStyle } = await import('../src/static-render.js');
     let styleFile;

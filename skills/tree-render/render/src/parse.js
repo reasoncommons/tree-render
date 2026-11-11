@@ -92,6 +92,8 @@ function fromJSON(obj) {
     const n = makeNode({ text, lead, cont });
     n.answer = j.answer ? clean(j.answer) : null;
     if (j.accent) n.accent = true;
+    if (j.colour && /^#[0-9a-f]{6}$/i.test(j.colour)) n.colour = j.colour.toLowerCase();
+    if (typeof j.textSize === 'number' && j.textSize >= 8 && j.textSize <= 50) n.textSize = j.textSize;
     if (j.note) n.note = clean(j.note);
     n.children = (j.children || []).map(conv);
     return n;
@@ -114,6 +116,8 @@ export function toJSON(tree) {
     if (n.lead != null) o.lead = n.lead;
     if (n.answer) o.answer = n.answer;
     if (n.accent) o.accent = true;
+    if (n.colour) o.colour = n.colour;
+    if (n.textSize) o.textSize = n.textSize;
     if (n.note) o.note = n.note;
     o.children = n.children.map(conv);
     return o;
