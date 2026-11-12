@@ -226,32 +226,35 @@ for (const [name, style] of Object.entries(COGGLE_STYLES).filter(([n]) => n !== 
   });
 }
 
-// --- 2026-11-12: no chevrons, lead on its own line, coggle-thin(-mono) --------------------------------------
+// --- 2026-11-12: chevrons (coggle-exact only), leadBreak option, coggle-thin(-mono) --------------------------------------
 
 import { coggleStyle } from '../src/coggle/styles.js';
 const LEADY = parse(JSON.stringify({ title: 't', root: { text: 'Root', children: [{ lead: 'A bold lead:', text: 'A bold lead: and the rest.', children: [{ text: 'A leaf.' }] }] } }));
 
-test('root box: no chevrons in our styles (a plain rounded box); Coggle\'s chevrons on request', () => {
-  const svg = drawCoggle(coggleLayout(LEADY, T), { fontCSS: '' });
-  const d = /class="root-box" d="([^"]+)"/.exec(svg)[1];
+test('root box: chevrons in coggle-exact (Coggle\'s pointers); a plain rounded box in the variants or on request', () => {
+  const plain = drawCoggle(coggleLayout(LEADY, T, { chevrons: false }), { fontCSS: '' });
+  const d = /class="root-box" d="([^"]+)"/.exec(plain)[1];
   assert.equal((d.match(/L/g) || []).length, 3); // four sides, four arcs, no chevron points
-  const c = drawCoggle(coggleLayout(LEADY, T, { chevrons: true }), { fontCSS: '' });
+  const c = drawCoggle(coggleLayout(LEADY, T), { fontCSS: '' });
   assert.ok(/class="root-box" d="([^"]+)"/.exec(c)[1].length > d.length);
+  assert.equal(coggleStyle('coggle-exact').root.chevrons, true);
+  for (const name of ['coggle-thin', 'coggle-thin-mono', 'coggle-broadsheet', 'coggle-letterpress']) assert.equal(coggleStyle(name).root.chevrons, false, name);
 });
 
-test('a bold lead sits on its own line and the rest starts on the next (leadBreak: false runs on)', () => {
+test('the lead runs on by default (leadBreak off in every style); leadBreak: true puts a bold lead on its own line', () => {
   const n = (L) => L.nodes.find(r => r.level === 1).t.lines;
-  const on = n(coggleLayout(LEADY, T)), off = n(coggleLayout(LEADY, T, { leadBreak: false }));
+  const on = n(coggleLayout(LEADY, T, { leadBreak: true })), off = n(coggleLayout(LEADY, T));
   assert.equal(on.length, 2);
   assert.deepEqual(on[0].segs.map(s => s.bold), [true]);
   assert.equal(on[1].segs[0].text, 'and the rest.');
   assert.equal(off.length, 1);
+  for (const name of ['coggle-exact', 'coggle-thin', 'coggle-thin-mono', 'coggle-broadsheet', 'coggle-letterpress']) assert.equal(coggleStyle(name).leadBreak, false, name);
 });
 
 test('coggle-thin-mono: leaves and continuations in IBM Plex Mono, 1 px smaller; leads and root in Plex Sans; coggle-hairline is an alias of coggle-thin', async () => {
   assert.equal(coggleStyle('coggle-hairline'), coggleStyle('coggle-thin'));
   const S = coggleStyle('coggle-thin-mono'), TM = await createCoggleText(S.font);
-  const L = coggleLayout(LEADY, TM, { style: S });
+  const L = coggleLayout(LEADY, TM, { style: S, leadBreak: true });
   const svg = drawCoggle(L, { fontCSS: fontFaceCSS(S.font), style: S });
   assert.match(svg, /font-family:'IBM Plex Mono'/);
   const leaf = L.nodes.find(r => r.level === 2), mid = L.nodes.find(r => r.level === 1), root = L.nodes[0];

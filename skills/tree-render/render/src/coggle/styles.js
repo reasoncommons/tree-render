@@ -3,14 +3,15 @@
 // root branch and text in a darker shade of its branch all stay. What a style can set:
 //   font          family, files (regular + the weight the lead uses), boldWeight, CSS stack; optional mono
 //                 { family, file, stack, sizeDelta }: leaves and the text after a bold lead in that face
-//   leadBreak     a bold lead sits on its own line(s), the rest starts on the next line (default on)
+//   leadBreak     a bold lead sits on its own line(s), the rest starts on the next line (off in all styles:
+//                 it left dangling words, e.g. "Alignment: a shot in the / dark"; kept as an option)
 //   sizes         font size by level (root, 1, 2, 3+)
 //   branch        width: Coggle's width × scale, at least min
 //   colour        branch colours: saturation × s, lightness × l (text colours follow, via Coggle's darken)
 //   cont          colour of the text after a bold lead: null = same as the lead, else the lead's text colour
 //                 with saturation × s and lightness × l
 //   bg            background (also the halo behind interior labels)
-//   root          chevrons (Coggle's little pointers on the box; off in all our styles);
+//   root          chevrons (Coggle's little pointers on the box; on in coggle-exact, off in the variants);
 //                 kind: 'box' (Coggle's box, filled) | 'outline' (the box, stroked) | 'rule' (no box,
 //                 a hairline to the right of the text); colour (fill, or stroke); bold (root text in the lead weight)
 //   spacing       overrides for layout.js SPACING (ySpace, leafX, …)
@@ -32,13 +33,14 @@ export const EXACT = {
   branch: { scale: 1, min: 2 },
   colour: { s: 1, l: 1 },
   cont: null,
-  leadBreak: true,
+  leadBreak: false,
   bg: BG,
-  root: { kind: 'box', colour: ROOT_COLOUR, bold: false, chevrons: false },
+  root: { kind: 'box', colour: ROOT_COLOUR, bold: false, chevrons: true },
   spacing: {},
 };
 
-const variant = (name, d) => ({ ...EXACT, ...d, name, root: { ...EXACT.root, ...d.root } });
+// Variants draw the root without chevrons unless they say otherwise.
+const variant = (name, d) => ({ ...EXACT, ...d, name, root: { ...EXACT.root, chevrons: false, ...d.root } });
 
 const THIN = variant('coggle-thin', {
   font: PLEX,
@@ -53,6 +55,7 @@ export const COGGLE_STYLES = {
   // Tufte, least ink: thin lines, a little more air, the root only outlined. (Was coggle-hairline.)
   'coggle-thin': THIN,
   // coggle-thin with leaves and the text after each bold lead in IBM Plex Mono, 1 px smaller, wrapped a little wider.
+  // Not a candidate (2026-11-12: switching just some words to mono does not work); kept for reference.
   'coggle-thin-mono': variant('coggle-thin-mono', { ...THIN, font: PLEX_MONO, wrap: { leaf: 320 } }),
   // No longer candidates (2026-11-12), kept for reference:
   // FT / Economist graphics desk: a sturdier sans, slightly muted colour, the root set bold without a box.
