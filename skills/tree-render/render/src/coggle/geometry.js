@@ -61,7 +61,13 @@ export function tipPath(t) {
 // The root box: a rounded rectangle (r 2.5) with a 7 px chevron at the middle of each side; w × h is the
 // whole shape including the chevrons. Coggle: w = max(80, content width + 14), h = content height + 8,
 // where the content box is the text plus 9 px padding.
-export function rootShapePath(w, h) {
+// `chevrons: false`: just the rounded rectangle, w × h.
+export function rootShapePath(w, h, { chevrons = true } = {}) {
+  if (!chevrons) {
+    const a = w / 2, b = h / 2, r = 2.5, n = (v) => fmt(v);
+    return `M ${n(-a)},${n(-(b - r))} A ${r},${r},0,0,1,${n(-(a - r))},${n(-b)} L ${n(a - r)},${n(-b)} A ${r},${r},0,0,1,${n(a)},${n(-(b - r))} ` +
+      `L ${n(a)},${n(b - r)} A ${r},${r},0,0,1,${n(a - r)},${n(b)} L ${n(-(a - r))},${n(b)} A ${r},${r},0,0,1,${n(-a)},${n(b - r)} Z`;
+  }
   const a = w / 2 - 7, b = h / 2 - 7, r = 2.5, c = 4.9, k = 7;
   const n = (v) => fmt(v);
   return `M ${n(-a)},${c} L ${n(-a - k)},0,${n(-a)},${-c},${n(-a)},${n(-(b - r))} A ${r},${r},0,0,1,${n(-(a - r))},${n(-b)} ` +

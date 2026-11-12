@@ -23,9 +23,9 @@ const USAGE = `Usage: tree-render <tree.md|tree.json> [--out DIR] [--name N] [--
        tree-render <tree.md|tree.json> --style coggle-exact [--out DIR] [--name N] [--scale 2] [--no-png] [--allow-collisions]
                                      a faithful copy of Coggle's look (docs/design/references/coggle-spec.md); branches are kept
                                      off labels unless --allow-collisions (Coggle's own layout, for comparisons)
-       tree-render <tree.md|tree.json> --style coggle-hairline|coggle-broadsheet|coggle-letterpress [...]
-                                     "elegant" variants of coggle-exact (src/coggle/styles.js): other fonts, branch widths,
-                                     palette shifts, background and root treatment on the same engine
+       tree-render <tree.md|tree.json> --style coggle-thin|coggle-thin-mono|coggle-broadsheet|coggle-letterpress [...]
+                                     variants of coggle-exact (src/coggle/styles.js): other fonts, branch widths, palette
+                                     shifts, background and root treatment on the same engine (coggle-hairline = coggle-thin)
 
 Options:
   --format 4x5|1x1|16x9|web     canvas (default 4x5)

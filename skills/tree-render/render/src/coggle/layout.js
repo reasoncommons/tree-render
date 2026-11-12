@@ -19,11 +19,12 @@ import { EXACT } from './styles.js';
 // are narrow but tall and vertical room keeps the S-curves clear of labels. Interior labels wrap narrow,
 // leaves a little narrower than Coggle's 350 px, and sibling groups get a little more air.
 export const TALL = { rootWrap: 260, interiorWrap: 260, leafWrap: 300, ySpace: 15, innerYSpace: 30 };
-// Collision avoidance: wrap widths to try for interior labels, gaps between siblings, and the extra run (px) to
-// add, in steps (wraps: only those at or below the style's interior wrap are tried). Cost = horizontal span +
-// heightCost × growth in height + wrapCost × px of wrap given up: width costs far more than height, and a
-// narrower wrap (ragged, 5–7 line labels) is a last resort rather than a cheap way to save width.
-export const AVOID = { wraps: [280, 260, 240, 220, 200, 180, 160], ySpaces: [30, 45, 60, 80, 100, 125, 150, 180, 220, 260], heightCost: 0.2, wrapCost: 3, maxExtra: 600, step: 5 };
+// Collision avoidance: wrap widths to try for interior labels (down to 200: no ragged 6–7 line blocks), gaps next
+// to sibling labels (capped at 100 px) and the extra run (px) to add, in steps (wraps: only those at or below the
+// style's interior wrap are tried). Cost = horizontal span + heightCost × growth in height + wrapCost × px of
+// wrap given up. Other boxes (leaf groups) get only groupShare of the extra gap, so groups stay close together:
+// compact (Rufus, 2026-11-12) rather than tall at any price.
+export const AVOID = { wraps: [280, 260, 240, 220, 200], ySpaces: [30, 40, 50, 60, 70, 80, 90, 100], heightCost: 0.2, wrapCost: 1, maxExtra: 900, step: 5, groupShare: 0.5 };
 
 // Root with kind 'rule': px between the root text and the hairline.
 const RULE_GAP = 6;
@@ -35,7 +36,9 @@ export const SPACING = { ySpace: 15, leafX: 54, heightFactor: 0.02, minLine: 40,
 // re-wrap that group's interior labels narrower and lengthen its horizontal run until no branch comes
 // within 4 px of a label, and use the TALL shape (our deviations from Coggle; off reproduces Coggle's own layout).
 // `style` (styles.js): font sizes, branch widths, colours, root treatment and spacing; T must be made with its font.
-export function coggleLayout(tree, T, { palette = PALETTE, paletteStart = 0, pin = null, avoidCollisions = true, style = EXACT } = {}) {
+// `leadBreak` / `chevrons` (default: the style's): a bold lead on its own line(s); Coggle's chevrons on the root box.
+// Both are off in our styles' defaults but on in Coggle; the pinned Coggle comparison passes them explicitly.
+export function coggleLayout(tree, T, { palette = PALETTE, paletteStart = 0, pin = null, avoidCollisions = true, style = EXACT, leadBreak = style.leadBreak, chevrons = style.root.chevrons } = {}) {
   const S = { ...SPACING, ...style.spacing };
   if (pin) avoidCollisions = false;
   const tall = avoidCollisions;
@@ -45,12 +48,15 @@ export function coggleLayout(tree, T, { palette = PALETTE, paletteStart = 0, pin
   const wrapped = new Map();
   const textAt = (r, wrap) => {
     const key = r.num + '|' + wrap;
-    if (!wrapped.has(key)) wrapped.set(key, T.layoutText(runsFor(r.node), r.node.textSize || fontSize(r.level, style.sizes), wrap));
+    if (!wrapped.has(key)) wrapped.set(key, T.layoutText(r.runs, r.node.textSize || fontSize(r.level, style.sizes), wrap));
     return wrapped.get(key);
   };
   const build = (n, level, parent, idx) => {
     const r = { node: n, level, parent, children: [], num: n.num || 'root', x: 0, y: 0, ttb: -1 };
-    const runs = level === 0 && style.root.bold ? runsFor(n).map(x => ({ ...x, bold: true })) : runsFor(n);
+    // mono face (if the font has one): the text after a bold lead, and leaves' text
+    const mono = level > 0 && (!!n.lead || !n.children.length);
+    const runs = level === 0 && style.root.bold ? runsFor(n).map(x => ({ ...x, bold: true })) : runsFor(n, { leadBreak, mono });
+    r.runs = runs;
     r.t = T.layoutText(runs, n.textSize || fontSize(level, style.sizes), !level ? rootWrap : !n.children.length ? leafWrap : WRAP_WIDTH);
     if (level === 0) { r.colour = n.colour || style.root.colour; r.textColour = rootTextColour(r.colour); }
     else if (level === 1) r.colour = n.colour || adjust(palette[(idx + paletteStart) % palette.length], style.colour);
@@ -70,9 +76,10 @@ export function coggleLayout(tree, T, { palette = PALETTE, paletteStart = 0, pin
   const contentW = root.t.w + 2 * S.labelPad, contentH = root.t.h + 2 * S.labelPad;
   let shapeW = Math.max(80, Math.round(contentW) + 14); if (shapeW % 2) shapeW += 1;
   const shapeH = Math.round(contentH) + 8;
-  root.shape = { w: shapeW, h: shapeH, kind: style.root.kind };
+  // without chevrons the shape is just the box (7 px in from the chevron tips on each side)
+  root.shape = chevrons ? { w: shapeW, h: shapeH, kind: style.root.kind, chevrons: true } : { w: shapeW - 14, h: shapeH - 14, kind: style.root.kind, chevrons: false };
   root.stroke = style.root.stroke;
-  root.from = shapeW / 2 + S.rootGap; // where the root's branches start
+  root.from = root.shape.w / 2 + S.rootGap; // where the root's branches start
   if (style.root.kind === 'rule') {
     // no box: a hairline just right of the text, the branches leaving from it
     root.rule = { x: Math.round(root.t.w / 2) + RULE_GAP, h: root.t.h + 6 };
@@ -109,15 +116,18 @@ export function coggleLayout(tree, T, { palette = PALETTE, paletteStart = 0, pin
       kids.forEach((k, i) => { k.ttb = i > (kids.length - 1) / 2 ? 1 : -1; });
       let boxes = [];
       for (let pass = 0; pass < 6; pass++) {
-        const placed = [];
+        const placed = [], labs = [];
         kids.forEach((k, i) => {
           const own = [ownBox(k), ...subs[i]].map(b => shift(b, k.rx, 0));
           let y = i ? kids[i - 1].ry : 0;
-          for (const b of own) for (const c of placed) {
-            if (b.x < c.x + c.w && c.x < b.x + b.w) y = Math.max(y, c.y + c.h + ySpace - b.y);
-          }
+          // ySpace (the knob) applies next to a sibling's own label, which the S-curves have to pass;
+          // anything else (leaves, deeper labels) keeps the base gap, so sibling groups don't drift apart
+          own.forEach((b, m) => placed.forEach((c, n) => {
+            const gap = m === 0 || labs[n] ? ySpace : baseYSpace + AVOID.groupShare * (ySpace - baseYSpace);
+            if (b.x < c.x + c.w && c.x < b.x + b.w) y = Math.max(y, c.y + c.h + gap - b.y);
+          }));
           k.ry = y;
-          for (const b of own) placed.push(shift(b, 0, y));
+          own.forEach((b, m) => { placed.push(shift(b, 0, y)); labs.push(m === 0); });
         });
         const top = Math.min(...placed.map(b => b.y)), bottom = Math.max(...placed.map(b => b.y + b.h));
         const mid = (top + bottom) / 2;

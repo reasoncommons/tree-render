@@ -8,7 +8,7 @@ import { coggleStyle } from './styles.js';
 
 export const STYLE_NAME = 'coggle-exact';
 
-// `style`: 'coggle-exact' or one of its variants (styles.js), e.g. 'coggle-hairline'.
+// `style`: 'coggle-exact' or one of its variants (styles.js), e.g. 'coggle-thin'.
 export async function renderCoggle(tree, { outDir = '.', name, png = true, scale = 2, avoidCollisions = true, style = STYLE_NAME } = {}) {
   const S = coggleStyle(style);
   const T = await createCoggleText(S.font);

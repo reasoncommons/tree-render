@@ -1,14 +1,17 @@
 // coggle/styles.js: coggle-exact and its "elegant" variants (docs/plans/2026-11-11-revision.md, "Third revision").
 // Each variant is a few deltas from coggle-exact on the same engine: the S-curve geometry, a colour per
 // root branch and text in a darker shade of its branch all stay. What a style can set:
-//   font          family, files (regular + the weight the lead uses), boldWeight, CSS stack
+//   font          family, files (regular + the weight the lead uses), boldWeight, CSS stack; optional mono
+//                 { family, file, stack, sizeDelta }: leaves and the text after a bold lead in that face
+//   leadBreak     a bold lead sits on its own line(s), the rest starts on the next line (default on)
 //   sizes         font size by level (root, 1, 2, 3+)
 //   branch        width: Coggle's width × scale, at least min
 //   colour        branch colours: saturation × s, lightness × l (text colours follow, via Coggle's darken)
 //   cont          colour of the text after a bold lead: null = same as the lead, else the lead's text colour
 //                 with saturation × s and lightness × l
 //   bg            background (also the halo behind interior labels)
-//   root          kind: 'box' (Coggle's chevron box, filled) | 'outline' (the box, stroked) | 'rule' (no box,
+//   root          chevrons (Coggle's little pointers on the box; off in all our styles);
+//                 kind: 'box' (Coggle's box, filled) | 'outline' (the box, stroked) | 'rule' (no box,
 //                 a hairline to the right of the text); colour (fill, or stroke); bold (root text in the lead weight)
 //   spacing       overrides for layout.js SPACING (ySpace, leafX, …)
 //   wrap          overrides for layout.js TALL wrap widths: { interior, leaf }
@@ -17,6 +20,8 @@ import { ARIMO, FONT_SIZES } from './text.js';
 import { ROOT_COLOUR, BG } from './colour.js';
 
 const PLEX = { family: 'IBM Plex Sans', files: { regular: 'IBMPlexSans-Regular.woff', bold: 'IBMPlexSans-SemiBold.woff' }, boldWeight: 600, stack: "'IBM Plex Sans', Helvetica, Arial, sans-serif" };
+// Plex Sans for the root and bold leads, Plex Mono (1 px smaller: it runs wide) for the rest.
+const PLEX_MONO = { ...PLEX, mono: { family: 'IBM Plex Mono', file: 'IBMPlexMono-Regular.woff', stack: "'IBM Plex Mono', Menlo, Consolas, monospace", sizeDelta: 1 } };
 const SOURCE_SANS = { family: 'Source Sans 3', files: { regular: 'SourceSans3-Regular.woff', bold: 'SourceSans3-Bold.woff' }, boldWeight: 700, stack: "'Source Sans 3', Helvetica, Arial, sans-serif" };
 const SOURCE_SERIF = { family: 'Source Serif 4', files: { regular: 'SourceSerif4-Regular.woff', bold: 'SourceSerif4-Semibold.woff' }, boldWeight: 600, stack: "'Source Serif 4', Georgia, serif" };
 
@@ -27,23 +32,29 @@ export const EXACT = {
   branch: { scale: 1, min: 2 },
   colour: { s: 1, l: 1 },
   cont: null,
+  leadBreak: true,
   bg: BG,
-  root: { kind: 'box', colour: ROOT_COLOUR, bold: false },
+  root: { kind: 'box', colour: ROOT_COLOUR, bold: false, chevrons: false },
   spacing: {},
 };
 
 const variant = (name, d) => ({ ...EXACT, ...d, name, root: { ...EXACT.root, ...d.root } });
 
+const THIN = variant('coggle-thin', {
+  font: PLEX,
+  branch: { scale: 0.5, min: 1.5 },
+  colour: { s: 1, l: 0.85 },
+  root: { kind: 'outline', colour: '#555555', stroke: 1.5 },
+  spacing: { ySpace: 20, leafX: 70 },
+});
+
 export const COGGLE_STYLES = {
   'coggle-exact': EXACT,
-  // Tufte, least ink: thin lines, a little more air, the root only outlined.
-  'coggle-hairline': variant('coggle-hairline', {
-    font: PLEX,
-    branch: { scale: 0.5, min: 1.5 },
-    colour: { s: 1, l: 0.85 },
-    root: { kind: 'outline', colour: '#555555', stroke: 1.5 },
-    spacing: { ySpace: 20, leafX: 70 },
-  }),
+  // Tufte, least ink: thin lines, a little more air, the root only outlined. (Was coggle-hairline.)
+  'coggle-thin': THIN,
+  // coggle-thin with leaves and the text after each bold lead in IBM Plex Mono, 1 px smaller, wrapped a little wider.
+  'coggle-thin-mono': variant('coggle-thin-mono', { ...THIN, font: PLEX_MONO, wrap: { leaf: 320 } }),
+  // No longer candidates (2026-11-12), kept for reference:
   // FT / Economist graphics desk: a sturdier sans, slightly muted colour, the root set bold without a box.
   'coggle-broadsheet': variant('coggle-broadsheet', {
     font: SOURCE_SANS,
@@ -64,10 +75,11 @@ export const COGGLE_STYLES = {
   }),
 };
 
-export const COGGLE_STYLE_NAMES = Object.keys(COGGLE_STYLES);
+export const COGGLE_ALIASES = { 'coggle-hairline': 'coggle-thin' };
+export const COGGLE_STYLE_NAMES = [...Object.keys(COGGLE_STYLES), ...Object.keys(COGGLE_ALIASES)];
 
 export function coggleStyle(name = 'coggle-exact') {
-  const s = COGGLE_STYLES[name];
+  const s = COGGLE_STYLES[COGGLE_ALIASES[name] || name];
   if (!s) throw new Error(`unknown coggle style "${name}" (have: ${COGGLE_STYLE_NAMES.join(', ')})`);
   return s;
 }

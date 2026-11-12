@@ -108,9 +108,11 @@ test('font sizes by level and Chrome-rounded "normal" line heights', () => {
 
 const T = await createCoggleText();
 const WEB3 = parse(readFixture('coggle-web3-eval.json'));
+// Coggle's own drawing: its layout (collisions allowed), the lead running on, and the chevrons on the root box.
+const COGGLE = { avoidCollisions: false, leadBreak: false, chevrons: true };
 
 test('web3 layout (Coggle\'s own, collisions allowed): level-1 junctions at x = 631, leaves 54 + 0.02 × height further on', () => {
-  const L = coggleLayout(WEB3, T, { avoidCollisions: false });
+  const L = coggleLayout(WEB3, T, COGGLE);
   const l1 = L.nodes.filter(n => n.level === 1);
   assert.equal(l1.length, 4);
   for (const n of l1) assert.ok(near(n.x, 631, 0.5), `L1 x ${n.x}`);
@@ -127,7 +129,7 @@ test('web3 layout (Coggle\'s own, collisions allowed): level-1 junctions at x = 
 });
 
 test('golden: with collisions allowed, the web3 fixture renders exactly Coggle\'s layout (checked-in SVG)', () => {
-  const svg = drawCoggle(coggleLayout(WEB3, T, { avoidCollisions: false }), { fontCSS: '' });
+  const svg = drawCoggle(coggleLayout(WEB3, T, COGGLE), { fontCSS: '' });
   const golden = path.join(here, 'golden', 'coggle-web3-eval-original.svg');
   if (process.env.UPDATE_GOLDEN) fs.writeFileSync(golden, svg);
   assert.equal(svg, fs.readFileSync(golden, 'utf8'));
@@ -195,10 +197,12 @@ test('a group without collisions keeps Coggle\'s horizontal layout; only the gap
   assert.ok(gap(a) > gap(b));
 });
 
-test('tall over wide: real trees come out at most 1.6 × as wide as tall, and well short of Coggle\'s landscape', () => {
+test('compact, leaning tall: real trees come out at most 1.8 × as wide as tall, short of Coggle\'s landscape, and not much bigger in area', () => {
   for (const [name, tree] of trees.filter(([n]) => n !== 'stress')) {
     const L = coggleLayout(tree, T), O = coggleLayout(tree, T, { avoidCollisions: false });
-    assert.ok(L.bounds.w / L.bounds.h < Math.min(1.6, 0.8 * O.bounds.w / O.bounds.h), `${name}: ${Math.round(L.bounds.w)}×${Math.round(L.bounds.h)}`);
+    const msg = `${name}: ${Math.round(L.bounds.w)}×${Math.round(L.bounds.h)} vs ${Math.round(O.bounds.w)}×${Math.round(O.bounds.h)}`;
+    assert.ok(L.bounds.w / L.bounds.h < Math.min(1.8, 0.9 * O.bounds.w / O.bounds.h), msg);
+    assert.ok(L.bounds.w * L.bounds.h < 1.8 * O.bounds.w * O.bounds.h, msg);
   }
 });
 
@@ -221,3 +225,38 @@ for (const [name, style] of Object.entries(COGGLE_STYLES).filter(([n]) => n !== 
     for (const b of L.branches) assert.ok(b.w >= style.branch.min - 1e-9);
   });
 }
+
+// --- 2026-11-12: no chevrons, lead on its own line, coggle-thin(-mono) --------------------------------------
+
+import { coggleStyle } from '../src/coggle/styles.js';
+const LEADY = parse(JSON.stringify({ title: 't', root: { text: 'Root', children: [{ lead: 'A bold lead:', text: 'A bold lead: and the rest.', children: [{ text: 'A leaf.' }] }] } }));
+
+test('root box: no chevrons in our styles (a plain rounded box); Coggle\'s chevrons on request', () => {
+  const svg = drawCoggle(coggleLayout(LEADY, T), { fontCSS: '' });
+  const d = /class="root-box" d="([^"]+)"/.exec(svg)[1];
+  assert.equal((d.match(/L/g) || []).length, 3); // four sides, four arcs, no chevron points
+  const c = drawCoggle(coggleLayout(LEADY, T, { chevrons: true }), { fontCSS: '' });
+  assert.ok(/class="root-box" d="([^"]+)"/.exec(c)[1].length > d.length);
+});
+
+test('a bold lead sits on its own line and the rest starts on the next (leadBreak: false runs on)', () => {
+  const n = (L) => L.nodes.find(r => r.level === 1).t.lines;
+  const on = n(coggleLayout(LEADY, T)), off = n(coggleLayout(LEADY, T, { leadBreak: false }));
+  assert.equal(on.length, 2);
+  assert.deepEqual(on[0].segs.map(s => s.bold), [true]);
+  assert.equal(on[1].segs[0].text, 'and the rest.');
+  assert.equal(off.length, 1);
+});
+
+test('coggle-thin-mono: leaves and continuations in IBM Plex Mono, 1 px smaller; leads and root in Plex Sans; coggle-hairline is an alias of coggle-thin', async () => {
+  assert.equal(coggleStyle('coggle-hairline'), coggleStyle('coggle-thin'));
+  const S = coggleStyle('coggle-thin-mono'), TM = await createCoggleText(S.font);
+  const L = coggleLayout(LEADY, TM, { style: S });
+  const svg = drawCoggle(L, { fontCSS: fontFaceCSS(S.font), style: S });
+  assert.match(svg, /font-family:'IBM Plex Mono'/);
+  const leaf = L.nodes.find(r => r.level === 2), mid = L.nodes.find(r => r.level === 1), root = L.nodes[0];
+  assert.ok(leaf.t.lines[0].segs.every(s => s.mono));
+  assert.deepEqual(mid.t.lines.flatMap(l => l.segs.map(s => s.mono)), [false, true]);
+  assert.ok(root.t.lines[0].segs.every(s => !s.mono));
+  assert.match(svg, new RegExp(`font-size="${leaf.t.size - 1}">A leaf\\.</tspan>`));
+});

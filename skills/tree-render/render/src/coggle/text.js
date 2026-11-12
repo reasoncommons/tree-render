@@ -9,7 +9,8 @@ import { fileURLToPath } from 'node:url';
 import opentype from 'opentype.js';
 
 export const FONT_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..', 'fonts');
-// A font: a family with a regular and a "bold" file (the bold is whatever weight the lead uses).
+// A font: a family with a regular and a "bold" file (the bold is whatever weight the lead uses), and optionally
+// `mono`: { family, file, stack, sizeDelta } for text set in a second (monospace) face, sizeDelta px smaller.
 export const ARIMO = { family: 'Arimo', files: { regular: 'Arimo-Regular.ttf', bold: 'Arimo-Bold.ttf' }, boldWeight: 700, stack: 'Arimo, Helvetica, Arial, sans-serif' };
 export const FONT_FILES = ARIMO.files;
 export const FONT_FAMILY = ARIMO.family;
@@ -33,56 +34,70 @@ export const baseline = (size) => ARIMO_METRICS.baseline(size);
 
 const cache = new Map();
 function loadFonts(font) {
-  if (cache.has(font.family)) return cache.get(font.family);
+  const key = font.family + '|' + (font.mono?.family || '');
+  if (cache.has(key)) return cache.get(key);
   const load = (f) => { const b = fs.readFileSync(path.join(FONT_DIR, f)); return opentype.parse(b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength)); };
-  const fonts = { regular: load(font.files.regular), bold: load(font.files.bold) };
+  const fonts = { regular: load(font.files.regular), bold: load(font.files.bold), mono: font.mono ? load(font.mono.file) : null };
   const h = fonts.regular.tables.hhea, u = fonts.regular.unitsPerEm;
   fonts.metrics = metricsFns(h.ascender / u, Math.abs(h.descender) / u, h.lineGap / u);
-  cache.set(font.family, fonts);
+  cache.set(key, fonts);
   return fonts;
 }
 
 const FORMATS = { ttf: ['font/ttf', 'truetype'], otf: ['font/otf', 'opentype'], woff: ['font/woff', 'woff'] };
 export function fontFaceCSS(font = ARIMO) {
-  return Object.entries(font.files).map(([k, f]) => {
+  const face = (family, weight, f) => {
     const b64 = fs.readFileSync(path.join(FONT_DIR, f)).toString('base64');
     const [mime, format] = FORMATS[path.extname(f).slice(1)];
-    return `@font-face{font-family:'${font.family}';font-weight:${k === 'bold' ? font.boldWeight : 400};src:url(data:${mime};base64,${b64}) format('${format}');}`;
-  }).join('');
+    return `@font-face{font-family:'${family}';font-weight:${weight};src:url(data:${mime};base64,${b64}) format('${format}');}`;
+  };
+  const css = Object.entries(font.files).map(([k, f]) => face(font.family, k === 'bold' ? font.boldWeight : 400, f));
+  if (font.mono) css.push(face(font.mono.family, 400, font.mono.file));
+  return css.join('');
 }
 
-// Label runs: a bold lead (if any) then the regular rest.
-export function runsFor(node) {
-  if (node.lead) return [{ text: node.lead, bold: true }, ...(node.cont ? [{ text: node.cont, bold: false }] : [])];
-  return [{ text: node.text, bold: false }];
+// Label runs: a bold lead (if any) then the regular rest. `leadBreak`: the rest starts on a new line.
+// `mono`: set the regular rest in the font's mono face.
+export function runsFor(node, { leadBreak = false, mono = false } = {}) {
+  if (node.lead) return [{ text: node.lead, bold: true }, ...(node.cont ? [{ text: node.cont, bold: false, br: leadBreak, mono }] : [])];
+  return [{ text: node.text, bold: false, mono }];
 }
 
 export async function createCoggleText(font = ARIMO) {
   const fonts = loadFonts(font), { lineHeight, baseline } = fonts.metrics;
   const unit = new Map();
-  const measure = (text, size, bold) => {
-    const key = (bold ? 'b|' : 'r|') + text;
+  const monoDelta = font.mono?.sizeDelta || 0;
+  // `face`: true / 'bold', 'mono', or falsy (regular). Mono text is set sizeDelta px smaller.
+  const measure = (text, size, face) => {
+    const fc = face === 'mono' && fonts.mono ? 'mono' : face ? 'bold' : 'regular';
+    const key = fc[0] + '|' + text;
     let w = unit.get(key);
     if (w == null) {
-      const f = bold ? fonts.bold : fonts.regular;
+      const f = fonts[fc];
       w = text ? f.getAdvanceWidth(text, f.unitsPerEm, { kerning: true }) / f.unitsPerEm : 0;
       unit.set(key, w);
     }
-    return w * size;
+    return w * (fc === 'mono' ? size - monoDelta : size);
   };
 
-  // Greedy wrap, as the browser does: words keep their run's weight; a space takes the weight of the run it is in.
+  // Greedy wrap, as the browser does: words keep their run's face; a space takes the face of the run it is in.
+  // A run with `br` starts on a new line.
   function layoutText(runs, size, maxWidth = WRAP_WIDTH) {
     const words = [];
-    runs.forEach((r, ri) => r.text.split(/\s+/).filter(Boolean).forEach((t, wi) => words.push({ text: t, bold: r.bold, spaceBold: wi === 0 ? (ri === 0 ? r.bold : r.bold) : r.bold })));
-    const lineW = (ws) => ws.reduce((s, w, i) => s + (i ? measure(' ', size, w.spaceBold) : 0) + measure(w.text, size, w.bold), 0);
-    const one = lineW(words);
+    runs.forEach((r) => {
+      const face = r.bold ? 'bold' : r.mono && fonts.mono ? 'mono' : '';
+      r.text.split(/\s+/).filter(Boolean).forEach((t, wi) => words.push({ text: t, bold: r.bold, mono: face === 'mono', face, br: wi === 0 && !!r.br && words.length > 0 }));
+    });
+    const lineW = (ws) => ws.reduce((s, w, i) => s + (i ? measure(' ', size, w.face) : 0) + measure(w.text, size, w.face), 0);
+    const one = lineW(words), forced = words.some(w => w.br);
     const lines = [];
-    if (one <= maxWidth) lines.push(words);
+    let soft = false;
+    if (one <= maxWidth && !forced) lines.push(words);
     else {
       let cur = [];
       for (const w of words) {
-        if (cur.length && lineW([...cur, w]) > maxWidth) { lines.push(cur); cur = []; }
+        if (cur.length && w.br) { lines.push(cur); cur = []; }
+        else if (cur.length && lineW([...cur, w]) > maxWidth) { lines.push(cur); cur = []; soft = true; }
         cur.push(w);
       }
       if (cur.length) lines.push(cur);
@@ -93,11 +108,13 @@ export async function createCoggleText(font = ARIMO) {
       ws.forEach((w, i) => {
         const piece = (i ? ' ' : '') + w.text;
         const last = segs[segs.length - 1];
-        if (last && last.bold === w.bold) last.text += piece; else segs.push({ text: piece, bold: w.bold });
+        if (last && last.bold === w.bold && last.mono === w.mono) last.text += piece; else segs.push({ text: piece, bold: w.bold, mono: w.mono });
       });
       return { segs, w: lineW(ws) };
     });
-    return { lines: out, w: one <= maxWidth ? one : maxWidth, h: out.length * lh, size, lineHeight: lh, baseline: baseline(size) };
+    // a soft-wrapped label is as wide as its wrap width (as in the browser); otherwise as wide as its longest line
+    const w = soft || (one > maxWidth && !forced) ? maxWidth : Math.max(...out.map(l => l.w));
+    return { lines: out, w, h: out.length * lh, size, lineHeight: lh, baseline: baseline(size), monoSize: size - monoDelta };
   }
 
   return { measure, layoutText };
