@@ -23,7 +23,7 @@ Run from `skills/tree-render/render/` (or use the full path to `bin/render.js`):
 node bin/render.js tree.json --out out/
 ```
 
-This writes `out/tree.svg`, `out/tree.png` (2x) and `out/tree.report.json`, and prints a one-line summary. The default style is `river` (saturated hues, strong taper). For a calmer look use `--style coggle` (pastel ribbons, then files are named `coggle.*`; add `--name tree` to keep the tree's name). Other useful flags: `--no-png`, `--scale 2`, `--name N`.
+This writes `out/tree.svg` and `out/tree.png` (2x) and prints a one-line summary. The default style is `coggle-exact`, a faithful copy of Coggle's look (double-curve branches, Coggle's palette, text in a darker shade of its branch). The older styles stay available by name, e.g. `--style river` or `--style coggle` (files are then named after the style; add `--name tree` to keep the tree's name, and these also write `tree.report.json`). Other useful flags: `--no-png`, `--scale 2`, `--name N`.
 
 `node bin/render.js check tree.json` prints the self-check report only. `node bin/render.js parse tree.md --out tree.json` converts Markdown to canonical JSON.
 
