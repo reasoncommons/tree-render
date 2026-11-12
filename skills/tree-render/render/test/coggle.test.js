@@ -195,10 +195,10 @@ test('a group without collisions keeps Coggle\'s horizontal layout; only the gap
   assert.ok(gap(a) > gap(b));
 });
 
-test('tall over wide: real trees come out at most 1.5 × as wide as tall, and well short of Coggle\'s landscape', () => {
+test('tall over wide: real trees come out at most 1.6 × as wide as tall, and well short of Coggle\'s landscape', () => {
   for (const [name, tree] of trees.filter(([n]) => n !== 'stress')) {
     const L = coggleLayout(tree, T), O = coggleLayout(tree, T, { avoidCollisions: false });
-    assert.ok(L.bounds.w / L.bounds.h < Math.min(1.5, 0.8 * O.bounds.w / O.bounds.h), `${name}: ${Math.round(L.bounds.w)}×${Math.round(L.bounds.h)}`);
+    assert.ok(L.bounds.w / L.bounds.h < Math.min(1.6, 0.8 * O.bounds.w / O.bounds.h), `${name}: ${Math.round(L.bounds.w)}×${Math.round(L.bounds.h)}`);
   }
 });
 

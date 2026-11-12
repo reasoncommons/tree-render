@@ -18,10 +18,15 @@ import { EXACT } from './styles.js';
 // Our default shape (with collision avoidance on): taller and narrower than Coggle's, since pages and phones
 // are narrow but tall and vertical room keeps the S-curves clear of labels. Interior labels wrap narrow,
 // leaves a little narrower than Coggle's 350 px, and sibling groups get a little more air.
-export const TALL = { rootWrap: 260, interiorWrap: 220, leafWrap: 300, ySpace: 15, innerYSpace: 30 };
+export const TALL = { rootWrap: 260, interiorWrap: 260, leafWrap: 300, ySpace: 15, innerYSpace: 30 };
 // Collision avoidance: wrap widths to try for interior labels, gaps between siblings, and the extra run (px) to
-// add, in steps. Cost = horizontal span + heightCost × growth in height: width costs far more than height.
-export const AVOID = { wraps: [220, 200, 180, 160], ySpaces: [30, 45, 60, 80, 100, 125, 150, 180], heightCost: 0.3, maxExtra: 600, step: 5 };
+// add, in steps (wraps: only those at or below the style's interior wrap are tried). Cost = horizontal span +
+// heightCost × growth in height + wrapCost × px of wrap given up: width costs far more than height, and a
+// narrower wrap (ragged, 5–7 line labels) is a last resort rather than a cheap way to save width.
+export const AVOID = { wraps: [280, 260, 240, 220, 200, 180, 160], ySpaces: [30, 45, 60, 80, 100, 125, 150, 180, 220, 260], heightCost: 0.2, wrapCost: 3, maxExtra: 600, step: 5 };
+
+// Root with kind 'rule': px between the root text and the hairline.
+const RULE_GAP = 6;
 
 export const SPACING = { ySpace: 15, leafX: 54, heightFactor: 0.02, minLine: 40, lineFactor: 0.22, labelPad: 9, leafPad: 4, leafLift: 1, rootGap: 2 };
 
@@ -34,7 +39,8 @@ export function coggleLayout(tree, T, { palette = PALETTE, paletteStart = 0, pin
   const S = { ...SPACING, ...style.spacing };
   if (pin) avoidCollisions = false;
   const tall = avoidCollisions;
-  const rootWrap = tall ? TALL.rootWrap : WRAP_WIDTH, leafWrap = tall ? TALL.leafWrap : WRAP_WIDTH, innerWrap = tall ? TALL.interiorWrap : WRAP_WIDTH;
+  const rootWrap = tall ? TALL.rootWrap : WRAP_WIDTH, leafWrap = tall ? (style.wrap?.leaf ?? TALL.leafWrap) : WRAP_WIDTH, innerWrap = tall ? (style.wrap?.interior ?? TALL.interiorWrap) : WRAP_WIDTH;
+  const wraps = [innerWrap, ...AVOID.wraps.filter(w => w < innerWrap)];
   const nodes = [];
   const wrapped = new Map();
   const textAt = (r, wrap) => {
@@ -65,10 +71,11 @@ export function coggleLayout(tree, T, { palette = PALETTE, paletteStart = 0, pin
   let shapeW = Math.max(80, Math.round(contentW) + 14); if (shapeW % 2) shapeW += 1;
   const shapeH = Math.round(contentH) + 8;
   root.shape = { w: shapeW, h: shapeH, kind: style.root.kind };
+  root.stroke = style.root.stroke;
   root.from = shapeW / 2 + S.rootGap; // where the root's branches start
   if (style.root.kind === 'rule') {
     // no box: a hairline just right of the text, the branches leaving from it
-    root.rule = { x: Math.round(root.t.w / 2) + 10, h: root.t.h + 6 };
+    root.rule = { x: Math.round(root.t.w / 2) + RULE_GAP, h: root.t.h + 6 };
     root.shape = { w: 2 * root.rule.x, h: root.rule.h, kind: 'rule' };
     root.from = root.rule.x + 1;
   }
@@ -141,12 +148,12 @@ export function coggleLayout(tree, T, { palette = PALETTE, paletteStart = 0, pin
     const height = (bs) => Math.max(...bs.map(b => b.y + b.h)) - Math.min(...bs.map(b => b.y));
     const baseH = height(boxes);
     for (const ySpace of inner.length ? AVOID.ySpaces : AVOID.ySpaces.map(v => v - TALL.innerYSpace + S.ySpace)) {
-      for (const wrap of inner.length ? AVOID.wraps : [innerWrap]) {
+      for (const wrap of inner.length ? wraps : [innerWrap]) {
         for (let extra = 0; extra <= AVOID.maxExtra; extra += AVOID.step) {
           const bs = arrange({ wrap, extra, ySpace });
           if (clashes()) continue;
           const span = Math.max(...kids.map(k => k.rx));
-          const cost = span + AVOID.heightCost * (height(bs) - baseH);
+          const cost = span + AVOID.heightCost * (height(bs) - baseH) + AVOID.wrapCost * (innerWrap - wrap);
           if (!best || cost < best.cost - 0.5) best = { cost, span, wrap, extra, ySpace };
           break;
         }
@@ -155,7 +162,7 @@ export function coggleLayout(tree, T, { palette = PALETTE, paletteStart = 0, pin
     if (best) return arrange(best);
     // Still crossing (not seen in practice): open the sibling gap further at the narrowest wrap and longest run.
     for (let ySpace = 100; ySpace <= 300; ySpace += 10) {
-      boxes = arrange({ wrap: AVOID.wraps[AVOID.wraps.length - 1], extra: AVOID.maxExtra, ySpace });
+      boxes = arrange({ wrap: wraps[wraps.length - 1], extra: AVOID.maxExtra, ySpace });
       if (!clashes()) return boxes;
     }
     return boxes;
@@ -167,7 +174,7 @@ export function coggleLayout(tree, T, { palette = PALETTE, paletteStart = 0, pin
     const p = pin && pin(r);
     if (p) { x = p.x; y = p.y; if (r.parent) r.ttb = y > r.parent.y + 1 ? 1 : -1; }
     r.x = x; r.y = y;
-    if (r.level === 0 && r.rule) r.text = { x: x + r.rule.x - 10 - r.t.w, y: y - r.t.h / 2, w: r.t.w, h: r.t.h, align: 'right' };
+    if (r.level === 0 && r.rule) r.text = { x: x + r.rule.x - RULE_GAP - r.t.w, y: y - r.t.h / 2, w: r.t.w, h: r.t.h, align: 'right' };
     else if (r.level === 0) r.text = { x: x - r.t.w / 2, y: y - r.t.h / 2, w: r.t.w, h: r.t.h, align: 'center' };
     else { const b = ownBox(r); r.text = { x: x + b.x, y: y + b.y, w: b.w, h: b.h, align: isLeaf(r) ? 'left' : 'right' }; }
     r.children.forEach(k => place(k, x + k.rx, y + k.ry));

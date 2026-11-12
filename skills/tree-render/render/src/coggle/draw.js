@@ -47,7 +47,7 @@ export function drawCoggle(L, { fontCSS = '', style = EXACT, bg = style.bg, pad 
   // Root: Coggle's filled box, the box outlined, or (no box) a hairline rule where the branches leave.
   const R = L.root;
   if (R.rule) out.push(`<path class="root-rule" d="M ${n2(R.rule.x)} ${n2(-R.rule.h / 2)} V ${n2(R.rule.h / 2)}" stroke="${R.colour}" stroke-width="1"/>`);
-  else if (R.shape.kind === 'outline') out.push(`<path class="root-box" d="${rootShapePath(R.shape.w, R.shape.h)}" fill="${bg}" stroke="${R.colour}" stroke-width="1"/>`);
+  else if (R.shape.kind === 'outline') out.push(`<path class="root-box" d="${rootShapePath(R.shape.w, R.shape.h)}" fill="${bg}" stroke="${R.colour}" stroke-width="${R.stroke || 1}"/>`);
   else out.push(`<path class="root-box" d="${rootShapePath(R.shape.w, R.shape.h)}" fill="${R.colour}"/>`);
 
   // Text.

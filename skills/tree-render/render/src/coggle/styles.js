@@ -11,6 +11,8 @@
 //   root          kind: 'box' (Coggle's chevron box, filled) | 'outline' (the box, stroked) | 'rule' (no box,
 //                 a hairline to the right of the text); colour (fill, or stroke); bold (root text in the lead weight)
 //   spacing       overrides for layout.js SPACING (ySpace, leafX, …)
+//   wrap          overrides for layout.js TALL wrap widths: { interior, leaf }
+//   root.stroke   outline width for kind 'outline'
 import { ARIMO, FONT_SIZES } from './text.js';
 import { ROOT_COLOUR, BG } from './colour.js';
 
@@ -39,21 +41,23 @@ export const COGGLE_STYLES = {
     font: PLEX,
     branch: { scale: 0.5, min: 1.5 },
     colour: { s: 1, l: 0.85 },
-    root: { kind: 'outline', colour: '#9a9a9a' },
+    root: { kind: 'outline', colour: '#555555', stroke: 1.5 },
     spacing: { ySpace: 20, leafX: 70 },
   }),
-  // FT / Economist graphics desk: a sturdier sans, muted colour, the root set bold without a box.
+  // FT / Economist graphics desk: a sturdier sans, slightly muted colour, the root set bold without a box.
   'coggle-broadsheet': variant('coggle-broadsheet', {
     font: SOURCE_SANS,
     sizes: [18, 15.5, 13, 12],
     branch: { scale: 0.85, min: 2 },
-    colour: { s: 0.8, l: 1 },
+    colour: { s: 0.9, l: 1 },
     root: { kind: 'rule', colour: '#8a8a8a', bold: true },
   }),
-  // Book typography on warm paper: a text serif, Coggle's palette and geometry, a warm root box.
+  // Book typography on warm paper: a text serif, Coggle's palette and S-curves at lighter weight, a warm root box.
   'coggle-letterpress': variant('coggle-letterpress', {
     font: SOURCE_SERIF,
     sizes: [18, 16, 14, 13],
+    branch: { scale: 0.55, min: 1.5 },
+    wrap: { interior: 280 },
     bg: '#fbf9f4',
     cont: { s: 0.8, l: 0.7 },
     root: { kind: 'box', colour: '#e6dccb' },
