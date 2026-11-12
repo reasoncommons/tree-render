@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tree Design Archive</title>
+<style>
+:root{--bg:#f6f5f2;--fg:#1d1d1b;--muted:#5f5e58;--line:#d8d5cc;--card:#fff;--accent:#1d5fa8}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#161615;--fg:#ecebe6;--muted:#a3a198;--line:#34332f;--card:#fff;--accent:#7fb2ee}}
+:root[data-theme="dark"]{--bg:#161615;--fg:#ecebe6;--muted:#a3a198;--line:#34332f;--card:#fff;--accent:#7fb2ee}
+body{background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;margin:0}
+main{max-width:1200px;margin:0 auto;padding:24px 16px 64px}
+a{color:var(--accent)}
+h1{font-size:1.9rem;margin:0 0 .3em}
+h2{font-size:1.4rem;margin:0 0 .2em}
+.muted{color:var(--muted)}
+nav ol{padding-left:1.4em}nav li{margin:.2em 0}
+section{border-top:1px solid var(--line);margin-top:2.5rem;padding-top:1.2rem}
+.date{color:var(--muted);font-size:.9rem;margin:0}
+.verdict{border-left:4px solid var(--accent);padding:.2em 0 .2em 12px;margin:.8em 0}
+.where,.note{color:var(--muted);font-size:.9rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:16px;margin-top:1rem}
+figure{margin:0}
+figure a{display:block;background:#fff;border:1px solid var(--line);border-radius:4px;padding:6px}
+figure img{display:block;width:100%;height:auto}
+figcaption{font-size:.85rem;color:var(--muted);margin-top:4px;overflow-wrap:anywhere}
+</style></head><body>
+<main>
+<h1>Tree Design Archive</h1>
+<p class="muted">One image per option, including the ones we discarded, oldest first. Each has what it was and Rufus's verdict. Click an image for the full size. The full log is in <code>docs/design/design-log.md</code>.</p>
+<nav><ol>
+<li><a href="#v01">v0.1 mind maps</a> <span class="muted">(2026-10)</span></li>
+<li><a href="#first">First design: Paper, Garden, Slate</a> <span class="muted">(2026-11-07 to 2026-11-08)</span></li>
+<li><a href="#moodboard">Moodboard</a> <span class="muted">(2026-11-07)</span></li>
+<li><a href="#options">Six style options</a> <span class="muted">(2026-11-11)</span></li>
+<li><a href="#coggle-exact">coggle-exact</a> <span class="muted">(2026-11-11 to 2026-11-12)</span></li>
+<li><a href="#tall">coggle-exact: tall layout</a> <span class="muted">(2026-11-12)</span></li>
+<li><a href="#elegant">Elegant: hairline, broadsheet, letterpress</a> <span class="muted">(2026-11-12)</span></li>
+<li><a href="#directions">Six diagram directions, round 1</a> <span class="muted">(2026-11-12)</span></li>
+<li><a href="#thin">coggle-thin</a> <span class="muted">(2026-11-12)</span></li>
+<li><a href="#round2">Round 2 directions (2026-11-12)</a></li>
+</ol></nav>
+<section id="v01">
+<p class="date">2026-10</p>
+<h2>v0.1 mind maps</h2>
+<p>The first renders of the Wise AI Q2 tree as a mind map.</p>
+<p class="verdict"><strong>Verdict:</strong> &quot;The best so far.&quot; The text is strong, the drawing is weak.</p>
+<div class="grid">
+<figure><a href="img/2026-10-v01-q2-mindmap.jpg"><img src="img/2026-10-v01-q2-mindmap.jpg" alt="v0.1 mind map (Q2)" loading="lazy"></a><figcaption>v0.1 mind map (Q2)</figcaption></figure>
+</div></section>
+<section id="first">
+<p class="date">2026-11-07 to 2026-11-08</p>
+<h2>First design: Paper, Garden, Slate</h2>
+<p>Three themed card mock-ups plus an interactive prototype, with the branch as a shelf under the text.</p>
+<p class="verdict"><strong>Verdict:</strong> &quot;Worse than v0.1.&quot; The branch under the text looks bad.</p>
+<div class="grid">
+<figure><a href="img/2026-11-07-mockup-wise-ai-q2-16x9-paper.jpg"><img src="img/2026-11-07-mockup-wise-ai-q2-16x9-paper.jpg" alt="Paper (Q2)" loading="lazy"></a><figcaption>Paper (Q2)</figcaption></figure>
+<figure><a href="img/2026-11-07-mockup-wise-ai-q2-4x5-garden.jpg"><img src="img/2026-11-07-mockup-wise-ai-q2-4x5-garden.jpg" alt="Garden (Q2)" loading="lazy"></a><figcaption>Garden (Q2)</figcaption></figure>
+<figure><a href="img/2026-11-07-mockup-wise-ai-q2-16x9-slate.jpg"><img src="img/2026-11-07-mockup-wise-ai-q2-16x9-slate.jpg" alt="Slate (Q2)" loading="lazy"></a><figcaption>Slate (Q2)</figcaption></figure>
+<figure><a href="img/2026-11-07-mockup-wise-ai-interactive-desktop.jpg"><img src="img/2026-11-07-mockup-wise-ai-interactive-desktop.jpg" alt="Interactive prototype (desktop)" loading="lazy"></a><figcaption>Interactive prototype (desktop)</figcaption></figure>
+</div></section>
+<section id="moodboard">
+<p class="date">2026-11-07</p>
+<h2>Moodboard</h2>
+<p>Reference tools we looked at for taste. Four kept: Coggle default, a Coggle web3 taxonomy, Whimsical, and Markmap as an anti-example.</p>
+<p class="verdict"><strong>Verdict:</strong> Coggle is the bar (&quot;nothing nearly as good as Coggle&quot;). Whimsical is a reference only. Markmap is an anti-example.</p>
+<div class="grid">
+<figure><a href="img/2026-11-07-moodboard-01-coggle-default.jpg"><img src="img/2026-11-07-moodboard-01-coggle-default.jpg" alt="Coggle default" loading="lazy"></a><figcaption>Coggle default</figcaption></figure>
+<figure><a href="img/2026-11-11-coggle-exact-coggle-web3-taxonomy.jpg"><img src="img/2026-11-11-coggle-exact-coggle-web3-taxonomy.jpg" alt="Coggle web3 taxonomy (repo: docs/design/references/coggle-web3-taxonomy.png)" loading="lazy"></a><figcaption>Coggle web3 taxonomy (repo: docs/design/references/coggle-web3-taxonomy.png)</figcaption></figure>
+<figure><a href="img/2026-11-07-moodboard-06-whimsical.jpg"><img src="img/2026-11-07-moodboard-06-whimsical.jpg" alt="Whimsical" loading="lazy"></a><figcaption>Whimsical</figcaption></figure>
+<figure><a href="img/2026-11-07-moodboard-07-markmap.jpg"><img src="img/2026-11-07-moodboard-07-markmap.jpg" alt="Markmap (anti-example)" loading="lazy"></a><figcaption>Markmap (anti-example)</figcaption></figure>
+</div></section>
+<section id="options">
+<p class="date">2026-11-11</p>
+<h2>Six style options</h2>
+<p>Styles on the v0.1 Q2 text, each a different take on the mind map. River and refined Coggle were later tried on the whole Wise set.</p>
+<p class="verdict"><strong>Verdict:</strong> &quot;These look bad... nothing nearly as good as Coggle.&quot;</p>
+<div class="grid">
+<figure><a href="img/2026-11-11-options-1-coggle-faithful.jpg"><img src="img/2026-11-11-options-1-coggle-faithful.jpg" alt="coggle-faithful" loading="lazy"></a><figcaption>coggle-faithful</figcaption></figure>
+<figure><a href="img/2026-11-11-options-2-coggle-refined.jpg"><img src="img/2026-11-11-options-2-coggle-refined.jpg" alt="coggle-refined" loading="lazy"></a><figcaption>coggle-refined</figcaption></figure>
+<figure><a href="img/2026-11-11-options-3-editorial.jpg"><img src="img/2026-11-11-options-3-editorial.jpg" alt="editorial" loading="lazy"></a><figcaption>editorial</figcaption></figure>
+<figure><a href="img/2026-11-11-options-4-tufte.jpg"><img src="img/2026-11-11-options-4-tufte.jpg" alt="tufte" loading="lazy"></a><figcaption>tufte</figcaption></figure>
+<figure><a href="img/2026-11-11-options-5-river.jpg"><img src="img/2026-11-11-options-5-river.jpg" alt="river" loading="lazy"></a><figcaption>river</figcaption></figure>
+<figure><a href="img/2026-11-11-options-v01-thick.jpg"><img src="img/2026-11-11-options-v01-thick.jpg" alt="v01-thick" loading="lazy"></a><figcaption>v01-thick</figcaption></figure>
+</div></section>
+<section id="coggle-exact">
+<p class="date">2026-11-11 to 2026-11-12</p>
+<h2>coggle-exact</h2>
+<p>A dedicated engine reproducing Coggle&#x27;s branches, colours, text and layout, compared with a Coggle original.</p>
+<p class="verdict"><strong>Verdict:</strong> &quot;Much better... we now have a good coggle style.&quot;</p>
+<div class="grid">
+<figure><a href="img/2026-11-11-coggle-exact-coggle.jpg"><img src="img/2026-11-11-coggle-exact-coggle.jpg" alt="Coggle original" loading="lazy"></a><figcaption>Coggle original</figcaption></figure>
+<figure><a href="img/2026-11-11-coggle-exact-ours.jpg"><img src="img/2026-11-11-coggle-exact-ours.jpg" alt="Ours (coggle-exact)" loading="lazy"></a><figcaption>Ours (coggle-exact)</figcaption></figure>
+</div></section>
+<section id="tall">
+<p class="date">2026-11-12</p>
+<h2>coggle-exact: tall layout</h2>
+<p>Collisions fixed; layout prefers tall over wide.</p>
+<p class="verdict"><strong>Verdict:</strong> &quot;Prefer more vertical space and less width.&quot;</p>
+<div class="grid">
+<figure><a href="img/2026-11-12-coggle-tall-wise-q3.jpg"><img src="img/2026-11-12-coggle-tall-wise-q3.jpg" alt="Tall layout (Q3)" loading="lazy"></a><figcaption>Tall layout (Q3)</figcaption></figure>
+</div></section>
+<section id="elegant">
+<p class="date">2026-11-12</p>
+<h2>Elegant: hairline, broadsheet, letterpress</h2>
+<p>Font and pigment variants on the coggle-exact engine.</p>
+<p class="verdict"><strong>Verdict:</strong> Only variations, &quot;not the right direction&quot;. Hairline kept as coggle-thin. Book typography is not readable small; mono for some words does not work.</p>
+<div class="grid">
+<figure><a href="img/2026-11-12-elegant-coggle-hairline-q3.jpg"><img src="img/2026-11-12-elegant-coggle-hairline-q3.jpg" alt="Hairline (Q3)" loading="lazy"></a><figcaption>Hairline (Q3)</figcaption></figure>
+<figure><a href="img/2026-11-12-elegant-coggle-broadsheet-q3.jpg"><img src="img/2026-11-12-elegant-coggle-broadsheet-q3.jpg" alt="Broadsheet (Q3)" loading="lazy"></a><figcaption>Broadsheet (Q3)</figcaption></figure>
+<figure><a href="img/2026-11-12-elegant-coggle-letterpress-q3.jpg"><img src="img/2026-11-12-elegant-coggle-letterpress-q3.jpg" alt="Letterpress (Q3)" loading="lazy"></a><figcaption>Letterpress (Q3)</figcaption></figure>
+</div></section>
+<section id="directions">
+<p class="date">2026-11-12</p>
+<h2>Six diagram directions, round 1</h2>
+<p>Six different diagram forms on the Q3 tree.</p>
+<p class="verdict"><strong>Verdict:</strong> Dendrogram &quot;works well but a bit dry&quot;; spine &quot;interesting, not really convinced&quot;; outline &quot;useful when we just have a doc, but not engaging or shareable&quot;; braces &quot;ok and quite clean but not as readable&quot;; ink-branch &quot;no, much worse than Coggle&quot;; radial &quot;does not work at all&quot;.</p>
+<div class="grid">
+<figure><a href="img/2026-11-12-directions-1-dendrogram-q3.jpg"><img src="img/2026-11-12-directions-1-dendrogram-q3.jpg" alt="1 Dendrogram" loading="lazy"></a><figcaption>1 Dendrogram</figcaption></figure>
+<figure><a href="img/2026-11-12-directions-2-spine-q3.jpg"><img src="img/2026-11-12-directions-2-spine-q3.jpg" alt="2 Spine" loading="lazy"></a><figcaption>2 Spine</figcaption></figure>
+<figure><a href="img/2026-11-12-directions-3-outline-q3.jpg"><img src="img/2026-11-12-directions-3-outline-q3.jpg" alt="3 Outline" loading="lazy"></a><figcaption>3 Outline</figcaption></figure>
+<figure><a href="img/2026-11-12-directions-4-braces-q3.jpg"><img src="img/2026-11-12-directions-4-braces-q3.jpg" alt="4 Braces" loading="lazy"></a><figcaption>4 Braces</figcaption></figure>
+<figure><a href="img/2026-11-12-directions-5-inked-q3.jpg"><img src="img/2026-11-12-directions-5-inked-q3.jpg" alt="5 Ink-branch Coggle" loading="lazy"></a><figcaption>5 Ink-branch Coggle</figcaption></figure>
+<figure><a href="img/2026-11-12-directions-6-radial-q3.jpg"><img src="img/2026-11-12-directions-6-radial-q3.jpg" alt="6 Radial" loading="lazy"></a><figcaption>6 Radial</figcaption></figure>
+</div></section>
+<section id="thin">
+<p class="date">2026-11-12</p>
+<h2>coggle-thin</h2>
+<p>Thin-line Coggle, and a mono variant.</p>
+<p class="verdict"><strong>Verdict:</strong> Thin is a keeper. Root triangles liked after all for coggle-exact. Bold lead on its own line was reverted (dangling words). Mono dropped.</p>
+<div class="grid">
+<figure><a href="img/2026-11-12-thin-coggle-thin-q3.jpg"><img src="img/2026-11-12-thin-coggle-thin-q3.jpg" alt="coggle-thin (Q3)" loading="lazy"></a><figcaption>coggle-thin (Q3)</figcaption></figure>
+<figure><a href="img/2026-11-12-thin-coggle-thin-mono-q3.jpg"><img src="img/2026-11-12-thin-coggle-thin-mono-q3.jpg" alt="coggle-thin-mono (Q3)" loading="lazy"></a><figcaption>coggle-thin-mono (Q3)</figcaption></figure>
+</div></section>
+<section id="round2">
+<p class="date">2026-11-12</p>
+<h2>Round 2 directions (2026-11-12)</h2>
+<p class="muted">Images to be added.</p>
+<div class="grid">
+<!-- ROUND2 -->
+</div></section>
+</main></body></html>
