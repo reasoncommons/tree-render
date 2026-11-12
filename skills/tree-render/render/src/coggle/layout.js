@@ -14,17 +14,24 @@ import { branchSamples, branchHitsBox } from './collide.js';
 import { PALETTE, ROOT_COLOUR, randomWalk, textColour, rootTextColour } from './colour.js';
 import { fontSize, runsFor, WRAP_WIDTH } from './text.js';
 
-// Collision avoidance: wrap widths to try for interior labels, and the extra run (px) to add, in steps.
-export const AVOID = { wraps: [350, 320, 290, 260, 230, 200], ySpaces: [15, 25, 35, 45, 60, 75, 90], heightCost: 1, maxExtra: 600, step: 5 };
+// Our default shape (with collision avoidance on): taller and narrower than Coggle's, since pages and phones
+// are narrow but tall and vertical room keeps the S-curves clear of labels. Interior labels wrap narrow,
+// leaves a little narrower than Coggle's 350 px, and sibling groups get a little more air.
+export const TALL = { rootWrap: 260, interiorWrap: 220, leafWrap: 300, ySpace: 15, innerYSpace: 30 };
+// Collision avoidance: wrap widths to try for interior labels, gaps between siblings, and the extra run (px) to
+// add, in steps. Cost = horizontal span + heightCost × growth in height: width costs far more than height.
+export const AVOID = { wraps: [220, 200, 180, 160], ySpaces: [30, 45, 60, 80, 100, 125, 150, 180], heightCost: 0.3, maxExtra: 600, step: 5 };
 
 export const SPACING = { ySpace: 15, leafX: 54, heightFactor: 0.02, minLine: 40, lineFactor: 0.22, labelPad: 9, leafPad: 4, leafLift: 1, rootGap: 2 };
 
 // `pin(r)` (optional, for comparisons): returns an absolute {x, y} junction for a node, overriding the layout.
 // `avoidCollisions` (default on): where Coggle's layout would run a branch through a sibling's label,
 // re-wrap that group's interior labels narrower and lengthen its horizontal run until no branch comes
-// within 4 px of a label (our one deviation from Coggle; off reproduces Coggle's own layout).
+// within 4 px of a label, and use the TALL shape (our deviations from Coggle; off reproduces Coggle's own layout).
 export function coggleLayout(tree, T, { palette = PALETTE, paletteStart = 0, pin = null, avoidCollisions = true } = {}) {
   if (pin) avoidCollisions = false;
+  const tall = avoidCollisions;
+  const rootWrap = tall ? TALL.rootWrap : WRAP_WIDTH, leafWrap = tall ? TALL.leafWrap : WRAP_WIDTH, innerWrap = tall ? TALL.interiorWrap : WRAP_WIDTH;
   const nodes = [];
   const wrapped = new Map();
   const textAt = (r, wrap) => {
@@ -34,7 +41,7 @@ export function coggleLayout(tree, T, { palette = PALETTE, paletteStart = 0, pin
   };
   const build = (n, level, parent, idx) => {
     const r = { node: n, level, parent, children: [], num: n.num || 'root', x: 0, y: 0, ttb: -1 };
-    r.t = T.layoutText(runsFor(n), n.textSize || fontSize(level), WRAP_WIDTH);
+    r.t = T.layoutText(runsFor(n), n.textSize || fontSize(level), !level ? rootWrap : !n.children.length ? leafWrap : WRAP_WIDTH);
     if (level === 0) { r.colour = n.colour || ROOT_COLOUR; r.textColour = rootTextColour(r.colour); }
     else if (level === 1) r.colour = n.colour || palette[(idx + paletteStart) % palette.length];
     else r.colour = n.colour || randomWalk(parent.colour, String(r.num));
@@ -71,7 +78,8 @@ export function coggleLayout(tree, T, { palette = PALETTE, paletteStart = 0, pin
 
     // Coggle's arrangement, with three knobs that only collision avoidance turns: the wrap width of the
     // interior labels, extra horizontal run before the interior junctions, and extra space between siblings.
-    const arrange = ({ wrap = WRAP_WIDTH, extra = 0, ySpace = SPACING.ySpace } = {}) => {
+    const baseYSpace = tall && inner.length ? TALL.innerYSpace : SPACING.ySpace;
+    const arrange = ({ wrap = innerWrap, extra = 0, ySpace = baseYSpace } = {}) => {
       for (const k of inner) k.t = textAt(k, wrap);
       const Tw = Math.max(0, ...inner.map(k => k.t.w));
       const innerDx = from + SPACING.labelPad + SPACING.rootGap + Tw + Math.max(SPACING.minLine, SPACING.lineFactor * Tw) + extra;
@@ -118,8 +126,8 @@ export function coggleLayout(tree, T, { palette = PALETTE, paletteStart = 0, pin
     let best = null;
     const height = (bs) => Math.max(...bs.map(b => b.y + b.h)) - Math.min(...bs.map(b => b.y));
     const baseH = height(boxes);
-    for (const ySpace of AVOID.ySpaces) {
-      for (const wrap of inner.length ? AVOID.wraps : [WRAP_WIDTH]) {
+    for (const ySpace of inner.length ? AVOID.ySpaces : AVOID.ySpaces.map(v => v - TALL.innerYSpace + SPACING.ySpace)) {
+      for (const wrap of inner.length ? AVOID.wraps : [innerWrap]) {
         for (let extra = 0; extra <= AVOID.maxExtra; extra += AVOID.step) {
           const bs = arrange({ wrap, extra, ySpace });
           if (clashes()) continue;

@@ -183,9 +183,21 @@ for (const [name, tree] of trees) {
   });
 }
 
-test('a group without collisions keeps Coggle\'s layout exactly', () => {
+test('a group without collisions keeps Coggle\'s horizontal layout; only the gap between interior siblings opens (15 → 30 px)', () => {
   const tree = parse(JSON.stringify({ title: 't', root: { text: 'Root', children: [{ text: 'One', children: [{ text: 'a' }, { text: 'b' }] }, { text: 'Two', children: [{ text: 'c' }] }] } }));
   const a = coggleLayout(tree, T), b = coggleLayout(tree, T, { avoidCollisions: false });
   assert.deepEqual(findCollisions(b), []);
-  assert.deepEqual(a.nodes.map(n => [n.x, n.y]), b.nodes.map(n => [n.x, n.y]));
+  assert.deepEqual(a.nodes.map(n => n.x), b.nodes.map(n => n.x));
+  const leaves = (L) => L.nodes.filter(n => n.level === 2);
+  const gap = (L) => { const [x, , z] = leaves(L); return z.text.y - (x.text.y + x.text.h); };
+  // 'a' and 'b' still 15 px apart; the two families' leaves 'b' and 'c' further apart in ours
+  for (const L of [a, b]) { const [x, y] = leaves(L); assert.ok(near(y.text.y - (x.text.y + x.text.h), 15, 0.01)); }
+  assert.ok(gap(a) > gap(b));
+});
+
+test('tall over wide: real trees come out at most 1.5 × as wide as tall, and well short of Coggle\'s landscape', () => {
+  for (const [name, tree] of trees.filter(([n]) => n !== 'stress')) {
+    const L = coggleLayout(tree, T), O = coggleLayout(tree, T, { avoidCollisions: false });
+    assert.ok(L.bounds.w / L.bounds.h < Math.min(1.5, 0.8 * O.bounds.w / O.bounds.h), `${name}: ${Math.round(L.bounds.w)}×${Math.round(L.bounds.h)}`);
+  }
 });
