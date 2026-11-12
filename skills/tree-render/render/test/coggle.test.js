@@ -10,6 +10,7 @@ import { darken, textColour, rootTextColour, randomWalk, PALETTE, toHsl } from '
 import { createCoggleText, lineHeight, FONT_SIZES } from '../src/coggle/text.js';
 import { coggleLayout } from '../src/coggle/layout.js';
 import { drawCoggle } from '../src/coggle/draw.js';
+import { branchHitsBox, findCollisions } from '../src/coggle/collide.js';
 import { readFixture, here } from './helpers.js';
 
 const near = (a, b, tol = 1e-3) => Math.abs(a - b) <= tol;
@@ -108,8 +109,8 @@ test('font sizes by level and Chrome-rounded "normal" line heights', () => {
 const T = await createCoggleText();
 const WEB3 = parse(readFixture('coggle-web3-eval.json'));
 
-test('web3 layout: level-1 junctions at x = 631, leaves 54 + 0.02 × height further on', () => {
-  const L = coggleLayout(WEB3, T);
+test('web3 layout (Coggle\'s own, collisions allowed): level-1 junctions at x = 631, leaves 54 + 0.02 × height further on', () => {
+  const L = coggleLayout(WEB3, T, { avoidCollisions: false });
   const l1 = L.nodes.filter(n => n.level === 1);
   assert.equal(l1.length, 4);
   for (const n of l1) assert.ok(near(n.x, 631, 0.5), `L1 x ${n.x}`);
@@ -125,9 +126,66 @@ test('web3 layout: level-1 junctions at x = 631, leaves 54 + 0.02 × height furt
   assert.ok(near(a.text.x, a.x + 4, 0.01));
 });
 
+test('golden: with collisions allowed, the web3 fixture renders exactly Coggle\'s layout (checked-in SVG)', () => {
+  const svg = drawCoggle(coggleLayout(WEB3, T, { avoidCollisions: false }), { fontCSS: '' });
+  const golden = path.join(here, 'golden', 'coggle-web3-eval-original.svg');
+  if (process.env.UPDATE_GOLDEN) fs.writeFileSync(golden, svg);
+  assert.equal(svg, fs.readFileSync(golden, 'utf8'));
+});
+
 test('golden: the web3 fixture renders to the checked-in SVG', () => {
   const svg = drawCoggle(coggleLayout(WEB3, T), { fontCSS: '' });
   const golden = path.join(here, 'golden', 'coggle-web3-eval.svg');
   if (process.env.UPDATE_GOLDEN) fs.writeFileSync(golden, svg);
   assert.equal(svg, fs.readFileSync(golden, 'utf8'));
+});
+
+// --- collisions: no branch crosses a label ------------------------------------------------------------
+
+test('collision check: a branch through a box hits it; one passing clear (beyond w/2 + 4 px) does not', () => {
+  const from = { x: 0, y: 0 }, to = { x: 400, y: -200 };
+  // the S's steep middle is near x = 200, y = -100
+  assert.equal(branchHitsBox(from, to, 9, { x: 180, y: -120, w: 40, h: 40 }), true);
+  // a box hugging the start, just above the horizontal run: within 4.5 + 4 px → hit; further up → clear
+  assert.equal(branchHitsBox(from, to, 9, { x: 0, y: -12, w: 20, h: 5 }), true);
+  assert.equal(branchHitsBox(from, to, 9, { x: 0, y: -30, w: 20, h: 5 }), false);
+  // to the right of the curve's end, and below it
+  assert.equal(branchHitsBox(from, to, 9, { x: 420, y: -220, w: 50, h: 40 }), false);
+  assert.equal(branchHitsBox(from, to, 9, { x: 100, y: 20, w: 300, h: 50 }), false);
+  // clearance is a parameter
+  assert.equal(branchHitsBox(from, to, 9, { x: 0, y: -14, w: 20, h: 5 }, { clearance: 0 }), false);
+});
+
+test('Coggle\'s own layout runs branches through labels in the web3 tree (the flaw we fix)', () => {
+  const hits = findCollisions(coggleLayout(WEB3, T, { avoidCollisions: false }));
+  assert.ok(hits.length > 0);
+});
+
+// Every coggle fixture, a synthetic worst case, and (when checked out next to this repo) the Wise AI trees.
+const WISE = path.join(process.env.HOME || '', 'src/life-itself/ai-wise/projects/wise-ai-briefing/trees');
+const long = (i) => `Interior claim ${i}: a long sentence about why this matters, which wraps over several lines at the default width.`;
+const kid = (i, n) => ({ text: long(i), children: Array.from({ length: n }, (_, j) => ({ text: `Leaf ${i}.${j} with a few words of support.` })) });
+const STRESS = { title: 'stress', root: { text: 'A root question?', children: [
+  kid(1, 3), { text: 'A leaf among interior siblings, quite long so that it reaches far to the right of the column.' }, kid(2, 1), kid(3, 4), kid(4, 2), kid(5, 3), kid(6, 1), kid(7, 2),
+] } };
+const trees = [
+  ...['coggle-web3-eval.json', 'v01-q2.json', 'v01-overview.json'].map(f => [f, parse(readFixture(f))]),
+  ['stress', parse(JSON.stringify(STRESS))],
+  ...(fs.existsSync(WISE) ? fs.readdirSync(WISE).filter(f => f.endsWith('.json')).map(f => ['wise ' + f, parse(fs.readFileSync(path.join(WISE, f), 'utf8'))]) : []),
+];
+for (const [name, tree] of trees) {
+  test(`no branch crosses a label: ${name}`, () => {
+    const L = coggleLayout(tree, T);
+    assert.deepEqual(findCollisions(L), []);
+    // and the tree stays reasonably shaped: no wider than twice Coggle's own layout
+    const O = coggleLayout(tree, T, { avoidCollisions: false });
+    assert.ok(L.bounds.w < 2 * O.bounds.w, `${name}: ${L.bounds.w} vs ${O.bounds.w}`);
+  });
+}
+
+test('a group without collisions keeps Coggle\'s layout exactly', () => {
+  const tree = parse(JSON.stringify({ title: 't', root: { text: 'Root', children: [{ text: 'One', children: [{ text: 'a' }, { text: 'b' }] }, { text: 'Two', children: [{ text: 'c' }] }] } }));
+  const a = coggleLayout(tree, T), b = coggleLayout(tree, T, { avoidCollisions: false });
+  assert.deepEqual(findCollisions(b), []);
+  assert.deepEqual(a.nodes.map(n => [n.x, n.y]), b.nodes.map(n => [n.x, n.y]));
 });

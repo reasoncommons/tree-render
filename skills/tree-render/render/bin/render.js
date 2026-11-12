@@ -19,8 +19,9 @@ const USAGE = `Usage: tree-render <tree.md|tree.json> [--out DIR] [--name N] [--
        tree-render parse <tree.md|tree.json> [--out tree.json]
        tree-render <tree.md|tree.json> --style <style.json|name> [--out DIR] [--name N] [--scale 2] [--no-png]
                                      static render with a style (styles/*.json): writes DIR/N.svg, N.png (2×), N.report.json
-       tree-render <tree.md|tree.json> --style coggle-exact [--out DIR] [--name N] [--scale 2] [--no-png]
-                                     a faithful copy of Coggle's look (docs/design/references/coggle-spec.md)
+       tree-render <tree.md|tree.json> --style coggle-exact [--out DIR] [--name N] [--scale 2] [--no-png] [--allow-collisions]
+                                     a faithful copy of Coggle's look (docs/design/references/coggle-spec.md); branches are kept
+                                     off labels unless --allow-collisions (Coggle's own layout, for comparisons)
 
 Options:
   --format 4x5|1x1|16x9|web     canvas (default 4x5)
@@ -46,7 +47,7 @@ Writes <out>.svg and <out>.report.json and prints the report. Exit 1 on a hard c
 `;
 
 const VALUE_FLAGS = ['style', 'name', 'format', 'theme', 'view', 'labels', 'depth', 'root', 'kicker', 'footer', 'out', 'scale', 'state', 'emit', 'hue'];
-const BOOL_FLAGS = ['png', 'no-png', 'html', 'help'];
+const BOOL_FLAGS = ['png', 'no-png', 'html', 'help', 'allow-collisions'];
 // Flags of the framed canvas render; with none of them (and no --style) a tree renders statically in the default style.
 const CANVAS_FLAGS = ['format', 'theme', 'view', 'labels', 'depth', 'root', 'kicker', 'footer', 'state', 'hue', 'html'];
 
@@ -143,7 +144,7 @@ async function main(argv) {
   const tree = readTree(file);
   if (a.style === 'coggle-exact' || (!a.style && !sub && !CANVAS_FLAGS.some(k => a[k] != null))) {
     const { renderCoggle } = await import('../src/coggle/render.js');
-    const r = await renderCoggle(tree, { outDir: a.out || '.', name: a.name || (a.style ? undefined : path.basename(file).replace(/\.(md|json|markdown)$/i, '')), png: !a['no-png'], scale: +(a.scale || 2) });
+    const r = await renderCoggle(tree, { outDir: a.out || '.', name: a.name || (a.style ? undefined : path.basename(file).replace(/\.(md|json|markdown)$/i, '')), png: !a['no-png'], scale: +(a.scale || 2), avoidCollisions: !a['allow-collisions'] });
     const b = r.L.bounds;
     console.log(`${Object.values(r.files).map(f => path.basename(f)).join(', ')}  style coggle-exact · ${Math.ceil(b.w + 60)}×${Math.ceil(b.h + 60)} · ${r.L.nodes.length} nodes`);
     return 0;

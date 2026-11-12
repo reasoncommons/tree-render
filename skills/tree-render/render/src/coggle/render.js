@@ -7,9 +7,9 @@ import { drawCoggle } from './draw.js';
 
 export const STYLE_NAME = 'coggle-exact';
 
-export async function renderCoggle(tree, { outDir = '.', name, png = true, scale = 2 } = {}) {
+export async function renderCoggle(tree, { outDir = '.', name, png = true, scale = 2, avoidCollisions = true } = {}) {
   const T = await createCoggleText();
-  const L = coggleLayout(tree, T);
+  const L = coggleLayout(tree, T, { avoidCollisions });
   const svg = drawCoggle(L, { fontCSS: fontFaceCSS() });
   fs.mkdirSync(outDir, { recursive: true });
   const base = path.join(outDir, name || STYLE_NAME);

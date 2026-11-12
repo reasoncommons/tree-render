@@ -60,6 +60,15 @@ A node's position is its junction: where its branch arrives and its children's b
 - **Vertical:** siblings stack top to bottom with **15 px** between any two text boxes (of the two subtrees) that overlap horizontally (`ySpace = 15`); the children's whole text extent is then centred on the parent's junction (exact at level 2 in all four web3 subtrees).
 - Coggle's other auto-arrange constants (for reference): `xSpaceMultiplier 1.22`, `minLine 40`, `xSpaceHeightFactor 0.02`, `rootYSpace 30`, `leafLineMin 36`, `leafLineMax 90`, `arrowGap 5`, `lineGap 15`.
 
+## Our one deviation: branches never cross labels
+
+Coggle lets a branch run straight through a sibling's label: interior labels sit right-aligned just left of their junction, across the right-hand part of the span, while the S-curves of siblings further up or down climb through the middle of it (the white halo only softens this). Our layout (`render/src/coggle/layout.js`, check in `render/src/coggle/collide.js`) avoids it, per sibling group and only where Coggle's own arrangement collides:
+
+- **Check:** a branch collides with a label when any point of its centre line comes within `w/2 + 4 px` of the label's text box (4 px ≈ the halo). A branch never counts against its own node's label.
+- **Fix:** search over the gap between siblings (15, 25 … 90 px), the wrap width of the group's interior labels (350, 320 … 200 px) and extra horizontal run before the interior junctions (in 5 px steps); for each gap and wrap take the least run that clears, and keep the arrangement with the smallest horizontal span + growth in height. Narrower labels plus a longer run move the labels out of the steep middle of the neighbouring S-curves; a little more vertical room lets the curves pass between them.
+- Branch shape, widths, colours, fonts, leaf placement and every spacing rule above are unchanged; groups without collisions are laid out exactly as Coggle does. Typical Wise AI trees grow about 20–30% wider and 0–25% taller; their level-1 labels wrap at 200–230 px.
+- **Off switch:** `coggleLayout(tree, T, { avoidCollisions: false })` or the CLI's `--allow-collisions` reproduces Coggle's layout (pinned comparisons, `test/golden/coggle-web3-eval-original.svg`); a `pin` turns avoidance off too.
+
 ## What we could not pin down
 
 - The saved layouts are older than Coggle's current auto-arrange (which launched 2026-11-07), and their vertical gaps vary by about ±1 px around 15 (16 in web3's teal fan, 14 in the taxonomy), and the root's children are not centred by any rule that fits both diagrams (text-extent mid −5.5 px in web3, −15 px in taxonomy). We use 15 px and centre the text extent. Result: in the web3 tree our junctions sit 4.5–11 px lower than Coggle's (x is exact).

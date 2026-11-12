@@ -10,14 +10,28 @@
 //   - Vertical: siblings stack top to bottom with 15 px between any two text boxes that overlap in x; the
 //     children's whole extent is then centred on the parent's junction.
 import { lineWeight, endInset } from './geometry.js';
+import { branchSamples, branchHitsBox } from './collide.js';
 import { PALETTE, ROOT_COLOUR, randomWalk, textColour, rootTextColour } from './colour.js';
 import { fontSize, runsFor, WRAP_WIDTH } from './text.js';
+
+// Collision avoidance: wrap widths to try for interior labels, and the extra run (px) to add, in steps.
+export const AVOID = { wraps: [350, 320, 290, 260, 230, 200], ySpaces: [15, 25, 35, 45, 60, 75, 90], heightCost: 1, maxExtra: 600, step: 5 };
 
 export const SPACING = { ySpace: 15, leafX: 54, heightFactor: 0.02, minLine: 40, lineFactor: 0.22, labelPad: 9, leafPad: 4, leafLift: 1, rootGap: 2 };
 
 // `pin(r)` (optional, for comparisons): returns an absolute {x, y} junction for a node, overriding the layout.
-export function coggleLayout(tree, T, { palette = PALETTE, paletteStart = 0, pin = null } = {}) {
+// `avoidCollisions` (default on): where Coggle's layout would run a branch through a sibling's label,
+// re-wrap that group's interior labels narrower and lengthen its horizontal run until no branch comes
+// within 4 px of a label (our one deviation from Coggle; off reproduces Coggle's own layout).
+export function coggleLayout(tree, T, { palette = PALETTE, paletteStart = 0, pin = null, avoidCollisions = true } = {}) {
+  if (pin) avoidCollisions = false;
   const nodes = [];
+  const wrapped = new Map();
+  const textAt = (r, wrap) => {
+    const key = r.num + '|' + wrap;
+    if (!wrapped.has(key)) wrapped.set(key, T.layoutText(runsFor(r.node), r.node.textSize || fontSize(r.level), wrap));
+    return wrapped.get(key);
+  };
   const build = (n, level, parent, idx) => {
     const r = { node: n, level, parent, children: [], num: n.num || 'root', x: 0, y: 0, ttb: -1 };
     r.t = T.layoutText(runsFor(n), n.textSize || fontSize(level), WRAP_WIDTH);
@@ -54,30 +68,73 @@ export function coggleLayout(tree, T, { palette = PALETTE, paletteStart = 0, pin
     const from = r.level === 0 ? r.from : -1;
     const leaves = kids.filter(isLeaf), inner = kids.filter(k => !isLeaf(k));
     const leafDx = SPACING.leafX + SPACING.heightFactor * Math.max(0, ...leaves.map(k => k.t.h));
-    const Tw = Math.max(0, ...inner.map(k => k.t.w));
-    const innerDx = from + SPACING.labelPad + SPACING.rootGap + Tw + Math.max(SPACING.minLine, SPACING.lineFactor * Tw);
-    kids.forEach(k => { k.rx = isLeaf(k) ? leafDx : innerDx; });
-    // first guess at above/below: the upper half above, the lower half below
-    kids.forEach((k, i) => { k.ttb = i > (kids.length - 1) / 2 ? 1 : -1; });
-    let boxes = [];
-    for (let pass = 0; pass < 6; pass++) {
-      const placed = [];
-      kids.forEach((k, i) => {
-        const own = [ownBox(k), ...subs[i]].map(b => shift(b, k.rx, 0));
-        let y = i ? kids[i - 1].ry : 0;
-        for (const b of own) for (const c of placed) {
-          if (b.x < c.x + c.w && c.x < b.x + b.w) y = Math.max(y, c.y + c.h + SPACING.ySpace - b.y);
-        }
-        k.ry = y;
-        for (const b of own) placed.push(shift(b, 0, y));
+
+    // Coggle's arrangement, with three knobs that only collision avoidance turns: the wrap width of the
+    // interior labels, extra horizontal run before the interior junctions, and extra space between siblings.
+    const arrange = ({ wrap = WRAP_WIDTH, extra = 0, ySpace = SPACING.ySpace } = {}) => {
+      for (const k of inner) k.t = textAt(k, wrap);
+      const Tw = Math.max(0, ...inner.map(k => k.t.w));
+      const innerDx = from + SPACING.labelPad + SPACING.rootGap + Tw + Math.max(SPACING.minLine, SPACING.lineFactor * Tw) + extra;
+      kids.forEach(k => { k.rx = isLeaf(k) ? leafDx : innerDx; });
+      // first guess at above/below: the upper half above, the lower half below
+      kids.forEach((k, i) => { k.ttb = i > (kids.length - 1) / 2 ? 1 : -1; });
+      let boxes = [];
+      for (let pass = 0; pass < 6; pass++) {
+        const placed = [];
+        kids.forEach((k, i) => {
+          const own = [ownBox(k), ...subs[i]].map(b => shift(b, k.rx, 0));
+          let y = i ? kids[i - 1].ry : 0;
+          for (const b of own) for (const c of placed) {
+            if (b.x < c.x + c.w && c.x < b.x + b.w) y = Math.max(y, c.y + c.h + ySpace - b.y);
+          }
+          k.ry = y;
+          for (const b of own) placed.push(shift(b, 0, y));
+        });
+        const top = Math.min(...placed.map(b => b.y)), bottom = Math.max(...placed.map(b => b.y + b.h));
+        const mid = (top + bottom) / 2;
+        kids.forEach(k => { k.ry -= mid; });
+        boxes = placed.map(b => shift(b, 0, -mid));
+        let changed = false;
+        kids.forEach(k => { const t = k.ry > 1 ? 1 : -1; if (!isLeaf(k) && t !== k.ttb) { k.ttb = t; changed = true; } });
+        if (!changed) break;
+      }
+      return boxes;
+    };
+    // Does any branch of this group cross a sibling's label (or anything in a sibling's subtree)?
+    const clashes = () => {
+      const owned = kids.map((k, i) => [shift(ownBox(k), k.rx, k.ry), ...subs[i].map(b => shift(b, k.rx, k.ry))]);
+      return kids.some((k, i) => {
+        const f = { x: from, y: 0 }, t = { x: k.rx - endInset(k.weight), y: k.ry }, s = branchSamples(f, t);
+        return owned.some((bs, j) => bs.some((b, m) => !(j === i && m === 0) && branchHitsBox(f, t, k.weight, b, { samples: s })));
       });
-      const top = Math.min(...placed.map(b => b.y)), bottom = Math.max(...placed.map(b => b.y + b.h));
-      const mid = (top + bottom) / 2;
-      kids.forEach(k => { k.ry -= mid; });
-      boxes = placed.map(b => shift(b, 0, -mid));
-      let changed = false;
-      kids.forEach(k => { const t = k.ry > 1 ? 1 : -1; if (!isLeaf(k) && t !== k.ttb) { k.ttb = t; changed = true; } });
-      if (!changed) break;
+    };
+
+    let boxes = arrange();
+    if (!avoidCollisions || !clashes()) return boxes;
+    // Search for the cheapest arrangement that clears: for each sibling gap and wrap width, the least extra
+    // run that works; cost = horizontal span + growth in height. A narrower wrap shortens the labels so the
+    // extra run pushes them right, out of the steep middle of the neighbouring S-curves, without the tree
+    // growing much wider; a little more vertical room lets the S-curves pass between the labels.
+    let best = null;
+    const height = (bs) => Math.max(...bs.map(b => b.y + b.h)) - Math.min(...bs.map(b => b.y));
+    const baseH = height(boxes);
+    for (const ySpace of AVOID.ySpaces) {
+      for (const wrap of inner.length ? AVOID.wraps : [WRAP_WIDTH]) {
+        for (let extra = 0; extra <= AVOID.maxExtra; extra += AVOID.step) {
+          const bs = arrange({ wrap, extra, ySpace });
+          if (clashes()) continue;
+          const span = Math.max(...kids.map(k => k.rx));
+          const cost = span + AVOID.heightCost * (height(bs) - baseH);
+          if (!best || cost < best.cost - 0.5) best = { cost, span, wrap, extra, ySpace };
+          break;
+        }
+      }
+    }
+    if (best) return arrange(best);
+    // Still crossing (not seen in practice): open the sibling gap further at the narrowest wrap and longest run.
+    for (let ySpace = 100; ySpace <= 300; ySpace += 10) {
+      boxes = arrange({ wrap: AVOID.wraps[AVOID.wraps.length - 1], extra: AVOID.maxExtra, ySpace });
+      if (!clashes()) return boxes;
     }
     return boxes;
   };
