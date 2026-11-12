@@ -7,7 +7,7 @@
 // comma, at most five words (listed as warnings). `hue`: a colour per level-1 branch instead of ink.
 import { Canvas, block, typo, metrics, measure } from './common.js';
 import { PALETTE, adjust, darken } from '../coggle/colour.js';
-import { RED, accentIndex, balanced } from './round2.js';
+import { RED, accentIndex, balanced } from '../styles2/shared.js';
 
 const INK = '#333';
 const ROOT = { size: 24, wrap: 230, pad: 14 };

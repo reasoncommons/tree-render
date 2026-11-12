@@ -158,3 +158,17 @@ test('scripts/options.js renders every style in a folder and writes index.html',
   assert.match(html, /<details><summary>Style JSON<\/summary>/);
   assert.match(html, /first/);
 });
+
+test('--style ribbon|dendrogram|lanes (and --root-box): writes <style>.svg, exit 0 with no overlaps; listed in --help', () => {
+  for (const style of ['ribbon', 'dendrogram', 'lanes']) {
+    const r = cli(path.join(FIXTURES, 'v01-q2.json'), '--style', style, '--no-png', '--out', out('s2'));
+    assert.equal(r.code, 0, r.err + r.out);
+    assert.match(r.out, new RegExp(`${style}\\.svg  style ${style} · \\d+×\\d+ · ok`));
+    assert.match(fs.readFileSync(out(`s2/${style}.svg`), 'utf8'), /^<svg /);
+  }
+  const b = cli(path.join(FIXTURES, 'v01-q2.json'), '--style', 'ribbon', '--root-box', '--name', 'boxed', '--no-png', '--out', out('s2'));
+  assert.equal(b.code, 0, b.err + b.out);
+  assert.match(fs.readFileSync(out('s2/boxed.svg'), 'utf8'), /rx="8" fill="#ececec"/);
+  const h = cli('--help');
+  for (const s of ['ribbon', 'dendrogram', 'lanes', '--root-box']) assert.match(h.out, new RegExp(s));
+});

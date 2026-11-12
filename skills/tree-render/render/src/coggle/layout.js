@@ -42,14 +42,25 @@ export function coggleLayout(tree, T, { palette = PALETTE, paletteStart = 0, pin
   const S = { ...SPACING, ...style.spacing };
   if (pin) avoidCollisions = false;
   const tall = avoidCollisions;
-  const rootWrap = tall ? TALL.rootWrap : WRAP_WIDTH, leafWrap = tall ? (style.wrap?.leaf ?? TALL.leafWrap) : WRAP_WIDTH, innerWrap = tall ? (style.wrap?.interior ?? TALL.interiorWrap) : WRAP_WIDTH;
+  // Root size: the style's rootSize in our layout, Coggle's sizes[0] in its own; the root's wrap grows with it.
+  const sizes = tall && style.rootSize ? [style.rootSize, ...style.sizes.slice(1)] : style.sizes;
+  const rootWrap = tall ? Math.round(TALL.rootWrap * sizes[0] / style.sizes[0]) : WRAP_WIDTH, leafWrap = tall ? (style.wrap?.leaf ?? TALL.leafWrap) : WRAP_WIDTH, innerWrap = tall ? (style.wrap?.interior ?? TALL.interiorWrap) : WRAP_WIDTH;
   const wraps = [innerWrap, ...AVOID.wraps.filter(w => w < innerWrap)];
   const nodes = [];
   const wrapped = new Map();
   const textAt = (r, wrap) => {
     const key = r.num + '|' + wrap;
-    if (!wrapped.has(key)) wrapped.set(key, T.layoutText(r.runs, r.node.textSize || fontSize(r.level, style.sizes), wrap));
+    if (!wrapped.has(key)) wrapped.set(key, T.layoutText(r.runs, r.node.textSize || fontSize(r.level, sizes), wrap));
     return wrapped.get(key);
+  };
+  // The root's text. In our layout the wrap grows with a bigger root size, then narrows back to the
+  // narrowest width that keeps the same number of lines, so the lines come out even (no orphaned "AI?").
+  const rootText = (runs, size) => {
+    const t = T.layoutText(runs, size, rootWrap), n = t.lines.length;
+    if (!tall || n < 2) return t;
+    let lo = rootWrap / 2, hi = rootWrap;
+    while (hi - lo > 2) { const mid = (lo + hi) / 2; if (T.layoutText(runs, size, mid).lines.length === n) hi = mid; else lo = mid; }
+    return T.layoutText(runs, size, hi);
   };
   const build = (n, level, parent, idx) => {
     const r = { node: n, level, parent, children: [], num: n.num || 'root', x: 0, y: 0, ttb: -1 };
@@ -57,7 +68,7 @@ export function coggleLayout(tree, T, { palette = PALETTE, paletteStart = 0, pin
     const mono = level > 0 && (!!n.lead || !n.children.length);
     const runs = level === 0 && style.root.bold ? runsFor(n).map(x => ({ ...x, bold: true })) : runsFor(n, { leadBreak, mono });
     r.runs = runs;
-    r.t = T.layoutText(runs, n.textSize || fontSize(level, style.sizes), !level ? rootWrap : !n.children.length ? leafWrap : WRAP_WIDTH);
+    r.t = level ? T.layoutText(runs, n.textSize || fontSize(level, sizes), !n.children.length ? leafWrap : WRAP_WIDTH) : rootText(runs, n.textSize || sizes[0]);
     if (level === 0) { r.colour = n.colour || style.root.colour; r.textColour = rootTextColour(r.colour); }
     else if (level === 1) r.colour = n.colour || adjust(palette[(idx + paletteStart) % palette.length], style.colour);
     else r.colour = n.colour || randomWalk(parent.colour, String(r.num));

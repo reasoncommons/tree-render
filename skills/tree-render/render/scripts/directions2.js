@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// directions2.js: render the round-2 direction mock-ups (A, A-mono, B, C, C-hue, D, D-hue) for one or more trees.
+// directions2.js: render the round-2 direction mock-ups (A, A-mono, B, C, C-hue, D, D-hue) for one or more trees;
+// A, B and D are now the ribbon, dendrogram and lanes styles (src/styles2/).
 //   node scripts/directions2.js <tree.json>... [--out dir] [--only A,C] [--no-png]
 // Writes <out>/<slug>-<tree>.svg and .png (2×); prints each render's size and any overlap the check finds.
 import fs from 'node:fs';

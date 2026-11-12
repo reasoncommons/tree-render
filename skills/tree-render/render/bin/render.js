@@ -11,6 +11,7 @@ import { getTheme } from '../src/themes.js';
 import { parseState } from '../src/state.js';
 import { createMeasurer, fontFaceCSS } from '../src/measure-node.js';
 import { COGGLE_STYLE_NAMES } from '../src/coggle/styles.js';
+import { STYLE2_NAMES } from '../src/styles2/index.js';
 
 const USAGE = `Usage: tree-render <tree.md|tree.json> [--out DIR] [--name N] [--scale 2] [--no-png]
                                      static render in the default style (styles/coggle-exact.json): DIR/<tree>.svg, .png (2×), .report.json
@@ -20,6 +21,12 @@ const USAGE = `Usage: tree-render <tree.md|tree.json> [--out DIR] [--name N] [--
        tree-render parse <tree.md|tree.json> [--out tree.json]
        tree-render <tree.md|tree.json> --style <style.json|name> [--out DIR] [--name N] [--scale 2] [--no-png]
                                      static render with a style (styles/*.json): writes DIR/N.svg, N.png (2×), N.report.json
+       tree-render <tree.md|tree.json> --style ribbon|dendrogram|lanes [--out DIR] [--name N] [--scale 2] [--no-png] [--root-box]
+                                     the round-2 styles (src/styles2/), IBM Plex Sans with a red accent branch:
+                                       ribbon      tapered ribbons from the root to each answer, hairline S-curves to its points
+                                       dendrogram  S-curves to each answer, rounded elbows to its points
+                                       lanes       ribbons to each answer, each subtree on a soft band
+                                     --root-box sets the root in a light box instead of on a dot (exit 1 if anything overlaps)
        tree-render <tree.md|tree.json> --style coggle-exact [--out DIR] [--name N] [--scale 2] [--no-png] [--allow-collisions]
                                      a faithful copy of Coggle's look (docs/design/references/coggle-spec.md); branches are kept
                                      off labels unless --allow-collisions (Coggle's own layout, for comparisons)
@@ -51,7 +58,7 @@ Writes <out>.svg and <out>.report.json and prints the report. Exit 1 on a hard c
 `;
 
 const VALUE_FLAGS = ['style', 'name', 'format', 'theme', 'view', 'labels', 'depth', 'root', 'kicker', 'footer', 'out', 'scale', 'state', 'emit', 'hue'];
-const BOOL_FLAGS = ['png', 'no-png', 'html', 'help', 'allow-collisions'];
+const BOOL_FLAGS = ['png', 'no-png', 'html', 'help', 'allow-collisions', 'root-box'];
 // Flags of the framed canvas render; with none of them (and no --style) a tree renders statically in the default style.
 const CANVAS_FLAGS = ['format', 'theme', 'view', 'labels', 'depth', 'root', 'kicker', 'footer', 'state', 'hue', 'html'];
 
@@ -153,6 +160,14 @@ async function main(argv) {
     const b = r.L.bounds;
     console.log(`${Object.values(r.files).map(f => path.basename(f)).join(', ')}  style ${style} · ${Math.ceil(b.w + 60)}×${Math.ceil(b.h + 60)} · ${r.L.nodes.length} nodes`);
     return 0;
+  }
+  if (STYLE2_NAMES.includes(a.style)) {
+    const { renderStyle2 } = await import('../src/styles2/index.js');
+    const r = await renderStyle2(tree, { style: a.style, outDir: a.out || '.', name: a.name, png: !a['no-png'], scale: +(a.scale || 2), rootBox: !!a['root-box'] });
+    const [, w, h] = /width="(\d+)" height="(\d+)"/.exec(r.svg);
+    console.log(`${Object.values(r.files).map(f => path.basename(f)).join(', ')}  style ${a.style}${a['root-box'] ? ' (root box)' : ''} · ${w}×${h} · ${r.issues.length ? 'FAILED' : 'ok'}`);
+    for (const x of r.issues) console.log('  error overlap: ' + x);
+    return r.issues.length ? 1 : 0;
   }
   if (a.style || (!sub && !CANVAS_FLAGS.some(k => a[k] != null))) {
     const { renderStatic, reportLines, findStyle } = await import('../src/static-render.js');

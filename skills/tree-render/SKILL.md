@@ -27,7 +27,19 @@ This writes `out/tree.svg` and `out/tree.png` (2x) and prints a one-line summary
 
 `node bin/render.js check tree.json` prints the self-check report only. `node bin/render.js parse tree.md --out tree.json` converts Markdown to canonical JSON.
 
-`--style coggle-exact` is a faithful copy of Coggle's own drawing (one stroked S-curve per branch with Coggle's widths, notched tails and arrow tips, its palette, each label in a darker shade of its branch, Arimo at 17/15.3/13/12 px, Coggle's label placement and spacing); it has its own engine in `render/src/coggle/` and the rules are in [docs/design/references/coggle-spec.md](../../docs/design/references/coggle-spec.md). Two deviations from Coggle: the layout favours height over width (narrower wraps and more room between sibling groups, so trees come out about square to portrait, which suits web pages and phones), and no branch is allowed to cross a label, so where a branch would run through a sibling's label that group opens up vertically or its labels wrap narrower (`--allow-collisions` restores Coggle's own layout, for comparisons). It writes SVG and PNG only (no report). A node may set `colour` and `textSize` (see `render/TREE-FORMAT.md`).
+Five styles are in use (`--style <name>`):
+
+| Style | Look |
+| --- | --- |
+| `coggle-exact` (default) | Coggle's look: thick coloured S-curves, its palette, the root in a grey box with chevrons. |
+| `coggle-thin` | Coggle's layout with IBM Plex Sans, half-width branches and an outlined root. |
+| `ribbon` | Bold root on a dot; tapered slate ribbons to each answer (red for the "So…" branch), hairline S-curves to its points. |
+| `dendrogram` | Bold root on a dot; dark S-curves to each answer, rounded grey elbows to its points. |
+| `lanes` | `ribbon`'s root and ribbons, each answer and its points on a soft grey band, a small dot before each point. |
+
+`ribbon`, `dendrogram` and `lanes` (engine in `render/src/styles2/`) take `--root-box` to set the root in a light Coggle-like box (no chevrons) with the branches leaving its right edge; they write SVG and PNG and exit 1 if any text overlaps.
+
+`--style coggle-exact` is a faithful copy of Coggle's own drawing (one stroked S-curve per branch with Coggle's widths, notched tails and arrow tips, its palette, each label in a darker shade of its branch, Arimo at 17/15.3/13/12 px (the root at 22 px in our layout; Coggle's 17 with `--allow-collisions`), Coggle's label placement and spacing); it has its own engine in `render/src/coggle/` and the rules are in [docs/design/references/coggle-spec.md](../../docs/design/references/coggle-spec.md). Two deviations from Coggle: the layout favours height over width (narrower wraps and more room between sibling groups, so trees come out about square to portrait, which suits web pages and phones), and no branch is allowed to cross a label, so where a branch would run through a sibling's label that group opens up vertically or its labels wrap narrower (`--allow-collisions` restores Coggle's own layout, for comparisons). It writes SVG and PNG only (no report). A node may set `colour` and `textSize` (see `render/TREE-FORMAT.md`).
 
 `coggle-exact` draws the root box with Coggle's chevrons (the little pointers on each side); the variants draw a plain box. In all coggle styles a bold lead runs on into the rest of the label (the `leadBreak` option, off by default, puts the lead on its own line, but it left dangling words). Variants of `coggle-exact` on the same engine (`render/src/coggle/styles.js`): `--style coggle-thin` (the candidate: IBM Plex Sans, half-width branches, outlined root; `coggle-hairline` is an alias). `coggle-thin-mono` (leaves and the text after each bold lead in IBM Plex Mono), `coggle-broadsheet` and `coggle-letterpress` remain in the code but are not candidates: switching just some words to mono does not work.
 

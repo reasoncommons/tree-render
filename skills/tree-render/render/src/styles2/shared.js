@@ -1,6 +1,6 @@
-// directions/round2.js: helpers shared by the round-2 direction mock-ups (scripts/directions2.js):
-// the accent branch, the horizontal-tangent S-curve and a tapered filled ribbon along it.
-import { sampleCubic, block } from './common.js';
+// styles2/shared.js: helpers shared by the ribbon, dendrogram and lanes styles (and the round-2 mock-ups in
+// src/directions/): the accent branch, the horizontal-tangent S-curve, a tapered filled ribbon along it, and the root.
+import { sampleCubic, block, typo, xMiddleOf } from '../directions/common.js';
 
 export const RED = '#d7261e';
 const f = (q) => `${q.x.toFixed(2)} ${q.y.toFixed(2)}`;
@@ -55,4 +55,29 @@ export function balanced(runs, size, maxWidth, opts) {
   let lo = maxWidth / 2, hi = maxWidth;
   while (hi - lo > 2) { const mid = (lo + hi) / 2; if (block(runs, size, mid, opts).lines.length === n) hi = mid; else lo = mid; }
   return block(runs, size, hi, opts);
+}
+
+// The root question, bold, vertically centred on y (the middle of its first and last lines' x-heights).
+//   plain: right-aligned so it ends at x = 0, with a dot `gap` px to its right that the branches leave.
+//   box:   a light Coggle-like box (no border, no chevrons) ending at x = 0; the branches leave its right
+//          edge at mid-height.
+// Returns { from, draw }: `from` is where the branches start; call draw() after the branches so the dot, box
+// and text sit on top of them.
+export const ROOT_BOX = { fill: '#ececec', radius: 8, padX: 16, padY: 10 };
+export function placeRoot(cv, text, y, { size, wrap, dot, gap, box = false, ink = '#1a1a1a' }) {
+  const b = balanced([{ text: typo(text), weight: 600, role: 'lead' }], size, wrap, { leading: 1.2 });
+  const top = y - (xMiddleOf(b, 0) + xMiddleOf(b, 0, b.lines.length - 1)) / 2;
+  if (!box) {
+    const from = { x: gap + dot, y };
+    return { from, draw: () => { cv.circle(from.x, y, dot, { fill: ink }); cv.text(b, 0, top, { align: 'end', lead: { fill: ink } }); } };
+  }
+  const B = ROOT_BOX, w = b.w + 2 * B.padX, h = b.h + 2 * B.padY, x0 = -w, y0 = y - h / 2; // centred on the text's visual middle
+  return {
+    from: { x: 0, y },
+    draw: () => {
+      cv.els.push(`<rect x="${x0.toFixed(2)}" y="${y0.toFixed(2)}" width="${w.toFixed(2)}" height="${h.toFixed(2)}" rx="${B.radius}" fill="${B.fill}"/>`);
+      cv.strokes.push({ pts: [{ x: x0, y: y0 }, { x: 0, y: y0 + h }], width: 0 });
+      cv.text(b, -w / 2, top, { align: 'middle', lead: { fill: ink } });
+    },
+  };
 }

@@ -6,6 +6,8 @@
 //   leadBreak     a bold lead sits on its own line(s), the rest starts on the next line (off in all styles:
 //                 it left dangling words, e.g. "Alignment: a shot in the / dark"; kept as an option)
 //   sizes         font size by level (root, 1, 2, 3+)
+//   rootSize      root font size in our own (collision-free) layout; Coggle's own layout (avoidCollisions:
+//                 false, the pinned comparison) keeps sizes[0]. null: sizes[0] everywhere
 //   branch        width: Coggle's width × scale, at least min
 //   colour        branch colours: saturation × s, lightness × l (text colours follow, via Coggle's darken)
 //   cont          colour of the text after a bold lead: null = same as the lead, else the lead's text colour
@@ -30,6 +32,7 @@ export const EXACT = {
   name: 'coggle-exact',
   font: ARIMO,
   sizes: FONT_SIZES,
+  rootSize: 22, // 2026-11-12: Coggle's 17 px root read too small next to the branches
   branch: { scale: 1, min: 2 },
   colour: { s: 1, l: 1 },
   cont: null,
@@ -62,6 +65,7 @@ export const COGGLE_STYLES = {
   'coggle-broadsheet': variant('coggle-broadsheet', {
     font: SOURCE_SANS,
     sizes: [18, 15.5, 13, 12],
+    rootSize: null,
     branch: { scale: 0.85, min: 2 },
     colour: { s: 0.9, l: 1 },
     root: { kind: 'rule', colour: '#8a8a8a', bold: true },
@@ -70,6 +74,7 @@ export const COGGLE_STYLES = {
   'coggle-letterpress': variant('coggle-letterpress', {
     font: SOURCE_SERIF,
     sizes: [18, 16, 14, 13],
+    rootSize: null,
     branch: { scale: 0.55, min: 1.5 },
     wrap: { interior: 280 },
     bg: '#fbf9f4',
