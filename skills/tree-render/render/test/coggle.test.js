@@ -201,3 +201,23 @@ test('tall over wide: real trees come out at most 1.5 × as wide as tall, and we
     assert.ok(L.bounds.w / L.bounds.h < Math.min(1.5, 0.8 * O.bounds.w / O.bounds.h), `${name}: ${Math.round(L.bounds.w)}×${Math.round(L.bounds.h)}`);
   }
 });
+
+// --- the "elegant" variants (styles.js): same engine, other fonts, widths, colours and root ------------------
+
+import { COGGLE_STYLES } from '../src/coggle/styles.js';
+import { fontFaceCSS } from '../src/coggle/text.js';
+for (const [name, style] of Object.entries(COGGLE_STYLES).filter(([n]) => n !== 'coggle-exact')) {
+  test(`variant ${name}: renders with its font embedded, its background, and no branch across a label`, async () => {
+    const TV = await createCoggleText(style.font);
+    for (const [tname, tree] of trees) {
+      const L = coggleLayout(tree, TV, { style });
+      assert.deepEqual(findCollisions(L), [], `${name} on ${tname}`);
+    }
+    const L = coggleLayout(WEB3, TV, { style });
+    const svg = drawCoggle(L, { fontCSS: fontFaceCSS(style.font), style });
+    assert.match(svg, new RegExp(`data-style="${name}"`));
+    assert.match(svg, new RegExp(`font-family:'${style.font.family}'`));
+    assert.match(svg, new RegExp(`<rect width="\\d+" height="\\d+" fill="${style.bg}"/>`));
+    for (const b of L.branches) assert.ok(b.w >= style.branch.min - 1e-9);
+  });
+}

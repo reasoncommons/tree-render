@@ -11,8 +11,9 @@
 //     children's whole extent is then centred on the parent's junction.
 import { lineWeight, endInset } from './geometry.js';
 import { branchSamples, branchHitsBox } from './collide.js';
-import { PALETTE, ROOT_COLOUR, randomWalk, textColour, rootTextColour } from './colour.js';
+import { PALETTE, randomWalk, textColour, rootTextColour, adjust } from './colour.js';
 import { fontSize, runsFor, WRAP_WIDTH } from './text.js';
+import { EXACT } from './styles.js';
 
 // Our default shape (with collision avoidance on): taller and narrower than Coggle's, since pages and phones
 // are narrow but tall and vertical room keeps the S-curves clear of labels. Interior labels wrap narrow,
@@ -28,7 +29,9 @@ export const SPACING = { ySpace: 15, leafX: 54, heightFactor: 0.02, minLine: 40,
 // `avoidCollisions` (default on): where Coggle's layout would run a branch through a sibling's label,
 // re-wrap that group's interior labels narrower and lengthen its horizontal run until no branch comes
 // within 4 px of a label, and use the TALL shape (our deviations from Coggle; off reproduces Coggle's own layout).
-export function coggleLayout(tree, T, { palette = PALETTE, paletteStart = 0, pin = null, avoidCollisions = true } = {}) {
+// `style` (styles.js): font sizes, branch widths, colours, root treatment and spacing; T must be made with its font.
+export function coggleLayout(tree, T, { palette = PALETTE, paletteStart = 0, pin = null, avoidCollisions = true, style = EXACT } = {}) {
+  const S = { ...SPACING, ...style.spacing };
   if (pin) avoidCollisions = false;
   const tall = avoidCollisions;
   const rootWrap = tall ? TALL.rootWrap : WRAP_WIDTH, leafWrap = tall ? TALL.leafWrap : WRAP_WIDTH, innerWrap = tall ? TALL.interiorWrap : WRAP_WIDTH;
@@ -36,16 +39,21 @@ export function coggleLayout(tree, T, { palette = PALETTE, paletteStart = 0, pin
   const wrapped = new Map();
   const textAt = (r, wrap) => {
     const key = r.num + '|' + wrap;
-    if (!wrapped.has(key)) wrapped.set(key, T.layoutText(runsFor(r.node), r.node.textSize || fontSize(r.level), wrap));
+    if (!wrapped.has(key)) wrapped.set(key, T.layoutText(runsFor(r.node), r.node.textSize || fontSize(r.level, style.sizes), wrap));
     return wrapped.get(key);
   };
   const build = (n, level, parent, idx) => {
     const r = { node: n, level, parent, children: [], num: n.num || 'root', x: 0, y: 0, ttb: -1 };
-    r.t = T.layoutText(runsFor(n), n.textSize || fontSize(level), !level ? rootWrap : !n.children.length ? leafWrap : WRAP_WIDTH);
-    if (level === 0) { r.colour = n.colour || ROOT_COLOUR; r.textColour = rootTextColour(r.colour); }
-    else if (level === 1) r.colour = n.colour || palette[(idx + paletteStart) % palette.length];
+    const runs = level === 0 && style.root.bold ? runsFor(n).map(x => ({ ...x, bold: true })) : runsFor(n);
+    r.t = T.layoutText(runs, n.textSize || fontSize(level, style.sizes), !level ? rootWrap : !n.children.length ? leafWrap : WRAP_WIDTH);
+    if (level === 0) { r.colour = n.colour || style.root.colour; r.textColour = rootTextColour(r.colour); }
+    else if (level === 1) r.colour = n.colour || adjust(palette[(idx + paletteStart) % palette.length], style.colour);
     else r.colour = n.colour || randomWalk(parent.colour, String(r.num));
-    if (level > 0) { r.textColour = textColour(r.colour); r.weight = lineWeight(level); }
+    if (level > 0) {
+      r.textColour = textColour(r.colour);
+      if (style.cont && n.lead) r.contColour = adjust(r.textColour, style.cont);
+      r.weight = Math.max(style.branch.min, lineWeight(level) * style.branch.scale);
+    }
     nodes.push(r);
     r.children = n.children.map((c, i) => build(c, level + 1, r, i));
     return r;
@@ -53,18 +61,24 @@ export function coggleLayout(tree, T, { palette = PALETTE, paletteStart = 0, pin
   const root = build(tree.root, 0, null, 0);
 
   // Root box (shape) size, Coggle's: content = text + 9 px padding; shape = content + 14 wide (min 80), + 8 tall.
-  const contentW = root.t.w + 2 * SPACING.labelPad, contentH = root.t.h + 2 * SPACING.labelPad;
+  const contentW = root.t.w + 2 * S.labelPad, contentH = root.t.h + 2 * S.labelPad;
   let shapeW = Math.max(80, Math.round(contentW) + 14); if (shapeW % 2) shapeW += 1;
   const shapeH = Math.round(contentH) + 8;
-  root.shape = { w: shapeW, h: shapeH };
-  root.from = shapeW / 2 + SPACING.rootGap; // where the root's branches start
+  root.shape = { w: shapeW, h: shapeH, kind: style.root.kind };
+  root.from = shapeW / 2 + S.rootGap; // where the root's branches start
+  if (style.root.kind === 'rule') {
+    // no box: a hairline just right of the text, the branches leaving from it
+    root.rule = { x: Math.round(root.t.w / 2) + 10, h: root.t.h + 6 };
+    root.shape = { w: 2 * root.rule.x, h: root.rule.h, kind: 'rule' };
+    root.from = root.rule.x + 1;
+  }
 
   const isLeaf = (r) => !r.children.length;
   // A node's own text box, relative to its junction.
   const ownBox = (r) => {
     const { w, h } = r.t;
-    if (isLeaf(r)) return { x: SPACING.leafPad, y: -SPACING.leafLift - h / 2, w, h };
-    return { x: -SPACING.labelPad - w, y: r.ttb > 0 ? SPACING.labelPad : -SPACING.labelPad - h, w, h };
+    if (isLeaf(r)) return { x: S.leafPad, y: -S.leafLift - h / 2, w, h };
+    return { x: -S.labelPad - w, y: r.ttb > 0 ? S.labelPad : -S.labelPad - h, w, h };
   };
   const shift = (b, dx, dy) => ({ x: b.x + dx, y: b.y + dy, w: b.w, h: b.h });
 
@@ -74,15 +88,15 @@ export function coggleLayout(tree, T, { palette = PALETTE, paletteStart = 0, pin
     const kids = r.children, subs = kids.map(sub);
     const from = r.level === 0 ? r.from : -1;
     const leaves = kids.filter(isLeaf), inner = kids.filter(k => !isLeaf(k));
-    const leafDx = SPACING.leafX + SPACING.heightFactor * Math.max(0, ...leaves.map(k => k.t.h));
+    const leafDx = S.leafX + S.heightFactor * Math.max(0, ...leaves.map(k => k.t.h));
 
     // Coggle's arrangement, with three knobs that only collision avoidance turns: the wrap width of the
     // interior labels, extra horizontal run before the interior junctions, and extra space between siblings.
-    const baseYSpace = tall && inner.length ? TALL.innerYSpace : SPACING.ySpace;
+    const baseYSpace = tall && inner.length ? TALL.innerYSpace : S.ySpace;
     const arrange = ({ wrap = innerWrap, extra = 0, ySpace = baseYSpace } = {}) => {
       for (const k of inner) k.t = textAt(k, wrap);
       const Tw = Math.max(0, ...inner.map(k => k.t.w));
-      const innerDx = from + SPACING.labelPad + SPACING.rootGap + Tw + Math.max(SPACING.minLine, SPACING.lineFactor * Tw) + extra;
+      const innerDx = from + S.labelPad + S.rootGap + Tw + Math.max(S.minLine, S.lineFactor * Tw) + extra;
       kids.forEach(k => { k.rx = isLeaf(k) ? leafDx : innerDx; });
       // first guess at above/below: the upper half above, the lower half below
       kids.forEach((k, i) => { k.ttb = i > (kids.length - 1) / 2 ? 1 : -1; });
@@ -126,7 +140,7 @@ export function coggleLayout(tree, T, { palette = PALETTE, paletteStart = 0, pin
     let best = null;
     const height = (bs) => Math.max(...bs.map(b => b.y + b.h)) - Math.min(...bs.map(b => b.y));
     const baseH = height(boxes);
-    for (const ySpace of inner.length ? AVOID.ySpaces : AVOID.ySpaces.map(v => v - TALL.innerYSpace + SPACING.ySpace)) {
+    for (const ySpace of inner.length ? AVOID.ySpaces : AVOID.ySpaces.map(v => v - TALL.innerYSpace + S.ySpace)) {
       for (const wrap of inner.length ? AVOID.wraps : [innerWrap]) {
         for (let extra = 0; extra <= AVOID.maxExtra; extra += AVOID.step) {
           const bs = arrange({ wrap, extra, ySpace });
@@ -153,7 +167,8 @@ export function coggleLayout(tree, T, { palette = PALETTE, paletteStart = 0, pin
     const p = pin && pin(r);
     if (p) { x = p.x; y = p.y; if (r.parent) r.ttb = y > r.parent.y + 1 ? 1 : -1; }
     r.x = x; r.y = y;
-    if (r.level === 0) r.text = { x: x - r.t.w / 2, y: y - r.t.h / 2, w: r.t.w, h: r.t.h, align: 'center' };
+    if (r.level === 0 && r.rule) r.text = { x: x + r.rule.x - 10 - r.t.w, y: y - r.t.h / 2, w: r.t.w, h: r.t.h, align: 'right' };
+    else if (r.level === 0) r.text = { x: x - r.t.w / 2, y: y - r.t.h / 2, w: r.t.w, h: r.t.h, align: 'center' };
     else { const b = ownBox(r); r.text = { x: x + b.x, y: y + b.y, w: b.w, h: b.h, align: isLeaf(r) ? 'left' : 'right' }; }
     r.children.forEach(k => place(k, x + k.rx, y + k.ry));
   };
@@ -168,7 +183,7 @@ export function coggleLayout(tree, T, { palette = PALETTE, paletteStart = 0, pin
   let x1 = 1e9, y1 = 1e9, x2 = -1e9, y2 = -1e9;
   const add = (x, y, w = 0, h = 0) => { x1 = Math.min(x1, x); y1 = Math.min(y1, y); x2 = Math.max(x2, x + w); y2 = Math.max(y2, y + h); };
   for (const r of nodes) add(r.text.x, r.text.y, r.text.w, r.text.h);
-  add(-shapeW / 2, -shapeH / 2, shapeW, shapeH);
+  add(-root.shape.w / 2, -root.shape.h / 2, root.shape.w, root.shape.h);
   for (const b of branches) { add(b.from.x, b.from.y - b.w / 2, 0, b.w); add(b.to.x + 8, b.to.y - b.w / 2, 0, b.w); }
   return { root, nodes, branches, bounds: { x: x1, y: y1, w: x2 - x1, h: y2 - y1 }, title: tree.title || '' };
 }

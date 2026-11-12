@@ -63,3 +63,10 @@ export function randomWalk(hex, key) {
   c.l = clamp01(c.l + (Math.floor(13 * r()) - 6) / 256);
   return fromHsl(c);
 }
+
+// A colour with its saturation × s and lightness × l (the coggle-* variants' palette shifts; 1, 1 is a no-op).
+export function adjust(hex, { s = 1, l = 1 } = {}) {
+  if (s === 1 && l === 1) return hex;
+  const c = toHsl(hex);
+  return fromHsl({ h: c.h, s: c.s * s, l: c.l * l });
+}
