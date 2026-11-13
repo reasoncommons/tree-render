@@ -9,6 +9,8 @@
 //     (root: half the root box + 2; others: −1) and T is the widest label among those siblings.
 //   - Vertical: siblings stack top to bottom with 15 px between any two text boxes that overlap in x; the
 //     children's whole extent is then centred on the parent's junction.
+// Our layout (avoidCollisions on) differs: the root's branches bend early (FAN) so level 1 sits close to the root,
+// and the root's groups stack as even bands; see TALL and AVOID below.
 import { lineWeight, endInset } from './geometry.js';
 import { branchSamples, branchHitsBox } from './collide.js';
 import { PALETTE, TALL_PALETTE, MIN_TEXT_CONTRAST, randomWalk, textColour, rootTextColour, adjust } from './colour.js';
@@ -27,8 +29,14 @@ export const TALL = { rootWrap: 260, rootBox: 9, rootLines: 4, rootLeafX: 40, in
 // to sibling labels (capped at 100 px) and the extra run (px) to add, in steps (wraps: only those at or below the
 // style's interior wrap are tried). Cost = horizontal span + heightCost × growth in height + wrapCost × px of
 // wrap given up. Other boxes (leaf groups) get only groupShare of the extra gap, so groups stay close together:
-// compact (Rufus, 2026-11-12) rather than tall at any price.
-export const AVOID = { wraps: [280, 260, 240, 220, 200], ySpaces: [30, 40, 50, 60, 70, 80, 90, 100], heightCost: 0.2, bandHeightCost: 0.5, wrapCost: 1, maxExtra: 900, step: 5, groupShare: 0.5 };
+// compact (Rufus, 2026-11-12) rather than tall at any price. The root's branches (bands) may also wrap their labels
+// narrower (bandWraps) and count height and wrap for less, so level 1 sits close to the root (2026-11-13: trees
+// read too wide on desktop; a taller tree is the better trade).
+export const AVOID = { wraps: [280, 260, 240, 220, 200], bandWraps: [180, 160], ySpaces: [30, 40, 50, 60, 70, 80, 90, 100], heightCost: 0.2, bandHeightCost: 0.2, wrapCost: 1, bandWrapCost: 0.5, maxExtra: 900, step: 5, groupShare: 0.5 };
+
+// The root's branches in our layout (geometry.js `fan`): the S bends in its first part, near the root, and runs in
+// nearly flat under its label, so the labels (left of their junctions) can sit close to the root.
+export const FAN = { a: 0.05, b: 0.7 };
 
 // Root with kind 'rule': px between the root text and the hairline.
 const RULE_GAP = 6;
@@ -58,7 +66,9 @@ export function coggleLayout(tree, T, { palette = null, paletteStart = 0, pin = 
   const rootSize = tree.root.textSize || sizes[0], rootCap = TALL.rootBox * rootSize - 2 * rootPad - 14;
   const rootWrap = tall ? Math.round(TALL.rootWrap * sizes[0] / style.sizes[0]) : WRAP_WIDTH, leafWrap = tall ? (style.wrap?.leaf ?? TALL.leafWrap) : WRAP_WIDTH, innerWrap = tall ? (style.wrap?.interior ?? TALL.interiorWrap) : WRAP_WIDTH;
   // the narrower wraps collision avoidance may try scale with the style's wrap.scale (set when sizes are overridden)
-  const wraps = [innerWrap, ...AVOID.wraps.map(w => Math.round(w * (tall && style.wrap?.scale || 1))).filter(w => w < innerWrap)];
+  const wscale = (w) => Math.round(w * (tall && style.wrap?.scale || 1));
+  const wraps = [innerWrap, ...AVOID.wraps.map(wscale).filter(w => w < innerWrap)];
+  const bandWraps = [...wraps, ...AVOID.bandWraps.map(wscale).filter(w => w < wraps[wraps.length - 1])];
   const nodes = [];
   const wrapped = new Map();
   // A label's last line on its own is a single word (an orphan: "them.", "early.")?
@@ -156,6 +166,7 @@ export function coggleLayout(tree, T, { palette = null, paletteStart = 0, pin = 
     // box by box, so a label above its junction could tuck in beside the leaves of the branch before it and nearly
     // touch them, while the next gap opened wide).
     const bands = tall && r.level === 0;
+    const fan = bands ? FAN : null;
     const arrange = ({ wrap = innerWrap, extra = 0, ySpace = baseYSpace } = {}) => {
       for (const k of inner) k.t = textAt(k, wrap);
       const Tw = Math.max(0, ...inner.map(k => k.t.w));
@@ -207,8 +218,8 @@ export function coggleLayout(tree, T, { palette = null, paletteStart = 0, pin = 
     const clashes = () => {
       const owned = kids.map((k, i) => [shift(ownBox(k), k.rx, k.ry), ...subs[i].map(b => shift(b, k.rx, k.ry))]);
       return kids.some((k, i) => {
-        const f = { x: from, y: 0 }, t = { x: k.rx - endInset(k.weight), y: k.ry }, s = branchSamples(f, t);
-        return owned.some((bs, j) => bs.some((b, m) => !(j === i && m === 0) && branchHitsBox(f, t, k.weight, b, { samples: s })));
+        const f = { x: from, y: 0 }, t = { x: k.rx - endInset(k.weight), y: k.ry }, s = branchSamples(f, t, { fan });
+        return owned.some((bs, j) => bs.some((b, m) => !(j === i && m === 0) && branchHitsBox(f, t, k.weight, b, { samples: s, fan })));
       });
     };
 
@@ -222,12 +233,14 @@ export function coggleLayout(tree, T, { palette = null, paletteStart = 0, pin = 
     const height = (bs) => Math.max(...bs.map(b => b.y + b.h)) - Math.min(...bs.map(b => b.y));
     const baseH = height(boxes);
     for (const ySpace of inner.length ? AVOID.ySpaces : AVOID.ySpaces.map(v => v - TALL.innerYSpace + S.ySpace)) {
-      for (const wrap of inner.length ? wraps : [innerWrap]) {
+      for (const wrap of !inner.length ? [innerWrap] : bands ? bandWraps : wraps) {
         for (let extra = 0; extra <= AVOID.maxExtra; extra += AVOID.step) {
           const bs = arrange({ wrap, extra, ySpace });
+          // a narrower wrap that leaves a label with an orphan (no nearby width without one) isn't worth it
+          if (wrap < innerWrap && inner.some(k => orphan(k.t))) break;
           if (clashes()) continue;
           const span = Math.max(...kids.map(k => k.rx));
-          const cost = span + (bands ? AVOID.bandHeightCost : AVOID.heightCost) * (height(bs) - baseH) + AVOID.wrapCost * (innerWrap - wrap);
+          const cost = span + (bands ? AVOID.bandHeightCost : AVOID.heightCost) * (height(bs) - baseH) + (bands ? AVOID.bandWrapCost : AVOID.wrapCost) * (innerWrap - wrap);
           if (!best || cost < best.cost - 0.5) best = { cost, span, wrap, extra, ySpace };
           break;
         }
@@ -257,7 +270,7 @@ export function coggleLayout(tree, T, { palette = null, paletteStart = 0, pin = 
   const branches = nodes.filter(r => r.parent).map(r => {
     const p = r.parent, w = r.weight;
     const from = p.level === 0 ? { x: p.x + p.from, y: p.y } : { x: p.x - 1, y: p.y };
-    return { node: r, from, to: { x: r.x - endInset(w), y: r.y }, w, colour: r.colour };
+    return { node: r, from, to: { x: r.x - endInset(w), y: r.y }, w, colour: r.colour, fan: tall && p.level === 0 ? FAN : null };
   });
 
   // Bounds: text, the root box and every branch's control-point hull.

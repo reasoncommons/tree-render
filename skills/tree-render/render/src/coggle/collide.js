@@ -6,8 +6,9 @@ import { branchControlPoints } from './geometry.js';
 export const CLEARANCE = 4;
 
 // Points along the branch's centre line, about every 2 px.
-export function branchSamples(from, to) {
-  const p = branchControlPoints(from, to);
+// `fan`: the branch's shape (geometry.js), when it isn't Coggle's.
+export function branchSamples(from, to, { fan = null } = {}) {
+  const p = branchControlPoints(from, to, { fan });
   const hull = Math.hypot(p[1].x - p[0].x, p[1].y - p[0].y) + Math.hypot(p[2].x - p[1].x, p[2].y - p[1].y) + Math.hypot(p[3].x - p[2].x, p[3].y - p[2].y);
   const n = Math.max(8, Math.ceil(hull / 2));
   const out = [];
@@ -24,13 +25,13 @@ const distToBox = (q, b) => {
 };
 
 // True when the branch from → to (stroke width w) comes within w/2 + clearance of box {x, y, w, h}.
-export function branchHitsBox(from, to, w, box, { clearance = CLEARANCE, samples } = {}) {
+export function branchHitsBox(from, to, w, box, { clearance = CLEARANCE, samples, fan = null } = {}) {
   const r = w / 2 + clearance;
   // quick reject on the control-point hull (a Bézier stays inside it)
-  const p = branchControlPoints(from, to), xs = p.map(q => q.x), ys = p.map(q => q.y);
+  const p = branchControlPoints(from, to, { fan }), xs = p.map(q => q.x), ys = p.map(q => q.y);
   if (Math.min(...xs) - r > box.x + box.w || Math.max(...xs) + r < box.x) return false;
   if (Math.min(...ys) - r > box.y + box.h || Math.max(...ys) + r < box.y) return false;
-  for (const q of samples || branchSamples(from, to)) if (distToBox(q, box) < r) return true;
+  for (const q of samples || branchSamples(from, to, { fan })) if (distToBox(q, box) < r) return true;
   return false;
 }
 
@@ -38,10 +39,10 @@ export function branchHitsBox(from, to, w, box, { clearance = CLEARANCE, samples
 export function findCollisions(L, { clearance = CLEARANCE } = {}) {
   const hits = [];
   for (const b of L.branches) {
-    const s = branchSamples(b.from, b.to);
+    const s = branchSamples(b.from, b.to, { fan: b.fan });
     for (const r of L.nodes) {
       if (r === b.node || r.level === 0) continue;
-      if (branchHitsBox(b.from, b.to, b.w, r.text, { clearance, samples: s })) hits.push({ branch: b.node.num, label: r.num });
+      if (branchHitsBox(b.from, b.to, b.w, r.text, { clearance, samples: s, fan: b.fan })) hits.push({ branch: b.node.num, label: r.num });
     }
   }
   return hits;

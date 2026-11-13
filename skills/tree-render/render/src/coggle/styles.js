@@ -34,7 +34,11 @@ const SOURCE_SERIF = { family: 'Source Serif 4', files: { regular: 'SourceSerif4
 export const ATKINSON = { family: 'Atkinson Hyperlegible Next', files: { regular: 'AtkinsonHyperlegibleNext-Regular.woff', bold: 'AtkinsonHyperlegibleNext-Bold.woff' }, boldWeight: 700, stack: "'Atkinson Hyperlegible Next', Verdana, Helvetica, Arial, sans-serif" };
 export const BRICOLAGE = { family: 'Bricolage Grotesque', files: { regular: 'BricolageGrotesque-Regular.woff', bold: 'BricolageGrotesque-SemiBold.woff' }, boldWeight: 600, stack: "'Bricolage Grotesque', Helvetica, Arial, sans-serif" };
 export const MERRIWEATHER = { family: 'Merriweather', files: { regular: 'Merriweather-Regular.woff', bold: 'Merriweather-Bold.woff' }, boldWeight: 700, stack: "Merriweather, Georgia, 'Times New Roman', serif" };
-export const FONTS = { arimo: ARIMO, plex: PLEX, atkinson: ATKINSON, bricolage: BRICOLAGE, merriweather: MERRIWEATHER };
+// Monospace and duospace for the whole tree (2026-11-13). They run wide, so a wrap holds fewer characters; widths are
+// measured from the fonts, as for the rest.
+export const PLEXMONO = { family: 'IBM Plex Mono', files: { regular: 'IBMPlexMono-Regular.woff', bold: 'IBMPlexMono-SemiBold.woff' }, boldWeight: 600, stack: "'IBM Plex Mono', Menlo, Consolas, monospace" };
+export const QUATTRO = { family: 'iA Writer Quattro', files: { regular: 'iAWriterQuattroS-Regular.ttf', bold: 'iAWriterQuattroS-Bold.ttf' }, boldWeight: 700, stack: "'iA Writer Quattro', 'IBM Plex Sans', Helvetica, Arial, sans-serif" };
+export const FONTS = { arimo: ARIMO, plex: PLEX, atkinson: ATKINSON, bricolage: BRICOLAGE, merriweather: MERRIWEATHER, plexmono: PLEXMONO, quattro: QUATTRO };
 
 export const EXACT = {
   name: 'coggle-exact',

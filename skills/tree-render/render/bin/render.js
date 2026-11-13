@@ -34,7 +34,7 @@ const USAGE = `Usage: tree-render <tree.md|tree.json> [--out DIR] [--name N] [--
                                      variants of coggle-exact (src/coggle/styles.js): other fonts, branch widths, palette
                                      shifts, background and root treatment on the same engine (coggle-hairline = coggle-thin)
        coggle styles also take (for comparisons; defaults give the style's own look):
-         --font arimo|plex|atkinson|bricolage|merriweather   set the text in that (embedded) font
+         --font arimo|plex|atkinson|bricolage|merriweather|plexmono|quattro   set the text in that (embedded) font
          --sizes 22,17,15,14   font sizes in px: root, level 1, level 2, level 3+ (wraps grow with levels 1 and 2)
          --depth N             show only N levels below the root
          (exit 1 if a branch crosses a label)

@@ -28,10 +28,12 @@ const d2 = (a, b) => (b.x - a.x) ** 2 + (b.y - a.y) ** 2;
 //   c2 = to   − (max((|dx| + min(0.6|dy|, 1200)) / 2, 8), 0)
 // then, for branches shorter than 75 px, both control points are pulled towards their end point by
 // i = 1 − 1 / (d⁴ / 390625 + 1), d² the squared length of the chord.
-export function branchControlPoints(from, to, { sign = 1 } = {}) {
+// `fan` (our layout, the root's branches): { a, b } instead: c1 = from + a·dx, c2 = to − b·dx, so the S bends
+// early, near the root, and runs in nearly flat under its label (whose text sits left of the junction).
+export function branchControlPoints(from, to, { sign = 1, fan = null } = {}) {
   const dx = Math.abs(from.x - to.x), dy = Math.abs(from.y - to.y);
-  const f = Math.max(0.08 * dy + Math.min(0.7 * dx, 600), 16) * sign;
-  const g = Math.max((dx + Math.min(0.6 * dy, 1200)) / 2, 8) * sign;
+  const f = (fan ? Math.max(fan.a * dx, 16) : Math.max(0.08 * dy + Math.min(0.7 * dx, 600), 16)) * sign;
+  const g = (fan ? Math.max(fan.b * dx, 8) : Math.max((dx + Math.min(0.6 * dy, 1200)) / 2, 8)) * sign;
   const p = [{ x: from.x, y: from.y }, { x: from.x + f, y: from.y }, { x: to.x - g, y: to.y }, { x: to.x, y: to.y }];
   const n = d2(p[0], p[3]);
   if (n < 5625) {

@@ -279,10 +279,10 @@ test('withOverrides: no overrides gives the style back unchanged (coggle-exact k
 });
 
 test('font override: the SVG embeds and names that family, with the lead in its bold weight', async () => {
-  for (const key of ['atkinson', 'bricolage', 'merriweather']) {
+  for (const key of ['atkinson', 'bricolage', 'merriweather', 'plexmono', 'quattro']) {
     const S = withOverrides(EXACT, { font: key }), TF = await createCoggleText(S.font);
     const svg = drawCoggle(coggleLayout(LEADY, TF, { style: S }), { fontCSS: fontFaceCSS(S.font), style: S });
-    assert.match(svg, new RegExp(`@font-face\\{font-family:'${S.font.family}';font-weight:400;src:url\\(data:font/woff;base64,`));
+    assert.match(svg, new RegExp(`@font-face\\{font-family:'${S.font.family}';font-weight:400;src:url\\(data:font/(woff|ttf);base64,`));
     assert.match(svg, new RegExp(`@font-face\\{font-family:'${S.font.family}';font-weight:${S.font.boldWeight};`));
     assert.ok(svg.includes(`text{font-family:${S.font.stack}`), key);
     assert.match(svg, new RegExp(`<tspan font-weight="${S.font.boldWeight}">A bold lead:</tspan>`));
@@ -325,7 +325,7 @@ test('depth: trimDepth keeps only N levels below the root; leaves of the root si
   for (const r of L.nodes.filter(r => r.level === 1)) assert.ok(r.text.x > L.root.shape.w / 2, `${r.num} at ${r.text.x}`);
 });
 
-for (const key of ['atkinson', 'bricolage', 'merriweather']) {
+for (const key of ['atkinson', 'bricolage', 'merriweather', 'plexmono', 'quattro']) {
   test(`font ${key}: no branch crosses a label, at Coggle's sizes and at 22/17/15/14`, async () => {
     for (const sizes of [undefined, LARGER]) {
       const S = withOverrides(EXACT, { font: key, sizes }), TF = await createCoggleText(S.font);
@@ -335,6 +335,17 @@ for (const key of ['atkinson', 'bricolage', 'merriweather']) {
     }
   });
 }
+
+test('monospace (plexmono): every character the same width, so wraps hold fewer characters than Arimo', async () => {
+  const TF = await createCoggleText(FONTS.plexmono);
+  assert.ok(Math.abs(TF.measure('iiii', 15) - TF.measure('WWWW', 15)) < 1e-9);
+  assert.ok(Math.abs(TF.measure('iiii', 15, true) - TF.measure('WWWW', 15, true)) < 1e-9);
+  const words = 'Wisdom is knowing what matters and acting well on it in a world we only partly understand';
+  const lines = (M) => M.layoutText([{ text: words, bold: false }], 15, 260).lines.map(l => l.w);
+  const mono = lines(TF), sans = lines(T);
+  assert.ok(mono.length > sans.length);
+  assert.ok(mono.every(w => w <= 260));
+});
 
 // --- phone readability (2026-11-13 review: narrow canvas, no orphans, even rhythm, contrast) -----------------
 
@@ -388,4 +399,16 @@ test('even rhythm: the root\'s branches stack as bands with equal gaps (depth 2)
     const gaps = bands.slice(1).map((b, i) => b[0] - bands[i][1]);
     if (gaps.length) assert.ok(Math.max(...gaps) - Math.min(...gaps) < 1, `${name}: gaps ${gaps.map(g => g.toFixed(0))}`);
   }
+});
+
+test('level 1 sits close to the root in our layout: root branches bend early (fan), runs well under Coggle-spaced ones, no crossings', async () => {
+  const tree = trimDepth(parse(fs.readFileSync(path.join(here, 'fixtures', 'v01-q2.json'), 'utf8')), 2);
+  const S = withOverrides(EXACT, { sizes: SHIP }), L = coggleLayout(tree, T, { style: S });
+  const l1 = L.nodes.filter(r => r.level === 1);
+  assert.ok(L.branches.filter(b => b.node.level === 1).every(b => b.fan));
+  assert.ok(L.branches.filter(b => b.node.level > 1).every(b => !b.fan));
+  // run from where the root's branches leave to the level-1 junctions: label width + its gap + at most ~180 px of fan
+  const Tw = Math.max(...l1.map(r => r.t.w));
+  for (const r of l1) assert.ok(r.x - L.root.from < Tw + 9 + 180, `${r.num}: run ${r.x - L.root.from}`);
+  assert.deepEqual(findCollisions(L), []);
 });
