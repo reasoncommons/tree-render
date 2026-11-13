@@ -84,7 +84,9 @@ export function coggleLayout(tree, T, { palette = PALETTE, paletteStart = 0, pin
   const root = build(tree.root, 0, null, 0);
 
   // Root box (shape) size, Coggle's: content = text + 9 px padding; shape = content + 14 wide (min 80), + 8 tall.
-  const contentW = root.t.w + 2 * S.labelPad, contentH = root.t.h + 2 * S.labelPad;
+  // In our layout the padding grows with the root size (a 22 px root gets 12 px), so a bigger root isn't cramped.
+  const rootPad = tall ? Math.round(S.labelPad * sizes[0] / style.sizes[0]) : S.labelPad;
+  const contentW = root.t.w + 2 * rootPad, contentH = root.t.h + 2 * rootPad;
   let shapeW = Math.max(80, Math.round(contentW) + 14); if (shapeW % 2) shapeW += 1;
   const shapeH = Math.round(contentH) + 8;
   // without chevrons the shape is just the box (7 px in from the chevron tips on each side)

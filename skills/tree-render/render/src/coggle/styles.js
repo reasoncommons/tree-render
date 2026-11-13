@@ -13,7 +13,7 @@
 //   cont          colour of the text after a bold lead: null = same as the lead, else the lead's text colour
 //                 with saturation × s and lightness × l
 //   bg            background (also the halo behind interior labels)
-//   root          chevrons (Coggle's little pointers on the box; on in coggle-exact, off in the variants);
+//   root          chevrons (Coggle's little pointers on the box; on in coggle-exact and coggle-thin, off in the rest);
 //                 kind: 'box' (Coggle's box, filled) | 'outline' (the box, stroked) | 'rule' (no box,
 //                 a hairline to the right of the text); colour (fill, or stroke); bold (root text in the lead weight)
 //   spacing       overrides for layout.js SPACING (ySpace, leafX, …)
@@ -49,7 +49,7 @@ const THIN = variant('coggle-thin', {
   font: PLEX,
   branch: { scale: 0.5, min: 1.5 },
   colour: { s: 1, l: 0.85 },
-  root: { kind: 'outline', colour: '#555555', stroke: 1.5 },
+  root: { kind: 'outline', colour: '#555555', stroke: 1.5, chevrons: true },
   spacing: { ySpace: 20, leafX: 70 },
 });
 

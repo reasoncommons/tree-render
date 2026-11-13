@@ -3,7 +3,7 @@
 // (Coggle's S-curve, horizontal at both ends) tapering 4 → 2 px (with a thin white halo) to just left of the lead. Level-2 points hang
 // off hairline S-curves from a hub right of the level-1 column, joined to the lead by a rule (v0.1 pattern).
 // One hue (slate) for ribbons and dots, ink for text, red for the accent branch. `mono`: charcoal ribbons.
-// lanes: ribbon's root, ribbons and palette, with a dot at each ribbon's end; each subtree sits on a soft
+// lanes: ribbon's root, ribbons and palette (no dot at the ribbon's end); each subtree sits on a soft
 // neutral band (red for the accent) across both text columns; no level-2 connectors, a small grey dot before
 // each point instead. `hue` (mock-up D-hue only): one restrained hue per branch. `mono` (mock-up A-mono only):
 // charcoal ribbons. `rootBox`: the root in a light Coggle-like box (shared.js placeRoot) instead of on a dot.
@@ -72,7 +72,6 @@ export function render(tree, { mono = false, lanes = false, hue = false, rootBox
   root.draw();
 
   for (const g of groups) {
-    if (lanes) cv.circle(l1Dot, g.dotY, L1.dot, { fill: g.col.dot });
     cv.text(g.b, l1X, g.bTop, { lead: { fill: g.col.lead }, cont: { fill: INK } });
     let ky = g.mid - g.kidsH / 2;
     if (!lanes && g.kids.length) {

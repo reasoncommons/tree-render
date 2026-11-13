@@ -1,7 +1,7 @@
 // styles2/dendrogram.js: the `dendrogram` style (round-2 direction B, a less dry dendrogram).
 // Round 1's dendrogram columns and left-aligned text, warmed up: the root is bold text centred on a dot (or,
 // with `rootBox`, in a light box whose right edge the curves leave), and
-// the level-1 answers leave it on 2.5 px S-curves ending in dots; each answer's points hang off rounded
+// the level-1 answers leave it on 2.5 px S-curves (no end dots: 2026-11-13); each answer's points hang off rounded
 // elbows (8 px corners, 1.25 px grey). The first point sits on its answer's baseline, so answer, leader and
 // first point read as one line. Red marks the accent branch's curve, dot and lead.
 import { Canvas, runsFor, xMiddleOf, sampleCubic } from '../directions/common.js';
@@ -50,7 +50,6 @@ export function render(tree, { rootBox = false } = {}) {
   root.draw();
 
   for (const g of groups) {
-    cv.circle(l1Dot, g.y, L1.dot, { fill: g.red ? RED : CURVE });
     cv.text(g.b, l1X, g.top, { lead: { fill: g.red ? RED : INK }, cont: { fill: INK } });
     if (!g.kids.length) continue;
     // Leader from the end of the answer's first line to the stem, then one rounded elbow per point.

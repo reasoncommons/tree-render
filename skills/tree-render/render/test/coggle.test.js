@@ -189,7 +189,9 @@ test('a group without collisions keeps Coggle\'s horizontal layout; only the gap
   const tree = parse(JSON.stringify({ title: 't', root: { text: 'Root', children: [{ text: 'One', children: [{ text: 'a' }, { text: 'b' }] }, { text: 'Two', children: [{ text: 'c' }] }] } }));
   const a = coggleLayout(tree, T), b = coggleLayout(tree, T, { avoidCollisions: false });
   assert.deepEqual(findCollisions(b), []);
-  assert.deepEqual(a.nodes.map(n => n.x), b.nodes.map(n => n.x));
+  // x measured from where the root's branches start (our root box is bigger: 22 px text, padding to match)
+  const xs = (L) => L.nodes.map(n => n.level ? n.x - L.nodes[0].from : 0);
+  assert.deepEqual(xs(a), xs(b));
   const leaves = (L) => L.nodes.filter(n => n.level === 2);
   const gap = (L) => { const [x, , z] = leaves(L); return z.text.y - (x.text.y + x.text.h); };
   // 'a' and 'b' still 15 px apart; the two families' leaves 'b' and 'c' further apart in ours
@@ -231,14 +233,14 @@ for (const [name, style] of Object.entries(COGGLE_STYLES).filter(([n]) => n !== 
 import { coggleStyle } from '../src/coggle/styles.js';
 const LEADY = parse(JSON.stringify({ title: 't', root: { text: 'Root', children: [{ lead: 'A bold lead:', text: 'A bold lead: and the rest.', children: [{ text: 'A leaf.' }] }] } }));
 
-test('root box: chevrons in coggle-exact (Coggle\'s pointers); a plain rounded box in the variants or on request', () => {
+test('root box: chevrons in coggle-exact and coggle-thin (Coggle\'s pointers); a plain rounded box in the other variants or on request', () => {
   const plain = drawCoggle(coggleLayout(LEADY, T, { chevrons: false }), { fontCSS: '' });
   const d = /class="root-box" d="([^"]+)"/.exec(plain)[1];
   assert.equal((d.match(/L/g) || []).length, 3); // four sides, four arcs, no chevron points
   const c = drawCoggle(coggleLayout(LEADY, T), { fontCSS: '' });
   assert.ok(/class="root-box" d="([^"]+)"/.exec(c)[1].length > d.length);
-  assert.equal(coggleStyle('coggle-exact').root.chevrons, true);
-  for (const name of ['coggle-thin', 'coggle-thin-mono', 'coggle-broadsheet', 'coggle-letterpress']) assert.equal(coggleStyle(name).root.chevrons, false, name);
+  for (const name of ['coggle-exact', 'coggle-thin']) assert.equal(coggleStyle(name).root.chevrons, true, name);
+  for (const name of ['coggle-broadsheet', 'coggle-letterpress']) assert.equal(coggleStyle(name).root.chevrons, false, name);
 });
 
 test('the lead runs on by default (leadBreak off in every style); leadBreak: true puts a bold lead on its own line', () => {
