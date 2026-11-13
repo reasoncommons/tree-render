@@ -91,8 +91,16 @@ const PROBE = `<pre id="tree-render-fonts" style="display:none"></pre><script>
 })();
 </script>`;
 
+// The page stays hidden until every embedded font has loaded, then is shown in one fresh paint: a shot painted first
+// in a fallback face and repainted on the swap once lost a strip of a label (2026-11-13, Bricolage: the bottom of
+// "could erode." cut off, though the canvas had 35 px of room; not reproducible, so this removes the swap).
+const FONT_GATE = `<script>(async () => {
+  try { await Promise.all([...document.fonts].map(f => f.load())); await document.fonts.ready; } catch (e) {}
+  requestAnimationFrame(() => { document.body.style.visibility = 'visible'; });
+})();</script>`;
+
 function svgPage(svg, probe = false) {
-  return `<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;padding:0;overflow:hidden}svg{display:block}</style></head><body>${svg}${probe ? PROBE : ''}</body></html>`;
+  return `<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;padding:0;overflow:hidden}body{visibility:hidden}svg{display:block}</style></head><body>${svg}${probe ? PROBE : ''}${FONT_GATE}</body></html>`;
 }
 
 // SVG string → PNG of exactly its width × height × scale.

@@ -10,7 +10,7 @@ import { darken, textColour, rootTextColour, randomWalk, PALETTE, toHsl } from '
 import { createCoggleText, lineHeight, FONT_SIZES } from '../src/coggle/text.js';
 import { coggleLayout } from '../src/coggle/layout.js';
 import { drawCoggle } from '../src/coggle/draw.js';
-import { branchHitsBox, findCollisions } from '../src/coggle/collide.js';
+import { branchHitsBox, branchSamples, findCollisions } from '../src/coggle/collide.js';
 import { readFixture, here } from './helpers.js';
 
 const near = (a, b, tol = 1e-3) => Math.abs(a - b) <= tol;
@@ -401,14 +401,84 @@ test('even rhythm: the root\'s branches stack as bands with equal gaps (depth 2)
   }
 });
 
-test('level 1 sits close to the root in our layout: root branches bend early (fan), runs well under Coggle-spaced ones, no crossings', async () => {
+test('root run fan: root branches bend early, level 1 runs well under Coggle-spaced ones, no crossings', async () => {
   const tree = trimDepth(parse(fs.readFileSync(path.join(here, 'fixtures', 'v01-q2.json'), 'utf8')), 2);
-  const S = withOverrides(EXACT, { sizes: SHIP }), L = coggleLayout(tree, T, { style: S });
+  const S = withOverrides(EXACT, { sizes: SHIP }), L = coggleLayout(tree, T, { style: S, rootRun: 'fan' });
   const l1 = L.nodes.filter(r => r.level === 1);
-  assert.ok(L.branches.filter(b => b.node.level === 1).every(b => b.fan));
-  assert.ok(L.branches.filter(b => b.node.level > 1).every(b => !b.fan));
+  assert.ok(L.branches.filter(b => b.node.level === 1).every(b => b.shape === ROOT_RUNS.fan.shape));
+  assert.ok(L.branches.filter(b => b.node.level > 1).every(b => !b.shape));
   // run from where the root's branches leave to the level-1 junctions: label width + its gap + at most ~180 px of fan
   const Tw = Math.max(...l1.map(r => r.t.w));
   for (const r of l1) assert.ok(r.x - L.root.from < Tw + 9 + 180, `${r.num}: run ${r.x - L.root.from}`);
   assert.deepEqual(findCollisions(L), []);
+});
+
+// --- root runs (2026-11-13 review: fan reads as spokes; middle keeps Coggle's S) and ink inside the canvas ----------
+
+import { ROOT_RUNS } from '../src/coggle/layout.js';
+import { departure } from '../src/coggle/geometry.js';
+import { PAD } from '../src/coggle/draw.js';
+const Q2 = parse(fs.readFileSync(path.join(here, 'fixtures', 'v01-q2.json'), 'utf8'));
+const DESKTOP = [25.5, 19, 16, 16];
+// Angle off the horizontal of the chord from a branch's start to its point a quarter of the way across.
+const depart = (b) => {
+  const s = branchSamples(b.from, b.to, { shape: b.shape }), dx = b.to.x - b.from.x, q = s.find(p => p.x - b.from.x >= 0.25 * dx);
+  return Math.atan2(Math.abs(q.y - b.from.y), q.x - b.from.x) * 180 / Math.PI;
+};
+
+test('root run middle is the default: root branches leave nearly flat (≤ 35° over the first quarter), level-1 wraps no narrower than 250 px at 18 px, no crossings', async () => {
+  for (const font of ['arimo', 'bricolage', 'plexmono', 'quattro']) {
+    const S = withOverrides(EXACT, { font, sizes: DESKTOP }), TF = await createCoggleText(S.font);
+    for (const tree of [Q2, trimDepth(Q2, 2), WEB3]) {
+      const L = coggleLayout(tree, TF, { style: S });
+      const root = L.branches.filter(b => b.node.level === 1);
+      assert.ok(root.every(b => b.shape === ROOT_RUNS.middle.shape) && L.branches.every(b => b.node.level === 1 || !b.shape));
+      for (const b of root) assert.ok(depart(b) <= 35.5, `${font} ${b.node.num}: ${depart(b).toFixed(1)}°`);
+      for (const r of L.nodes.filter(r => r.level === 1 && r.children.length)) assert.ok(r.t.w >= 250 * 19 / 18 - 1, `${font} ${r.num}: wrap ${r.t.w}`);
+      assert.deepEqual(findCollisions(L), [], font);
+    }
+  }
+});
+
+test('root runs: middle leaves flatter than fan, and arrives flat (horizontal at the junction); coggle is Coggle\'s own S', () => {
+  const S = withOverrides(EXACT, { sizes: DESKTOP });
+  const [M, F, C] = ['middle', 'fan', 'coggle'].map(rootRun => coggleLayout(Q2, T, { style: S, rootRun }));
+  const outer = (L) => Math.max(...L.branches.filter(b => b.node.level === 1).map(depart));
+  assert.ok(outer(F) > 45 && outer(M) <= 35.5, `fan ${outer(F)}, middle ${outer(M)}`);
+  for (const b of M.branches.filter(b => b.node.level === 1)) {
+    const p = branchControlPoints(b.from, b.to, { shape: b.shape });
+    assert.equal(p[2].y, p[3].y); // the last control point level with the junction: a flat arrival
+    assert.ok(b.to.x - p[2].x >= 0.8 * (b.to.x - b.from.x)); // and a long flat run in under the label
+  }
+  assert.ok(C.branches.every(b => b.shape == null));
+  for (const L of [M, F, C]) assert.deepEqual(findCollisions(L), []);
+  // the unit curve's departure falls as a grows
+  assert.ok(departure(0.05, 0.7, 1) > 60 && departure(0.65, 0.85, 1) < 20);
+  assert.throws(() => coggleLayout(Q2, T, { rootRun: 'spiral' }), /unknown root run/);
+});
+
+for (const font of ['arimo', 'bricolage', 'plexmono', 'quattro', 'atkinson', 'merriweather', 'plex']) {
+  test(`font ${font}: every label's ink (its glyphs' real outlines) lies inside the canvas, with the padding to spare`, async () => {
+    const TF = await createCoggleText(FONTS[font]);
+    for (const rootRun of Object.keys(ROOT_RUNS)) for (const sizes of [DESKTOP, LARGER]) for (const tree of [Q2, WEB3]) {
+      const S = withOverrides(EXACT, { font, sizes }), L = coggleLayout(tree, TF, { style: S, rootRun });
+      const svg = drawCoggle(L, { style: S });
+      const [, W, H] = svg.match(/width="(\d+)" height="(\d+)"/).map(Number);
+      const [, ox, oy] = svg.match(/translate\(([\d.-]+),([\d.-]+)\)">/).map(Number);
+      for (const r of L.nodes) {
+        const k = TF.ink(r.t, r.text.align), x = ox + r.text.x + k.x, y = oy + r.text.y + k.y, at = `${font} ${rootRun} ${r.num}`;
+        assert.ok(k.h > 0 && k.w > 0, at);
+        assert.ok(x >= PAD - 0.5 && y >= PAD - 0.5 && x + k.w <= W - PAD + 0.5 && y + k.h <= H - PAD + 0.5, `${at}: ink ${x.toFixed(1)},${y.toFixed(1)} ${k.w.toFixed(1)}×${k.h.toFixed(1)} in ${W}×${H}`);
+      }
+    }
+  });
+}
+
+test('ink: reaches the glyphs, not the line box (a bold lead is wider than its regular text; descenders go below the baseline)', () => {
+  const plain = T.layoutText([{ text: 'Hamburg', bold: false }], 20, 999), bold = T.layoutText([{ text: 'Hamburg', bold: true }], 20, 999);
+  const a = T.ink(plain), b = T.ink(bold);
+  assert.ok(b.w > a.w);
+  assert.ok(a.y + a.h > plain.baseline + 2 && a.y < plain.baseline - 12);
+  const right = T.ink(plain, 'right');
+  assert.ok(Math.abs((right.x + right.w) - (a.x + a.w)) < 1e-9 || plain.w === plain.lines[0].w);
 });

@@ -15,12 +15,13 @@ export function trimDepth(tree, depth) {
 }
 
 // `style`: 'coggle-exact' or one of its variants (styles.js), e.g. 'coggle-thin'. `font` / `sizes`: override
-// the style's font (a key of FONTS) and sizes by level ([root, 1, 2, 3+]); `depth`: levels below the root to show.
-export async function renderCoggle(tree, { outDir = '.', name, png = true, scale = 2, avoidCollisions = true, style = STYLE_NAME, font, sizes, depth } = {}) {
+// the style's font (a key of FONTS) and sizes by level ([root, 1, 2, 3+]); `depth`: levels below the root to show;
+// `rootRun`: the shape of the root's branches in our layout (layout.js ROOT_RUNS: middle, fan or coggle).
+export async function renderCoggle(tree, { outDir = '.', name, png = true, scale = 2, avoidCollisions = true, style = STYLE_NAME, font, sizes, depth, rootRun } = {}) {
   const S = withOverrides(coggleStyle(style), { font, sizes });
   if (depth != null) tree = trimDepth(tree, depth);
   const T = await createCoggleText(S.font);
-  const L = coggleLayout(tree, T, { avoidCollisions, style: S });
+  const L = coggleLayout(tree, T, { avoidCollisions, style: S, ...(rootRun ? { rootRun } : {}) });
   const svg = drawCoggle(L, { fontCSS: fontFaceCSS(S.font), style: S });
   fs.mkdirSync(outDir, { recursive: true });
   const base = path.join(outDir, name || S.name);

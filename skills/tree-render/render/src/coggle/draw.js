@@ -37,7 +37,7 @@ export function drawCoggle(L, { fontCSS = '', style = EXACT, bg = style.bg, pad 
       out.push(`<g class="branch" data-node="${esc(k.num)}">`);
       out.push(`<path d="${tailPath(w)}" transform="translate(${n2(b.from.x + 1 - tailLength(w))},${n2(b.from.y)})" fill="${b.colour}"/>`);
       out.push(`<path d="${tipPath(w - 0.3)}" transform="translate(${n2(b.to.x - 0.01)},${n2(b.to.y)})" fill="${b.colour}"/>`);
-      out.push(`<path d="${branchPath(b.from, b.to, { fan: b.fan })}" fill="none" stroke="${b.colour}" stroke-width="${n2(w)}" stroke-linejoin="round"/>`);
+      out.push(`<path d="${branchPath(b.from, b.to, { shape: b.shape })}" fill="none" stroke="${b.colour}" stroke-width="${n2(w)}" stroke-linejoin="round"/>`);
       out.push(`</g>`);
       paint(k);
     }

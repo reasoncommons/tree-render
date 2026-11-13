@@ -132,5 +132,43 @@ export async function createCoggleText(font = ARIMO) {
     return { lines: out, w, h: out.length * lh, size, lineHeight: lh, baseline: baseline(size), monoSize: size - monoDelta };
   }
 
-  return { measure, layoutText };
+  // Ink: where a laid-out label's glyphs actually paint, from each glyph's outline bounds (not the line box: a font's
+  // ascender and descender, which the line height is made from, can sit inside its tallest glyphs, and a glyph can
+  // overhang its advance). Returns { x, y, w, h } relative to the label's text box (top left); `align` as drawn.
+  const glyphBox = new Map();
+  const box = (fc, ch) => {
+    const key = fc[0] + '|' + ch;
+    let b = glyphBox.get(key);
+    if (b == null) {
+      const f = fonts[fc], g = f.charToGlyph(ch), bb = g.getBoundingBox(), u = f.unitsPerEm;
+      const empty = !(bb.x2 > bb.x1 || bb.y2 > bb.y1);
+      b = empty ? null : { x1: bb.x1 / u, x2: bb.x2 / u, y1: bb.y1 / u, y2: bb.y2 / u, adv: g.advanceWidth / u };
+      glyphBox.set(key, b);
+    }
+    return b;
+  };
+  function ink(t, align = 'left') {
+    let x1 = Infinity, y1 = Infinity, x2 = -Infinity, y2 = -Infinity;
+    t.lines.forEach((ln, i) => {
+      const base = i * t.lineHeight + t.baseline;
+      const x0 = align === 'right' ? t.w - ln.w : align === 'center' ? (t.w - ln.w) / 2 : 0;
+      let x = x0;
+      for (const sg of ln.segs) {
+        const fc = sg.mono && fonts.mono ? 'mono' : sg.bold ? 'bold' : 'regular', size = fc === 'mono' ? t.monoSize : t.size;
+        const chars = [...sg.text], segW = measure(sg.text, t.size, fc === 'regular' ? '' : fc);
+        // glyphs are placed by their advances (kerning, spread evenly, is a fraction of a px)
+        const sum = chars.reduce((a, ch) => a + (fonts[fc].charToGlyph(ch).advanceWidth / fonts[fc].unitsPerEm) * size, 0);
+        const k = chars.length > 1 ? (segW - sum) / (chars.length - 1) : 0;
+        for (const ch of chars) {
+          const b = box(fc, ch);
+          if (b) { x1 = Math.min(x1, x + b.x1 * size); x2 = Math.max(x2, x + b.x2 * size); y1 = Math.min(y1, base - b.y2 * size); y2 = Math.max(y2, base - b.y1 * size); }
+          x += (fonts[fc].charToGlyph(ch).advanceWidth / fonts[fc].unitsPerEm) * size + k;
+        }
+      }
+    });
+    if (x1 === Infinity) return { x: 0, y: 0, w: 0, h: 0 };
+    return { x: x1, y: y1, w: x2 - x1, h: y2 - y1 };
+  }
+
+  return { measure, layoutText, ink };
 }

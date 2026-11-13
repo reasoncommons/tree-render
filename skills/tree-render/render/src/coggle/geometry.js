@@ -28,12 +28,16 @@ const d2 = (a, b) => (b.x - a.x) ** 2 + (b.y - a.y) ** 2;
 //   c2 = to   − (max((|dx| + min(0.6|dy|, 1200)) / 2, 8), 0)
 // then, for branches shorter than 75 px, both control points are pulled towards their end point by
 // i = 1 − 1 / (d⁴ / 390625 + 1), d² the squared length of the chord.
-// `fan` (our layout, the root's branches): { a, b } instead: c1 = from + a·dx, c2 = to − b·dx, so the S bends
-// early, near the root, and runs in nearly flat under its label (whose text sits left of the junction).
-export function branchControlPoints(from, to, { sign = 1, fan = null } = {}) {
+// `shape` (our layout, the root's branches; layout.js ROOT_RUNS): { a, b } instead: c1 = from + a·dx, c2 = to − b·dx.
+// Small a bends the S early, near the root (a fan of spokes); large a leaves the root nearly flat (Coggle's S). Large
+// b runs in nearly flat under the label (whose text sits left of the junction).
+// With `shape.cap` (degrees), a grows (up to 1) where needed so that the curve, over the first quarter of its run,
+// rises at most cap° off the horizontal (departure(): the chord from the start to the point a quarter of the way along).
+export function branchControlPoints(from, to, { sign = 1, shape = null } = {}) {
   const dx = Math.abs(from.x - to.x), dy = Math.abs(from.y - to.y);
-  const f = (fan ? Math.max(fan.a * dx, 16) : Math.max(0.08 * dy + Math.min(0.7 * dx, 600), 16)) * sign;
-  const g = (fan ? Math.max(fan.b * dx, 8) : Math.max((dx + Math.min(0.6 * dy, 1200)) / 2, 8)) * sign;
+  if (shape?.cap) shape = { ...shape, a: cappedA(shape, dx ? dy / dx : 0) };
+  const f = (shape ? Math.max(shape.a * dx, 16) : Math.max(0.08 * dy + Math.min(0.7 * dx, 600), 16)) * sign;
+  const g = (shape ? Math.max(shape.b * dx, 8) : Math.max((dx + Math.min(0.6 * dy, 1200)) / 2, 8)) * sign;
   const p = [{ x: from.x, y: from.y }, { x: from.x + f, y: from.y }, { x: to.x - g, y: to.y }, { x: to.x, y: to.y }];
   const n = d2(p[0], p[3]);
   if (n < 5625) {
@@ -42,6 +46,31 @@ export function branchControlPoints(from, to, { sign = 1, fan = null } = {}) {
     p[1] = { x: p[0].x + (p[1].x - p[0].x) * i, y: p[0].y + (p[1].y - p[0].y) * i };
   }
   return p;
+}
+
+// The unit curve (dx = 1, dy = r) with c1 = (a, 0), c2 = (1 − b, r): x(t), y(t).
+const unitX = (a, b, t) => 3 * a * t * (1 - t) ** 2 + 3 * (1 - b) * t * t * (1 - t) + t ** 3;
+const unitY = (r, t) => r * (3 * t * t - 2 * t ** 3);
+// Angle (degrees) off the horizontal of the chord from the start to where the curve is `frac` of the way across.
+export function departure(a, b, r, frac = 0.25) {
+  let lo = 0, hi = 1;
+  for (let i = 0; i < 30; i++) { const m = (lo + hi) / 2; if (unitX(a, b, m) < frac) lo = m; else hi = m; }
+  return Math.atan2(unitY(r, hi), frac) * 180 / Math.PI;
+}
+const capCache = new Map();
+function cappedA({ a, b, cap }, r) {
+  const key = `${a}|${b}|${cap}|${r.toFixed(3)}`;
+  let v = capCache.get(key);
+  if (v == null) {
+    v = a;
+    if (departure(a, b, r) > cap) {
+      let lo = a, hi = 1;
+      for (let i = 0; i < 20; i++) { const m = (lo + hi) / 2; if (departure(m, b, r) > cap) lo = m; else hi = m; }
+      v = hi;
+    }
+    capCache.set(key, v);
+  }
+  return v;
 }
 
 export function branchPath(from, to, opts) {
