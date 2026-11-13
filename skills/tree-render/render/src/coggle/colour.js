@@ -4,6 +4,8 @@
 // saturation × 0.7 and lightness × 0.5 (same hue, darker). Text on the grey root box: × 0.4375 and × 0.3125.
 
 export const PALETTE = ['#7aa3e5', '#67d7c4', '#9ed56b', '#ebd95f', '#efa670', '#e68782', '#e096e9', '#988ee3'];
+// Our layout's palette: Coggle's with the yellow a little deeper (#ebd95f is 1.4:1 on white; its thin tails vanished).
+export const TALL_PALETTE = PALETTE.map(c => c === '#ebd95f' ? '#dcc23e' : c);
 export const ROOT_COLOUR = '#d0d0d0';
 export const BG = '#ffffff';
 
@@ -40,7 +42,19 @@ export function darken(hex, n = 1) {
   return fromHsl({ h: c.h, s: c.s * (0.7 / n), l: c.l * (0.5 / n) });
 }
 
-export const textColour = (branchColour) => darken(branchColour);
+// WCAG contrast ratio of a colour on white (or on `bg`).
+const luminance = (hex) => [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255).map(v => v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4).reduce((s, v, i) => s + v * [0.2126, 0.7152, 0.0722][i], 0);
+export const contrast = (hex, bg = BG) => { const a = luminance(hex), b = luminance(bg); return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05); };
+
+// Text colour: Coggle's darken; with `minContrast` (our layout: WCAG AA 4.5) darkened further until it reads on white.
+export const textColour = (branchColour, { minContrast = 0 } = {}) => {
+  let c = darken(branchColour);
+  if (!minContrast) return c;
+  const hsl = toHsl(c);
+  while (contrast(c) < minContrast && hsl.l > 0.01) { hsl.l -= 0.01; c = fromHsl(hsl); }
+  return c;
+};
+export const MIN_TEXT_CONTRAST = 4.5;
 export const rootTextColour = (rootColour) => darken(rootColour, 1.6);
 
 // A small deterministic PRNG (mulberry32) seeded from a string, standing in for Coggle's Math.random().

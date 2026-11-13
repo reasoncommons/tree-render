@@ -335,3 +335,57 @@ for (const key of ['atkinson', 'bricolage', 'merriweather']) {
     }
   });
 }
+
+// --- phone readability (2026-11-13 review: narrow canvas, no orphans, even rhythm, contrast) -----------------
+
+import { contrast, TALL_PALETTE, MIN_TEXT_CONTRAST } from '../src/coggle/colour.js';
+import { TALL } from '../src/coggle/layout.js';
+
+const SHIP = [24, 18, 15, 14];
+const lastLine = (r) => r.t.lines[r.t.lines.length - 1].segs.map(g => g.text).join('').trim();
+const orphans = (L) => L.nodes.filter(r => r.level > 0 && r.t.lines.length > 1 && !/\s/.test(lastLine(r))).map(r => `${r.num}: "${lastLine(r)}"`);
+
+// (the root is held to the root box cap, so it may keep one: "How should we / approach AI / development / wisely?")
+test('no orphans: no wrapped label ends with one word on its own line (default style, and bricolage at 24/18/15/14)', async () => {
+  const TB = await createCoggleText(FONTS.bricolage), SB = withOverrides(EXACT, { font: 'bricolage', sizes: SHIP });
+  for (const [name, tree] of trees) for (const t of [tree, trimDepth(tree, 1), trimDepth(tree, 2)]) {
+    assert.deepEqual(orphans(coggleLayout(t, T)), [], `default on ${name}`);
+    assert.deepEqual(orphans(coggleLayout(t, TB, { style: SB })), [], `bricolage on ${name}`);
+  }
+});
+
+test('contrast: every palette text colour is at least WCAG AA (4.5:1) on white in our layout', () => {
+  assert.equal(MIN_TEXT_CONTRAST, 4.5);
+  for (const c of TALL_PALETTE) {
+    assert.ok(contrast(textColour(c, { minContrast: MIN_TEXT_CONTRAST })) >= 4.5, c);
+    // child colours wander a little lighter; the floor still holds
+    for (const k of ['1.1', '2.3', '4.4']) assert.ok(contrast(textColour(randomWalk(c, k), { minContrast: 4.5 })) >= 4.5);
+  }
+  // the yellow branch is deeper than Coggle's, so its tail shows on white
+  assert.ok(contrast(TALL_PALETTE[3]) > contrast(PALETTE[3]));
+  for (const [name, tree] of trees) for (const r of coggleLayout(tree, T).nodes.filter(r => r.level > 0)) assert.ok(contrast(r.textColour) >= 4.5, `${name} ${r.num}`);
+});
+
+test('root box: at most rootBox × the root size wide in our layout (bricolage 24 px: ≤ 216 px), lines balanced', async () => {
+  const TB = await createCoggleText(FONTS.bricolage), SB = withOverrides(EXACT, { font: 'bricolage', sizes: SHIP });
+  const tree = parse(JSON.stringify({ title: 't', root: { text: 'How should we approach AI development wisely?', children: [{ text: 'A' }, { text: 'B' }] } }));
+  const L = coggleLayout(tree, TB, { style: SB });
+  assert.ok(L.root.shape.w <= TALL.rootBox * 24, `root box ${L.root.shape.w}`);
+  assert.ok(L.root.shape.chevrons);
+  assert.ok(L.root.t.lines.length <= 4);
+  // a long root wraps to even lines, none of them a lone word
+  const W = coggleLayout(trees[0][1], T), last = W.root.t.lines[W.root.t.lines.length - 1].segs.map(g => g.text).join('').trim();
+  assert.ok(/\s/.test(last), last);
+  const D = coggleLayout(tree, T);
+  assert.ok(D.root.shape.w <= TALL.rootBox * EXACT.rootSize, `default root box ${D.root.shape.w}`);
+});
+
+test('even rhythm: the root\'s branches stack as bands with equal gaps (depth 2)', () => {
+  const desc = (r) => [r, ...r.children.flatMap(desc)];
+  for (const [name, tree] of trees) {
+    const L = coggleLayout(trimDepth(tree, 2), T);
+    const bands = L.root.children.map(k => { const ns = desc(k); return [Math.min(...ns.map(n => n.text.y)), Math.max(...ns.map(n => n.text.y + n.text.h))]; });
+    const gaps = bands.slice(1).map((b, i) => b[0] - bands[i][1]);
+    if (gaps.length) assert.ok(Math.max(...gaps) - Math.min(...gaps) < 1, `${name}: gaps ${gaps.map(g => g.toFixed(0))}`);
+  }
+});
