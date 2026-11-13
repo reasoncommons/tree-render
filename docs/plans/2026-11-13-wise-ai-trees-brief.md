@@ -1,5 +1,5 @@
 ---
-status: draft (font and sizes to fill in after Rufus picks; tree_render-3az)
+status: draft (font and sizes recommended, awaiting Rufus's yes; tree_render-3az)
 ---
 
 # Brief: Wisdom and AI tree visuals, v1
@@ -10,19 +10,19 @@ For a sub-session working in `~/src/life-itself/ai-wise` on the beads epic `ais-
 
 | Tree | Source | Depth | Where it goes |
 |---|---|---|---|
-| Overview | `projects/wise-ai-briefing/trees/overview.json` | 1 (root and its four answers) | `site/question-trees.md` (or the index; ask) |
-| Q1 Can we make AI good? | `trees/q1.json` | 2, or 1 if it doesn't read at phone width | `site/alignment.md` |
-| Q2 How fast should we go? | `trees/q2.json` | 2 or 1 | `site/risk-and-pace.md` |
-| Q3 How should we integrate AI? | `trees/q3.json` | 2 or 1 | `site/living-with-ai.md` |
-| Q4 Could AI feel? | `trees/q4.json` | 2 or 1 | `site/consciousness.md` |
+| Overview | `projects/wise-ai-briefing/trees/overview.json` | 1 (root and its four answers), on every screen | `site/question-trees.md` (or the index; ask) |
+| Q1 Can we make AI good? | `trees/q1.json` | 1 on phones, 2 on wider screens | `site/alignment.md` |
+| Q2 How fast should we go? | `trees/q2.json` | 1 on phones, 2 on wider screens | `site/risk-and-pace.md` |
+| Q3 How should we integrate AI? | `trees/q3.json` | 1 on phones, 2 on wider screens | `site/living-with-ai.md` |
+| Q4 Could AI feel? | `trees/q4.json` | 1 on phones, 2 on wider screens | `site/consciousness.md` |
 
 ## How to draw them
 
 - Renderer: `~/src/reasoncommons/tree-render/skills/tree-render/render/bin/render.js`. Read `skills/tree-render/SKILL.md` first.
 - Shape: `--style coggle-exact` (Coggle's curves and palette, branches never cross text). Comparison of the five styles: https://claude.ai/artifact/M2kRH44N1Ci7zRy1s1YbLV
-- Font: **TBD** (`--font …`), from the fonts page.
-- Sizes: **TBD** (`--sizes root,L1,L2,L3`).
-- Depth: `--depth 1` for the overview, `--depth 1` or `2` for the question trees.
+- Font: `--font bricolage` (the site's body font). Fonts page: https://claude.ai/artifact/5uAwQ34AUDiEWa4AkCiwbr
+- Sizes: `--sizes 24,18,15,14` (root, answers, points, deeper).
+- Depth: render each question tree twice, `--depth 1` and `--depth 2`, and switch on screen width with `<picture><source media="(min-width: 700px)" srcset="q1-d2.png"><img src="q1-d1.png" …></picture>`. A two-level tree shrinks to about a quarter on a phone, so its text is unreadable there. Preview of all nine renders: https://claude.ai/artifact/WyG323NfeFMtEFBvMW32Ee
 - Output: SVG and 2× PNG. The renderer exits 1 if anything overlaps; fix that, don't ship it.
 
 ## Text first (ais-svl.1)
@@ -33,7 +33,7 @@ For a sub-session working in `~/src/life-itself/ai-wise` on the beads epic `ais-
 
 ## Checks before showing Rufus
 
-- View every render at about 390 px wide (a phone). The text must be readable without zooming. If a depth-2 tree isn't, use depth 1.
+- View every depth-1 render at about 390 px wide (a phone). The text must be readable without zooming. Depth-1 renders should be about 650 CSS px wide or less.
 - Have a subagent critique the renders, then apply its points with judgment.
 - Each tree on the site gets alt text and the tree as a text outline beside it (accessible and searchable).
 - Attribution: **TBD** (tree_render-5q0.5). For v1, a small source line such as "Wisdom and AI · Life Itself · ai.lifeitself.org" under the image is enough.
