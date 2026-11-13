@@ -43,6 +43,8 @@ Five styles are in use (`--style <name>`):
 
 `coggle-exact` draws the root box with Coggle's chevrons (the little pointers on each side); the variants draw a plain box. In all coggle styles a bold lead runs on into the rest of the label (the `leadBreak` option, off by default, puts the lead on its own line, but it left dangling words). Variants of `coggle-exact` on the same engine (`render/src/coggle/styles.js`): `--style coggle-thin` (the candidate: IBM Plex Sans, half-width branches, outlined root; `coggle-hairline` is an alias). `coggle-thin-mono` (leaves and the text after each bold lead in IBM Plex Mono), `coggle-broadsheet` and `coggle-letterpress` remain in the code but are not candidates: switching just some words to mono does not work.
 
+For comparing type on one shape, the coggle styles take `--font arimo|plex|atkinson|bricolage|merriweather` (the text in that embedded font), `--sizes 22,17,15,14` (px for the root, level 1, level 2 and level 3+; the wraps grow with levels 1 and 2 so lines keep about the same words) and `--depth N` (only N levels below the root). Without them a style keeps its own look. With these styles the CLI exits 1 if a branch crosses a label. `render/scripts/deep-tree.js` nests whole trees under one root (e.g. an overview and its question trees) for a three-level test tree.
+
 Other styles live in `render/styles/` (`coggle`, `v01`, `v01-thick`, `coggle-tree`, `current`, and the 2026-11-11 experiments in `options-2026-11-11/`); pass the name or a file path to `--style`. Old, parked flags (`--format`, `--theme`, `carousel`, `--html`) are for framed social cards and the interactive view; ignore them for web and report images.
 
 ## 3. Look, then fix

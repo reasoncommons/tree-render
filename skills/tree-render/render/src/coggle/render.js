@@ -4,13 +4,21 @@ import path from 'node:path';
 import { createCoggleText, fontFaceCSS } from './text.js';
 import { coggleLayout } from './layout.js';
 import { drawCoggle } from './draw.js';
-import { coggleStyle } from './styles.js';
+import { coggleStyle, withOverrides } from './styles.js';
 
 export const STYLE_NAME = 'coggle-exact';
 
-// `style`: 'coggle-exact' or one of its variants (styles.js), e.g. 'coggle-thin'.
-export async function renderCoggle(tree, { outDir = '.', name, png = true, scale = 2, avoidCollisions = true, style = STYLE_NAME } = {}) {
-  const S = coggleStyle(style);
+// A copy of the tree showing only `depth` levels below the root (deeper nodes dropped).
+export function trimDepth(tree, depth) {
+  const cut = (n, level) => ({ ...n, children: level < depth ? n.children.map(c => cut(c, level + 1)) : [] });
+  return { ...tree, root: cut(tree.root, 0) };
+}
+
+// `style`: 'coggle-exact' or one of its variants (styles.js), e.g. 'coggle-thin'. `font` / `sizes`: override
+// the style's font (a key of FONTS) and sizes by level ([root, 1, 2, 3+]); `depth`: levels below the root to show.
+export async function renderCoggle(tree, { outDir = '.', name, png = true, scale = 2, avoidCollisions = true, style = STYLE_NAME, font, sizes, depth } = {}) {
+  const S = withOverrides(coggleStyle(style), { font, sizes });
+  if (depth != null) tree = trimDepth(tree, depth);
   const T = await createCoggleText(S.font);
   const L = coggleLayout(tree, T, { avoidCollisions, style: S });
   const svg = drawCoggle(L, { fontCSS: fontFaceCSS(S.font), style: S });

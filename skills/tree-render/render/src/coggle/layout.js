@@ -45,7 +45,8 @@ export function coggleLayout(tree, T, { palette = PALETTE, paletteStart = 0, pin
   // Root size: the style's rootSize in our layout, Coggle's sizes[0] in its own; the root's wrap grows with it.
   const sizes = tall && style.rootSize ? [style.rootSize, ...style.sizes.slice(1)] : style.sizes;
   const rootWrap = tall ? Math.round(TALL.rootWrap * sizes[0] / style.sizes[0]) : WRAP_WIDTH, leafWrap = tall ? (style.wrap?.leaf ?? TALL.leafWrap) : WRAP_WIDTH, innerWrap = tall ? (style.wrap?.interior ?? TALL.interiorWrap) : WRAP_WIDTH;
-  const wraps = [innerWrap, ...AVOID.wraps.filter(w => w < innerWrap)];
+  // the narrower wraps collision avoidance may try scale with the style's wrap.scale (set when sizes are overridden)
+  const wraps = [innerWrap, ...AVOID.wraps.map(w => Math.round(w * (tall && style.wrap?.scale || 1))).filter(w => w < innerWrap)];
   const nodes = [];
   const wrapped = new Map();
   const textAt = (r, wrap) => {
@@ -124,7 +125,10 @@ export function coggleLayout(tree, T, { palette = PALETTE, paletteStart = 0, pin
       for (const k of inner) k.t = textAt(k, wrap);
       const Tw = Math.max(0, ...inner.map(k => k.t.w));
       const innerDx = from + S.labelPad + S.rootGap + Tw + Math.max(S.minLine, S.lineFactor * Tw) + extra;
-      kids.forEach(k => { k.rx = isLeaf(k) ? leafDx : innerDx; });
+      // a leaf of the root is measured from where the root's branches start (else it would sit inside the root box);
+      // in a group of leaves only, the extra run (collision avoidance) moves the leaves out instead
+      const leafX = (r.level === 0 ? from : 0) + leafDx + (inner.length ? 0 : extra);
+      kids.forEach(k => { k.rx = isLeaf(k) ? leafX : innerDx; });
       // first guess at above/below: the upper half above, the lower half below
       kids.forEach((k, i) => { k.ttb = i > (kids.length - 1) / 2 ? 1 : -1; });
       let boxes = [];

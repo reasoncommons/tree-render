@@ -265,3 +265,73 @@ test('coggle-thin-mono: leaves and continuations in IBM Plex Mono, 1 px smaller;
   assert.ok(root.t.lines[0].segs.every(s => !s.mono));
   assert.match(svg, new RegExp(`font-size="${leaf.t.size - 1}">A leaf\\.</tspan>`));
 });
+
+// --- 2026-11-13: --font, --sizes and --depth on coggle-exact (font and level-size comparisons) ----------------------
+
+import { FONTS, withOverrides, EXACT } from '../src/coggle/styles.js';
+import { trimDepth } from '../src/coggle/render.js';
+const LARGER = [22, 17, 15, 14];
+
+test('withOverrides: no overrides gives the style back unchanged (coggle-exact keeps its look)', () => {
+  assert.equal(withOverrides(EXACT, {}), EXACT);
+  assert.throws(() => withOverrides(EXACT, { font: 'comic' }), /unknown font/);
+  assert.throws(() => withOverrides(EXACT, { sizes: [22, 17, 15] }), /four/);
+});
+
+test('font override: the SVG embeds and names that family, with the lead in its bold weight', async () => {
+  for (const key of ['atkinson', 'bricolage', 'merriweather']) {
+    const S = withOverrides(EXACT, { font: key }), TF = await createCoggleText(S.font);
+    const svg = drawCoggle(coggleLayout(LEADY, TF, { style: S }), { fontCSS: fontFaceCSS(S.font), style: S });
+    assert.match(svg, new RegExp(`@font-face\\{font-family:'${S.font.family}';font-weight:400;src:url\\(data:font/woff;base64,`));
+    assert.match(svg, new RegExp(`@font-face\\{font-family:'${S.font.family}';font-weight:${S.font.boldWeight};`));
+    assert.ok(svg.includes(`text{font-family:${S.font.stack}`), key);
+    assert.match(svg, new RegExp(`<tspan font-weight="${S.font.boldWeight}">A bold lead:</tspan>`));
+  }
+});
+
+test('fonts opentype.js cannot shape (Bricolage, Merriweather) still measure: widths grow with the text and size', async () => {
+  for (const key of ['bricolage', 'merriweather']) {
+    const TF = await createCoggleText(FONTS[key]);
+    const a = TF.measure('Wisdom', 15), b = TF.measure('Wisdom traditions', 15);
+    assert.ok(a > 30 && b > a, key);
+    assert.ok(Math.abs(TF.measure('Wisdom', 30) - 2 * a) < 1e-9, key);
+  }
+});
+
+test('sizes override: root, level 1, level 2 and level 3+ text at the given sizes; wraps grow with the text', () => {
+  const S = withOverrides(EXACT, { sizes: [26, 19, 15, 13] });
+  assert.equal(S.rootSize, 26);
+  assert.equal(S.sizes[0], EXACT.sizes[0]); // the reference the root wrap and padding scale from
+  const tree = parse(JSON.stringify({ title: 't', root: { text: 'Root?', children: [{ text: 'One', children: [{ text: 'Two', children: [{ text: 'Three' }, { text: 'Three b', children: [{ text: 'Four' }] }] }] }] } }));
+  const L = coggleLayout(tree, T, { style: S });
+  const at = (lv) => [...new Set(L.nodes.filter(r => r.level === lv).map(r => r.t.size))];
+  assert.deepEqual([0, 1, 2, 3, 4].map(at), [[26], [19], [15], [13], [13]]);
+  assert.ok(S.wrap.interior > 260 && S.wrap.leaf > 300);
+  // and the root box padding grows with the root, as for the default 22 px root
+  const D = coggleLayout(tree, T), pad = (L) => (L.root.shape.h - L.root.t.h) / 2;
+  assert.ok(pad(L) > pad(D));
+});
+
+test('depth: trimDepth keeps only N levels below the root; leaves of the root sit clear of the root box', () => {
+  const tree = parse(fs.readFileSync(path.join(here, 'fixtures', 'v01-q2.json'), 'utf8'));
+  const deepest = (n, d = 0) => Math.max(d, ...n.children.map(c => deepest(c, d + 1)));
+  assert.ok(deepest(tree.root) >= 2);
+  const t1 = trimDepth(tree, 1);
+  assert.equal(deepest(t1.root), 1);
+  assert.equal(t1.root.children.length, tree.root.children.length);
+  assert.ok(deepest(tree.root) >= 2); // the original is untouched
+  const L = coggleLayout(t1, T);
+  assert.deepEqual(findCollisions(L), []);
+  for (const r of L.nodes.filter(r => r.level === 1)) assert.ok(r.text.x > L.root.shape.w / 2, `${r.num} at ${r.text.x}`);
+});
+
+for (const key of ['atkinson', 'bricolage', 'merriweather']) {
+  test(`font ${key}: no branch crosses a label, at Coggle's sizes and at 22/17/15/14`, async () => {
+    for (const sizes of [undefined, LARGER]) {
+      const S = withOverrides(EXACT, { font: key, sizes }), TF = await createCoggleText(S.font);
+      for (const [tname, tree] of trees) for (const t of [tree, trimDepth(tree, 1)]) {
+        assert.deepEqual(findCollisions(coggleLayout(t, TF, { style: S })), [], `${key} ${sizes || 'default'} on ${tname}`);
+      }
+    }
+  });
+}

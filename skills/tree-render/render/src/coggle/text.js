@@ -38,10 +38,25 @@ function loadFonts(font) {
   if (cache.has(key)) return cache.get(key);
   const load = (f) => { const b = fs.readFileSync(path.join(FONT_DIR, f)); return opentype.parse(b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength)); };
   const fonts = { regular: load(font.files.regular), bold: load(font.files.bold), mono: font.mono ? load(font.mono.file) : null };
+  // opentype.js can't shape some fonts (e.g. Bricolage Grotesque, Merriweather: GSUB chained-context lookups it
+  // doesn't support throw in getAdvanceWidth). For those, sum the glyph advances plus whatever pair kerning it
+  // can read (none, where the kerning sits in GPOS extension lookups): a little wider than the browser sets it
+  // (kerning mostly tightens, ~2%), so boxes err on the roomy side.
+  for (const f of Object.values(fonts)) {
+    if (!f) continue;
+    try { f.getAdvanceWidth('Ta', f.unitsPerEm, { kerning: true }); f.shapes = true; } catch { f.shapes = false; }
+  }
   const h = fonts.regular.tables.hhea, u = fonts.regular.unitsPerEm;
   fonts.metrics = metricsFns(h.ascender / u, Math.abs(h.descender) / u, h.lineGap / u);
   cache.set(key, fonts);
   return fonts;
+}
+
+// Advance width (font units) without shaping: glyph advances plus pair kerning.
+function plainAdvance(f, text) {
+  let w = 0, prev = null;
+  for (const ch of text) { const g = f.charToGlyph(ch); if (prev) w += f.getKerningValue(prev, g); w += g.advanceWidth; prev = g; }
+  return w;
 }
 
 const FORMATS = { ttf: ['font/ttf', 'truetype'], otf: ['font/otf', 'opentype'], woff: ['font/woff', 'woff'] };
@@ -74,7 +89,7 @@ export async function createCoggleText(font = ARIMO) {
     let w = unit.get(key);
     if (w == null) {
       const f = fonts[fc];
-      w = text ? f.getAdvanceWidth(text, f.unitsPerEm, { kerning: true }) / f.unitsPerEm : 0;
+      w = !text ? 0 : (f.shapes ? f.getAdvanceWidth(text, f.unitsPerEm, { kerning: true }) : plainAdvance(f, text)) / f.unitsPerEm;
       unit.set(key, w);
     }
     return w * (fc === 'mono' ? size - monoDelta : size);

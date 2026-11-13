@@ -33,6 +33,11 @@ const USAGE = `Usage: tree-render <tree.md|tree.json> [--out DIR] [--name N] [--
        tree-render <tree.md|tree.json> --style coggle-thin|coggle-thin-mono|coggle-broadsheet|coggle-letterpress [...]
                                      variants of coggle-exact (src/coggle/styles.js): other fonts, branch widths, palette
                                      shifts, background and root treatment on the same engine (coggle-hairline = coggle-thin)
+       coggle styles also take (for comparisons; defaults give the style's own look):
+         --font arimo|plex|atkinson|bricolage|merriweather   set the text in that (embedded) font
+         --sizes 22,17,15,14   font sizes in px: root, level 1, level 2, level 3+ (wraps grow with levels 1 and 2)
+         --depth N             show only N levels below the root
+         (exit 1 if a branch crosses a label)
 
 Options:
   --format 4x5|1x1|16x9|web     canvas (default 4x5)
@@ -57,7 +62,7 @@ Writes <out>.svg and <out>.report.json and prints the report. Exit 1 on a hard c
 (overlap, overflow, fidelity, fonts, markers), 2 on a usage error, 3 when a PNG needs a browser.
 `;
 
-const VALUE_FLAGS = ['style', 'name', 'format', 'theme', 'view', 'labels', 'depth', 'root', 'kicker', 'footer', 'out', 'scale', 'state', 'emit', 'hue'];
+const VALUE_FLAGS = ['style', 'name', 'format', 'theme', 'view', 'labels', 'depth', 'root', 'kicker', 'footer', 'out', 'scale', 'state', 'emit', 'hue', 'font', 'sizes'];
 const BOOL_FLAGS = ['png', 'no-png', 'html', 'help', 'allow-collisions', 'root-box'];
 // Flags of the framed canvas render; with none of them (and no --style) a tree renders statically in the default style.
 const CANVAS_FLAGS = ['format', 'theme', 'view', 'labels', 'depth', 'root', 'kicker', 'footer', 'state', 'hue', 'html'];
@@ -155,11 +160,23 @@ async function main(argv) {
   const tree = readTree(file);
   if (COGGLE_STYLE_NAMES.includes(a.style) || (!a.style && !sub && !CANVAS_FLAGS.some(k => a[k] != null))) {
     const { renderCoggle } = await import('../src/coggle/render.js');
+    const { FONTS } = await import('../src/coggle/styles.js');
+    const { findCollisions } = await import('../src/coggle/collide.js');
     const style = a.style || 'coggle-exact';
-    const r = await renderCoggle(tree, { style, outDir: a.out || '.', name: a.name || (a.style ? undefined : path.basename(file).replace(/\.(md|json|markdown)$/i, '')), png: !a['no-png'], scale: +(a.scale || 2), avoidCollisions: !a['allow-collisions'] });
+    if (a.font != null && !FONTS[a.font]) throw new UsageError(`unknown font "${a.font}" (have: ${Object.keys(FONTS).join(', ')})`);
+    let sizes;
+    if (a.sizes != null) {
+      sizes = a.sizes.split(',').map(Number);
+      if (sizes.length !== 4 || !sizes.every(v => Number.isFinite(v) && v > 0)) throw new UsageError('--sizes takes four sizes in px: root,level1,level2,level3 (e.g. 22,17,15,14)');
+    }
+    if (a.depth != null && !/^\d+$/.test(a.depth)) throw new UsageError('--depth takes a whole number');
+    const r = await renderCoggle(tree, { style, font: a.font, sizes, depth: a.depth != null ? +a.depth : undefined, outDir: a.out || '.', name: a.name || (a.style ? undefined : path.basename(file).replace(/\.(md|json|markdown)$/i, '')), png: !a['no-png'], scale: +(a.scale || 2), avoidCollisions: !a['allow-collisions'] });
     const b = r.L.bounds;
-    console.log(`${Object.values(r.files).map(f => path.basename(f)).join(', ')}  style ${style} · ${Math.ceil(b.w + 60)}×${Math.ceil(b.h + 60)} · ${r.L.nodes.length} nodes`);
-    return 0;
+    const hits = a['allow-collisions'] ? [] : findCollisions(r.L);
+    const extra = [a.font && `font ${a.font}`, sizes && `sizes ${sizes.join('/')}`, a.depth != null && `depth ${a.depth}`].filter(Boolean).join(' · ');
+    console.log(`${Object.values(r.files).map(f => path.basename(f)).join(', ')}  style ${style}${extra ? ' · ' + extra : ''} · ${Math.ceil(b.w + 60)}×${Math.ceil(b.h + 60)} · ${r.L.nodes.length} nodes${hits.length ? ' · FAILED' : ''}`);
+    for (const h of hits) console.log(`  error overlap: branch ${h.branch} crosses label ${h.label}`);
+    return hits.length ? 1 : 0;
   }
   if (STYLE2_NAMES.includes(a.style)) {
     const { renderStyle2 } = await import('../src/styles2/index.js');
