@@ -29,8 +29,8 @@ const d2 = (a, b) => (b.x - a.x) ** 2 + (b.y - a.y) ** 2;
 // then, for branches shorter than 75 px, both control points are pulled towards their end point by
 // i = 1 − 1 / (d⁴ / 390625 + 1), d² the squared length of the chord.
 // `shape` (our layout, the root's branches; layout.js ROOT_RUNS): { a, b } instead: c1 = from + a·dx, c2 = to − b·dx.
-// Small a bends the S early, near the root (a fan of spokes); large a leaves the root nearly flat (Coggle's S). Large
-// b runs in nearly flat under the label (whose text sits left of the junction).
+// Small a bends the S early, near the root (spokes); large a leaves the root nearly flat (Coggle's S). Large b swings
+// early and runs in nearly flat under the label (whose text sits left of the junction); b = 1 puts c2 over the start.
 // With `shape.cap` (degrees), a grows (up to 1) where needed so that the curve, over the first quarter of its run,
 // rises at most cap° off the horizontal (departure(): the chord from the start to the point a quarter of the way along).
 export function branchControlPoints(from, to, { sign = 1, shape = null } = {}) {

@@ -16,9 +16,12 @@ export function trimDepth(tree, depth) {
 
 // `style`: 'coggle-exact' or one of its variants (styles.js), e.g. 'coggle-thin'. `font` / `sizes`: override
 // the style's font (a key of FONTS) and sizes by level ([root, 1, 2, 3+]); `depth`: levels below the root to show;
-// `rootRun`: the shape of the root's branches in our layout (layout.js ROOT_RUNS: middle, fan or coggle).
+// `rootRun`: the shape of the root's branches in our layout (layout.js ROOT_RUNS: middle or coggle).
 export async function renderCoggle(tree, { outDir = '.', name, png = true, scale = 2, avoidCollisions = true, style = STYLE_NAME, font, sizes, depth, rootRun } = {}) {
-  const S = withOverrides(coggleStyle(style), { font, sizes });
+  let own = coggleStyle(style);
+  // Coggle's own layout (collisions allowed) is set in Coggle's font (coggle-exact: Arimo) unless --font says otherwise
+  if (!avoidCollisions && own.coggleFont) own = { ...own, font: own.coggleFont };
+  const S = withOverrides(own, { font, sizes });
   if (depth != null) tree = trimDepth(tree, depth);
   const T = await createCoggleText(S.font);
   const L = coggleLayout(tree, T, { avoidCollisions, style: S, ...(rootRun ? { rootRun } : {}) });

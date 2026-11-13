@@ -109,7 +109,9 @@ test('font sizes by level and Chrome-rounded "normal" line heights', () => {
 const T = await createCoggleText();
 const WEB3 = parse(readFixture('coggle-web3-eval.json'));
 // Coggle's own drawing: its layout (collisions allowed), the lead running on, and the chevrons on the root box.
+// Coggle's own layout is set in Coggle's Arimo (coggle-exact's coggleFont); our layout's default font is Bricolage.
 const COGGLE = { avoidCollisions: false, leadBreak: false, chevrons: true };
+const ARIMO_EXACT = { ...EXACT, font: EXACT.coggleFont };
 
 test('web3 layout (Coggle\'s own, collisions allowed): level-1 junctions at x = 631, leaves 54 + 0.02 × height further on', () => {
   const L = coggleLayout(WEB3, T, COGGLE);
@@ -129,14 +131,15 @@ test('web3 layout (Coggle\'s own, collisions allowed): level-1 junctions at x = 
 });
 
 test('golden: with collisions allowed, the web3 fixture renders exactly Coggle\'s layout (checked-in SVG)', () => {
-  const svg = drawCoggle(coggleLayout(WEB3, T, COGGLE), { fontCSS: '' });
+  const svg = drawCoggle(coggleLayout(WEB3, T, { ...COGGLE, style: ARIMO_EXACT }), { fontCSS: '', style: ARIMO_EXACT });
   const golden = path.join(here, 'golden', 'coggle-web3-eval-original.svg');
   if (process.env.UPDATE_GOLDEN) fs.writeFileSync(golden, svg);
   assert.equal(svg, fs.readFileSync(golden, 'utf8'));
 });
 
-test('golden: the web3 fixture renders to the checked-in SVG', () => {
-  const svg = drawCoggle(coggleLayout(WEB3, T), { fontCSS: '' });
+test('golden: the web3 fixture renders to the checked-in SVG (our layout, in its default font, Bricolage)', async () => {
+  const TB = await createCoggleText(EXACT.font);
+  const svg = drawCoggle(coggleLayout(WEB3, TB), { fontCSS: '' });
   const golden = path.join(here, 'golden', 'coggle-web3-eval.svg');
   if (process.env.UPDATE_GOLDEN) fs.writeFileSync(golden, svg);
   assert.equal(svg, fs.readFileSync(golden, 'utf8'));
@@ -401,19 +404,7 @@ test('even rhythm: the root\'s branches stack as bands with equal gaps (depth 2)
   }
 });
 
-test('root run fan: root branches bend early, level 1 runs well under Coggle-spaced ones, no crossings', async () => {
-  const tree = trimDepth(parse(fs.readFileSync(path.join(here, 'fixtures', 'v01-q2.json'), 'utf8')), 2);
-  const S = withOverrides(EXACT, { sizes: SHIP }), L = coggleLayout(tree, T, { style: S, rootRun: 'fan' });
-  const l1 = L.nodes.filter(r => r.level === 1);
-  assert.ok(L.branches.filter(b => b.node.level === 1).every(b => b.shape === ROOT_RUNS.fan.shape));
-  assert.ok(L.branches.filter(b => b.node.level > 1).every(b => !b.shape));
-  // run from where the root's branches leave to the level-1 junctions: label width + its gap + at most ~180 px of fan
-  const Tw = Math.max(...l1.map(r => r.t.w));
-  for (const r of l1) assert.ok(r.x - L.root.from < Tw + 9 + 180, `${r.num}: run ${r.x - L.root.from}`);
-  assert.deepEqual(findCollisions(L), []);
-});
-
-// --- root runs (2026-11-13 review: fan reads as spokes; middle keeps Coggle's S) and ink inside the canvas ----------
+// --- root runs (2026-11-13 reviews: fan read as spokes and was removed; middle is Coggle's S compressed) and ink ------
 
 import { ROOT_RUNS } from '../src/coggle/layout.js';
 import { departure } from '../src/coggle/geometry.js';
@@ -426,35 +417,55 @@ const depart = (b) => {
   return Math.atan2(Math.abs(q.y - b.from.y), q.x - b.from.x) * 180 / Math.PI;
 };
 
-test('root run middle is the default: root branches leave nearly flat (≤ 35° over the first quarter), level-1 wraps no narrower than 250 px at 18 px, no crossings', async () => {
+test('root run middle is the default: root branches leave flat (≤ 45° over the first quarter), level-1 wraps no narrower than 250 px at 18 px, no crossings', async () => {
   for (const font of ['arimo', 'bricolage', 'plexmono', 'quattro']) {
     const S = withOverrides(EXACT, { font, sizes: DESKTOP }), TF = await createCoggleText(S.font);
     for (const tree of [Q2, trimDepth(Q2, 2), WEB3]) {
       const L = coggleLayout(tree, TF, { style: S });
       const root = L.branches.filter(b => b.node.level === 1);
       assert.ok(root.every(b => b.shape === ROOT_RUNS.middle.shape) && L.branches.every(b => b.node.level === 1 || !b.shape));
-      for (const b of root) assert.ok(depart(b) <= 35.5, `${font} ${b.node.num}: ${depart(b).toFixed(1)}°`);
+      for (const b of root) assert.ok(depart(b) <= 45.5, `${font} ${b.node.num}: ${depart(b).toFixed(1)}°`);
       for (const r of L.nodes.filter(r => r.level === 1 && r.children.length)) assert.ok(r.t.w >= 250 * 19 / 18 - 1, `${font} ${r.num}: wrap ${r.t.w}`);
       assert.deepEqual(findCollisions(L), [], font);
     }
   }
 });
 
-test('root runs: middle leaves flatter than fan, and arrives flat (horizontal at the junction); coggle is Coggle\'s own S', () => {
+test('root runs: middle is Coggle\'s S compressed (leaves flat, arrives flat, swings early) and narrower than coggle; only middle and coggle', () => {
   const S = withOverrides(EXACT, { sizes: DESKTOP });
-  const [M, F, C] = ['middle', 'fan', 'coggle'].map(rootRun => coggleLayout(Q2, T, { style: S, rootRun }));
-  const outer = (L) => Math.max(...L.branches.filter(b => b.node.level === 1).map(depart));
-  assert.ok(outer(F) > 45 && outer(M) <= 35.5, `fan ${outer(F)}, middle ${outer(M)}`);
+  assert.deepEqual(Object.keys(ROOT_RUNS).sort(), ['coggle', 'middle']);
+  const [M, C] = ['middle', 'coggle'].map(rootRun => coggleLayout(Q2, T, { style: S, rootRun }));
   for (const b of M.branches.filter(b => b.node.level === 1)) {
     const p = branchControlPoints(b.from, b.to, { shape: b.shape });
-    assert.equal(p[2].y, p[3].y); // the last control point level with the junction: a flat arrival
-    assert.ok(b.to.x - p[2].x >= 0.8 * (b.to.x - b.from.x)); // and a long flat run in under the label
+    assert.equal(p[1].y, p[0].y); // the first control point level with the root: a flat departure
+    assert.equal(p[2].y, p[3].y); // the last level with the junction: a flat arrival
+    assert.ok(p[1].x - p[0].x >= 0.45 * (b.to.x - b.from.x) - 0.01); // leaves the root flat (not a spoke)
+    assert.ok(b.to.x - p[2].x >= 0.99 * (b.to.x - b.from.x)); // swings early and runs in flat under the label
   }
   assert.ok(C.branches.every(b => b.shape == null));
-  for (const L of [M, F, C]) assert.deepEqual(findCollisions(L), []);
+  assert.ok(M.bounds.w < C.bounds.w - 100, `middle ${M.bounds.w}, coggle ${C.bounds.w}`);
+  for (const L of [M, C]) assert.deepEqual(findCollisions(L), []);
   // the unit curve's departure falls as a grows
   assert.ok(departure(0.05, 0.7, 1) > 60 && departure(0.65, 0.85, 1) < 20);
-  assert.throws(() => coggleLayout(Q2, T, { rootRun: 'spiral' }), /unknown root run/);
+  assert.throws(() => coggleLayout(Q2, T, { rootRun: 'fan' }), /unknown root run/);
+});
+
+test('root run middle: the Wise-style q2 fixture runs from the root to level 1 in at most label width + 160 px', async () => {
+  const TB = await createCoggleText(EXACT.font);
+  for (const tree of [Q2, WEB3]) {
+    const L = coggleLayout(tree, TB);
+    const l1 = L.nodes.filter(r => r.level === 1), Tw = Math.max(...l1.map(r => r.t.w));
+    for (const r of l1.filter(r => r.children.length)) assert.ok(r.x - L.root.from <= Tw + 160, `${r.num}: run ${(r.x - L.root.from).toFixed(0)}, label ${Tw.toFixed(0)}`);
+    assert.deepEqual(findCollisions(L), []);
+  }
+});
+
+test('coggle-exact: Bricolage Grotesque in our layout, Coggle\'s Arimo in Coggle\'s own; variants keep their own font', () => {
+  assert.equal(EXACT.font, FONTS.bricolage);
+  assert.equal(EXACT.coggleFont, FONTS.arimo);
+  assert.deepEqual(EXACT.sizes, [17, 15.3, 13, 12]);
+  assert.equal(EXACT.rootSize, 22);
+  assert.equal(coggleStyle('coggle-thin').coggleFont, null);
 });
 
 for (const font of ['arimo', 'bricolage', 'plexmono', 'quattro', 'atkinson', 'merriweather', 'plex']) {

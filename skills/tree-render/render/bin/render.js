@@ -28,18 +28,20 @@ const USAGE = `Usage: tree-render <tree.md|tree.json> [--out DIR] [--name N] [--
                                        lanes       ribbons to each answer, each subtree on a soft band
                                      --root-box sets the root in a light box instead of on a dot (exit 1 if anything overlaps)
        tree-render <tree.md|tree.json> --style coggle-exact [--out DIR] [--name N] [--scale 2] [--no-png] [--allow-collisions]
-                                     a faithful copy of Coggle's look (docs/design/references/coggle-spec.md); branches are kept
-                                     off labels unless --allow-collisions (Coggle's own layout, for comparisons)
+                                     a faithful copy of Coggle's look (docs/design/references/coggle-spec.md) in Bricolage
+                                     Grotesque at 22/15.3/13/12 px; branches are kept off labels unless --allow-collisions
+                                     (Coggle's own layout, in Coggle's Arimo, for comparisons)
        tree-render <tree.md|tree.json> --style coggle-thin|coggle-thin-mono|coggle-broadsheet|coggle-letterpress [...]
                                      variants of coggle-exact (src/coggle/styles.js): other fonts, branch widths, palette
                                      shifts, background and root treatment on the same engine (coggle-hairline = coggle-thin)
        coggle styles also take (for comparisons; defaults give the style's own look):
          --font arimo|plex|atkinson|bricolage|merriweather|plexmono|quattro   set the text in that (embedded) font
+                               (coggle-exact: bricolage; arimo, Coggle's own, with --allow-collisions)
          --sizes 22,17,15,14   font sizes in px: root, level 1, level 2, level 3+ (wraps grow with levels 1 and 2)
          --depth N             show only N levels below the root
-         --root-run middle|fan|coggle   shape of the root's branches: middle (default; Coggle's S, capped at ~35° off
-                               the root, flat under the label), fan (bends early, level 1 closest to the root),
-                               coggle (Coggle's own S, as before 2026-11-13: widest)
+         --root-run middle|coggle   shape of the root's branches: middle (default; Coggle's S compressed horizontally:
+                               leaves the root flat, at most ~45° off it, swings early and runs in flat under the
+                               label), coggle (Coggle's own S, as before 2026-11-13: widest)
          (exit 1 if a branch crosses a label)
 
 Options:

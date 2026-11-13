@@ -10,7 +10,7 @@
 //   - Vertical: siblings stack top to bottom with 15 px between any two text boxes that overlap in x; the
 //     children's whole extent is then centred on the parent's junction.
 // Our layout (avoidCollisions on) differs: the root's groups stack as even bands, and the root's branches take one of
-// three shapes (ROOT_RUNS); see TALL, AVOID and ROOT_RUNS below.
+// two shapes (ROOT_RUNS); see TALL, AVOID and ROOT_RUNS below.
 import { lineWeight, endInset } from './geometry.js';
 import { branchSamples, branchHitsBox } from './collide.js';
 import { PALETTE, TALL_PALETTE, MIN_TEXT_CONTRAST, randomWalk, textColour, rootTextColour, adjust } from './colour.js';
@@ -35,18 +35,19 @@ export const AVOID = { wraps: [280, 260, 240, 220, 200], ySpaces: [30, 40, 50, 6
 
 // The root's branches in our layout (the run from the root to level 1), option `rootRun`:
 //   coggle: Coggle's own S (geometry.js), as before 2026-11-13: long runs, the tree wide.
-//   fan:    the S bends in its first part, near the root (shape a), and runs in nearly flat under its label, so level 1
-//           sits close to the root; band labels may wrap as narrow as bandWraps. Reads as spokes (50–60° off the root).
-//   middle: (default) leaves the root nearly flat and swings in a full S, Coggle's character, with the curve at most
-//           about 35° off the horizontal over its first quarter (shape a), and arrives flat under its label (shape b);
-//           band labels wrap no narrower than minWrap px per px of level-1 text (250 at 18 px: no 5–6 line slabs).
-//           Height costs little, so the search opens the bands rather than widening the tree.
+//   middle: (default) Coggle's S compressed horizontally: leaves the root flat (the curve at most about 45° off the
+//           horizontal over its first quarter, shape a), swings, and arrives flat, its last control point back over
+//           the root (shape b = 1), so the swing comes early and the curve runs in flat under its label. Band labels
+//           wrap no narrower than minWrap px per px of level-1 text (about 220 at 15.3 px: no 5–6 line slabs).
+//           What stops it going narrower: an outer branch has to swing past the top-left corner of the next band's
+//           label, whose left edge sits only ~60 px out from the root; more height barely helps (2026-11-13: q3
+//           1048 → 1008 px wide; with height free, ~990).
+//   (fan, a=0.05: bent at the root into spokes, removed 2026-11-13: it did not work.)
 // bandWraps: extra (narrower) wraps for the band labels, before scaling with the level-1 size; bandHeightCost and
 // bandWrapCost: the bands' height and wrap costs (AVOID); orphanBreak: skip a narrower wrap that leaves an orphan.
 export const ROOT_RUNS = {
   coggle: { shape: null, bandWraps: [], bandHeightCost: 0.5, bandWrapCost: 1, orphanBreak: false },
-  fan: { shape: { a: 0.05, b: 0.7 }, bandWraps: [180, 160], bandHeightCost: 0.2, bandWrapCost: 0.5, orphanBreak: true },
-  middle: { shape: { a: 0.45, b: 0.85, cap: 35 }, bandWraps: [], minWrap: 250 / 18, bandHeightCost: 0.1, bandWrapCost: 0.5, orphanBreak: true },
+  middle: { shape: { a: 0.45, b: 1, cap: 45 }, bandWraps: [], minWrap: 250 / 18, bandHeightCost: 0.08, bandWrapCost: 0.2, orphanBreak: true },
 };
 export const ROOT_RUN = 'middle';
 
