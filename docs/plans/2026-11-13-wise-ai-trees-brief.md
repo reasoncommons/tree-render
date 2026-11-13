@@ -1,5 +1,5 @@
 ---
-status: draft (font and sizes being redone, 2026-11-13; tree_render-3az)
+status: draft (font and sizes decided 2026-11-13; layout width being tightened)
 ---
 
 # Brief: Wisdom and AI tree visuals, v1
@@ -19,9 +19,9 @@ For a sub-session working in `~/src/life-itself/ai-wise` on the beads epic `ais-
 ## How to draw them
 
 - Renderer: `~/src/reasoncommons/tree-render/skills/tree-render/render/bin/render.js`. Read `skills/tree-render/SKILL.md` first.
-- Shape: `--style coggle-exact` (Coggle's curves and palette, branches never cross text). Comparison of the five styles: https://claude.ai/artifact/M2kRH44N1Ci7zRy1s1YbLV
-- Font: **TBD** (round 2: Arimo, Bricolage, IBM Plex Mono, iA Writer Quattro).
-- Sizes: **TBD** (`--sizes root,L1,L2,L3`), chosen on two-level trees from the smallest (point) size up.
+- Shape: `--style coggle-exact` (Coggle's curves and palette, branches never cross text; the default `middle` root run keeps the tree narrower). Comparison of the five styles: https://claude.ai/artifact/M2kRH44N1Ci7zRy1s1YbLV
+- Font: Bricolage Grotesque, the default (also the site's body font). Arimo is the alternative (`--font arimo`). Fonts page: https://claude.ai/artifact/5uAwQ34AUDiEWa4AkCiwbr
+- Sizes: the defaults, Coggle's (root 22, answers 15.3, points 13). Don't pass `--sizes`.
 - Depth: `--depth 1` for the overview; the question trees in full (two levels). One image per tree, made for desktop; phones show the same image.
 - Output: SVG and 2× PNG. The renderer exits 1 if anything overlaps; fix that, don't ship it.
 

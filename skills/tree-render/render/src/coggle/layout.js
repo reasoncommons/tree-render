@@ -20,11 +20,11 @@ import { EXACT } from './styles.js';
 // Our default shape (with collision avoidance on): taller and narrower than Coggle's, since pages and phones
 // are narrow but tall and vertical room keeps the S-curves clear of labels. Interior labels wrap narrow,
 // leaves a little narrower than Coggle's 350 px, and sibling groups get a little more air.
-// rootBox: a root that fits in rootLines lines keeps its box at most this many × the root font size wide (phones: a one-level tree is shown at about
-// half size, so a wide root box costs the leaves their room); rootLeafX: the run from the root box to a leaf of the
+// rootBox: a root that fits in rootLines lines keeps its box at most this many × the root font size wide (14 lets a
+// question like 'How should we approach AI development wisely?' sit on two lines at 22 px); rootLeafX: the run from the root box to a leaf of the
 // root (Coggle's 54 px is more than a fan of leaves needs). orphanWraps: when a label's last line is one word, the
 // wrap widths (× the wrap) to try instead, from narrower to a little wider.
-export const TALL = { rootWrap: 260, rootBox: 9, rootLines: 4, rootLeafX: 40, interiorWrap: 260, leafWrap: 300, ySpace: 15, innerYSpace: 30, orphanWraps: [0.7, 1.1] };
+export const TALL = { rootWrap: 260, rootBox: 14, rootLines: 4, rootLeafX: 40, interiorWrap: 260, leafWrap: 300, ySpace: 15, innerYSpace: 30, orphanWraps: [0.7, 1.1] };
 // Collision avoidance: wrap widths to try for interior labels (down to 200: no ragged 6–7 line blocks), gaps next
 // to sibling labels (capped at 100 px) and the extra run (px) to add, in steps (wraps: only those at or below the
 // style's interior wrap are tried). Cost = horizontal span + heightCost × growth in height + wrapCost × px of
