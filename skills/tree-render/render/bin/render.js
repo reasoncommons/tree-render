@@ -52,7 +52,8 @@ const USAGE = `Usage: tree-render <tree.md|tree.json> [--out DIR] [--name N] [--
                                level-1 branch colours, a red accent branch (the level-1 node marked "accent", else
                                the first starting "So"; coggle styles get one only with a palette), text ink, root box
                                wise-ink    sumi ink branches on paper, seal-red accent, ink text
-                               wise-print  verdigris, celadon, ochre, sumi grey, madder; text a darker shade of each
+                               wise-print  verdigris, ochre, indigo, celadon; ink text, bold leads in their branch colour
+                               (either way only the accent's level-1 lead is red; its other text is ink)
 
 Options:
   --format 4x5|1x1|16x9|web     canvas (default 4x5)

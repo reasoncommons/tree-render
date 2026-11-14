@@ -10,7 +10,7 @@
 import { Canvas, runsFor, xMiddleOf, sampleCubic } from '../directions/common.js';
 import { PALETTE, adjust, darken } from '../coggle/colour.js';
 import { paletteText, ensureContrast } from '../palettes.js';
-import { RED, accentIndex, balanced, sCurve, cubicD, ribbon, spreads, placeRoot } from './shared.js';
+import { RED, accentIndex, balanced, sCurve, cubicD, ribbon, spreads, placeRoot, rootFor } from './shared.js';
 
 const INK = '#1a1a1a';
 const ROOT = { size: 28, wrap: 300, dot: 3.5, gap: 12 };
@@ -57,7 +57,7 @@ export function render(tree, { mono = false, lanes = false, hue = false, rootBox
   const reach = Math.max(200, Math.min(300, 0.3 * span));
 
   // Root: centred on the point every ribbon leaves (a dot, or the right edge of the root box).
-  const root = placeRoot(cv, tree.root.text, (groups[0].dotY + groups[groups.length - 1].dotY) / 2, { ...ROOT, box: rootBox, ink: P ? ensureContrast(P.root.text, P.bg) : INK, ...(P ? { boxFill: P.root.fill } : {}) });
+  const root = placeRoot(cv, tree.root.text, (groups[0].dotY + groups[groups.length - 1].dotY) / 2, { ...rootFor(tree, ROOT, L1.size), box: rootBox, ink: P ? ensureContrast(P.root.text, P.bg) : INK, ...(P ? { boxFill: P.root.fill } : {}) });
   const rootDot = root.from;
   const l1Dot = rootDot.x + reach, l1X = l1Dot + L1.dot + L1.gap;
   const hubX = l1X + maxB + HAIR.hub, l2X = lanes ? l1X + maxB + LANE.colGap : hubX + HAIR.span;

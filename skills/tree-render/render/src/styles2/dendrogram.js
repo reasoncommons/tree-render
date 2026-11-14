@@ -6,7 +6,7 @@
 // first point read as one line. Red marks the accent branch's curve, dot and lead.
 import { Canvas, runsFor, xMiddleOf, sampleCubic } from '../directions/common.js';
 import { paletteText, ensureContrast } from '../palettes.js';
-import { RED, accentIndex, balanced, sCurve, cubicD, spreads, placeRoot } from './shared.js';
+import { RED, accentIndex, balanced, sCurve, cubicD, spreads, placeRoot, rootFor } from './shared.js';
 
 const INK = '#1a1a1a', CURVE = '#222', ELBOW = '#888';
 const ROOT = { size: 28, wrap: 280, dot: 3.5, gap: 12 };
@@ -42,7 +42,7 @@ export function render(tree, { rootBox = false, palette: P = null } = {}) {
   const span = groups[groups.length - 1].y - groups[0].y;
   const reach = Math.max(180, Math.min(260, 0.28 * span));
 
-  const root = placeRoot(cv, tree.root.text, (groups[0].y + groups[groups.length - 1].y) / 2, { ...ROOT, box: rootBox, ink: P ? ensureContrast(P.root.text, P.bg) : INK, ...(P ? { boxFill: P.root.fill } : {}) });
+  const root = placeRoot(cv, tree.root.text, (groups[0].y + groups[groups.length - 1].y) / 2, { ...rootFor(tree, ROOT, L1.size), box: rootBox, ink: P ? ensureContrast(P.root.text, P.bg) : INK, ...(P ? { boxFill: P.root.fill } : {}) });
   const rootDot = root.from;
   const l1Dot = rootDot.x + reach, l1X = l1Dot + L1.dot + L1.gap;
   const stemX = l1X + maxB + EL.stemGap, l2X = stemX + EL.tick + EL.textGap;

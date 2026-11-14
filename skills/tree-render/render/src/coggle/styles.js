@@ -128,6 +128,7 @@ export function withOverrides(style, { font, sizes } = {}) {
     if (sizes.length !== 4 || !sizes.every(v => Number.isFinite(v) && v > 0)) throw new Error('sizes: four positive numbers (root, level 1, level 2, level 3+)');
     out.sizes = [style.sizes[0], ...sizes.slice(1)];
     out.rootSize = sizes[0];
+    out.sizesSet = true; // explicit sizes: the one-level root cap (layout.js FLAT_ROOT) leaves them alone
     out.wrap = {
       scale: sizes[1] / FONT_SIZES[1], // the narrower interior wraps collision avoidance tries
       interior: Math.round((style.wrap?.interior ?? TALL.interiorWrap) * sizes[1] / FONT_SIZES[1]),

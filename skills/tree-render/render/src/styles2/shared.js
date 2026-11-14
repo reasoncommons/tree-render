@@ -64,6 +64,14 @@ export function balanced(runs, size, maxWidth, opts) {
 // `ink`: text and dot colour; `boxFill`: the box's fill (a palette's root fill).
 // Returns { from, draw }: `from` is where the branches start; call draw() after the branches so the dot, box
 // and text sit on top of them.
+// The root's size and wrap: a one-level tree (no grandchildren; short labels) caps the root at FLAT_ROOT × the
+// level-1 size so it doesn't dominate; deeper trees keep `root` as is.
+export const FLAT_ROOT = 1.15;
+export function rootFor(tree, root, l1Size) {
+  const flat = tree.root.children.length && tree.root.children.every(c => !c.children.length);
+  return flat ? { ...root, size: Math.min(root.size, Math.round(FLAT_ROOT * l1Size)) } : root;
+}
+
 export const ROOT_BOX = { fill: '#ececec', radius: 8, padX: 16, padY: 10 };
 export function placeRoot(cv, text, y, { size, wrap, dot, gap, box = false, ink = '#1a1a1a', boxFill = ROOT_BOX.fill }) {
   const b = balanced([{ text: typo(text), weight: 600, role: 'lead' }], size, wrap, { leading: 1.2 });

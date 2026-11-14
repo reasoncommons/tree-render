@@ -15,7 +15,7 @@
 import { lineWeight, endInset, R_MAX } from './geometry.js';
 import { branchSamples, branchHitsBox } from './collide.js';
 import { PALETTE, TALL_PALETTE, MIN_TEXT_CONTRAST, randomWalk, textColour, rootTextColour, adjust } from './colour.js';
-import { levelOneColours, paletteText } from '../palettes.js';
+import { levelOneColours, paletteLabel } from '../palettes.js';
 import { accentIndex } from '../styles2/shared.js';
 import { fontSize, runsFor, WRAP_WIDTH, FONT_SIZES } from './text.js';
 import { EXACT } from './styles.js';
@@ -73,6 +73,9 @@ export const SPACING = { ySpace: 15, leafX: 54, heightFactor: 0.02, minLine: 40,
 // the floor) and its junction column at least that far out, to render one tree at several widths.
 // `leadBreak` / `chevrons` (default: the style's): a bold lead on its own line(s); Coggle's chevrons on the root box.
 // Both are off in our styles' defaults but on in Coggle; the pinned Coggle comparison passes them explicitly.
+// A one-level tree's root size cap, × the level-1 size.
+export const FLAT_ROOT = 1.15;
+
 export function coggleLayout(tree, T, { palette = null, paletteStart = 0, pin = null, avoidCollisions = true, style = EXACT, rootRun = ROOT_RUN, sRun: forceSRun = null, leadBreak = style.leadBreak, chevrons = style.root.chevrons } = {}) {
   const S = { ...SPACING, ...style.spacing };
   if (pin) avoidCollisions = false;
@@ -84,7 +87,10 @@ export function coggleLayout(tree, T, { palette = null, paletteStart = 0, pin = 
   // our layout: text at least WCAG AA contrast on the background
   const textOpts = tall ? { minContrast: MIN_TEXT_CONTRAST, bg: style.bg } : {};
   // Root size: the style's rootSize in our layout, Coggle's sizes[0] in its own; the root's wrap grows with it.
-  const sizes = tall && style.rootSize ? [style.rootSize, ...style.sizes.slice(1)] : style.sizes;
+  // A one-level tree (no grandchildren) has short labels and the root would dominate: there the root is at most
+  // FLAT_ROOT × the level-1 size (our layout only, unless --sizes set them; deeper trees are unchanged).
+  let sizes = tall && style.rootSize ? [style.rootSize, ...style.sizes.slice(1)] : style.sizes;
+  if (tall && !style.sizesSet && tree.root.children.length && tree.root.children.every(c => !c.children.length)) sizes = [Math.min(sizes[0], Math.round(FLAT_ROOT * sizes[1])), ...sizes.slice(1)];
   // Root box padding (Coggle's 9 px; in our layout it grows with the root size, so a bigger root isn't cramped).
   const rootPad = tall ? Math.round(S.labelPad * sizes[0] / style.sizes[0]) : S.labelPad;
   // Our root wrap grows with the root size; a short root (a question that fits in rootLines lines) keeps its box
@@ -155,8 +161,13 @@ export function coggleLayout(tree, T, { palette = null, paletteStart = 0, pin = 
     else if (level === 1) r.colour = n.colour || adjust(palette[(idx + paletteStart) % palette.length], style.colour);
     else r.colour = n.colour || randomWalk(parent.colour, String(r.num));
     if (level > 0) {
-      r.textColour = P ? paletteText(P, r.colour, { accent: r.accent }) : textColour(r.colour, textOpts);
-      if (style.cont && n.lead) r.contColour = adjust(r.textColour, style.cont);
+      if (P) {
+        const c = paletteLabel(P, r.colour, { level, accent: r.accent, lead: !!n.lead });
+        r.textColour = c.text; if (c.cont) r.contColour = c.cont;
+      } else {
+        r.textColour = textColour(r.colour, textOpts);
+        if (style.cont && n.lead) r.contColour = adjust(r.textColour, style.cont);
+      }
       r.weight = Math.max(style.branch.min, lineWeight(level) * style.branch.scale);
     }
     nodes.push(r);

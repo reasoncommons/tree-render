@@ -24,31 +24,58 @@ test('palettes: wise-ink and wise-print, unknown names throw, no name is no pale
   assert.deepEqual(PALETTE_NAMES, ['wise-ink', 'wise-print']);
   assert.equal(getPalette(undefined), null);
   assert.throws(() => getPalette('nope'), /unknown palette "nope"/);
-  assert.deepEqual(levelOneColours(PALETTES['wise-print'], 4, 2), ['#3d6f78', '#5f978f', '#c8372d', '#a87b42']);
+  assert.deepEqual(levelOneColours(PALETTES['wise-print'], 5, 2), ['#3d6f78', '#a87b42', '#c8372d', '#3f4a6b', '#6a9a66']);
+  // each wise-print branch reads at >= 3:1 as a line on paper
+  for (const c of PALETTES['wise-print'].branches) assert.ok(contrast(c, PALETTES['wise-print'].bg) >= 3, c);
 });
 
 test('palette applies to the coggle styles: background, branch colours, root box, root text', async () => {
   for (const [style, kind] of [['coggle-exact', 'box'], ['coggle-thin', 'outline']]) {
     const P = PALETTES['wise-print'], { svg } = await coggle(style, 'wise-print');
     assert.match(svg, new RegExp(`<rect width="\\d+" height="\\d+" fill="${P.bg}"/>`));
-    for (const c of ['#3d6f78', '#5f978f', P.accent]) assert.ok(svg.includes(`stroke="${c}"`), `${style}: branch ${c}`);
+    for (const c of ['#3d6f78', '#a87b42', P.accent]) assert.ok(svg.includes(`stroke="${c}"`), `${style}: branch ${c}`);
     const box = /<path class="root-box"[^>]*>/.exec(svg)[0];
     assert.ok(box.includes(kind === 'box' ? `fill="${P.root.fill}"` : `stroke="${P.root.outline}"`), box);
     assert.ok(/<g class="label" data-node="root" fill="([^"]+)"/.exec(svg)[1] === P.root.text);
   }
 });
 
-test('accent in coggle: the "So" branch and its subtree in the accent colour, its text in red at ≥ 4.5:1', async () => {
+test('accent in coggle: the "So" branch and its subtree drawn in the accent colour; only its level-1 lead is red', async () => {
   const { L } = await coggle('coggle-thin', 'wise-ink');
   const P = PALETTES['wise-ink'], accent = ensureContrast(P.accent, P.bg);
   for (const r of L.nodes.filter(r => r.level > 0)) {
     const inAccent = r.num.startsWith('3');
     assert.equal(r.colour, inAccent ? P.accent : P.branches[0], r.num);
-    assert.equal(r.textColour, inAccent ? accent : P.ink, r.num);
+    assert.equal(r.textColour, r.num === '3' ? accent : P.ink, r.num);
+    assert.equal(r.contColour, r.num === '3' ? P.ink : undefined, r.num);
   }
   // without a palette coggle has no accent: the third branch takes the style's own third colour
   const own = await renderCoggle(TREE, { style: 'coggle-thin', outDir: tmp, name: 'own', png: false });
   assert.notEqual(own.L.nodes.find(r => r.num === '3').colour, P.accent);
+});
+
+test('wise-print text: ink body, bold leads in their branch colour (≥ 4.5:1), accent subtree text ink', async () => {
+  const P = PALETTES['wise-print'], { L, svg } = await coggle('coggle-thin', 'wise-print');
+  const by = (num) => L.nodes.find(r => r.num === num);
+  assert.equal(by('1').textColour, ensureContrast('#3d6f78', P.bg));
+  assert.equal(by('2').textColour, ensureContrast('#a87b42', P.bg));
+  assert.equal(by('3').textColour, ensureContrast(P.accent, P.bg));
+  for (const n of ['1', '2', '3']) assert.equal(by(n).contColour, P.ink, n);
+  for (const n of ['1.1', '1.2', '2.1', '3.1', '3.2']) { assert.equal(by(n).textColour, P.ink, n); assert.equal(by(n).contColour, undefined, n); }
+  assert.ok(svg.includes(`<tspan fill="${P.ink}"`));
+});
+
+test('a one-level tree caps the root at 1.15 × the level-1 size (coggle our layout, styles2); --sizes and deeper trees unchanged', async () => {
+  const flat = parse(JSON.stringify({ root: { text: 'How should we approach AI development wisely?', children: ['Can we make AI good?', 'Could AI feel?'].map(text => ({ text, children: [] })) } }));
+  const rootSize = (L) => L.nodes.find(r => r.level === 0).t.size;
+  const run = (tree, o = {}) => renderCoggle(tree, { style: 'coggle-thin', outDir: tmp, name: 'flat', png: false, ...o });
+  const S = coggleStyle('coggle-thin');
+  assert.equal(rootSize((await run(flat)).L), Math.round(1.15 * S.sizes[1]));
+  assert.equal(rootSize((await run(flat, { sizes: [26, 19, 15, 13] })).L), 26);
+  assert.equal(rootSize((await run(TREE)).L), S.rootSize ?? S.sizes[0]);
+  const rootFont = async (tree) => { const { svg } = await renderStyle2(tree, { style: 'ribbon', outDir: tmp, name: 'flat2', png: false }); return [...svg.matchAll(/font-size="([\d.]+)"/g)].map(m => +m[1]); };
+  assert.ok(Math.max(...await rootFont(flat)) <= 23);
+  assert.ok((await rootFont(TREE)).includes(28));
 });
 
 test('every text colour in every palette reads at ≥ 4.5:1 on its background (coggle and styles2)', async () => {
