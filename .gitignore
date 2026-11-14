@@ -10,3 +10,4 @@
 
 # Renderer output
 *.tmp.html
+out/
