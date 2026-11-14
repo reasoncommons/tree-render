@@ -1,24 +1,12 @@
 # Tree render
 
-Tree render turns a nested bullet list into a clear, good-looking image you can put on a web page or share. It is for trees of thought: a question and its answers, an argument and its reasons, a plan and its parts. It also helps you tighten the words, so the tree reads at a glance.
+Tree render turns a nested bullet list into a clear, beautiful and easy to understand diagram you can put on a web page or share.
+
+It is for "trees of thought": a question with sub-questions, a thesis and its reasons, a plan and its parts.
 
 ![Before and after. Left: wordy notes as a nested bullet list, starting "How fast should we be developing AI? Given the existential risk…". Right: the same argument drawn by tree-render: the question "How fast should we develop AI?" on a dot, with five tapered branches curving right to five short points, each opening with a bold lead; the last, the conclusion, in red.](docs/images/hero-before-after.png)
 
 Question trees, issue trees, hypothesis trees, argument maps and mind-map-style outlines are all trees of thought, and all render the same way.
-
-## Try it
-
-Needs Node 20 or later, and Chrome (for the PNG).
-
-```bash
-git clone --depth 1 https://github.com/reasoncommons/tree-render && cd tree-render/skills/tree-render/render
-npm install
-node bin/render.js ../../../examples/speed-of-wisdom.md --out out
-```
-
-That writes `out/speed-of-wisdom.png` and `out/speed-of-wisdom.svg`. No Chrome? Add `--no-png` and use the SVG.
-
-![The full tree drawn by tree-render: "How fast should we develop AI?" on the left, five tapered ribbons curving right to five bold-led answers (the last, the conclusion, in red), each with three or four short points on hairlines.](docs/images/hero-ribbon.png)
 
 ## Gallery
 
@@ -100,6 +88,22 @@ ln -s "$(git rev-parse --show-toplevel)/skills/tree-render" ~/.claude/skills/tre
 
 Or copy the folder there. Then ask your agent to "render this tree" and give it the tree or your notes. Other agents that read skills can use the same folder.
 
+## Try it from code
+
+Needs Node 20 or later, and Chrome (for the PNG).
+
+```bash
+git clone --depth 1 https://github.com/reasoncommons/tree-render && cd tree-render/skills/tree-render/render
+npm install
+node bin/render.js ../../../examples/speed-of-wisdom.md --out out
+```
+
+That writes `out/speed-of-wisdom.png` and `out/speed-of-wisdom.svg`. No Chrome? Add `--no-png` and use the SVG.
+
+![The full tree drawn by tree-render: "How fast should we develop AI?" on the left, five tapered ribbons curving right to five bold-led answers (the last, the conclusion, in red), each with three or four short points on hairlines.](docs/images/hero-ribbon.png)
+
 ## Working on tree-render
 
 Contributors and agents working on the renderer itself: start with [AGENTS.md](AGENTS.md). The design history is in [docs/design/](docs/design/), and work is tracked in Beads (`bd ready`).
+
+
