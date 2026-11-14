@@ -6,9 +6,10 @@
 // lanes: ribbon's root, ribbons and palette (no dot at the ribbon's end); each subtree sits on a soft
 // neutral band (red for the accent) across both text columns; no level-2 connectors, a small grey dot before
 // each point instead. `hue` (mock-up D-hue only): one restrained hue per branch. `mono` (mock-up A-mono only):
-// charcoal ribbons. `rootBox`: the root in a light Coggle-like box (shared.js placeRoot) instead of on a dot.
+// charcoal ribbons. `palette` (palettes.js): its colours instead of slate, ink and red. `rootBox`: the root in a light Coggle-like box (shared.js placeRoot) instead of on a dot.
 import { Canvas, runsFor, xMiddleOf, sampleCubic } from '../directions/common.js';
 import { PALETTE, adjust, darken } from '../coggle/colour.js';
+import { paletteText, ensureContrast } from '../palettes.js';
 import { RED, accentIndex, balanced, sCurve, cubicD, ribbon, spreads, placeRoot } from './shared.js';
 
 const INK = '#1a1a1a';
@@ -21,11 +22,19 @@ const HAIR = { width: 1.5, colour: '#7a7a7a', hub: 16, span: 84, end: 8, ruleGap
 const LANE_HUES = [0, 1, 6, 2, 7, 3].map(i => PALETTE[i]);
 const LANE = { pad: 20, radius: 12, alpha: 0.07, accentAlpha: 0.05, pointDot: 2, pointGap: 10, colGap: 36, groupGap: 56 };
 
-export function render(tree, { mono = false, lanes = false, hue = false, rootBox = false } = {}) {
-  const cv = new Canvas();
+export function render(tree, { mono = false, lanes = false, hue = false, rootBox = false, palette: P = null } = {}) {
+  const cv = new Canvas(P ? { bg: P.bg } : {});
   const acc = accentIndex(tree.root);
   const groupGap = lanes ? LANE.groupGap : 36;
+  // A palette (palettes.js): its branch colours cycled over the non-accent answers, its accent, ink and hairlines.
+  const ink = P ? ensureContrast(P.ink, P.bg) : INK, l2Fill = P ? ensureContrast(P.muted, P.bg) : L2.fill, hair = P ? P.hairline : HAIR.colour, halo = P ? P.bg : '#fff';
+  let k = 0;
+  const pal = P && tree.root.children.map((c, i) => i === acc ? P.accent : P.branches[k++ % P.branches.length]);
   const hueOf = (i) => {
+    if (P) {
+      const a = i === acc, c = pal[i];
+      return { rib: c, lead: paletteText(P, c, { accent: a }), dot: c, band: a ? P.accent : c, alpha: a ? LANE.accentAlpha : 0.05, point: a ? P.accent : hair };
+    }
     if (i === acc) return { rib: RED, lead: RED, band: RED, dot: RED, alpha: LANE.accentAlpha, point: hue ? RED : '#9a9a9a' };
     if (lanes && hue) { const h = LANE_HUES[i % LANE_HUES.length]; return { rib: adjust(h, { s: 0.85, l: 0.78 }), lead: darken(h, 0.9), band: h, dot: adjust(h, { s: 0.85, l: 0.78 }), alpha: LANE.alpha }; }
     const c = mono ? '#444' : '#3b5b8f';
@@ -48,7 +57,7 @@ export function render(tree, { mono = false, lanes = false, hue = false, rootBox
   const reach = Math.max(200, Math.min(300, 0.3 * span));
 
   // Root: centred on the point every ribbon leaves (a dot, or the right edge of the root box).
-  const root = placeRoot(cv, tree.root.text, (groups[0].dotY + groups[groups.length - 1].dotY) / 2, { ...ROOT, box: rootBox, ink: INK });
+  const root = placeRoot(cv, tree.root.text, (groups[0].dotY + groups[groups.length - 1].dotY) / 2, { ...ROOT, box: rootBox, ink: P ? ensureContrast(P.root.text, P.bg) : INK, ...(P ? { boxFill: P.root.fill } : {}) });
   const rootDot = root.from;
   const l1Dot = rootDot.x + reach, l1X = l1Dot + L1.dot + L1.gap;
   const hubX = l1X + maxB + HAIR.hub, l2X = lanes ? l1X + maxB + LANE.colGap : hubX + HAIR.span;
@@ -66,27 +75,27 @@ export function render(tree, { mono = false, lanes = false, hue = false, rootBox
   for (const i of order) {
     const g = groups[i];
     const r = ribbon(sCurve(rootDot, { x: l1Dot, y: g.dotY }, { spread: sp[i] }), RIB.w0, RIB.w1);
-    cv.els.push(`<path d="${r.d}" fill="#fff" stroke="#fff" stroke-width="${2 * RIB.halo}" stroke-linejoin="round"/>`);
+    cv.els.push(`<path d="${r.d}" fill="${halo}" stroke="${halo}" stroke-width="${2 * RIB.halo}" stroke-linejoin="round"/>`);
     cv.path(r.d, r.pts, { fill: g.col.rib });
   }
   root.draw();
 
   for (const g of groups) {
-    cv.text(g.b, l1X, g.bTop, { lead: { fill: g.col.lead }, cont: { fill: INK } });
+    cv.text(g.b, l1X, g.bTop, { lead: { fill: g.col.lead }, cont: { fill: ink } });
     let ky = g.mid - g.kidsH / 2;
     if (!lanes && g.kids.length) {
       const hub = { x: hubX, y: g.dotY };
-      cv.line([{ x: l1X + g.b.lines[0].w + HAIR.ruleGap, y: g.dotY }, hub], { stroke: HAIR.colour, width: HAIR.width });
+      cv.line([{ x: l1X + g.b.lines[0].w + HAIR.ruleGap, y: g.dotY }, hub], { stroke: hair, width: HAIR.width });
       for (const k of g.kids) {
         const p = sCurve(hub, { x: l2X - HAIR.end, y: xMiddleOf(k, ky) });
-        cv.path(cubicD(p), sampleCubic(...p), { stroke: HAIR.colour, width: HAIR.width });
+        cv.path(cubicD(p), sampleCubic(...p), { stroke: hair, width: HAIR.width });
         ky += k.h + L2.gap;
       }
       ky = g.mid - g.kidsH / 2;
     }
     for (const k of g.kids) {
       if (lanes) cv.circle(l2X - LANE.pointGap - LANE.pointDot, xMiddleOf(k, ky), LANE.pointDot, { fill: g.col.point || g.col.dot });
-      cv.text(k, l2X, ky, { lead: { fill: L2.fill }, cont: { fill: L2.fill } });
+      cv.text(k, l2X, ky, { lead: { fill: l2Fill }, cont: { fill: l2Fill } });
       ky += k.h + L2.gap;
     }
   }
@@ -94,6 +103,6 @@ export function render(tree, { mono = false, lanes = false, hue = false, rootBox
 }
 
 export default {
-  ribbon: (tree, o = {}) => render(tree, { rootBox: o.rootBox }),
-  lanes: (tree, o = {}) => render(tree, { lanes: true, rootBox: o.rootBox }),
+  ribbon: (tree, o = {}) => render(tree, { rootBox: o.rootBox, palette: o.palette }),
+  lanes: (tree, o = {}) => render(tree, { lanes: true, rootBox: o.rootBox, palette: o.palette }),
 };

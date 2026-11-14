@@ -61,10 +61,11 @@ export function balanced(runs, size, maxWidth, opts) {
 //   plain: right-aligned so it ends at x = 0, with a dot `gap` px to its right that the branches leave.
 //   box:   a light Coggle-like box (no border, no chevrons) ending at x = 0; the branches leave its right
 //          edge at mid-height.
+// `ink`: text and dot colour; `boxFill`: the box's fill (a palette's root fill).
 // Returns { from, draw }: `from` is where the branches start; call draw() after the branches so the dot, box
 // and text sit on top of them.
 export const ROOT_BOX = { fill: '#ececec', radius: 8, padX: 16, padY: 10 };
-export function placeRoot(cv, text, y, { size, wrap, dot, gap, box = false, ink = '#1a1a1a' }) {
+export function placeRoot(cv, text, y, { size, wrap, dot, gap, box = false, ink = '#1a1a1a', boxFill = ROOT_BOX.fill }) {
   const b = balanced([{ text: typo(text), weight: 600, role: 'lead' }], size, wrap, { leading: 1.2 });
   const top = y - (xMiddleOf(b, 0) + xMiddleOf(b, 0, b.lines.length - 1)) / 2;
   if (!box) {
@@ -75,7 +76,7 @@ export function placeRoot(cv, text, y, { size, wrap, dot, gap, box = false, ink 
   return {
     from: { x: 0, y },
     draw: () => {
-      cv.els.push(`<rect x="${x0.toFixed(2)}" y="${y0.toFixed(2)}" width="${w.toFixed(2)}" height="${h.toFixed(2)}" rx="${B.radius}" fill="${B.fill}"/>`);
+      cv.els.push(`<rect x="${x0.toFixed(2)}" y="${y0.toFixed(2)}" width="${w.toFixed(2)}" height="${h.toFixed(2)}" rx="${B.radius}" fill="${boxFill}"/>`);
       cv.strokes.push({ pts: [{ x: x0, y: y0 }, { x: 0, y: y0 + h }], width: 0 });
       cv.text(b, -w / 2, top, { align: 'middle', lead: { fill: ink } });
     },

@@ -10,7 +10,8 @@ import opentype from 'opentype.js';
 export const FONT_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..', 'fonts');
 export const FAMILY = 'IBM Plex Sans';
 export const STACK = "'IBM Plex Sans', Helvetica, Arial, sans-serif";
-const FILES = { 400: 'IBMPlexSans-Regular.woff', 600: 'IBMPlexSans-SemiBold.woff' };
+const PLEX_FACE = { family: FAMILY, stack: STACK, files: { 400: 'IBMPlexSans-Regular.woff', 600: 'IBMPlexSans-SemiBold.woff' } };
+let FACE = PLEX_FACE, FILES = FACE.files;
 
 const load = (f) => { const b = fs.readFileSync(path.join(FONT_DIR, f)); return opentype.parse(b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength)); };
 let FONTS = null;
@@ -21,20 +22,36 @@ function fonts() {
   FONTS = { 400: regular, 600: bold, asc: h.ascender / u, desc: Math.abs(h.descender) / u, xHeight: os2.sxHeight / u, capHeight: os2.sCapHeight / u };
   return FONTS;
 }
+// Set the text in another face (a coggle FONTS entry: { family, stack, files: { regular, bold } }, its bold drawn
+// as weight 600), or back in IBM Plex Sans with null. Measuring and toSVG use the current face, so call it before
+// drawing and reset it after toSVG (styles2/index.js renderStyle2 does).
+export function useFont(font) {
+  FACE = font ? { family: font.family, stack: font.stack, files: { 400: font.files.regular, 600: font.files.bold } } : PLEX_FACE;
+  FILES = FACE.files; FONTS = null; widthCache.clear();
+}
 export const metrics = () => { const f = fonts(); return { asc: f.asc, desc: f.desc, xHeight: f.xHeight, capHeight: f.capHeight }; };
 
 export function fontCSS() {
   return Object.entries(FILES).map(([w, f]) =>
-    `@font-face{font-family:'${FAMILY}';font-weight:${w};src:url(data:font/woff;base64,${fs.readFileSync(path.join(FONT_DIR, f)).toString('base64')}) format('woff');}`).join('');
+    `@font-face{font-family:'${FACE.family}';font-weight:${w};src:url(data:font/${f.endsWith('.ttf') ? 'ttf' : 'woff'};base64,${fs.readFileSync(path.join(FONT_DIR, f)).toString('base64')}) format('${f.endsWith('.ttf') ? 'truetype' : 'woff'}');}`).join('');
 }
 
 const widthCache = new Map();
+// Advance width in font units. Some faces (Bricolage Grotesque, Merriweather) use GSUB lookups opentype.js can't
+// shape; for those, glyph advances plus the pair kerning it can read (as coggle/text.js does).
+function advance(f, text) {
+  if (f.shapes == null) { try { f.getAdvanceWidth('Ta', f.unitsPerEm, { kerning: true }); f.shapes = true; } catch { f.shapes = false; } }
+  if (f.shapes) return f.getAdvanceWidth(text, f.unitsPerEm, { kerning: true });
+  let w = 0, prev = null;
+  for (const ch of text) { const g = f.charToGlyph(ch); if (prev) w += f.getKerningValue(prev, g); w += g.advanceWidth; prev = g; }
+  return w;
+}
 export function measure(text, size, weight = 400) {
   const key = weight + '|' + text;
   let w = widthCache.get(key);
   if (w == null) {
     const f = fonts()[weight];
-    w = text ? f.getAdvanceWidth(text, f.unitsPerEm, { kerning: true }) / f.unitsPerEm : 0;
+    w = text ? advance(f, text) / f.unitsPerEm : 0;
     widthCache.set(key, w);
   }
   return w * size;
@@ -182,7 +199,7 @@ export class Canvas {
     const w = Math.ceil(b.x1 - b.x0 + 2 * pad), h = Math.ceil(b.y1 - b.y0 + 2 * pad);
     const tx = n(pad - b.x0), ty = n(pad - b.y0);
     return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img"${title ? ` aria-label="${esc(title)}"` : ''}>` +
-      `<style>${fontCSS()}text{font-family:${STACK};font-kerning:normal}</style>` +
+      `<style>${fontCSS()}text{font-family:${FACE.stack};font-kerning:normal}</style>` +
       `<rect width="100%" height="100%" fill="${this.bg}"/>` +
       `<g transform="translate(${tx} ${ty})">${this.els.join('')}</g></svg>`;
   }

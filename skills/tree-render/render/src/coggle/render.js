@@ -4,7 +4,8 @@ import path from 'node:path';
 import { createCoggleText, fontFaceCSS } from './text.js';
 import { coggleLayout } from './layout.js';
 import { drawCoggle } from './draw.js';
-import { coggleStyle, withOverrides } from './styles.js';
+import { coggleStyle, withOverrides, withPalette } from './styles.js';
+import { getPalette } from '../palettes.js';
 
 export const STYLE_NAME = 'coggle-exact';
 
@@ -16,11 +17,11 @@ export function trimDepth(tree, depth) {
 
 // `style`: 'coggle-exact' or one of its variants (styles.js), e.g. 'coggle-thin'. `font` / `sizes`: override
 // the style's font (a key of FONTS) and sizes by level ([root, 1, 2, 3+]); `depth`: levels below the root to show;
-// `rootRun`: how our layout's branches clear labels (layout.js ROOT_RUNS: short or coggle); `sRun`: force the root
+// `palette`: a key of PALETTES (palettes.js), the colours instead of the style's own; `rootRun`: how our layout's branches clear labels (layout.js ROOT_RUNS: short or coggle); `sRun`: force the root
 // group's shared S-run to this many px (clamped to the floor), to show the same tree squeezed or stretched.
-export async function renderCoggle(tree, { outDir = '.', name, png = true, scale = 2, avoidCollisions = true, style = STYLE_NAME, font, sizes, depth, rootRun, sRun } = {}) {
+export async function renderCoggle(tree, { outDir = '.', name, png = true, scale = 2, avoidCollisions = true, style = STYLE_NAME, font, sizes, depth, rootRun, sRun, palette } = {}) {
   const own = coggleStyle(style);
-  const S = withOverrides(own, { font, sizes });
+  const S = withPalette(withOverrides(own, { font, sizes }), getPalette(palette));
   if (depth != null) tree = trimDepth(tree, depth);
   const T = await createCoggleText(S.font);
   const L = coggleLayout(tree, T, { avoidCollisions, style: S, ...(rootRun ? { rootRun } : {}), ...(sRun != null ? { sRun } : {}) });

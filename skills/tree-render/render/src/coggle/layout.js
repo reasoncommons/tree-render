@@ -15,6 +15,8 @@
 import { lineWeight, endInset, R_MAX } from './geometry.js';
 import { branchSamples, branchHitsBox } from './collide.js';
 import { PALETTE, TALL_PALETTE, MIN_TEXT_CONTRAST, randomWalk, textColour, rootTextColour, adjust } from './colour.js';
+import { levelOneColours, paletteText } from '../palettes.js';
+import { accentIndex } from '../styles2/shared.js';
 import { fontSize, runsFor, WRAP_WIDTH, FONT_SIZES } from './text.js';
 import { EXACT } from './styles.js';
 
@@ -133,6 +135,8 @@ export function coggleLayout(tree, T, { palette = null, paletteStart = 0, pin = 
     }
     return best.t;
   };
+  const P = style.palette || null, acc = P ? accentIndex(tree.root) : -1;
+  const l1 = P ? levelOneColours(P, tree.root.children.length, acc) : null;
   const build = (n, level, parent, idx) => {
     const r = { node: n, level, parent, children: [], num: n.num || 'root', x: 0, y: 0, ttb: -1 };
     // mono face (if the font has one): the text after a bold lead, and leaves' text
@@ -140,11 +144,18 @@ export function coggleLayout(tree, T, { palette = null, paletteStart = 0, pin = 
     const runs = level === 0 && style.root.bold ? runsFor(n).map(x => ({ ...x, bold: true })) : runsFor(n, { leadBreak, mono });
     r.runs = runs;
     r.t = level ? wrapText(runs, n.textSize || fontSize(level, sizes), !n.children.length ? leafWrap : WRAP_WIDTH) : rootText(runs, n.textSize || sizes[0]);
-    if (level === 0) { r.colour = n.colour || style.root.colour; r.textColour = rootTextColour(r.colour); }
+    if (P) {
+      // a palette (style.palette): its level-1 colours with the accent branch (and its subtree) in the accent colour
+      r.accent = level === 1 ? idx === acc : level > 1 && parent.accent;
+      if (level === 0) { r.colour = n.colour || style.root.colour; r.textColour = style.root.textColour; }
+      else if (level === 1) r.colour = n.colour || l1[idx];
+      else r.colour = n.colour || (P.walk ? randomWalk(parent.colour, String(r.num)) : parent.colour);
+    }
+    else if (level === 0) { r.colour = n.colour || style.root.colour; r.textColour = rootTextColour(r.colour); }
     else if (level === 1) r.colour = n.colour || adjust(palette[(idx + paletteStart) % palette.length], style.colour);
     else r.colour = n.colour || randomWalk(parent.colour, String(r.num));
     if (level > 0) {
-      r.textColour = textColour(r.colour, textOpts);
+      r.textColour = P ? paletteText(P, r.colour, { accent: r.accent }) : textColour(r.colour, textOpts);
       if (style.cont && n.lead) r.contColour = adjust(r.textColour, style.cont);
       r.weight = Math.max(style.branch.min, lineWeight(level) * style.branch.scale);
     }

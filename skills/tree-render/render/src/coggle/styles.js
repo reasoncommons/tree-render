@@ -95,6 +95,14 @@ export const COGGLE_STYLES = {
   }),
 };
 
+// A style in a palette's colours (palettes.js): its background, root box (fill for 'box', stroke for 'outline' and
+// 'rule') and root text; the branch and text colours are set in layout.js from style.palette. No palette: unchanged.
+export function withPalette(style, P) {
+  if (!P) return style;
+  const colour = style.root.kind === 'box' ? P.root.fill : P.root.outline;
+  return { ...style, bg: P.bg, palette: P, root: { ...style.root, colour, textColour: P.root.text } };
+}
+
 export const COGGLE_ALIASES = { 'coggle-hairline': 'coggle-thin' };
 export const COGGLE_STYLE_NAMES = [...Object.keys(COGGLE_STYLES), ...Object.keys(COGGLE_ALIASES)];
 
