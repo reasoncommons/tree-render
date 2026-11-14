@@ -19,11 +19,20 @@ You compress an existing argument; you don't write a new one. Start from the sou
 
 ## Choosing depth and nodes
 
-- **Two levels below the root** is the default for a static image: level 1 carries the argument, level 2 the support. Deeper detail belongs in the essay.
+- **Two levels below the root** is the default for an argument (for an overview, see one-level trees below): level 1 carries the argument, level 2 the support. Deeper detail belongs in the essay.
 - **3–5 level-1 branches.** If the source has six, merge two or drop the weakest, and record what went. Fewer, stronger branches beat completeness.
 - **2–4 leaves per branch.** Pick the leaves that do the most work for the parent claim: evidence, the key mechanism, the main caveat. Skip leaves that only restate the parent.
 - **Keep the branches roughly balanced.** One branch with five leaves and another with one looks like a mistake.
 - **A parallel point is not a step.** If a branch sits beside the chain rather than following from it (for example "what traditions offer"), don't join it with "and" or "so"; let it stand as a sibling.
+
+## One-level trees
+
+A root and its level-1 nodes only (an overview of questions, a list of answers). Often the most useful form, and different from a two-level tree:
+
+- **Each node must carry its own meaning.** There are no points below to clarify it, so a bare short phrase can mislead: "Can we make AI good?" could mean working well rather than aligned with the good. Give it a short bold lead, then a clause that pins down what it means: "**Can we make AI good?** Not just working well, but aligned with what is good; and what can wisdom traditions add?"
+- **The continuation may run to about 20 words** (not 12), since nothing sits beneath it. Keep the lead short.
+- **The root stays a plain question.** The renderer keeps a one-level tree's root no bigger than about 1.15× the level-1 text, so it doesn't tower over the nodes.
+- **Accent only if one node is the conclusion.** A list of questions has none, so it stays all ink: a red node would claim one matters more.
 
 ## Lead + continuation
 
