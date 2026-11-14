@@ -22,12 +22,13 @@ const USAGE = `Usage: tree-render <tree.md|tree.json> [--out DIR] [--name N] [--
        tree-render parse <tree.md|tree.json> [--out tree.json]
        tree-render <tree.md|tree.json> --style <style.json|name> [--out DIR] [--name N] [--scale 2] [--no-png]
                                      static render with a style (styles/*.json): writes DIR/N.svg, N.png (2×), N.report.json
-       tree-render <tree.md|tree.json> --style ribbon|dendrogram|lanes [--out DIR] [--name N] [--scale 2] [--no-png] [--root-box] [--palette P] [--font F]
+       tree-render <tree.md|tree.json> --style ribbon|dendrogram|lanes [--out DIR] [--name N] [--scale 2] [--no-png] [--root-style dot|centre|box|outline] [--palette P] [--font F]
                                      the round-2 styles (src/styles2/), IBM Plex Sans with a red accent branch:
                                        ribbon      tapered ribbons from the root to each answer, hairline S-curves to its points
                                        dendrogram  S-curves to each answer, rounded elbows to its points
                                        lanes       ribbons to each answer, each subtree on a soft band
-                                     --root-box sets the root in a light box instead of on a dot; --font as for the coggle
+                                     --root-style: the root question right-aligned on a dot (dot, default), centred on a dot
+                                     (centre), in a light filled box (box; also --root-box) or a thin outlined box (outline); --font as for the coggle
                                      styles (default IBM Plex Sans) (exit 1 if anything overlaps)
        tree-render <tree.md|tree.json> --style coggle-exact [--out DIR] [--name N] [--scale 2] [--no-png] [--allow-collisions]
                                      a faithful copy of Coggle's look (docs/design/references/coggle-spec.md) in Arimo
@@ -78,7 +79,7 @@ Writes <out>.svg and <out>.report.json and prints the report. Exit 1 on a hard c
 (overlap, overflow, fidelity, fonts, markers), 2 on a usage error, 3 when a PNG needs a browser.
 `;
 
-const VALUE_FLAGS = ['style', 'name', 'format', 'theme', 'view', 'labels', 'depth', 'root', 'kicker', 'footer', 'out', 'scale', 'state', 'emit', 'hue', 'font', 'sizes', 'root-run', 's-run', 'palette'];
+const VALUE_FLAGS = ['root-style', 'style', 'name', 'format', 'theme', 'view', 'labels', 'depth', 'root', 'kicker', 'footer', 'out', 'scale', 'state', 'emit', 'hue', 'font', 'sizes', 'root-run', 's-run', 'palette'];
 const BOOL_FLAGS = ['png', 'no-png', 'html', 'help', 'allow-collisions', 'root-box'];
 // Flags of the framed canvas render; with none of them (and no --style) a tree renders statically in the default style.
 const CANVAS_FLAGS = ['format', 'theme', 'view', 'labels', 'depth', 'root', 'kicker', 'footer', 'state', 'hue', 'html'];
@@ -204,9 +205,9 @@ async function main(argv) {
     const { FONTS } = await import('../src/coggle/styles.js');
     if (a.palette != null && !PALETTE_NAMES.includes(a.palette)) throw new UsageError(`unknown palette "${a.palette}" (have: ${PALETTE_NAMES.join(', ')})`);
     if (a.font != null && !FONTS[a.font]) throw new UsageError(`unknown font "${a.font}" (have: ${Object.keys(FONTS).join(', ')})`);
-    const r = await renderStyle2(tree, { style: a.style, outDir: a.out || '.', name: a.name, png: !a['no-png'], scale: +(a.scale || 2), rootBox: !!a['root-box'], palette: a.palette, font: a.font });
+    const r = await renderStyle2(tree, { style: a.style, outDir: a.out || '.', name: a.name, png: !a['no-png'], scale: +(a.scale || 2), rootBox: a['root-box'] || a['root-style'] === 'box' ? true : a['root-style'] === 'outline' ? 'outline' : false, rootCentre: a['root-style'] === 'centre', palette: a.palette, font: a.font });
     const [, w, h] = /width="(\d+)" height="(\d+)"/.exec(r.svg);
-    console.log(`${Object.values(r.files).map(f => path.basename(f)).join(', ')}  style ${a.style}${a['root-box'] ? ' (root box)' : ''}${a.palette ? ' · palette ' + a.palette : ''}${a.font ? ' · font ' + a.font : ''} · ${w}×${h} · ${r.issues.length ? 'FAILED' : 'ok'}`);
+    console.log(`${Object.values(r.files).map(f => path.basename(f)).join(', ')}  style ${a.style}${a['root-box'] ? ' (root box)' : a['root-style'] ? ` (root ${a['root-style']})` : ''}${a.palette ? ' · palette ' + a.palette : ''}${a.font ? ' · font ' + a.font : ''} · ${w}×${h} · ${r.issues.length ? 'FAILED' : 'ok'}`);
     for (const x of r.issues) console.log('  error overlap: ' + x);
     return r.issues.length ? 1 : 0;
   }

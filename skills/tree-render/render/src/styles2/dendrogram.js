@@ -15,7 +15,7 @@ const L2 = { size: 16, lh: 21, wrap: 320, fill: '#333', gap: 8, width: 1.25 };
 const EL = { leaderGap: 12, stemGap: 28, tick: 18, textGap: 10, r: 8 };
 const GROUP_GAP = 40, SPREAD = 10;
 
-export function render(tree, { rootBox = false, palette: P = null } = {}) {
+export function render(tree, { rootBox = false, rootCentre = false, palette: P = null } = {}) {
   const cv = new Canvas(P ? { bg: P.bg } : {});
   const acc = accentIndex(tree.root);
   // A palette (palettes.js): its branch colours cycled over the non-accent answers, its accent, ink and hairlines.
@@ -42,7 +42,7 @@ export function render(tree, { rootBox = false, palette: P = null } = {}) {
   const span = groups[groups.length - 1].y - groups[0].y;
   const reach = Math.max(180, Math.min(260, 0.28 * span));
 
-  const root = placeRoot(cv, tree.root.text, (groups[0].y + groups[groups.length - 1].y) / 2, { ...rootFor(tree, ROOT, L1.size), box: rootBox, ink: P ? ensureContrast(P.root.text, P.bg) : INK, ...(P ? { boxFill: P.root.fill } : {}) });
+  const root = placeRoot(cv, tree.root.text, (groups[0].y + groups[groups.length - 1].y) / 2, { ...rootFor(tree, ROOT, L1.size), box: rootBox, centre: rootCentre, ink: P ? ensureContrast(P.root.text, P.bg) : INK, ...(P ? { boxFill: P.root.fill } : {}) });
   const rootDot = root.from;
   const l1Dot = rootDot.x + reach, l1X = l1Dot + L1.dot + L1.gap;
   const stemX = l1X + maxB + EL.stemGap, l2X = stemX + EL.tick + EL.textGap;
@@ -77,4 +77,4 @@ export function render(tree, { rootBox = false, palette: P = null } = {}) {
   return cv;
 }
 
-export default (tree, o = {}) => render(tree, { rootBox: o.rootBox, palette: o.palette });
+export default (tree, o = {}) => render(tree, { rootBox: o.rootBox, rootCentre: o.rootCentre, palette: o.palette });

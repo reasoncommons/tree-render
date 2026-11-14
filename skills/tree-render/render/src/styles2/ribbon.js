@@ -22,7 +22,7 @@ const HAIR = { width: 1.5, colour: '#7a7a7a', hub: 16, span: 84, end: 8, ruleGap
 const LANE_HUES = [0, 1, 6, 2, 7, 3].map(i => PALETTE[i]);
 const LANE = { pad: 20, radius: 12, alpha: 0.07, accentAlpha: 0.05, pointDot: 2, pointGap: 10, colGap: 36, groupGap: 56 };
 
-export function render(tree, { mono = false, lanes = false, hue = false, rootBox = false, palette: P = null } = {}) {
+export function render(tree, { mono = false, lanes = false, hue = false, rootBox = false, rootCentre = false, palette: P = null } = {}) {
   const cv = new Canvas(P ? { bg: P.bg } : {});
   const acc = accentIndex(tree.root);
   const groupGap = lanes ? LANE.groupGap : 36;
@@ -57,7 +57,7 @@ export function render(tree, { mono = false, lanes = false, hue = false, rootBox
   const reach = Math.max(200, Math.min(300, 0.3 * span));
 
   // Root: centred on the point every ribbon leaves (a dot, or the right edge of the root box).
-  const root = placeRoot(cv, tree.root.text, (groups[0].dotY + groups[groups.length - 1].dotY) / 2, { ...rootFor(tree, ROOT, L1.size), box: rootBox, ink: P ? ensureContrast(P.root.text, P.bg) : INK, ...(P ? { boxFill: P.root.fill } : {}) });
+  const root = placeRoot(cv, tree.root.text, (groups[0].dotY + groups[groups.length - 1].dotY) / 2, { ...rootFor(tree, ROOT, L1.size), box: rootBox, centre: rootCentre, ink: P ? ensureContrast(P.root.text, P.bg) : INK, ...(P ? { boxFill: P.root.fill } : {}) });
   const rootDot = root.from;
   const l1Dot = rootDot.x + reach, l1X = l1Dot + L1.dot + L1.gap;
   const hubX = l1X + maxB + HAIR.hub, l2X = lanes ? l1X + maxB + LANE.colGap : hubX + HAIR.span;
@@ -103,6 +103,6 @@ export function render(tree, { mono = false, lanes = false, hue = false, rootBox
 }
 
 export default {
-  ribbon: (tree, o = {}) => render(tree, { rootBox: o.rootBox, palette: o.palette }),
-  lanes: (tree, o = {}) => render(tree, { lanes: true, rootBox: o.rootBox, palette: o.palette }),
+  ribbon: (tree, o = {}) => render(tree, { rootBox: o.rootBox, rootCentre: o.rootCentre, palette: o.palette }),
+  lanes: (tree, o = {}) => render(tree, { lanes: true, rootBox: o.rootBox, rootCentre: o.rootCentre, palette: o.palette }),
 };
