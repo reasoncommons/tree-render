@@ -67,3 +67,31 @@ test('root style: centred lines on the dot, or a thin outlined box (no fill); bo
     assert.match(svgO, /<rect [^>]*rx="0" fill="none" stroke="#5d584f" stroke-width="1.25"\/>/, `${style}: outlined box`);
   }
 });
+
+// curve 'coggle' (bead tree_render-5q0.8): Coggle's cubic for the level-1 branches (and ribbon's hairlines).
+test('curve coggle: every fixture renders with no overlaps; the default is unchanged; level-1 branches use Coggle\'s control points', async () => {
+  const { branchControlPoints } = await import('../src/coggle/geometry.js');
+  for (const style of STYLE2_NAMES) {
+    for (const f of fixtures) for (const curve of ['coggle', 'coggle-l1']) {
+      const cv = STYLES2[style](parse(readFixture(f)), { curve });
+      assert.deepEqual(cv.check(), [], `${style} ${curve} ${f}`);
+    }
+    const def = drawStyle2(Q2, style).toSVG(), cur = drawStyle2(Q2, style, { curve: 'current' }).toSVG();
+    assert.equal(def, cur, style);
+    assert.notEqual(drawStyle2(Q2, style, { curve: 'coggle' }).toSVG(), def, style);
+    assert.throws(() => drawStyle2(Q2, style, { curve: 'wiggly' }), /unknown curve/);
+  }
+  // dendrogram strokes the centre line itself: its level-1 paths are exactly Coggle's cubic from the root dot.
+  const paths = [...drawStyle2(Q2, 'dendrogram', { curve: 'coggle' }).els.join('').matchAll(/<path d="M ([-\d.]+) ([-\d.]+) C ([-\d. ]+)"/g)];
+  assert.equal(paths.length, Q2.root.children.length);
+  for (const m of paths) {
+    const n = m[3].trim().split(/\s+/).map(Number), from = { x: +m[1], y: +m[2] }, to = { x: n[4], y: n[5] };
+    const p = branchControlPoints(from, to);
+    assert.ok(Math.abs(p[1].x - n[0]) < 0.01 && Math.abs(p[2].x - n[2]) < 0.01, 'control points');
+    assert.ok(Math.abs(n[1] - from.y) < 0.01 && Math.abs(n[3] - to.y) < 0.01, 'horizontal tangents');
+  }
+  // ribbon: the hairlines change only with 'coggle', not 'coggle-l1'.
+  const hairs = (o) => drawStyle2(Q2, 'ribbon', o).els.filter(e => /stroke-width="1.5"/.test(e)).join('');
+  assert.equal(hairs({ curve: 'coggle-l1' }), hairs({}));
+  assert.notEqual(hairs({ curve: 'coggle' }), hairs({}));
+});

@@ -55,6 +55,9 @@ Options (ribbon, dendrogram, lanes):
   --root-style dot|centre|box|outline
                         the root question: right-aligned on a dot (default), centred on the dot,
                         in a light filled box (also --root-box) or a thin outlined box
+  --curve current|coggle|coggle-l1
+                        the branch curve: current (default), Coggle's cubic (level-1 branches and
+                        ribbon's hairlines), or Coggle's for the level-1 branches only
 
 Exit codes: 0 ok; 1 a branch crosses a label or text overlaps (shorten the text and render
 again); 2 usage error; 3 the PNG needs Chrome or Chromium (set CHROME=/path, or use --no-png).
@@ -91,7 +94,7 @@ check failure (overlap, overflow, fidelity, fonts, markers), 2 on a usage error,
 needs a browser.
 `;
 
-const VALUE_FLAGS = ['root-style', 'style', 'name', 'format', 'theme', 'view', 'labels', 'depth', 'root', 'kicker', 'footer', 'out', 'scale', 'state', 'emit', 'hue', 'font', 'sizes', 'root-run', 's-run', 'palette'];
+const VALUE_FLAGS = ['root-style', 'style', 'name', 'format', 'theme', 'view', 'labels', 'depth', 'root', 'kicker', 'footer', 'out', 'scale', 'state', 'emit', 'hue', 'font', 'sizes', 'root-run', 's-run', 'palette', 'curve'];
 const BOOL_FLAGS = ['png', 'no-png', 'html', 'help', 'allow-collisions', 'root-box'];
 // Flags of the framed canvas render; with none of them (and no --style) a tree renders statically in the default style.
 // --depth is not one: it also applies to the coggle styles, so the canvas render needs --format (or another flag here) for it.
@@ -218,9 +221,9 @@ async function main(argv) {
     const { FONTS } = await import('../src/coggle/styles.js');
     if (a.palette != null && !PALETTE_NAMES.includes(a.palette)) throw new UsageError(`unknown palette "${a.palette}" (have: ${PALETTE_NAMES.join(', ')})`);
     if (a.font != null && !FONTS[a.font]) throw new UsageError(`unknown font "${a.font}" (have: ${Object.keys(FONTS).join(', ')})`);
-    const r = await renderStyle2(tree, { style: a.style, outDir: a.out || '.', name: a.name, png: !a['no-png'], scale: +(a.scale || 2), rootBox: a['root-box'] || a['root-style'] === 'box' ? true : a['root-style'] === 'outline' ? 'outline' : false, rootCentre: a['root-style'] === 'centre', palette: a.palette, font: a.font });
+    const r = await renderStyle2(tree, { style: a.style, outDir: a.out || '.', name: a.name, png: !a['no-png'], scale: +(a.scale || 2), rootBox: a['root-box'] || a['root-style'] === 'box' ? true : a['root-style'] === 'outline' ? 'outline' : false, rootCentre: a['root-style'] === 'centre', palette: a.palette, font: a.font, curve: a.curve });
     const [, w, h] = /width="(\d+)" height="(\d+)"/.exec(r.svg);
-    console.log(`${Object.values(r.files).map(f => path.basename(f)).join(', ')}  style ${a.style}${a['root-box'] ? ' (root box)' : a['root-style'] ? ` (root ${a['root-style']})` : ''}${a.palette ? ' · palette ' + a.palette : ''}${a.font ? ' · font ' + a.font : ''} · ${w}×${h} · ${r.issues.length ? 'FAILED' : 'ok'}`);
+    console.log(`${Object.values(r.files).map(f => path.basename(f)).join(', ')}  style ${a.style}${a['root-box'] ? ' (root box)' : a['root-style'] ? ` (root ${a['root-style']})` : ''}${a.palette ? ' · palette ' + a.palette : ''}${a.font ? ' · font ' + a.font : ''}${a.curve ? ' · curve ' + a.curve : ''} · ${w}×${h} · ${r.issues.length ? 'FAILED' : 'ok'}`);
     for (const x of r.issues) console.log('  error overlap: ' + x);
     return r.issues.length ? 1 : 0;
   }

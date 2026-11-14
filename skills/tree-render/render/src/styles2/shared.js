@@ -1,6 +1,7 @@
 // styles2/shared.js: helpers shared by the ribbon, dendrogram and lanes styles (and the round-2 mock-ups in
 // src/directions/): the accent branch, the horizontal-tangent S-curve, a tapered filled ribbon along it, and the root.
 import { sampleCubic, block, typo, xMiddleOf } from '../directions/common.js';
+import { branchSegments } from '../coggle/geometry.js';
 
 export const RED = '#d7261e';
 const f = (q) => `${q.x.toFixed(2)} ${q.y.toFixed(2)}`;
@@ -91,4 +92,35 @@ export function placeRoot(cv, text, y, { size, wrap, dot, gap, box = false, cent
       cv.text(b, -w / 2, top, { align: 'middle', lead: { fill: ink } });
     },
   };
+}
+
+// `curve: 'coggle'` (bead tree_render-5q0.8): Coggle's branch cubic (coggle/geometry.js, coggle-spec.md "Control
+// points") in place of sCurve. The S is drawn over the whole run (nothing sits between the root and the level-1
+// column, so there is no label to clear and no reason for a shorter S-run); branchSegments lengthens nothing then,
+// and only inserts a vertical when a branch rises more than R_MAX × its run. Short branches (chord < 75 px) get
+// Coggle's pull-in. Returns segments ({ c } cubics, { l } lines).
+export const CURVES = ['current', 'coggle', 'coggle-l1'];
+export function checkCurve(curve) {
+  if (!CURVES.includes(curve)) throw new Error(`unknown curve "${curve}" (have: ${CURVES.join(', ')})`);
+  return curve;
+}
+export const coggleCurve = (from, to) => branchSegments(from, to, { sRun: Math.abs(to.x - from.x) });
+export const segsD = (segs) => segs.map((g, i) => (i ? '' : `M ${f((g.c || g.l)[0])} `) + (g.c ? `C ${f(g.c[1])} ${f(g.c[2])} ${f(g.c[3])}` : `L ${f(g.l[1])}`)).join(' ');
+export const segsPts = (segs, k = 64) => segs.flatMap((g, i) => (g.c ? sampleCubic(...g.c, k) : g.l).slice(i ? 1 : 0));
+
+// A filled ribbon along a sampled centre line `pts`, w0 wide at the start tapering to w1 at the end by arc length,
+// with round caps (ribbon() for a polyline: normals from neighbouring samples).
+export function ribbonAlong(pts, w0, w1) {
+  const n = pts.length - 1, len = [0];
+  for (let i = 1; i <= n; i++) len.push(len[i - 1] + Math.hypot(pts[i].x - pts[i - 1].x, pts[i].y - pts[i - 1].y));
+  const L = [], R = [];
+  pts.forEach((q, i) => {
+    const a = pts[Math.max(0, i - 1)], b = pts[Math.min(n, i + 1)], dx = b.x - a.x, dy = b.y - a.y, l = Math.hypot(dx, dy) || 1;
+    const h = (w0 + (w1 - w0) * (len[i] / (len[n] || 1))) / 2, nx = -dy / l, ny = dx / l;
+    L.push({ x: q.x + nx * h, y: q.y + ny * h });
+    R.push({ x: q.x - nx * h, y: q.y - ny * h });
+  });
+  const r0 = w0 / 2, r1 = w1 / 2;
+  const d = `M ${f(L[0])} L ${L.slice(1).map(f).join(' ')} A ${r1} ${r1} 0 0 0 ${f(R[n])} L ${R.slice(0, n).reverse().map(f).join(' ')} A ${r0} ${r0} 0 0 0 ${f(L[0])} Z`;
+  return { d, pts };
 }

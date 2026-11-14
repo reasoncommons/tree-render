@@ -3,10 +3,11 @@
 // with `rootBox`, in a light box whose right edge the curves leave), and
 // the level-1 answers leave it on 2.5 px S-curves (no end dots: 2026-11-13); each answer's points hang off rounded
 // elbows (8 px corners, 1.25 px grey). The first point sits on its answer's baseline, so answer, leader and
-// first point read as one line. Red marks the accent branch's curve, dot and lead.
+// first point read as one line. `curve: 'coggle'` (or 'coggle-l1'): Coggle's cubic for the level-1 curves (shared.js
+// coggleCurve). Red marks the accent branch's curve, dot and lead.
 import { Canvas, runsFor, xMiddleOf, sampleCubic } from '../directions/common.js';
 import { paletteText, ensureContrast } from '../palettes.js';
-import { RED, accentIndex, balanced, sCurve, cubicD, spreads, placeRoot, rootFor } from './shared.js';
+import { RED, accentIndex, balanced, sCurve, cubicD, spreads, placeRoot, rootFor, checkCurve, coggleCurve, segsD, segsPts } from './shared.js';
 
 const INK = '#1a1a1a', CURVE = '#222', ELBOW = '#888';
 const ROOT = { size: 28, wrap: 280, dot: 3.5, gap: 12 };
@@ -15,7 +16,8 @@ const L2 = { size: 16, lh: 21, wrap: 320, fill: '#333', gap: 8, width: 1.25 };
 const EL = { leaderGap: 12, stemGap: 28, tick: 18, textGap: 10, r: 8 };
 const GROUP_GAP = 40, SPREAD = 10;
 
-export function render(tree, { rootBox = false, rootCentre = false, palette: P = null } = {}) {
+export function render(tree, { rootBox = false, rootCentre = false, palette: P = null, curve = 'current' } = {}) {
+  checkCurve(curve);
   const cv = new Canvas(P ? { bg: P.bg } : {});
   const acc = accentIndex(tree.root);
   // A palette (palettes.js): its branch colours cycled over the non-accent answers, its accent, ink and hairlines.
@@ -50,7 +52,9 @@ export function render(tree, { rootBox = false, rootCentre = false, palette: P =
   const sp = spreads(groups.length, SPREAD);
   const order = groups.map((g, i) => i).sort((a, b) => groups[a].red - groups[b].red);
   for (const i of order) {
-    const g = groups[i], p = sCurve(rootDot, { x: l1Dot, y: g.y }, { spread: sp[i] });
+    const g = groups[i], to = { x: l1Dot, y: g.y };
+    if (curve !== 'current') { const s = coggleCurve(rootDot, to); cv.path(segsD(s), segsPts(s, 24), { stroke: g.curve, width: L1.width }); continue; }
+    const p = sCurve(rootDot, to, { spread: sp[i] });
     cv.path(cubicD(p), sampleCubic(...p), { stroke: g.curve, width: L1.width });
   }
   root.draw();
@@ -77,4 +81,4 @@ export function render(tree, { rootBox = false, rootCentre = false, palette: P =
   return cv;
 }
 
-export default (tree, o = {}) => render(tree, { rootBox: o.rootBox, rootCentre: o.rootCentre, palette: o.palette });
+export default (tree, o = {}) => render(tree, { rootBox: o.rootBox, rootCentre: o.rootCentre, palette: o.palette, curve: o.curve });

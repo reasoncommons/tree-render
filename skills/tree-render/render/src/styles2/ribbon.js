@@ -6,11 +6,12 @@
 // lanes: ribbon's root, ribbons and palette (no dot at the ribbon's end); each subtree sits on a soft
 // neutral band (red for the accent) across both text columns; no level-2 connectors, a small grey dot before
 // each point instead. `hue` (mock-up D-hue only): one restrained hue per branch. `mono` (mock-up A-mono only):
-// charcoal ribbons. `palette` (palettes.js): its colours instead of slate, ink and red. `rootBox`: the root in a light Coggle-like box (shared.js placeRoot) instead of on a dot.
+// charcoal ribbons. `curve`: 'current' (sCurve), 'coggle' (Coggle's cubic for the ribbons' centre lines and the
+// hairlines, shared.js coggleCurve) or 'coggle-l1' (ribbons only). `palette` (palettes.js): its colours instead of slate, ink and red. `rootBox`: the root in a light Coggle-like box (shared.js placeRoot) instead of on a dot.
 import { Canvas, runsFor, xMiddleOf, sampleCubic } from '../directions/common.js';
 import { PALETTE, adjust, darken } from '../coggle/colour.js';
 import { paletteText, ensureContrast } from '../palettes.js';
-import { RED, accentIndex, balanced, sCurve, cubicD, ribbon, spreads, placeRoot, rootFor } from './shared.js';
+import { RED, accentIndex, balanced, sCurve, cubicD, ribbon, spreads, placeRoot, rootFor, checkCurve, coggleCurve, segsD, segsPts, ribbonAlong } from './shared.js';
 
 const INK = '#1a1a1a';
 const ROOT = { size: 28, wrap: 300, dot: 3.5, gap: 12 };
@@ -22,7 +23,9 @@ const HAIR = { width: 1.5, colour: '#7a7a7a', hub: 16, span: 84, end: 8, ruleGap
 const LANE_HUES = [0, 1, 6, 2, 7, 3].map(i => PALETTE[i]);
 const LANE = { pad: 20, radius: 12, alpha: 0.07, accentAlpha: 0.05, pointDot: 2, pointGap: 10, colGap: 36, groupGap: 56 };
 
-export function render(tree, { mono = false, lanes = false, hue = false, rootBox = false, rootCentre = false, palette: P = null } = {}) {
+export function render(tree, { mono = false, lanes = false, hue = false, rootBox = false, rootCentre = false, palette: P = null, curve = 'current' } = {}) {
+  checkCurve(curve);
+  const cogL1 = curve !== 'current', cogHair = curve === 'coggle';
   const cv = new Canvas(P ? { bg: P.bg } : {});
   const acc = accentIndex(tree.root);
   const groupGap = lanes ? LANE.groupGap : 36;
@@ -72,12 +75,19 @@ export function render(tree, { mono = false, lanes = false, hue = false, rootBox
   // Ribbons, accent last so it sits on top.
   const sp = spreads(groups.length, RIB.spread);
   const order = groups.map((g, i) => i).sort((a, b) => (a === acc) - (b === acc));
+  const fills = [];
   for (const i of order) {
     const g = groups[i];
-    const r = ribbon(sCurve(rootDot, { x: l1Dot, y: g.dotY }, { spread: sp[i] }), RIB.w0, RIB.w1);
-    cv.els.push(`<path d="${r.d}" fill="${halo}" stroke="${halo}" stroke-width="${2 * RIB.halo}" stroke-linejoin="round"/>`);
+    const to = { x: l1Dot, y: g.dotY };
+    const r = cogL1 ? ribbonAlong(segsPts(coggleCurve(rootDot, to)), RIB.w0, RIB.w1) : ribbon(sCurve(rootDot, to, { spread: sp[i] }), RIB.w0, RIB.w1);
+    const h = `<path d="${r.d}" fill="${halo}" stroke="${halo}" stroke-width="${2 * RIB.halo}" stroke-linejoin="round"/>`;
+    // Coggle's ribbons all leave the dot flat and share their first few px; a halo per ribbon would cut each one off
+    // where the next one starts, so with curve 'coggle' every halo goes under every fill (they merge at the dot).
+    if (cogL1) { cv.els.push(h); fills.push([r, g.col.rib]); continue; }
+    cv.els.push(h);
     cv.path(r.d, r.pts, { fill: g.col.rib });
   }
+  for (const [r, c] of fills) cv.path(r.d, r.pts, { fill: c });
   root.draw();
 
   for (const g of groups) {
@@ -87,8 +97,9 @@ export function render(tree, { mono = false, lanes = false, hue = false, rootBox
       const hub = { x: hubX, y: g.dotY };
       cv.line([{ x: l1X + g.b.lines[0].w + HAIR.ruleGap, y: g.dotY }, hub], { stroke: hair, width: HAIR.width });
       for (const k of g.kids) {
-        const p = sCurve(hub, { x: l2X - HAIR.end, y: xMiddleOf(k, ky) });
-        cv.path(cubicD(p), sampleCubic(...p), { stroke: hair, width: HAIR.width });
+        const to = { x: l2X - HAIR.end, y: xMiddleOf(k, ky) };
+        if (cogHair) { const s = coggleCurve(hub, to); cv.path(segsD(s), segsPts(s, 24), { stroke: hair, width: HAIR.width }); }
+        else { const p = sCurve(hub, to); cv.path(cubicD(p), sampleCubic(...p), { stroke: hair, width: HAIR.width }); }
         ky += k.h + L2.gap;
       }
       ky = g.mid - g.kidsH / 2;
@@ -103,6 +114,6 @@ export function render(tree, { mono = false, lanes = false, hue = false, rootBox
 }
 
 export default {
-  ribbon: (tree, o = {}) => render(tree, { rootBox: o.rootBox, rootCentre: o.rootCentre, palette: o.palette }),
-  lanes: (tree, o = {}) => render(tree, { lanes: true, rootBox: o.rootBox, rootCentre: o.rootCentre, palette: o.palette }),
+  ribbon: (tree, o = {}) => render(tree, { rootBox: o.rootBox, rootCentre: o.rootCentre, palette: o.palette, curve: o.curve }),
+  lanes: (tree, o = {}) => render(tree, { lanes: true, rootBox: o.rootBox, rootCentre: o.rootCentre, palette: o.palette, curve: o.curve }),
 };
