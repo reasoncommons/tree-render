@@ -1,5 +1,5 @@
 ---
-status: draft (font and sizes decided 2026-11-13; layout width being tightened)
+status: draft (style decided 2026-11-14: ribbon, ink and seal; root placement and the four questions' wording pending)
 ---
 
 # Brief: Wisdom and AI tree visuals, v1
@@ -10,7 +10,7 @@ For a sub-session working in `~/src/life-itself/ai-wise` on the beads epic `ais-
 
 | Tree | Source | Depth | Where it goes |
 |---|---|---|---|
-| Overview | `projects/wise-ai-briefing/trees/overview.json` | 1 (root and its four answers) | `site/question-trees.md` (or the index; ask) |
+| The four questions | root + the four questions, each a short bold question and a clarifying clause (draft in tree-render `out/wise/wise-questions-full.json`; wording to be signed off) | 1 | `site/question-trees.md` (or the index; ask) |
 | Q1 Can we make AI good? | `trees/q1.json` | 2 | `site/alignment.md` |
 | Q2 How fast should we go? | `trees/q2.json` | 2 | `site/risk-and-pace.md` |
 | Q3 How should we integrate AI? | `trees/q3.json` | 2 | `site/living-with-ai.md` |
@@ -19,9 +19,8 @@ For a sub-session working in `~/src/life-itself/ai-wise` on the beads epic `ais-
 ## How to draw them
 
 - Renderer: `~/src/reasoncommons/tree-render/skills/tree-render/render/bin/render.js`. Read `skills/tree-render/SKILL.md` first.
-- Shape: `--style coggle-exact` (Coggle's curves and palette, branches never cross text; the default `short` root run keeps the tree narrower: Coggle's S over a shorter shared run, then a straight tail). Comparison of the five styles: https://claude.ai/artifact/M2kRH44N1Ci7zRy1s1YbLV
-- Font: Bricolage Grotesque, the default (also the site's body font). Arimo is the alternative (`--font arimo`). Fonts page: https://claude.ai/artifact/5uAwQ34AUDiEWa4AkCiwbr
-- Sizes: the defaults, Coggle's (root 22, answers 15.3, points 13). Don't pass `--sizes`.
+- Style: `--style ribbon --palette wise-ink --font bricolage` (Rufus 2026-11-14): ink ribbons and warm-grey hairlines on the site's paper, seal red once on the conclusion, the site's Bricolage. Root: `--root-style` centre or outline, to be picked. Mockups: https://claude.ai/artifact/Egai2sxXdFBFg3WBHBDvUW
+- Sizes: the style's own (ribbon caps a one-level tree's root at 1.15× the answers).
 - Depth: `--depth 1` for the overview; the question trees in full (two levels). One image per tree, made for desktop; phones show the same image.
 - Output: SVG and 2× PNG. The renderer exits 1 if anything overlaps; fix that, don't ship it.
 
