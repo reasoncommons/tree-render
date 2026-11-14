@@ -1,6 +1,6 @@
 ---
 name: tree-render
-description: Use when turning a nested bullet list or tree of thought (an outline, argument map or mind-map-style tree: a root with its answers, reasons or parts; for example a question tree, issue tree or hypothesis tree) into a static image (SVG and PNG) for a web page, report or post. Covers preparing the text, then rendering a left-to-right branching tree with the bundled CLI and checking the result. Not for flowcharts, org charts or architecture diagrams.
+description: "Use when turning a nested bullet list or tree of thought (an outline, argument map or mind-map-style tree: a root with its answers, reasons or parts; for example a question tree, issue tree or hypothesis tree) into a static image (SVG and PNG) for a web page, report or post. Covers preparing the text, then rendering a left-to-right branching tree with the bundled CLI and checking the result. Not for flowcharts, org charts or architecture diagrams."
 ---
 
 # Tree render
