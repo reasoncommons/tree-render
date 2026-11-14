@@ -3,11 +3,11 @@
 // with `rootBox`, in a light box whose right edge the curves leave), and
 // the level-1 answers leave it on 2.5 px S-curves (no end dots: 2026-11-13); each answer's points hang off rounded
 // elbows (8 px corners, 1.25 px grey). The first point sits on its answer's baseline, so answer, leader and
-// first point read as one line. `curve: 'coggle'` (or 'coggle-l1'): Coggle's cubic for the level-1 curves (shared.js
-// coggleCurve). Red marks the accent branch's curve, dot and lead.
+// first point read as one line. `curve: 'coggle'` (the default, or 'coggle-l1'): Coggle's cubic for the level-1 curves
+// (shared.js coggleCurve) over the curvature rule's run (coggleReach); 'ribbon' (alias 'current'): the older sCurve. Red marks the accent branch's curve, dot and lead.
 import { Canvas, runsFor, xMiddleOf, sampleCubic } from '../directions/common.js';
 import { paletteText, ensureContrast } from '../palettes.js';
-import { RED, accentIndex, balanced, sCurve, cubicD, spreads, placeRoot, rootFor, checkCurve, coggleCurve, segsD, segsPts } from './shared.js';
+import { RED, accentIndex, balanced, sCurve, cubicD, spreads, placeRoot, rootFor, checkCurve, coggleCurve, coggleReach, segsD, segsPts } from './shared.js';
 
 const INK = '#1a1a1a', CURVE = '#222', ELBOW = '#888';
 const ROOT = { size: 28, wrap: 280, dot: 3.5, gap: 12 };
@@ -16,8 +16,8 @@ const L2 = { size: 16, lh: 21, wrap: 320, fill: '#333', gap: 8, width: 1.25 };
 const EL = { leaderGap: 12, stemGap: 28, tick: 18, textGap: 10, r: 8 };
 const GROUP_GAP = 40, SPREAD = 10;
 
-export function render(tree, { rootBox = false, rootCentre = false, palette: P = null, curve = 'current' } = {}) {
-  checkCurve(curve);
+export function render(tree, { rootBox = false, rootCentre = false, palette: P = null, curve } = {}) {
+  curve = checkCurve(curve);
   const cv = new Canvas(P ? { bg: P.bg } : {});
   const acc = accentIndex(tree.root);
   // A palette (palettes.js): its branch colours cycled over the non-accent answers, its accent, ink and hairlines.
@@ -42,7 +42,7 @@ export function render(tree, { rootBox = false, rootCentre = false, palette: P =
     y = bottom + GROUP_GAP;
   }
   const span = groups[groups.length - 1].y - groups[0].y;
-  const reach = Math.max(180, Math.min(260, 0.28 * span));
+  const reach = curve !== 'ribbon' ? coggleReach(span / 2, L1.size) : Math.max(180, Math.min(260, 0.28 * span));
 
   const root = placeRoot(cv, tree.root.text, (groups[0].y + groups[groups.length - 1].y) / 2, { ...rootFor(tree, ROOT, L1.size), box: rootBox, centre: rootCentre, ink: P ? ensureContrast(P.root.text, P.bg) : INK, ...(P ? { boxFill: P.root.fill } : {}) });
   const rootDot = root.from;
@@ -53,7 +53,7 @@ export function render(tree, { rootBox = false, rootCentre = false, palette: P =
   const order = groups.map((g, i) => i).sort((a, b) => groups[a].red - groups[b].red);
   for (const i of order) {
     const g = groups[i], to = { x: l1Dot, y: g.y };
-    if (curve !== 'current') { const s = coggleCurve(rootDot, to); cv.path(segsD(s), segsPts(s, 24), { stroke: g.curve, width: L1.width }); continue; }
+    if (curve !== 'ribbon') { const s = coggleCurve(rootDot, to); cv.path(segsD(s), segsPts(s, 24), { stroke: g.curve, width: L1.width }); continue; }
     const p = sCurve(rootDot, to, { spread: sp[i] });
     cv.path(cubicD(p), sampleCubic(...p), { stroke: g.curve, width: L1.width });
   }

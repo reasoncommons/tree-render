@@ -69,16 +69,17 @@ test('root style: centred lines on the dot, or a thin outlined box (no fill); bo
 });
 
 // curve 'coggle' (bead tree_render-5q0.8): Coggle's cubic for the level-1 branches (and ribbon's hairlines).
-test('curve coggle: every fixture renders with no overlaps; the default is unchanged; level-1 branches use Coggle\'s control points', async () => {
+test('curve coggle: every fixture renders with no overlaps; coggle is the default, ribbon (alias current) the older S; level-1 branches use Coggle\'s control points', async () => {
   const { branchControlPoints } = await import('../src/coggle/geometry.js');
   for (const style of STYLE2_NAMES) {
-    for (const f of fixtures) for (const curve of ['coggle', 'coggle-l1']) {
+    for (const f of fixtures) for (const curve of ['coggle', 'coggle-l1', 'ribbon']) {
       const cv = STYLES2[style](parse(readFixture(f)), { curve });
       assert.deepEqual(cv.check(), [], `${style} ${curve} ${f}`);
     }
-    const def = drawStyle2(Q2, style).toSVG(), cur = drawStyle2(Q2, style, { curve: 'current' }).toSVG();
-    assert.equal(def, cur, style);
-    assert.notEqual(drawStyle2(Q2, style, { curve: 'coggle' }).toSVG(), def, style);
+    const def = drawStyle2(Q2, style).toSVG();
+    assert.equal(drawStyle2(Q2, style, { curve: 'coggle' }).toSVG(), def, style);
+    assert.equal(drawStyle2(Q2, style, { curve: 'current' }).toSVG(), drawStyle2(Q2, style, { curve: 'ribbon' }).toSVG(), style);
+    assert.notEqual(drawStyle2(Q2, style, { curve: 'ribbon' }).toSVG(), def, style);
     assert.throws(() => drawStyle2(Q2, style, { curve: 'wiggly' }), /unknown curve/);
   }
   // dendrogram strokes the centre line itself: its level-1 paths are exactly Coggle's cubic from the root dot.
@@ -90,8 +91,22 @@ test('curve coggle: every fixture renders with no overlaps; the default is uncha
     assert.ok(Math.abs(p[1].x - n[0]) < 0.01 && Math.abs(p[2].x - n[2]) < 0.01, 'control points');
     assert.ok(Math.abs(n[1] - from.y) < 0.01 && Math.abs(n[3] - to.y) < 0.01, 'horizontal tangents');
   }
-  // ribbon: the hairlines change only with 'coggle', not 'coggle-l1'.
+  // ribbon: the hairlines are Coggle's with 'coggle', the older S with 'coggle-l1' (the hub is in the same place).
   const hairs = (o) => drawStyle2(Q2, 'ribbon', o).els.filter(e => /stroke-width="1.5"/.test(e)).join('');
-  assert.equal(hairs({ curve: 'coggle-l1' }), hairs({}));
-  assert.notEqual(hairs({ curve: 'coggle' }), hairs({}));
+  assert.notEqual(hairs({ curve: 'coggle-l1' }), hairs({}));
+  assert.equal(hairs({ curve: 'coggle' }), hairs({}));
+});
+
+test('curve coggle: the level-1 run follows the curvature rule (floor, aspect, cap, R_MAX)', async () => {
+  const { coggleReach, REACH } = await import('../src/styles2/shared.js');
+  assert.equal(coggleReach(100), REACH.floor);                        // short rise: the floor
+  assert.equal(coggleReach(100, 25), REACH.floor * 25 / 20);          // scaled with the level-1 size
+  assert.equal(coggleReach(520), 520 / REACH.aspect);                 // outer aspect held at REACH.aspect
+  assert.equal(coggleReach(1000), REACH.cap * REACH.floor);           // lengthening capped
+  assert.equal(coggleReach(2400), 800);                               // but never past aspect 3
+  // In a render: the root dot to the level-1 dots is that run (dendrogram strokes the centre line itself).
+  const paths = [...drawStyle2(Q2, 'dendrogram').els.join('').matchAll(/<path d="M ([-\d.]+) ([-\d.]+) C ([-\d. ]+)"/g)];
+  const runs = paths.map(m => +m[3].trim().split(/\s+/)[4] - +m[1]), rises = paths.map(m => Math.abs(+m[3].trim().split(/\s+/)[5] - +m[2]));
+  for (const r of runs) assert.ok(r >= REACH.floor - 0.01, `run ${r}`);
+  assert.ok(Math.max(...rises) / runs[0] <= REACH.aspect + 1e-6);
 });

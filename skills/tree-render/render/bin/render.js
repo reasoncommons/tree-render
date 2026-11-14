@@ -22,9 +22,9 @@ const USAGE = `Usage: tree-render <tree.md|tree.json> [--style NAME] [options]
                   the older canvas engine and styles (framed cards, carousel, interactive page)
 
 Styles (--style NAME):
-  coggle-exact   the default: Coggle's look, thick coloured S-curves, grey root box (Arimo)
+  ribbon         the default: bold root on a dot, tapered ribbons to each answer, hairlines to its points
+  coggle-exact   Coggle's look, thick coloured S-curves, grey root box (Arimo)
   coggle-thin    Coggle's layout with IBM Plex Sans, half-width branches, outlined root
-  ribbon         bold root on a dot, tapered ribbons to each answer, hairlines to its points
   dendrogram     bold root on a dot, dark S-curves to each answer, rounded elbows to its points
   lanes          ribbon's root and ribbons, each answer and its points on a soft grey band
   (other names in render/styles/ are legacy: see --help legacy)
@@ -55,9 +55,11 @@ Options (ribbon, dendrogram, lanes):
   --root-style dot|centre|box|outline
                         the root question: right-aligned on a dot (default), centred on the dot,
                         in a light filled box (also --root-box) or a thin outlined box
-  --curve current|coggle|coggle-l1
-                        the branch curve: current (default), Coggle's cubic (level-1 branches and
-                        ribbon's hairlines), or Coggle's for the level-1 branches only
+  --curve coggle|coggle-l1|ribbon
+                        the branch curve: coggle (default: Coggle's S for the level-1 branches and
+                        ribbon's hairlines, over a run long enough to keep Coggle's corners),
+                        coggle-l1 (Coggle's for the level-1 branches only), or ribbon (the older,
+                        narrower S; also --curve current)
 
 Exit codes: 0 ok; 1 a branch crosses a label or text overlaps (shorten the text and render
 again); 2 usage error; 3 the PNG needs Chrome or Chromium (set CHROME=/path, or use --no-png).
@@ -96,8 +98,8 @@ needs a browser.
 
 const VALUE_FLAGS = ['root-style', 'style', 'name', 'format', 'theme', 'view', 'labels', 'depth', 'root', 'kicker', 'footer', 'out', 'scale', 'state', 'emit', 'hue', 'font', 'sizes', 'root-run', 's-run', 'palette', 'curve'];
 const BOOL_FLAGS = ['png', 'no-png', 'html', 'help', 'allow-collisions', 'root-box'];
-// Flags of the framed canvas render; with none of them (and no --style) a tree renders statically in the default style.
-// --depth is not one: it also applies to the coggle styles, so the canvas render needs --format (or another flag here) for it.
+// Flags of the framed canvas render; with none of them (and no --style) a tree renders statically in the default style
+// (ribbon). --depth is not one: it applies to the coggle styles, so the canvas render needs --format (or another flag here).
 const CANVAS_FLAGS = ['format', 'theme', 'view', 'labels', 'root', 'kicker', 'footer', 'state', 'hue', 'html'];
 
 class UsageError extends Error {}
@@ -191,11 +193,13 @@ async function main(argv) {
   }
 
   const tree = readTree(file);
-  if (COGGLE_STYLE_NAMES.includes(a.style) || (!a.style && !sub && !CANVAS_FLAGS.some(k => a[k] != null))) {
+  // No --style (and no canvas flags): the default style, ribbon, named after the tree file.
+  const defaultStyle = !a.style && !sub && !CANVAS_FLAGS.some(k => a[k] != null);
+  if (COGGLE_STYLE_NAMES.includes(a.style)) {
     const { renderCoggle } = await import('../src/coggle/render.js');
     const { FONTS } = await import('../src/coggle/styles.js');
     const { findCollisions } = await import('../src/coggle/collide.js');
-    const style = a.style || 'coggle-exact';
+    const style = a.style;
     if (a.font != null && !FONTS[a.font]) throw new UsageError(`unknown font "${a.font}" (have: ${Object.keys(FONTS).join(', ')})`);
     let sizes;
     if (a.sizes != null) {
@@ -208,7 +212,7 @@ async function main(argv) {
     if (a['s-run'] != null && !(+a['s-run'] > 0)) throw new UsageError('--s-run takes a run in px (e.g. 300)');
     if (a['s-run'] != null && a['root-run'] === 'coggle') throw new UsageError('--s-run needs --root-run short (the default)');
     if (a.palette != null && !PALETTE_NAMES.includes(a.palette)) throw new UsageError(`unknown palette "${a.palette}" (have: ${PALETTE_NAMES.join(', ')})`);
-    const r = await renderCoggle(tree, { style, font: a.font, sizes, depth: a.depth != null ? +a.depth : undefined, rootRun: a['root-run'], sRun: a['s-run'] != null ? +a['s-run'] : undefined, palette: a.palette, outDir: a.out || '.', name: a.name || (a.style ? undefined : path.basename(file).replace(/\.(md|json|markdown)$/i, '')), png: !a['no-png'], scale: +(a.scale || 2), avoidCollisions: !a['allow-collisions'] });
+    const r = await renderCoggle(tree, { style, font: a.font, sizes, depth: a.depth != null ? +a.depth : undefined, rootRun: a['root-run'], sRun: a['s-run'] != null ? +a['s-run'] : undefined, palette: a.palette, outDir: a.out || '.', name: a.name, png: !a['no-png'], scale: +(a.scale || 2), avoidCollisions: !a['allow-collisions'] });
     const b = r.L.bounds;
     const hits = a['allow-collisions'] ? [] : findCollisions(r.L);
     const extra = [a.font && `font ${a.font}`, sizes && `sizes ${sizes.join('/')}`, a.depth != null && `depth ${a.depth}`, a['root-run'] && `root run ${a['root-run']}`, a['s-run'] && `S-run ${a['s-run']}`, a.palette && `palette ${a.palette}`].filter(Boolean).join(' · ');
@@ -216,15 +220,20 @@ async function main(argv) {
     for (const h of hits) console.log(`  error overlap: branch ${h.branch} crosses label ${h.label}`);
     return hits.length ? 1 : 0;
   }
-  if (STYLE2_NAMES.includes(a.style)) {
+  if (STYLE2_NAMES.includes(a.style) || defaultStyle) {
+    const style = a.style || 'ribbon';
     const { renderStyle2 } = await import('../src/styles2/index.js');
+    const { CURVES } = await import('../src/styles2/shared.js');
+    for (const k of ['sizes', 'depth', 'root-run', 's-run', 'allow-collisions']) if (a[k] != null) throw new UsageError(`--${k} works with --style coggle-exact or coggle-thin only`);
+    if (a.curve != null && !CURVES.includes(a.curve)) throw new UsageError(`unknown --curve "${a.curve}" (have: ${CURVES.join(', ')})`);
     const { FONTS } = await import('../src/coggle/styles.js');
     if (a.palette != null && !PALETTE_NAMES.includes(a.palette)) throw new UsageError(`unknown palette "${a.palette}" (have: ${PALETTE_NAMES.join(', ')})`);
     if (a.font != null && !FONTS[a.font]) throw new UsageError(`unknown font "${a.font}" (have: ${Object.keys(FONTS).join(', ')})`);
-    const r = await renderStyle2(tree, { style: a.style, outDir: a.out || '.', name: a.name, png: !a['no-png'], scale: +(a.scale || 2), rootBox: a['root-box'] || a['root-style'] === 'box' ? true : a['root-style'] === 'outline' ? 'outline' : false, rootCentre: a['root-style'] === 'centre', palette: a.palette, font: a.font, curve: a.curve });
+    const r = await renderStyle2(tree, { style, outDir: a.out || '.', name: a.name || (a.style ? undefined : path.basename(file).replace(/\.(md|json|markdown)$/i, '')), png: !a['no-png'], scale: +(a.scale || 2), rootBox: a['root-box'] || a['root-style'] === 'box' ? true : a['root-style'] === 'outline' ? 'outline' : false, rootCentre: a['root-style'] === 'centre', palette: a.palette, font: a.font, curve: a.curve });
     const [, w, h] = /width="(\d+)" height="(\d+)"/.exec(r.svg);
-    console.log(`${Object.values(r.files).map(f => path.basename(f)).join(', ')}  style ${a.style}${a['root-box'] ? ' (root box)' : a['root-style'] ? ` (root ${a['root-style']})` : ''}${a.palette ? ' · palette ' + a.palette : ''}${a.font ? ' · font ' + a.font : ''}${a.curve ? ' · curve ' + a.curve : ''} · ${w}×${h} · ${r.issues.length ? 'FAILED' : 'ok'}`);
+    console.log(`${Object.values(r.files).map(f => path.basename(f)).join(', ')}  style ${style}${a['root-box'] ? ' (root box)' : a['root-style'] ? ` (root ${a['root-style']})` : ''}${a.palette ? ' · palette ' + a.palette : ''}${a.font ? ' · font ' + a.font : ''}${a.curve ? ' · curve ' + a.curve : ''} · ${w}×${h} · ${r.issues.length ? 'FAILED' : 'ok'}`);
     for (const x of r.issues) console.log('  error overlap: ' + x);
+    if (r.dropped) console.log(`  note: ${style} draws two levels below the root; ${r.dropped} deeper node${r.dropped > 1 ? 's are' : ' is'} not drawn (--style coggle-exact draws every level)`);
     return r.issues.length ? 1 : 0;
   }
   if (a.style || (!sub && !CANVAS_FLAGS.some(k => a[k] != null))) {

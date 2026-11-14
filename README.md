@@ -1,6 +1,6 @@
 # Tree render
 
-![A question tree drawn by tree-render: "How fast should we develop AI?" on the left, five coloured branches curving right to five bold-led answers, each with three or four short points.](docs/images/hero-coggle-exact.png)
+![A question tree drawn by tree-render: "How fast should we develop AI?" on the left, five tapered ribbons curving right to five bold-led answers (the last, the conclusion, in red), each with three or four short points on hairlines.](docs/images/hero-ribbon.png)
 
 Tree render turns a question or hypothesis tree into a clear, good-looking image you can put on a web page or share.
 
@@ -18,13 +18,15 @@ That writes `out/speed-of-wisdom.png` (the image above) and `out/speed-of-wisdom
 
 ## Five styles
 
-![The same tree in five styles: coggle-exact, coggle-thin, ribbon, dendrogram and lanes.](docs/images/styles-strip.png)
+![The same tree in five styles: ribbon (the default), coggle-exact, coggle-thin, dendrogram and lanes.](docs/images/styles-strip.png)
 
-`coggle-exact` is the default. Pick another with `--style`:
+`ribbon` is the default. Pick another with `--style`:
 
 ```bash
-node bin/render.js ../../../examples/speed-of-wisdom.md --style ribbon --out out
+node bin/render.js ../../../examples/speed-of-wisdom.md --style coggle-exact --out out
 ```
+
+`ribbon`, `dendrogram` and `lanes` draw their main branches with Coggle's curve (`--curve coggle`, the default) over a run long enough to keep its soft corners; `--curve ribbon` gives the older, narrower curve. They draw two levels below the root; for deeper trees use `coggle-exact`.
 
 ## Write your own tree
 

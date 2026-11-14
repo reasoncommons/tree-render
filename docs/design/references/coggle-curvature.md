@@ -124,3 +124,7 @@ The floor scales with the level-1 text size and with Coggle's stroke for the gro
 ## Review of the real renders (2026-11-14)
 
 On real trees the 240 floor failed: with aspect around 1.3–1.5 the steep branches read as near-vertical pipes with two tight corners (q3's outer branches, web3's pink branch, Q2's blue and teal running side by side). The floor is now 320 px at Coggle's sizes (about 35 root strokes). At 320 the curves read as Coggle's S; S-run 400 is indistinguishable from Coggle's own. v0.1 Q2 is 1034 px wide at the default against 1196 with Coggle's full run (14% narrower).
+
+## In ribbon, dendrogram and lanes (2026-11-14)
+
+`--curve coggle` is now the default in these styles (`--curve ribbon`, alias `current`, keeps the older S), and `ribbon` is the CLI's default style. Nothing sits between the root dot and the level-1 column, so the whole run is the S-run (no flat tail); `coggleReach` in `src/styles2/shared.js` sets it: at least 320 px at these styles' 20 px level-1 size (scaled with it), lengthened until the outermost branch's aspect is at most 1.3, that lengthening capped at 1.5 × the floor (480), and never short of aspect 3. With the old reach (200–300 px) Q2's outer branches had aspect about 1.7 and read as pipes; at 320 their aspect is about 1.1. Q2 (wise-ink, Bricolage) goes from 1225 to 1335 px wide. The hairlines to the level-2 points keep Coggle's cubic over their fixed 76 px run, with its short-branch pull-in, like Coggle's leaf fans.

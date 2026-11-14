@@ -11,14 +11,15 @@ import { FONTS } from '../coggle/styles.js';
 export const STYLES2 = { ribbon: ribbon.ribbon, dendrogram, lanes: ribbon.lanes };
 export const STYLE2_NAMES = Object.keys(STYLES2);
 
-// Draws tree in `style`; options: { rootBox (true | 'outline'), rootCentre, palette, curve ('current' | 'coggle' | 'coggle-l1') } (palette: a PALETTES object). Returns the Canvas.
+// Draws tree in `style`; options: { rootBox (true | 'outline'), rootCentre, palette, curve ('coggle' (default) | 'coggle-l1' | 'ribbon' (alias 'current')) } (palette: a PALETTES object). Returns the Canvas.
 export function drawStyle2(tree, style, opts = {}) {
   const f = STYLES2[style];
   if (!f) throw new Error(`unknown style "${style}" (have: ${STYLE2_NAMES.join(', ')})`);
   return f(tree, opts);
 }
 
-// tree → <outDir>/<name>.svg (+ .png at `scale`). Returns { canvas, svg, files, issues } (issues: overlaps found).
+// tree → <outDir>/<name>.svg (+ .png at `scale`). Returns { canvas, svg, files, issues, dropped } (issues: overlaps
+// found; dropped: how many nodes sit more than two levels below the root, which these styles do not draw).
 // `palette`: a key of PALETTES (palettes.js); `font`: a key of the coggle FONTS (default IBM Plex Sans).
 export async function renderStyle2(tree, { style, outDir = '.', name, png = true, scale = 2, rootBox = false, rootCentre = false, palette, font, curve } = {}) {
   const P = getPalette(palette);
@@ -38,5 +39,11 @@ export async function renderStyle2(tree, { style, outDir = '.', name, png = true
     svgToPng(svg, { out: base + '.png', scale });
     files.png = base + '.png';
   }
-  return { canvas, svg, files, issues: canvas.check() };
+  return { canvas, svg, files, issues: canvas.check(), dropped: deeperThan(tree.root, 2) };
+}
+
+// Nodes more than `levels` levels below `node` (these styles draw the root and two levels under it).
+export function deeperThan(node, levels) {
+  const all = (n) => n.children.reduce((s, c) => s + 1 + all(c), 0);
+  return levels <= 0 ? all(node) : node.children.reduce((s, c) => s + deeperThan(c, levels - 1), 0);
 }

@@ -1,7 +1,7 @@
 // styles2/shared.js: helpers shared by the ribbon, dendrogram and lanes styles (and the round-2 mock-ups in
 // src/directions/): the accent branch, the horizontal-tangent S-curve, a tapered filled ribbon along it, and the root.
 import { sampleCubic, block, typo, xMiddleOf } from '../directions/common.js';
-import { branchSegments } from '../coggle/geometry.js';
+import { branchSegments, R_MAX } from '../coggle/geometry.js';
 
 export const RED = '#d7261e';
 const f = (q) => `${q.x.toFixed(2)} ${q.y.toFixed(2)}`;
@@ -99,10 +99,29 @@ export function placeRoot(cv, text, y, { size, wrap, dot, gap, box = false, cent
 // column, so there is no label to clear and no reason for a shorter S-run); branchSegments lengthens nothing then,
 // and only inserts a vertical when a branch rises more than R_MAX × its run. Short branches (chord < 75 px) get
 // Coggle's pull-in. Returns segments ({ c } cubics, { l } lines).
-export const CURVES = ['current', 'coggle', 'coggle-l1'];
-export function checkCurve(curve) {
+// 'coggle' is the default (Rufus, 2026-11-14: Coggle's curves are better). 'ribbon' is the styles' own older S
+// (sCurve, a fixed shape whatever the rise); 'current' is its old name, kept as an alias.
+export const CURVES = ['coggle', 'coggle-l1', 'ribbon', 'current'];
+export const DEFAULT_CURVE = 'coggle';
+export function checkCurve(curve = DEFAULT_CURVE) {
   if (!CURVES.includes(curve)) throw new Error(`unknown curve "${curve}" (have: ${CURVES.join(', ')})`);
-  return curve;
+  return curve === 'current' ? 'ribbon' : curve;
+}
+
+// The level-1 run (root dot to the level-1 dots) for Coggle's curve, by the curvature rule
+// (docs/design/references/coggle-curvature.md): Coggle's corners are about a third of the run the S is drawn over,
+// whatever the rise, so the run sets the look. Nothing sits between the root and the level-1 column, so the whole
+// run is the S-run (no flat tail). The run is
+//   - at least the floor, REACH.floor px at these styles' level-1 size (REACH.l1Size), scaled with the level-1 size;
+//   - long enough that the outermost branch's aspect (rise / run) is at most REACH.aspect (Coggle's own look; at
+//     aspect 1.5–1.7 the outer branches read as vertical pipes with two tight corners: q2, 2026-11-14), but this
+//     lengthening stops at REACH.cap × the floor, so a very tall list does not push the text far out;
+//   - and always long enough that the aspect is at most R_MAX (3): past that the S leans back (geometry.js).
+// `rise`: the largest |dy| from the root to a level-1 dot.
+export const REACH = { floor: 320, l1Size: 20, aspect: 1.3, cap: 1.5 };
+export function coggleReach(rise, l1Size = REACH.l1Size) {
+  const floor = REACH.floor * (l1Size / REACH.l1Size);
+  return Math.max(floor, Math.min(rise / REACH.aspect, REACH.cap * floor), rise / R_MAX);
 }
 export const coggleCurve = (from, to) => branchSegments(from, to, { sRun: Math.abs(to.x - from.x) });
 export const segsD = (segs) => segs.map((g, i) => (i ? '' : `M ${f((g.c || g.l)[0])} `) + (g.c ? `C ${f(g.c[1])} ${f(g.c[2])} ${f(g.c[3])}` : `L ${f(g.l[1])}`)).join(' ');

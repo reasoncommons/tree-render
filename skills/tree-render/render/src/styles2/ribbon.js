@@ -6,12 +6,13 @@
 // lanes: ribbon's root, ribbons and palette (no dot at the ribbon's end); each subtree sits on a soft
 // neutral band (red for the accent) across both text columns; no level-2 connectors, a small grey dot before
 // each point instead. `hue` (mock-up D-hue only): one restrained hue per branch. `mono` (mock-up A-mono only):
-// charcoal ribbons. `curve`: 'current' (sCurve), 'coggle' (Coggle's cubic for the ribbons' centre lines and the
-// hairlines, shared.js coggleCurve) or 'coggle-l1' (ribbons only). `palette` (palettes.js): its colours instead of slate, ink and red. `rootBox`: the root in a light Coggle-like box (shared.js placeRoot) instead of on a dot.
+// charcoal ribbons. `curve`: 'coggle' (the default: Coggle's cubic for the ribbons' centre lines and the hairlines,
+// shared.js coggleCurve, over a run set by the curvature rule, coggleReach), 'coggle-l1' (ribbons only) or 'ribbon'
+// (alias 'current': the older sCurve). `palette` (palettes.js): its colours instead of slate, ink and red. `rootBox`: the root in a light Coggle-like box (shared.js placeRoot) instead of on a dot.
 import { Canvas, runsFor, xMiddleOf, sampleCubic } from '../directions/common.js';
 import { PALETTE, adjust, darken } from '../coggle/colour.js';
 import { paletteText, ensureContrast } from '../palettes.js';
-import { RED, accentIndex, balanced, sCurve, cubicD, ribbon, spreads, placeRoot, rootFor, checkCurve, coggleCurve, segsD, segsPts, ribbonAlong } from './shared.js';
+import { RED, accentIndex, balanced, sCurve, cubicD, ribbon, spreads, placeRoot, rootFor, checkCurve, coggleCurve, coggleReach, segsD, segsPts, ribbonAlong } from './shared.js';
 
 const INK = '#1a1a1a';
 const ROOT = { size: 28, wrap: 300, dot: 3.5, gap: 12 };
@@ -23,9 +24,9 @@ const HAIR = { width: 1.5, colour: '#7a7a7a', hub: 16, span: 84, end: 8, ruleGap
 const LANE_HUES = [0, 1, 6, 2, 7, 3].map(i => PALETTE[i]);
 const LANE = { pad: 20, radius: 12, alpha: 0.07, accentAlpha: 0.05, pointDot: 2, pointGap: 10, colGap: 36, groupGap: 56 };
 
-export function render(tree, { mono = false, lanes = false, hue = false, rootBox = false, rootCentre = false, palette: P = null, curve = 'current' } = {}) {
-  checkCurve(curve);
-  const cogL1 = curve !== 'current', cogHair = curve === 'coggle';
+export function render(tree, { mono = false, lanes = false, hue = false, rootBox = false, rootCentre = false, palette: P = null, curve } = {}) {
+  curve = checkCurve(curve);
+  const cogL1 = curve !== 'ribbon', cogHair = curve === 'coggle';
   const cv = new Canvas(P ? { bg: P.bg } : {});
   const acc = accentIndex(tree.root);
   const groupGap = lanes ? LANE.groupGap : 36;
@@ -57,7 +58,9 @@ export function render(tree, { mono = false, lanes = false, hue = false, rootBox
   let y = 0;
   for (const g of groups) { g.top = y; g.mid = y + g.h / 2; g.bTop = g.mid - g.b.h / 2; g.dotY = xMiddleOf(g.b, g.bTop); y += g.h + groupGap; }
   const span = groups[groups.length - 1].dotY - groups[0].dotY;
-  const reach = Math.max(200, Math.min(300, 0.3 * span));
+  // The ribbon curve: its own reach. Coggle's: the curvature rule's (shared.js coggleReach), from the root's middle.
+  const rise = span / 2;
+  const reach = cogL1 ? coggleReach(rise, L1.size) : Math.max(200, Math.min(300, 0.3 * span));
 
   // Root: centred on the point every ribbon leaves (a dot, or the right edge of the root box).
   const root = placeRoot(cv, tree.root.text, (groups[0].dotY + groups[groups.length - 1].dotY) / 2, { ...rootFor(tree, ROOT, L1.size), box: rootBox, centre: rootCentre, ink: P ? ensureContrast(P.root.text, P.bg) : INK, ...(P ? { boxFill: P.root.fill } : {}) });

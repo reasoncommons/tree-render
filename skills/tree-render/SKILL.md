@@ -31,15 +31,15 @@ From `skills/tree-render/render/`:
 node bin/render.js tree.md --out out
 ```
 
-This writes `out/tree.svg` and `out/tree.png` (at 2x) in the default style, `coggle-exact`. With `--style NAME` the files are named after the style unless you add `--name NAME`.
+This writes `out/tree.svg` and `out/tree.png` (at 2x) in the default style, `ribbon`. With `--style NAME` the files are named after the style unless you add `--name NAME`.
 
 Pick a style by purpose:
 
 | Style | Look | Use when |
 | --- | --- | --- |
-| `coggle-exact` (default) | Coggle's look: thick coloured S-curves, grey root box | Most cases |
+| `ribbon` (default) | Bold root on a dot, tapered ribbons, hairlines to the leaves | Most cases; a host site's own palette (with `--palette`) |
+| `coggle-exact` | Coggle's look: thick coloured S-curves, grey root box | Coggle's colourful look; trees more than two levels deep |
 | `coggle-thin` | The same layout in IBM Plex Sans, thin branches, outlined root | A quieter page |
-| `ribbon` | Bold root on a dot, tapered ribbons, hairlines to the leaves | A host site's own palette (with `--palette`) |
 | `dendrogram` | Dark S-curves, rounded elbows to the leaves | Print, or a sober look |
 | `lanes` | Like `ribbon`, each branch on a soft grey band | Many leaves per branch |
 
@@ -54,6 +54,7 @@ Main options (the full list is in `node bin/render.js --help`):
 - `--palette wise-ink|wise-print`: the Wisdom and AI site's colours, with a red accent on the "So" branch. Without it each style keeps its own colours.
 - `--font arimo|plex|atkinson|bricolage|merriweather|plexmono|quattro`: set the text in another embedded font.
 - `--root-style dot|centre|box|outline` (`ribbon`, `dendrogram`, `lanes`): how the root question is drawn.
+- `--curve coggle|coggle-l1|ribbon` (`ribbon`, `dendrogram`, `lanes`): the main branches' curve. `coggle` (default) is Coggle's S over a run of at least 320 px, longer for a tall tree so the outer branches stay soft S's, not vertical pipes; `ribbon` is the older, narrower curve. These styles draw two levels below the root and print a note if a tree has more.
 - `--depth N` (`coggle-exact`, `coggle-thin`): show only N levels below the root.
 - `--sizes 22,17,15,14` (`coggle-exact`, `coggle-thin`): font sizes in px for the root, level 1, level 2 and deeper. Choose from the leaf size up: fix the leaf (14–16 px on desktop), level 1 at about 1.2x, the root at about 1.6x; leaf 15 gives `--sizes 24,18,15,15`.
 - `--root-run` and `--s-run` (`coggle-exact`, `coggle-thin`): how wide the root's branches run; see [coggle-curvature.md](../../docs/design/references/coggle-curvature.md).

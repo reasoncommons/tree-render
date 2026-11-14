@@ -125,11 +125,21 @@ test('--style: writes <out>/<name>.svg, a 2× PNG and the report', { skip }, () 
   assert.equal(JSON.parse(fs.readFileSync(out('opts/q2.report.json'), 'utf8')).ok, true);
 });
 
-test('no --style and no format flags: a static render in the default style, named after the tree', () => {
+test('no --style and no format flags: a render in the default style (ribbon), named after the tree', () => {
   const r = cli(path.join(FIXTURES, 'v01-q2.json'), '--no-png', '--out', out('def'));
   assert.equal(r.code, 0, r.err + r.out);
   const svg = fs.readFileSync(out('def/v01-q2.svg'), 'utf8');
-  assert.match(svg, /data-style="coggle-exact"/);
+  assert.match(r.out, /v01-q2\.svg  style ribbon · \d+×\d+ · ok/);
+  assert.match(svg, /^<svg /);
+  // coggle-only flags without --style are usage errors (the default is ribbon)
+  const d = cli(path.join(FIXTURES, 'v01-q2.json'), '--sizes', '22,17,15,14', '--no-png', '--out', out('def'));
+  assert.equal(d.code, 2);
+  assert.match(d.err, /--sizes works with --style coggle-exact or coggle-thin only/);
+  // a three-level tree: drawn two levels deep, with a note saying how many nodes are left out
+  fs.writeFileSync(out('def/deep.md'), '- Root?\n  - A\n    - A1\n      - A1a\n      - A1b\n  - B\n    - B1\n');
+  const t = cli(out('def/deep.md'), '--no-png', '--out', out('def'));
+  assert.equal(t.code, 0, t.err + t.out);
+  assert.match(t.out, /note: ribbon draws two levels below the root; 2 deeper nodes are not drawn/);
 
   // a named style keeps its own name as the file name; river is a named style
   const v = cli(path.join(FIXTURES, 'v01-q2.json'), '--style', 'river', '--no-png', '--out', out('def'));
