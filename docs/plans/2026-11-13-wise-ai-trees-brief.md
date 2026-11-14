@@ -19,7 +19,7 @@ For a sub-session working in `~/src/life-itself/ai-wise` on the beads epic `ais-
 ## How to draw them
 
 - Renderer: `~/src/reasoncommons/tree-render/skills/tree-render/render/bin/render.js`. Read `skills/tree-render/SKILL.md` first.
-- Shape: `--style coggle-exact` (Coggle's curves and palette, branches never cross text; the default `middle` root run keeps the tree narrower). Comparison of the five styles: https://claude.ai/artifact/M2kRH44N1Ci7zRy1s1YbLV
+- Shape: `--style coggle-exact` (Coggle's curves and palette, branches never cross text; the default `short` root run keeps the tree narrower: Coggle's S over a shorter shared run, then a straight tail). Comparison of the five styles: https://claude.ai/artifact/M2kRH44N1Ci7zRy1s1YbLV
 - Font: Bricolage Grotesque, the default (also the site's body font). Arimo is the alternative (`--font arimo`). Fonts page: https://claude.ai/artifact/5uAwQ34AUDiEWa4AkCiwbr
 - Sizes: the defaults, Coggle's (root 22, answers 15.3, points 13). Don't pass `--sizes`.
 - Depth: `--depth 1` for the overview; the question trees in full (two levels). One image per tree, made for desktop; phones show the same image.

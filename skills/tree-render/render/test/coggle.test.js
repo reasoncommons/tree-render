@@ -404,53 +404,127 @@ test('even rhythm: the root\'s branches stack as bands with equal gaps (depth 2)
   }
 });
 
-// --- root runs (2026-11-13 reviews: fan read as spokes and was removed; middle is Coggle's S compressed) and ink ------
+// --- root runs (2026-11-14: Coggle's S over a shorter shared S-run, then a straight tail; middle removed) and ink ---
 
-import { ROOT_RUNS } from '../src/coggle/layout.js';
-import { departure } from '../src/coggle/geometry.js';
+import { ROOT_RUNS, S_RUN } from '../src/coggle/layout.js';
+import { branchSegments, R_MAX } from '../src/coggle/geometry.js';
 import { PAD } from '../src/coggle/draw.js';
 const Q2 = parse(fs.readFileSync(path.join(here, 'fixtures', 'v01-q2.json'), 'utf8'));
 const DESKTOP = [25.5, 19, 16, 16];
-// Angle off the horizontal of the chord from a branch's start to its point a quarter of the way across.
-const depart = (b) => {
-  const s = branchSamples(b.from, b.to, { shape: b.shape }), dx = b.to.x - b.from.x, q = s.find(p => p.x - b.from.x >= 0.25 * dx);
-  return Math.atan2(Math.abs(q.y - b.from.y), q.x - b.from.x) * 180 / Math.PI;
+// Coggle's control points for a run dx and rise dy (no pull-in: S-runs are far longer than 75 px).
+const coggleCP = (from, dx, dy, up) => [from.x + Math.max(0.08 * dy + Math.min(0.7 * dx, 600), 16), from.x + dx - Math.max((dx + Math.min(0.6 * dy, 1200)) / 2, 8), up];
+// A branch's S part: its run (dxs), rise and control points, checked against Coggle's formula for (dxs, dy).
+const checkS = (b, at) => {
+  const segs = branchSegments(b.from, b.to, { sRun: b.sRun }), dy = Math.abs(b.to.y - b.from.y), dx = b.to.x - b.from.x;
+  if (segs.length === 3) { // the vertical insert: only past R_MAX over the whole run
+    assert.ok(dy > R_MAX * dx - 1e-6 && segs[1].l && Math.abs(segs[1].l[0].x - segs[1].l[1].x) < 1e-9, at);
+    return dx;
+  }
+  const [p0, c1, c2, p3] = segs[0].c, dxs = p3.x - p0.x;
+  assert.equal(p3.y, b.to.y, at);
+  assert.ok(dy / dxs <= R_MAX + 1e-9, `${at}: aspect ${(dy / dxs).toFixed(2)} over S-run ${dxs.toFixed(0)}`);
+  const [x1, x2] = coggleCP(p0, dxs, dy);
+  assert.ok(near(c1.x, x1, 1e-6) && near(c2.x, x2, 1e-6) && c1.y === p0.y && c2.y === p3.y, `${at}: not Coggle's control points for (${dxs}, ${dy})`);
+  if (segs.length === 2) assert.ok(segs[1].l && segs[1].l[0].y === b.to.y && segs[1].l[1].x === b.to.x, `${at}: the tail is horizontal to the junction`);
+  return dxs;
 };
 
-test('root run middle is the default: root branches leave flat (≤ 45° over the first quarter), level-1 wraps no narrower than 250 px at 18 px, no crossings', async () => {
+test('branchSegments: no S-run is Coggle\'s one cubic; an S-run draws Coggle\'s S over it, then a straight tail', () => {
+  const f = { x: 0, y: 0 }, t = { x: 400, y: -300 };
+  assert.deepEqual(branchSegments(f, t), [{ c: branchControlPoints(f, t) }]);
+  assert.deepEqual(branchSegments(f, t, { sRun: 400 }), [{ c: branchControlPoints(f, t) }]);
+  const s = branchSegments(f, t, { sRun: 240 });
+  assert.deepEqual(s[0].c, branchControlPoints(f, { x: 240, y: -300 }));
+  assert.deepEqual(s[1].l, [{ x: 240, y: -300 }, { x: 400, y: -300 }]);
+  // aspect ≤ 3: a tall branch lengthens its own S-run to rise / 3
+  const tall = branchSegments(f, { x: 400, y: 900 }, { sRun: 240 });
+  assert.equal(tall[0].c[3].x, 300);
+  // taller than 3 × the whole run: the r = 3 curve split at its vertical tangents, a vertical line between, on a
+  // spine at 0.314 dx · √(3 dx / dy): nearer the root the taller the branch, so the strands of a long list nest
+  const spines = [700, 1000, 1400].map(dy => {
+    const v = branchSegments(f, { x: 200, y: dy }, { sRun: 240 });
+    assert.equal(v.length, 3);
+    const [A, L, B] = v;
+    assert.ok(near(L.l[0].x, L.l[1].x, 1e-9) && near(A.c[3].x, L.l[0].x, 1e-9) && near(B.c[0].x, L.l[1].x, 1e-9));
+    assert.ok(near(A.c[3].x, 0.314 * 200 * Math.sqrt(600 / dy), 0.3) && near(A.c[3].y / 200, 0.710, 0.005), `${A.c[3].x}, ${A.c[3].y}`);
+    pt(B.c[3], 200, dy, 1e-9);
+    // tangent-continuous: A arrives vertical and B leaves vertical (their last / first control points on the line's x)
+    assert.ok(near(A.c[2].x, A.c[3].x, 1e-3) && near(B.c[1].x, B.c[0].x, 1e-3));
+    return A.c[3].x;
+  });
+  assert.ok(spines[0] > spines[1] && spines[1] > spines[2], spines.join(' '));
+  assert.match(branchPath(f, t, { sRun: 240 }), /^M 0 0 C [^L]+ L 400 -300$/);
+});
+
+test('root run short is the default: every root-branch S has aspect ≤ 3 over its S-run and Coggle\'s control points for (S-run, rise); one S-run per group, at least the floor where it is not the whole run; no crossings', async () => {
   for (const font of ['arimo', 'bricolage', 'plexmono', 'quattro']) {
-    const S = withOverrides(EXACT, { font, sizes: DESKTOP }), TF = await createCoggleText(S.font);
-    for (const tree of [Q2, trimDepth(Q2, 2), WEB3]) {
-      const L = coggleLayout(tree, TF, { style: S });
-      const root = L.branches.filter(b => b.node.level === 1);
-      assert.ok(root.every(b => b.shape === ROOT_RUNS.middle.shape) && L.branches.every(b => b.node.level === 1 || !b.shape));
-      for (const b of root) assert.ok(depart(b) <= 45.5, `${font} ${b.node.num}: ${depart(b).toFixed(1)}°`);
-      for (const r of L.nodes.filter(r => r.level === 1 && r.children.length)) assert.ok(r.t.w >= 250 * 19 / 18 - 1, `${font} ${r.num}: wrap ${r.t.w}`);
-      assert.deepEqual(findCollisions(L), [], font);
+    for (const sizes of [null, DESKTOP]) {
+      const S = withOverrides(EXACT, { font, sizes }), TF = await createCoggleText(S.font);
+      const floor = S_RUN.floor * (sizes ? sizes[1] : 15.3) / 15.3;
+      for (const tree of [Q2, trimDepth(Q2, 2), WEB3]) {
+        const L = coggleLayout(tree, TF, { style: S });
+        const root = L.branches.filter(b => b.node.level === 1 && b.node.children.length);
+        assert.equal(new Set(root.map(b => b.sRun)).size, 1, `${font}: one shared S-run`);
+        for (const b of root) {
+          const dxs = checkS(b, `${font} ${b.node.num}`);
+          if (b.sRun != null) assert.ok(dxs >= floor - 1e-6 || dxs >= b.to.x - b.from.x - 1e-6, `${font} ${b.node.num}: S-run ${dxs} under the floor ${floor}`);
+        }
+        assert.ok(L.branches.every(b => b.node.children.length || b.sRun == null), `${font}: leaves keep Coggle's S`);
+        for (const r of L.nodes.filter(r => r.level === 1 && r.children.length)) assert.ok(r.t.w >= 220 * (sizes ? sizes[1] : 15.3) / 15.3 - 1, `${font} ${r.num}: wrap ${r.t.w}`);
+        assert.deepEqual(findCollisions(L), [], font);
+      }
     }
   }
 });
 
-test('root runs: middle is Coggle\'s S compressed (leaves flat, arrives flat, swings early) and narrower than coggle; only middle and coggle', () => {
+test('root runs: only short and coggle; short is no wider than coggle; coggle draws Coggle\'s one cubic', () => {
   const S = withOverrides(EXACT, { sizes: DESKTOP });
-  assert.deepEqual(Object.keys(ROOT_RUNS).sort(), ['coggle', 'middle']);
-  const [M, C] = ['middle', 'coggle'].map(rootRun => coggleLayout(Q2, T, { style: S, rootRun }));
-  for (const b of M.branches.filter(b => b.node.level === 1)) {
-    const p = branchControlPoints(b.from, b.to, { shape: b.shape });
-    assert.equal(p[1].y, p[0].y); // the first control point level with the root: a flat departure
-    assert.equal(p[2].y, p[3].y); // the last level with the junction: a flat arrival
-    assert.ok(p[1].x - p[0].x >= 0.45 * (b.to.x - b.from.x) - 0.01); // leaves the root flat (not a spoke)
-    assert.ok(b.to.x - p[2].x >= 0.99 * (b.to.x - b.from.x)); // swings early and runs in flat under the label
-  }
-  assert.ok(C.branches.every(b => b.shape == null));
-  assert.ok(M.bounds.w < C.bounds.w - 100, `middle ${M.bounds.w}, coggle ${C.bounds.w}`);
+  assert.deepEqual(Object.keys(ROOT_RUNS).sort(), ['coggle', 'short']);
+  const [M, C] = ['short', 'coggle'].map(rootRun => coggleLayout(Q2, T, { style: S, rootRun }));
+  assert.ok(C.branches.every(b => b.sRun == null));
+  assert.ok(M.branches.some(b => b.sRun != null), 'short shortens the S-run on Q2');
+  assert.ok(M.bounds.w < C.bounds.w - 50, `short ${M.bounds.w}, coggle ${C.bounds.w}`);
   for (const L of [M, C]) assert.deepEqual(findCollisions(L), []);
-  // the unit curve's departure falls as a grows
-  assert.ok(departure(0.05, 0.7, 1) > 60 && departure(0.65, 0.85, 1) < 20);
-  assert.throws(() => coggleLayout(Q2, T, { rootRun: 'fan' }), /unknown root run/);
+  for (const gone of ['fan', 'middle']) assert.throws(() => coggleLayout(Q2, T, { rootRun: gone }), /unknown root run/);
 });
 
-test('root run middle: the Wise-style q2 fixture runs from the root to level 1 in at most label width + 160 px', async () => {
+test('a long list (24 bands): one lengthened S-run for the group, so the root strands nest into a sheaf, none crossing another or a label', () => {
+  const kids = Array.from({ length: 24 }, (_, i) => ({ text: `Claim ${i + 1}: a few words of argument that wrap onto a second line here.`, children: [1, 2, 3].map(j => ({ text: `Support ${i + 1}.${j}, a little longer.` })) }));
+  const L = coggleLayout(parse(JSON.stringify({ title: 'list', root: { text: 'A long list?', children: kids } })), T);
+  assert.deepEqual(findCollisions(L), []);
+  const root = L.branches.filter(b => b.node.level === 1);
+  // the group's S-run is lengthened (shared) so the tallest strand's aspect stays at most 3
+  assert.ok(root.every(b => b.sRun > S_RUN.floor && Math.abs(b.to.y - b.from.y) / Math.min(b.sRun, b.to.x - b.from.x) <= 3 + 1e-9));
+  // polylines away from the shared start (the first 20 px out of the root box) must not intersect
+  const line = (b) => branchSamples(b.from, b.to, { sRun: b.sRun }).filter(p => p.x - b.from.x > 20);
+  const cross = (P, Q) => {
+    const o = (a, b, c) => Math.sign((b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x));
+    for (let i = 1; i < P.length; i++) for (let j = 1; j < Q.length; j++)
+      if (o(P[i - 1], P[i], Q[j - 1]) * o(P[i - 1], P[i], Q[j]) < 0 && o(Q[j - 1], Q[j], P[i - 1]) * o(Q[j - 1], Q[j], P[i]) < 0) return true;
+    return false;
+  };
+  const lines = root.map(line);
+  for (let i = 0; i < root.length; i++) for (let j = i + 1; j < root.length; j++) assert.ok(!cross(lines[i], lines[j]), `${root[i].node.num} crosses ${root[j].node.num}`);
+});
+
+test('sRun forces the root group\'s S-run (clamped to the floor): wider with a longer S-run, never crossing', () => {
+  const widths = [100, 240, 320, 400].map(sRun => {
+    const L = coggleLayout(Q2, T, { sRun });
+    const root = L.branches.filter(b => b.node.level === 1 && b.node.children.length);
+    for (const b of root) {
+      assert.equal(b.sRun, Math.max(sRun, S_RUN.floor));
+      assert.ok(checkS(b, `sRun ${sRun} ${b.node.num}`) >= Math.max(sRun, S_RUN.floor) - 1e-6);
+    }
+    assert.deepEqual(findCollisions(L), [], `sRun ${sRun}`);
+    return L.bounds.w;
+  });
+  assert.equal(widths[0], widths[1]); // clamped to the floor
+  assert.ok(widths[1] < widths[2] && widths[2] < widths[3], widths.join(' '));
+  // the default searches at the floor, so it is as narrow as sRun = floor
+  assert.equal(coggleLayout(Q2, T).bounds.w, widths[1]);
+});
+
+test('root run short: the Wise-style q2 fixture runs from the root to level 1 in at most label width + 160 px', async () => {
   const TB = await createCoggleText(EXACT.font);
   for (const tree of [Q2, WEB3]) {
     const L = coggleLayout(tree, TB);

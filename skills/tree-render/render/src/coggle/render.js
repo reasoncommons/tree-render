@@ -16,13 +16,14 @@ export function trimDepth(tree, depth) {
 
 // `style`: 'coggle-exact' or one of its variants (styles.js), e.g. 'coggle-thin'. `font` / `sizes`: override
 // the style's font (a key of FONTS) and sizes by level ([root, 1, 2, 3+]); `depth`: levels below the root to show;
-// `rootRun`: the shape of the root's branches in our layout (layout.js ROOT_RUNS: middle or coggle).
-export async function renderCoggle(tree, { outDir = '.', name, png = true, scale = 2, avoidCollisions = true, style = STYLE_NAME, font, sizes, depth, rootRun } = {}) {
+// `rootRun`: how our layout's branches clear labels (layout.js ROOT_RUNS: short or coggle); `sRun`: force the root
+// group's shared S-run to this many px (clamped to the floor), to show the same tree squeezed or stretched.
+export async function renderCoggle(tree, { outDir = '.', name, png = true, scale = 2, avoidCollisions = true, style = STYLE_NAME, font, sizes, depth, rootRun, sRun } = {}) {
   const own = coggleStyle(style);
   const S = withOverrides(own, { font, sizes });
   if (depth != null) tree = trimDepth(tree, depth);
   const T = await createCoggleText(S.font);
-  const L = coggleLayout(tree, T, { avoidCollisions, style: S, ...(rootRun ? { rootRun } : {}) });
+  const L = coggleLayout(tree, T, { avoidCollisions, style: S, ...(rootRun ? { rootRun } : {}), ...(sRun != null ? { sRun } : {}) });
   const svg = drawCoggle(L, { fontCSS: fontFaceCSS(S.font), style: S });
   fs.mkdirSync(outDir, { recursive: true });
   const base = path.join(outDir, name || S.name);

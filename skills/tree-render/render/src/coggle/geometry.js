@@ -1,7 +1,8 @@
 // coggle/geometry.js: Coggle's branch geometry, as extracted from coggle.it (docs/design/references/coggle-spec.md).
 // A branch is ONE stroked cubic Bézier of constant width (no ribbon), leaving its parent horizontally and
 // arriving horizontally, so it bends one way and then the other (a full S). A notched "tail" sits at the
-// start and a pointed "tip" at the end, both filled in the branch colour.
+// start and a pointed "tip" at the end, both filled in the branch colour. In our layout a branch may be that S over
+// a shorter run plus a straight tail (branchSegments).
 
 // Number format Coggle writes: the shorter of the plain number and 4 decimals.
 export function fmt(t) {
@@ -28,16 +29,10 @@ const d2 = (a, b) => (b.x - a.x) ** 2 + (b.y - a.y) ** 2;
 //   c2 = to   − (max((|dx| + min(0.6|dy|, 1200)) / 2, 8), 0)
 // then, for branches shorter than 75 px, both control points are pulled towards their end point by
 // i = 1 − 1 / (d⁴ / 390625 + 1), d² the squared length of the chord.
-// `shape` (our layout, the root's branches; layout.js ROOT_RUNS): { a, b } instead: c1 = from + a·dx, c2 = to − b·dx.
-// Small a bends the S early, near the root (spokes); large a leaves the root nearly flat (Coggle's S). Large b swings
-// early and runs in nearly flat under the label (whose text sits left of the junction); b = 1 puts c2 over the start.
-// With `shape.cap` (degrees), a grows (up to 1) where needed so that the curve, over the first quarter of its run,
-// rises at most cap° off the horizontal (departure(): the chord from the start to the point a quarter of the way along).
-export function branchControlPoints(from, to, { sign = 1, shape = null } = {}) {
+export function branchControlPoints(from, to, { sign = 1 } = {}) {
   const dx = Math.abs(from.x - to.x), dy = Math.abs(from.y - to.y);
-  if (shape?.cap) shape = { ...shape, a: cappedA(shape, dx ? dy / dx : 0) };
-  const f = (shape ? Math.max(shape.a * dx, 16) : Math.max(0.08 * dy + Math.min(0.7 * dx, 600), 16)) * sign;
-  const g = (shape ? Math.max(shape.b * dx, 8) : Math.max((dx + Math.min(0.6 * dy, 1200)) / 2, 8)) * sign;
+  const f = Math.max(0.08 * dy + Math.min(0.7 * dx, 600), 16) * sign;
+  const g = Math.max((dx + Math.min(0.6 * dy, 1200)) / 2, 8) * sign;
   const p = [{ x: from.x, y: from.y }, { x: from.x + f, y: from.y }, { x: to.x - g, y: to.y }, { x: to.x, y: to.y }];
   const n = d2(p[0], p[3]);
   if (n < 5625) {
@@ -48,34 +43,69 @@ export function branchControlPoints(from, to, { sign = 1, shape = null } = {}) {
   return p;
 }
 
-// The unit curve (dx = 1, dy = r) with c1 = (a, 0), c2 = (1 − b, r): x(t), y(t).
-const unitX = (a, b, t) => 3 * a * t * (1 - t) ** 2 + 3 * (1 - b) * t * t * (1 - t) + t ** 3;
-const unitY = (r, t) => r * (3 * t * t - 2 * t ** 3);
-// Angle (degrees) off the horizontal of the chord from the start to where the curve is `frac` of the way across.
-export function departure(a, b, r, frac = 0.25) {
-  let lo = 0, hi = 1;
-  for (let i = 0; i < 30; i++) { const m = (lo + hi) / 2; if (unitX(a, b, m) < frac) lo = m; else hi = m; }
-  return Math.atan2(unitY(r, hi), frac) * 180 / Math.PI;
-}
-const capCache = new Map();
-function cappedA({ a, b, cap }, r) {
-  const key = `${a}|${b}|${cap}|${r.toFixed(3)}`;
-  let v = capCache.get(key);
-  if (v == null) {
-    v = a;
-    if (departure(a, b, r) > cap) {
-      let lo = a, hi = 1;
-      for (let i = 0; i < 20; i++) { const m = (lo + hi) / 2; if (departure(m, b, r) > cap) lo = m; else hi = m; }
-      v = hi;
-    }
-    capCache.set(key, v);
+// Our layout's branches (docs/design/references/coggle-curvature.md, "The rule"): Coggle's S drawn over a shorter
+// run, then a straight horizontal tail to the junction. Coggle's corners are about a third of the run the S is drawn
+// over, whatever the rise, so a narrower tree keeps Coggle's look by shortening the S-run, never by bending tighter.
+// R_MAX: the steepest aspect (rise / S-run) drawn as one cubic; past it the S's midpoint leans back by over half a
+// stroke, so the branch's S-run is lengthened to rise / R_MAX where the run allows, else a vertical is inserted.
+export const R_MAX = 3;
+
+// A branch as segments: { c: [p0, c1, c2, p3] } cubics and { l: [p0, p1] } lines, joined end to end.
+// `sRun` (our layout; the group's shared S-run, px): null draws Coggle's one cubic over the whole run (dx). Otherwise
+//   1. this branch's S-run is dxs = min(dx, max(sRun, dy / R_MAX)) (aspect ≤ R_MAX wherever the run allows);
+//   2. one cubic from `from` to (from.x + dxs, to.y), with Coggle's control points for (dxs, dy);
+//   3. if dxs < dx, a straight horizontal line on to `to` (tangent-continuous: the S arrives flat);
+//   4. if dy > R_MAX · dx (a very tall branch in a narrow tree): the R_MAX curve over dx, split at its two vertical
+//      tangents (x ≈ 0.367 and 0.314 dx), with a vertical line between at the spine x = 0.314 dx · √(R_MAX dx / dy):
+//      the departure piece scaled horizontally about the start and the arrival piece about the end to meet it. The
+//      spine moves towards the root as the branch gets taller, so the outer strands of a long list nest (a sheaf)
+//      instead of crossing on one shared spine.
+export function branchSegments(from, to, { sign = 1, sRun = null } = {}) {
+  const dx = Math.abs(to.x - from.x), dy = Math.abs(to.y - from.y);
+  if (sRun == null) return [{ c: branchControlPoints(from, to, { sign }) }];
+  const dxs = Math.min(dx, Math.max(sRun, dy / R_MAX));
+  if (dy <= R_MAX * dxs + 1e-9) {
+    const end = { x: from.x + sign * dxs, y: to.y };
+    const segs = [{ c: branchControlPoints(from, end, { sign }) }];
+    if (dxs < dx - 1e-9) segs.push({ l: [end, { x: to.x, y: to.y }] });
+    return segs;
   }
-  return v;
+  // 4: in local units (x along the run, y along the rise), the R_MAX curve over dx
+  const s = to.y < from.y ? -1 : 1, rise = R_MAX * dx;
+  const f = Math.max(0.08 * rise + Math.min(0.7 * dx, 600), 16), g = Math.max((dx + Math.min(0.6 * rise, 1200)) / 2, 8);
+  const P = [[0, 0], [f, 0], [dx - g, rise], [dx, rise]];
+  const [t1, t2] = verticalTangents(P);
+  const A = cubicPart(P, 0, t1), B = cubicPart(P, t2, 1);
+  const spine = B[0][0] * Math.sqrt(rise / dy), ka = spine / A[3][0], kb = (dx - spine) / (dx - B[0][0]), up = dy - rise;
+  const As = A.map(([x, y]) => [x * ka, y]), Bs = B.map(([x, y]) => [dx - (dx - x) * kb, y + up]);
+  const at = ([x, y]) => ({ x: from.x + sign * x, y: from.y + s * y });
+  return [{ c: As.map(at) }, { l: [at(As[3]), at(Bs[0])] }, { c: Bs.map(at) }];
+}
+
+// The part of cubic P (arrays [x, y]) between parameters t0 and t1 (de Casteljau).
+function cubicPart(P, t0, t1) {
+  const split = (Q, t) => {
+    const L = (p, q) => [p[0] + (q[0] - p[0]) * t, p[1] + (q[1] - p[1]) * t];
+    const a = L(Q[0], Q[1]), b = L(Q[1], Q[2]), c = L(Q[2], Q[3]), d = L(a, b), e = L(b, c), m = L(d, e);
+    return [[Q[0], a, d, m], [m, e, c, Q[3]]];
+  };
+  const right = t0 > 0 ? split(P, t0)[1] : P;
+  return t1 >= 1 ? right : split(right, (t1 - t0) / (1 - t0))[0];
+}
+// The two parameters where a cubic whose x runs back for a while (x' < 0 somewhere in (0, 1)) has a vertical tangent.
+function verticalTangents(P) {
+  const xd = (t) => (P[1][0] - P[0][0]) * (1 - t) ** 2 + 2 * (P[2][0] - P[1][0]) * t * (1 - t) + (P[3][0] - P[2][0]) * t * t;
+  let tm = 0.5, lo = Infinity;
+  for (let i = 1; i < 200; i++) { const v = xd(i / 200); if (v < lo) { lo = v; tm = i / 200; } }
+  const root = (a, b, up) => { for (let i = 0; i < 50; i++) { const m = (a + b) / 2; if ((xd(m) > 0) === up) a = m; else b = m; } return (a + b) / 2; };
+  return [root(0, tm, true), root(tm, 1, false)];
 }
 
 export function branchPath(from, to, opts) {
-  const p = branchControlPoints(from, to, opts);
-  return `M ${fmt(p[0].x)} ${fmt(p[0].y)} C ` + p.slice(1).map(q => `${fmt(q.x)} ${fmt(q.y)}`).join(' ');
+  const segs = branchSegments(from, to, opts), p = (q) => `${fmt(q.x)} ${fmt(q.y)}`;
+  let d = `M ${p(segs[0].c ? segs[0].c[0] : segs[0].l[0])}`;
+  for (const g of segs) d += g.c ? ' C ' + g.c.slice(1).map(p).join(' ') : ` L ${p(g.l[1])}`;
+  return d;
 }
 
 // Tail: a rectangle with a V notch cut into its back, w tall and tailLength(w) long, origin at the notch.

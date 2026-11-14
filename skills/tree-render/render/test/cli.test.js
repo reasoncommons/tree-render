@@ -173,7 +173,7 @@ test('--style ribbon|dendrogram|lanes (and --root-box): writes <style>.svg, exit
   for (const s of ['ribbon', 'dendrogram', 'lanes', '--root-box']) assert.match(h.out, new RegExp(s));
 });
 
-test('coggle styles take --font, --sizes and --depth; bad values are usage errors', () => {
+test('coggle styles take --font, --sizes, --depth, --root-run and --s-run; bad values are usage errors', () => {
   const r = cli(path.join(FIXTURES, 'v01-q2.json'), '--style', 'coggle-exact', '--font', 'atkinson', '--sizes', '26,19,15,13', '--depth', '1', '--no-png', '--out', out('cg-opts'), '--name', 'q2');
   assert.equal(r.code, 0, r.err + r.out);
   assert.match(r.out, /font atkinson · sizes 26\/19\/15\/13 · depth 1/);
@@ -181,7 +181,10 @@ test('coggle styles take --font, --sizes and --depth; bad values are usage error
   assert.match(svg, /font-family:'Atkinson Hyperlegible Next'/);
   assert.match(svg, /class="label" data-node="root" fill="[^"]+" font-size="26"/);
   assert.ok(!/class="label" data-node="\d+\.\d+"/.test(svg), 'no level-2 labels at --depth 1');
-  for (const bad of [['--font', 'comic'], ['--sizes', '22,17'], ['--depth', 'x']]) {
+  const w = (args) => { const c = cli(path.join(FIXTURES, 'v01-q2.json'), '--style', 'coggle-exact', ...args, '--no-png', '--out', out('cg-opts'), '--name', 'q2w'); assert.equal(c.code, 0, c.err + c.out); return +c.out.match(/· (\d+)×\d+ ·/)[1]; };
+  const [w240, w400, wc] = [['--s-run', '240'], ['--s-run', '400'], ['--root-run', 'coggle']].map(w);
+  assert.ok(w240 < w400 && w400 <= wc + 50, `${w240} ${w400} ${wc}`);
+  for (const bad of [['--font', 'comic'], ['--sizes', '22,17'], ['--depth', 'x'], ['--root-run', 'middle'], ['--s-run', 'wide'], ['--s-run', '300', '--root-run', 'coggle']]) {
     const b = cli(path.join(FIXTURES, 'v01-q2.json'), '--style', 'coggle-exact', ...bad, '--no-png', '--out', out('cg-opts'));
     assert.equal(b.code, 2, bad.join(' '));
   }

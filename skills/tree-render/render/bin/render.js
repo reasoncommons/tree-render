@@ -39,9 +39,11 @@ const USAGE = `Usage: tree-render <tree.md|tree.json> [--out DIR] [--name N] [--
                                (coggle-exact: arimo, Coggle's own)
          --sizes 22,17,15,14   font sizes in px: root, level 1, level 2, level 3+ (wraps grow with levels 1 and 2)
          --depth N             show only N levels below the root
-         --root-run middle|coggle   shape of the root's branches: middle (default; Coggle's S compressed horizontally:
-                               leaves the root flat, at most ~45° off it, swings early and runs in flat under the
-                               label), coggle (Coggle's own S, as before 2026-11-13: widest)
+         --root-run short|coggle   how branches clear labels: short (default; where Coggle's S would cross a
+                               label, Coggle's S over a shorter shared run, at least ~240 px, then a straight tail to
+                               the junction), coggle (Coggle's S over the whole run: widest)
+         --s-run N             (short) force the root's shared S-run to N px (at least the floor, ~240 px at
+                               default sizes) and the level-1 junctions that far out: one tree at several widths
          (exit 1 if a branch crosses a label)
 
 Options:
@@ -67,7 +69,7 @@ Writes <out>.svg and <out>.report.json and prints the report. Exit 1 on a hard c
 (overlap, overflow, fidelity, fonts, markers), 2 on a usage error, 3 when a PNG needs a browser.
 `;
 
-const VALUE_FLAGS = ['style', 'name', 'format', 'theme', 'view', 'labels', 'depth', 'root', 'kicker', 'footer', 'out', 'scale', 'state', 'emit', 'hue', 'font', 'sizes', 'root-run'];
+const VALUE_FLAGS = ['style', 'name', 'format', 'theme', 'view', 'labels', 'depth', 'root', 'kicker', 'footer', 'out', 'scale', 'state', 'emit', 'hue', 'font', 'sizes', 'root-run', 's-run'];
 const BOOL_FLAGS = ['png', 'no-png', 'html', 'help', 'allow-collisions', 'root-box'];
 // Flags of the framed canvas render; with none of them (and no --style) a tree renders statically in the default style.
 const CANVAS_FLAGS = ['format', 'theme', 'view', 'labels', 'depth', 'root', 'kicker', 'footer', 'state', 'hue', 'html'];
@@ -177,10 +179,12 @@ async function main(argv) {
     if (a.depth != null && !/^\d+$/.test(a.depth)) throw new UsageError('--depth takes a whole number');
     const { ROOT_RUNS } = await import('../src/coggle/layout.js');
     if (a['root-run'] != null && !ROOT_RUNS[a['root-run']]) throw new UsageError(`unknown --root-run "${a['root-run']}" (have: ${Object.keys(ROOT_RUNS).join(', ')})`);
-    const r = await renderCoggle(tree, { style, font: a.font, sizes, depth: a.depth != null ? +a.depth : undefined, rootRun: a['root-run'], outDir: a.out || '.', name: a.name || (a.style ? undefined : path.basename(file).replace(/\.(md|json|markdown)$/i, '')), png: !a['no-png'], scale: +(a.scale || 2), avoidCollisions: !a['allow-collisions'] });
+    if (a['s-run'] != null && !(+a['s-run'] > 0)) throw new UsageError('--s-run takes a run in px (e.g. 300)');
+    if (a['s-run'] != null && a['root-run'] === 'coggle') throw new UsageError('--s-run needs --root-run short (the default)');
+    const r = await renderCoggle(tree, { style, font: a.font, sizes, depth: a.depth != null ? +a.depth : undefined, rootRun: a['root-run'], sRun: a['s-run'] != null ? +a['s-run'] : undefined, outDir: a.out || '.', name: a.name || (a.style ? undefined : path.basename(file).replace(/\.(md|json|markdown)$/i, '')), png: !a['no-png'], scale: +(a.scale || 2), avoidCollisions: !a['allow-collisions'] });
     const b = r.L.bounds;
     const hits = a['allow-collisions'] ? [] : findCollisions(r.L);
-    const extra = [a.font && `font ${a.font}`, sizes && `sizes ${sizes.join('/')}`, a.depth != null && `depth ${a.depth}`, a['root-run'] && `root run ${a['root-run']}`].filter(Boolean).join(' · ');
+    const extra = [a.font && `font ${a.font}`, sizes && `sizes ${sizes.join('/')}`, a.depth != null && `depth ${a.depth}`, a['root-run'] && `root run ${a['root-run']}`, a['s-run'] && `S-run ${a['s-run']}`].filter(Boolean).join(' · ');
     console.log(`${Object.values(r.files).map(f => path.basename(f)).join(', ')}  style ${style}${extra ? ' · ' + extra : ''} · ${Math.ceil(b.w + 60)}×${Math.ceil(b.h + 60)} · ${r.L.nodes.length} nodes${hits.length ? ' · FAILED' : ''}`);
     for (const h of hits) console.log(`  error overlap: branch ${h.branch} crosses label ${h.label}`);
     return hits.length ? 1 : 0;
