@@ -80,13 +80,13 @@ My material:
 
 ## Use it from an AI agent
 
-The repo includes a skill, [skills/tree-render](skills/tree-render/SKILL.md), that tells an agent how to prepare the content, render it and check the result. For Claude Code, after the steps in "Try it", link it into your skills folder (run this anywhere inside the clone):
+Install the skill with the [skills](https://www.npmjs.com/package/skills) CLI. It works with Claude Code, Codex, Cursor and other agents that read skills:
 
 ```bash
-ln -s "$(git rev-parse --show-toplevel)/skills/tree-render" ~/.claude/skills/tree-render
+npx skills add reasoncommons/tree-render
 ```
 
-Or copy the folder there. Then ask your agent to "render this tree" and give it the tree or your notes. Other agents that read skills can use the same folder.
+It asks which agents to install for, and whether for this project or for all your projects (add `-g` for all). Then ask your agent to "draw this as a tree" and give it your notes or bullet list. The skill tells it how to tighten the text, render the image and check the result. The first time, the agent runs `npm install` in the skill's `render/` folder, so you need Node 20 or later, and Chrome for the PNG.
 
 ## Try it from code
 

@@ -23,7 +23,7 @@ Write the tree as Markdown ([render/TREE-FORMAT.md](render/TREE-FORMAT.md)): an 
 
 ## 2. Render
 
-Setup, once: Node 20 or later, then `npm install` in `skills/tree-render/render/`. For the PNG you need Chrome or Chromium (set `CHROME=/path/to/chrome` if it isn't found); without one, use `--no-png` and the SVG.
+Setup, once: Node 20 or later, then `npm install` in this skill's `render/` folder (`skills/tree-render/render/` in the repo). For the PNG you need Chrome or Chromium (set `CHROME=/path/to/chrome` if it isn't found); without one, use `--no-png` and the SVG.
 
 From `skills/tree-render/render/`:
 
