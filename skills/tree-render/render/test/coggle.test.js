@@ -508,7 +508,7 @@ test('a long list (24 bands): one lengthened S-run for the group, so the root st
 });
 
 test('sRun forces the root group\'s S-run (clamped to the floor): wider with a longer S-run, never crossing', () => {
-  const widths = [100, 240, 320, 400].map(sRun => {
+  const widths = [100, 320, 400, 480].map(sRun => {
     const L = coggleLayout(Q2, T, { sRun });
     const root = L.branches.filter(b => b.node.level === 1 && b.node.children.length);
     for (const b of root) {
@@ -524,12 +524,12 @@ test('sRun forces the root group\'s S-run (clamped to the floor): wider with a l
   assert.equal(coggleLayout(Q2, T).bounds.w, widths[1]);
 });
 
-test('root run short: the Wise-style q2 fixture runs from the root to level 1 in at most label width + 160 px', async () => {
+test('root run short: the Wise-style q2 fixture runs from the root to level 1 in at most label width + 200 px (S-run floor 320)', async () => {
   const TB = await createCoggleText(EXACT.font);
   for (const tree of [Q2, WEB3]) {
     const L = coggleLayout(tree, TB);
     const l1 = L.nodes.filter(r => r.level === 1), Tw = Math.max(...l1.map(r => r.t.w));
-    for (const r of l1.filter(r => r.children.length)) assert.ok(r.x - L.root.from <= Tw + 160, `${r.num}: run ${(r.x - L.root.from).toFixed(0)}, label ${Tw.toFixed(0)}`);
+    for (const r of l1.filter(r => r.children.length)) assert.ok(r.x - L.root.from <= Tw + 200, `${r.num}: run ${(r.x - L.root.from).toFixed(0)}, label ${Tw.toFixed(0)}`);
     assert.deepEqual(findCollisions(L), []);
   }
 });

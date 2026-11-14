@@ -1,102 +1,102 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1142" height="891" viewBox="0 0 1142 891" data-style="coggle-exact" data-root-x="213" data-root-y="445.5">
+<svg xmlns="http://www.w3.org/2000/svg" width="1197" height="861" viewBox="0 0 1197 861" data-style="coggle-exact" data-root-x="213" data-root-y="430.5">
 <title>[Web3] Evaluation (Coggle original)</title>
 <defs><style>text{font-family:Arimo, Helvetica, Arial, sans-serif;font-kerning:normal}</style><filter id="cg-halo" x="-50%" y="-100%" width="200%" height="300%" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceAlpha" stdDeviation="3" result="b"/><feComponentTransfer in="b" result="b4"><feFuncA type="table" tableValues="0 0.3439 0.5904 0.7599 0.8704 0.9375 0.9744 0.9919 0.9984 0.9999 1"/></feComponentTransfer><feFlood flood-color="#ffffff"/><feComposite in2="b4" operator="in" result="h"/><feMerge><feMergeNode in="h"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-<rect width="1142" height="891" fill="#ffffff"/>
-<g transform="translate(213,445.5)">
+<rect width="1197" height="861" fill="#ffffff"/>
+<g transform="translate(213,430.5)">
 <g class="branch" data-node="1">
 <path d="M 0 -4.595 6.9643 0 0 4.595 6.9643 4.595 6.9643 -4.595 z" transform="translate(179.0357,0)" fill="#e096e9"/>
-<path d="M -0.2 -4.4450 0.1 -4.4450 6.7396 0 0.1 4.4450 -0.2 4.4450" transform="translate(529.1857,-352.5)" fill="#e096e9"/>
-<path d="M 185 0 C 381.2 0 199.25 -352.5 425 -352.5 L 529.1957 -352.5" fill="none" stroke="#e096e9" stroke-width="9.19" stroke-linejoin="round"/>
+<path d="M -0.2 -4.4450 0.1 -4.4450 6.7396 0 0.1 4.4450 -0.2 4.4450" transform="translate(584.1857,-337.5)" fill="#e096e9"/>
+<path d="M 185 0 C 436 0 243.75 -337.5 505 -337.5 L 584.1957 -337.5" fill="none" stroke="#e096e9" stroke-width="9.19" stroke-linejoin="round"/>
 </g>
 <g class="branch" data-node="1.1">
-<path d="M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z" transform="translate(532.7543,-352.5)" fill="#e093ea"/>
-<path d="M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764" transform="translate(584.4643,-377)" fill="#e093ea"/>
-<path d="M 538.1600 -352.5 C 570.8458 -352.5 555.4704 -377 584.4743 -377" fill="none" stroke="#e093ea" stroke-width="8.4529" stroke-linejoin="round"/>
+<path d="M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z" transform="translate(587.7543,-337.5)" fill="#e093ea"/>
+<path d="M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764" transform="translate(639.4643,-362)" fill="#e093ea"/>
+<path d="M 593.1600 -337.5 C 625.8458 -337.5 610.4704 -362 639.4743 -362" fill="none" stroke="#e093ea" stroke-width="8.4529" stroke-linejoin="round"/>
 </g>
 <g class="branch" data-node="1.2">
-<path d="M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z" transform="translate(532.7543,-352.5)" fill="#dd90e7"/>
-<path d="M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764" transform="translate(584.4643,-326)" fill="#dd90e7"/>
-<path d="M 538.1600 -352.5 C 571.1122 -352.5 554.7971 -326 584.4743 -326" fill="none" stroke="#dd90e7" stroke-width="8.4529" stroke-linejoin="round"/>
+<path d="M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z" transform="translate(587.7543,-337.5)" fill="#dd90e7"/>
+<path d="M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764" transform="translate(639.4643,-311)" fill="#dd90e7"/>
+<path d="M 593.1600 -337.5 C 626.1122 -337.5 609.7971 -311 639.4743 -311" fill="none" stroke="#dd90e7" stroke-width="8.4529" stroke-linejoin="round"/>
 </g>
 <g class="branch" data-node="2">
 <path d="M 0 -4.595 6.9643 0 0 4.595 6.9643 4.595 6.9643 -4.595 z" transform="translate(179.0357,0)" fill="#7aa3e5"/>
-<path d="M -0.2 -4.4450 0.1 -4.4450 6.7396 0 0.1 4.4450 -0.2 4.4450" transform="translate(529.1857,-122)" fill="#7aa3e5"/>
-<path d="M 185 0 C 362.76 0 268.4 -122 425 -122 L 529.1957 -122" fill="none" stroke="#7aa3e5" stroke-width="9.19" stroke-linejoin="round"/>
+<path d="M -0.2 -4.4450 0.1 -4.4450 6.7396 0 0.1 4.4450 -0.2 4.4450" transform="translate(584.1857,-117)" fill="#7aa3e5"/>
+<path d="M 185 0 C 418.36 0 309.9 -117 505 -117 L 584.1957 -117" fill="none" stroke="#7aa3e5" stroke-width="9.19" stroke-linejoin="round"/>
 </g>
 <g class="branch" data-node="2.1">
-<path d="M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z" transform="translate(532.7543,-122)" fill="#739ee4"/>
-<path d="M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764" transform="translate(584.8243,-197.5)" fill="#739ee4"/>
-<path d="M 538.1600 -122 C 576.8720 -122 538.8471 -197.5 584.8343 -197.5" fill="none" stroke="#739ee4" stroke-width="8.4529" stroke-linejoin="round"/>
+<path d="M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z" transform="translate(587.7543,-117)" fill="#739ee4"/>
+<path d="M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764" transform="translate(639.8243,-192.5)" fill="#739ee4"/>
+<path d="M 593.1600 -117 C 631.8720 -117 593.8471 -192.5 639.8343 -192.5" fill="none" stroke="#739ee4" stroke-width="8.4529" stroke-linejoin="round"/>
 </g>
 <g class="branch" data-node="2.2">
-<path d="M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z" transform="translate(532.7543,-122)" fill="#76a1e7"/>
-<path d="M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764" transform="translate(584.8243,-155.5)" fill="#76a1e7"/>
-<path d="M 538.1600 -122 C 572.2884 -122 552.6028 -155.5 584.8343 -155.5" fill="none" stroke="#76a1e7" stroke-width="8.4529" stroke-linejoin="round"/>
+<path d="M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z" transform="translate(587.7543,-117)" fill="#76a1e7"/>
+<path d="M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764" transform="translate(639.8243,-150.5)" fill="#76a1e7"/>
+<path d="M 593.1600 -117 C 627.2884 -117 607.6028 -150.5 639.8343 -150.5" fill="none" stroke="#76a1e7" stroke-width="8.4529" stroke-linejoin="round"/>
 </g>
 <g class="branch" data-node="2.3">
-<path d="M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z" transform="translate(532.7543,-122)" fill="#719de4"/>
-<path d="M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764" transform="translate(584.8243,-113.5)" fill="#719de4"/>
-<path d="M 538.1600 -122 C 569.1243 -122 560.8004 -113.5 584.8343 -113.5" fill="none" stroke="#719de4" stroke-width="8.4529" stroke-linejoin="round"/>
+<path d="M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z" transform="translate(587.7543,-117)" fill="#719de4"/>
+<path d="M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764" transform="translate(639.8243,-108.5)" fill="#719de4"/>
+<path d="M 593.1600 -117 C 624.1243 -117 615.8004 -108.5 639.8343 -108.5" fill="none" stroke="#719de4" stroke-width="8.4529" stroke-linejoin="round"/>
 </g>
 <g class="branch" data-node="2.4">
-<path d="M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z" transform="translate(532.7543,-122)" fill="#7aa2e3"/>
-<path d="M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764" transform="translate(584.8243,-53.5)" fill="#7aa2e3"/>
-<path d="M 538.1600 -122 C 576.3120 -122 540.9471 -53.5 584.8343 -53.5" fill="none" stroke="#7aa2e3" stroke-width="8.4529" stroke-linejoin="round"/>
+<path d="M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z" transform="translate(587.7543,-117)" fill="#7aa2e3"/>
+<path d="M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764" transform="translate(639.8243,-48.5)" fill="#7aa2e3"/>
+<path d="M 593.1600 -117 C 631.3120 -117 595.9471 -48.5 639.8343 -48.5" fill="none" stroke="#7aa2e3" stroke-width="8.4529" stroke-linejoin="round"/>
 </g>
 <g class="branch" data-node="3">
 <path d="M 0 -4.595 6.9643 0 0 4.595 6.9643 4.595 6.9643 -4.595 z" transform="translate(179.0357,0)" fill="#67d7c4"/>
-<path d="M -0.2 -4.4450 0.1 -4.4450 6.7396 0 0.1 4.4450 -0.2 4.4450" transform="translate(529.1857,110)" fill="#67d7c4"/>
-<path d="M 185 0 C 361.8 0 272 110 425 110 L 529.1957 110" fill="none" stroke="#67d7c4" stroke-width="9.19" stroke-linejoin="round"/>
+<path d="M -0.2 -4.4450 0.1 -4.4450 6.7396 0 0.1 4.4450 -0.2 4.4450" transform="translate(584.1857,105)" fill="#67d7c4"/>
+<path d="M 185 0 C 417.4 0 313.5 105 505 105 L 584.1957 105" fill="none" stroke="#67d7c4" stroke-width="9.19" stroke-linejoin="round"/>
 </g>
 <g class="branch" data-node="3.1">
-<path d="M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z" transform="translate(532.7543,110)" fill="#6bdbc8"/>
-<path d="M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764" transform="translate(584.0443,51)" fill="#6bdbc8"/>
-<path d="M 538.1600 110 C 574.5506 110 543.9095 51 584.0543 51" fill="none" stroke="#6bdbc8" stroke-width="8.4529" stroke-linejoin="round"/>
+<path d="M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z" transform="translate(587.7543,105)" fill="#6bdbc8"/>
+<path d="M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764" transform="translate(639.0443,46)" fill="#6bdbc8"/>
+<path d="M 593.1600 105 C 629.5506 105 598.9095 46 639.0543 46" fill="none" stroke="#6bdbc8" stroke-width="8.4529" stroke-linejoin="round"/>
 </g>
 <g class="branch" data-node="3.2">
-<path d="M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z" transform="translate(532.7543,110)" fill="#65d3c1"/>
-<path d="M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764" transform="translate(584.0443,81)" fill="#65d3c1"/>
-<path d="M 538.1600 110 C 571.1236 110 553.7690 81 584.0543 81" fill="none" stroke="#65d3c1" stroke-width="8.4529" stroke-linejoin="round"/>
+<path d="M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z" transform="translate(587.7543,105)" fill="#65d3c1"/>
+<path d="M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764" transform="translate(639.0443,76)" fill="#65d3c1"/>
+<path d="M 593.1600 105 C 626.1236 105 608.7690 76 639.0543 76" fill="none" stroke="#65d3c1" stroke-width="8.4529" stroke-linejoin="round"/>
 </g>
 <g class="branch" data-node="3.3">
-<path d="M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z" transform="translate(532.7543,110)" fill="#70dac8"/>
-<path d="M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764" transform="translate(584.0443,111)" fill="#70dac8"/>
-<path d="M 538.1600 110 C 567.7620 110 562.6868 111 584.0543 111" fill="none" stroke="#70dac8" stroke-width="8.4529" stroke-linejoin="round"/>
+<path d="M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z" transform="translate(587.7543,105)" fill="#70dac8"/>
+<path d="M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764" transform="translate(639.0443,106)" fill="#70dac8"/>
+<path d="M 593.1600 105 C 622.7620 105 617.6868 106 639.0543 106" fill="none" stroke="#70dac8" stroke-width="8.4529" stroke-linejoin="round"/>
 </g>
 <g class="branch" data-node="3.4">
-<path d="M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z" transform="translate(532.7543,110)" fill="#6edcc9"/>
-<path d="M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764" transform="translate(584.0443,141)" fill="#6edcc9"/>
-<path d="M 538.1600 110 C 571.3865 110 553.0927 141 584.0543 141" fill="none" stroke="#6edcc9" stroke-width="8.4529" stroke-linejoin="round"/>
+<path d="M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z" transform="translate(587.7543,105)" fill="#6edcc9"/>
+<path d="M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764" transform="translate(639.0443,136)" fill="#6edcc9"/>
+<path d="M 593.1600 105 C 626.3865 105 608.0927 136 639.0543 136" fill="none" stroke="#6edcc9" stroke-width="8.4529" stroke-linejoin="round"/>
 </g>
 <g class="branch" data-node="3.5">
-<path d="M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z" transform="translate(532.7543,110)" fill="#63d7c3"/>
-<path d="M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764" transform="translate(584.0443,171)" fill="#63d7c3"/>
-<path d="M 538.1600 110 C 575.1660 110 542.8071 171 584.0543 171" fill="none" stroke="#63d7c3" stroke-width="8.4529" stroke-linejoin="round"/>
+<path d="M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z" transform="translate(587.7543,105)" fill="#63d7c3"/>
+<path d="M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764" transform="translate(639.0443,166)" fill="#63d7c3"/>
+<path d="M 593.1600 105 C 630.1660 105 597.8071 166 639.0543 166" fill="none" stroke="#63d7c3" stroke-width="8.4529" stroke-linejoin="round"/>
 </g>
 <g class="branch" data-node="4">
 <path d="M 0 -4.595 6.9643 0 0 4.595 6.9643 4.595 6.9643 -4.595 z" transform="translate(179.0357,0)" fill="#9ed56b"/>
-<path d="M -0.2 -4.4450 0.1 -4.4450 6.7396 0 0.1 4.4450 -0.2 4.4450" transform="translate(529.1857,331.5)" fill="#9ed56b"/>
-<path d="M 185 0 C 379.52 0 205.55 331.5 425 331.5 L 529.1957 331.5" fill="none" stroke="#9ed56b" stroke-width="9.19" stroke-linejoin="round"/>
+<path d="M -0.2 -4.4450 0.1 -4.4450 6.7396 0 0.1 4.4450 -0.2 4.4450" transform="translate(584.1857,316.5)" fill="#9ed56b"/>
+<path d="M 185 0 C 434.32 0 250.05 316.5 505 316.5 L 584.1957 316.5" fill="none" stroke="#9ed56b" stroke-width="9.19" stroke-linejoin="round"/>
 </g>
 <g class="branch" data-node="4.1">
-<path d="M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z" transform="translate(532.7543,331.5)" fill="#9dd569"/>
-<path d="M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764" transform="translate(584.6443,264.5)" fill="#9dd569"/>
-<path d="M 538.1600 331.5 C 576.0660 331.5 541.3071 264.5 584.6543 264.5" fill="none" stroke="#9dd569" stroke-width="8.4529" stroke-linejoin="round"/>
+<path d="M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z" transform="translate(587.7543,316.5)" fill="#9dd569"/>
+<path d="M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764" transform="translate(639.6443,249.5)" fill="#9dd569"/>
+<path d="M 593.1600 316.5 C 631.0660 316.5 596.3071 249.5 639.6543 249.5" fill="none" stroke="#9dd569" stroke-width="8.4529" stroke-linejoin="round"/>
 </g>
 <g class="branch" data-node="4.2">
-<path d="M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z" transform="translate(532.7543,331.5)" fill="#a4d775"/>
-<path d="M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764" transform="translate(584.6443,303.5)" fill="#a4d775"/>
-<path d="M 538.1600 331.5 C 571.4475 331.5 554.3704 303.5 584.6543 303.5" fill="none" stroke="#a4d775" stroke-width="8.4529" stroke-linejoin="round"/>
+<path d="M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z" transform="translate(587.7543,316.5)" fill="#a4d775"/>
+<path d="M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764" transform="translate(639.6443,288.5)" fill="#a4d775"/>
+<path d="M 593.1600 316.5 C 626.4475 316.5 609.3704 288.5 639.6543 288.5" fill="none" stroke="#a4d775" stroke-width="8.4529" stroke-linejoin="round"/>
 </g>
 <g class="branch" data-node="4.3">
-<path d="M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z" transform="translate(532.7543,331.5)" fill="#99d462"/>
-<path d="M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764" transform="translate(584.6443,341.5)" fill="#99d462"/>
-<path d="M 538.1600 331.5 C 569.1403 331.5 560.2693 341.5 584.6543 341.5" fill="none" stroke="#99d462" stroke-width="8.4529" stroke-linejoin="round"/>
+<path d="M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z" transform="translate(587.7543,316.5)" fill="#99d462"/>
+<path d="M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764" transform="translate(639.6443,326.5)" fill="#99d462"/>
+<path d="M 593.1600 316.5 C 624.1403 316.5 615.2693 326.5 639.6543 326.5" fill="none" stroke="#99d462" stroke-width="8.4529" stroke-linejoin="round"/>
 </g>
 <g class="branch" data-node="4.4">
-<path d="M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z" transform="translate(532.7543,331.5)" fill="#a2d870"/>
-<path d="M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764" transform="translate(584.6443,394)" fill="#a2d870"/>
-<path d="M 538.1600 331.5 C 575.7060 331.5 542.6571 394 584.6543 394" fill="none" stroke="#a2d870" stroke-width="8.4529" stroke-linejoin="round"/>
+<path d="M 0 -4.2264 6.4057 0 0 4.2264 6.4057 4.2264 6.4057 -4.2264 z" transform="translate(587.7543,316.5)" fill="#a2d870"/>
+<path d="M -0.2 -4.0764 0.1 -4.0764 6.1808 0 0.1 4.0764 -0.2 4.0764" transform="translate(639.6443,379)" fill="#a2d870"/>
+<path d="M 593.1600 316.5 C 630.7060 316.5 597.6571 379 639.6543 379" fill="none" stroke="#a2d870" stroke-width="8.4529" stroke-linejoin="round"/>
 </g>
 <path class="root-box" d="M -176,4.9 L -183,0,-176,-4.9,-176,-175.5 A 2.5,2.5,0,0,1,-173.5,-178 L -4.9,-178,0,-185,4.9,-178,173.5,-178 A 2.5,2.5,0,0,1,176,-175.5 L 176,-4.9,183,0,176,4.9,176,175.5 A 2.5,2.5,0,0,1,173.5,178 L 4.9,178,0,185,-4.9,178,-173.5,178 A 2.5,2.5,0,0,1,-176,175.5 Z" fill="#d0d0d0"/>
 <g class="label" data-node="root" fill="#414141" font-size="22">
@@ -115,79 +115,79 @@
 <text x="0" y="163.5" text-anchor="middle" xml:space="preserve"><tspan>(de-polarizing) way as possible?</tspan></text>
 </g>
 <g class="label" data-node="1" fill="#82348c" font-size="15.3" filter="url(#cg-halo)">
-<text x="530.16" y="-401" text-anchor="end" xml:space="preserve"><tspan>What are the core high level</tspan></text>
-<text x="530.16" y="-383" text-anchor="end" xml:space="preserve"><tspan>problems/aspirations/hopes that</tspan></text>
-<text x="530.16" y="-365" text-anchor="end" xml:space="preserve"><tspan>crypto/web3 movement talks to ...</tspan></text>
+<text x="585.16" y="-386" text-anchor="end" xml:space="preserve"><tspan>What are the core high level</tspan></text>
+<text x="585.16" y="-368" text-anchor="end" xml:space="preserve"><tspan>problems/aspirations/hopes that</tspan></text>
+<text x="585.16" y="-350" text-anchor="end" xml:space="preserve"><tspan>crypto/web3 movement talks to ...</tspan></text>
 </g>
 <g class="label" data-node="1.1" fill="#82328c" font-size="15.3">
-<text x="597.88" y="-381.5" text-anchor="start" xml:space="preserve"><tspan>What is an inventory of these aspirations</tspan></text>
-<text x="597.88" y="-363.5" text-anchor="start" xml:space="preserve"><tspan>and what are the most important?</tspan></text>
+<text x="652.88" y="-366.5" text-anchor="start" xml:space="preserve"><tspan>What is an inventory of these aspirations</tspan></text>
+<text x="652.88" y="-348.5" text-anchor="start" xml:space="preserve"><tspan>and what are the most important?</tspan></text>
 </g>
 <g class="label" data-node="1.2" fill="#7e3388" font-size="15.3">
-<text x="597.88" y="-330.5" text-anchor="start" xml:space="preserve"><tspan>What are the political imaginaries/ideologies</tspan></text>
-<text x="597.88" y="-312.5" text-anchor="start" xml:space="preserve"><tspan>that relate to this?</tspan></text>
+<text x="652.88" y="-315.5" text-anchor="start" xml:space="preserve"><tspan>What are the political imaginaries/ideologies</tspan></text>
+<text x="652.88" y="-297.5" text-anchor="start" xml:space="preserve"><tspan>that relate to this?</tspan></text>
 </g>
 <g class="label" data-node="2" fill="#2e4e81" font-size="15.3" filter="url(#cg-halo)">
-<text x="530.16" y="-224.5" text-anchor="end" xml:space="preserve"><tspan>What is our evaluation i.e. how</tspan></text>
-<text x="530.16" y="-206.5" text-anchor="end" xml:space="preserve"><tspan>would crypto/web3 address</tspan></text>
-<text x="530.16" y="-188.5" text-anchor="end" xml:space="preserve"><tspan>those aspirations, how else</tspan></text>
-<text x="530.16" y="-170.5" text-anchor="end" xml:space="preserve"><tspan>could they be addressed</tspan></text>
-<text x="530.16" y="-152.5" text-anchor="end" xml:space="preserve"><tspan>(outside web3 etc), and what</tspan></text>
-<text x="530.16" y="-134.5" text-anchor="end" xml:space="preserve"><tspan>are the risks of web3 / crypto?</tspan></text>
+<text x="585.16" y="-219.5" text-anchor="end" xml:space="preserve"><tspan>What is our evaluation i.e. how</tspan></text>
+<text x="585.16" y="-201.5" text-anchor="end" xml:space="preserve"><tspan>would crypto/web3 address</tspan></text>
+<text x="585.16" y="-183.5" text-anchor="end" xml:space="preserve"><tspan>those aspirations, how else</tspan></text>
+<text x="585.16" y="-165.5" text-anchor="end" xml:space="preserve"><tspan>could they be addressed</tspan></text>
+<text x="585.16" y="-147.5" text-anchor="end" xml:space="preserve"><tspan>(outside web3 etc), and what</tspan></text>
+<text x="585.16" y="-129.5" text-anchor="end" xml:space="preserve"><tspan>are the risks of web3 / crypto?</tspan></text>
 </g>
 <g class="label" data-node="2.1" fill="#2d4c7e" font-size="15.3">
-<text x="598.24" y="-202" text-anchor="start" xml:space="preserve"><tspan>What is the matrix of +ve claims for</tspan></text>
-<text x="598.24" y="-184" text-anchor="start" xml:space="preserve"><tspan>web3/crypto vs aspirations?</tspan></text>
+<text x="653.24" y="-197" text-anchor="start" xml:space="preserve"><tspan>What is the matrix of +ve claims for</tspan></text>
+<text x="653.24" y="-179" text-anchor="start" xml:space="preserve"><tspan>web3/crypto vs aspirations?</tspan></text>
 </g>
 <g class="label" data-node="2.2" fill="#2c4d82" font-size="15.3">
-<text x="598.24" y="-151" text-anchor="start" xml:space="preserve"><tspan>What is the evaluation of these claims?</tspan></text>
+<text x="653.24" y="-146" text-anchor="start" xml:space="preserve"><tspan>What is the evaluation of these claims?</tspan></text>
 </g>
 <g class="label" data-node="2.3" fill="#2d4c7e" font-size="15.3">
-<text x="598.24" y="-118" text-anchor="start" xml:space="preserve"><tspan>What are the other (non web3) ways of</tspan></text>
-<text x="598.24" y="-100" text-anchor="start" xml:space="preserve"><tspan>addressing those aspirations ...?</tspan></text>
+<text x="653.24" y="-113" text-anchor="start" xml:space="preserve"><tspan>What are the other (non web3) ways of</tspan></text>
+<text x="653.24" y="-95" text-anchor="start" xml:space="preserve"><tspan>addressing those aspirations ...?</tspan></text>
 </g>
 <g class="label" data-node="2.4" fill="#2f4e7f" font-size="15.3">
-<text x="598.24" y="-67" text-anchor="start" xml:space="preserve"><tspan>What are the risks of the web3 movement</tspan></text>
-<text x="598.24" y="-49" text-anchor="start" xml:space="preserve"><tspan>(beyond not fulfilling on its aspirations and</tspan></text>
-<text x="598.24" y="-31" text-anchor="start" xml:space="preserve"><tspan>the opportunity cost of that)?</tspan></text>
+<text x="653.24" y="-62" text-anchor="start" xml:space="preserve"><tspan>What are the risks of the web3 movement</tspan></text>
+<text x="653.24" y="-44" text-anchor="start" xml:space="preserve"><tspan>(beyond not fulfilling on its aspirations and</tspan></text>
+<text x="653.24" y="-26" text-anchor="start" xml:space="preserve"><tspan>the opportunity cost of that)?</tspan></text>
 </g>
 <g class="label" data-node="3" fill="#2f7065" font-size="15.3" filter="url(#cg-halo)">
-<text x="530.16" y="133.5" text-anchor="end" xml:space="preserve"><tspan>What key background ideas are</tspan></text>
-<text x="530.16" y="151.5" text-anchor="end" xml:space="preserve"><tspan>needed / relevant?</tspan></text>
+<text x="585.16" y="128.5" text-anchor="end" xml:space="preserve"><tspan>What key background ideas are</tspan></text>
+<text x="585.16" y="146.5" text-anchor="end" xml:space="preserve"><tspan>needed / relevant?</tspan></text>
 </g>
 <g class="label" data-node="3.1" fill="#2f7468" font-size="13">
-<text x="597.46" y="54.5" text-anchor="start" xml:space="preserve"><tspan>What do we mean by key terms?</tspan></text>
+<text x="652.46" y="49.5" text-anchor="start" xml:space="preserve"><tspan>What do we mean by key terms?</tspan></text>
 </g>
 <g class="label" data-node="3.2" fill="#306c62" font-size="13">
-<text x="597.46" y="84.5" text-anchor="start" xml:space="preserve"><tspan>What political theory / science?</tspan></text>
+<text x="652.46" y="79.5" text-anchor="start" xml:space="preserve"><tspan>What political theory / science?</tspan></text>
 </g>
 <g class="label" data-node="3.3" fill="#307569" font-size="13">
-<text x="597.46" y="114.5" text-anchor="start" xml:space="preserve"><tspan>What economics and game theory?</tspan></text>
+<text x="652.46" y="109.5" text-anchor="start" xml:space="preserve"><tspan>What economics and game theory?</tspan></text>
 </g>
 <g class="label" data-node="3.4" fill="#2f766a" font-size="13">
-<text x="597.46" y="144.5" text-anchor="start" xml:space="preserve"><tspan>What macroeconomics?</tspan></text>
+<text x="652.46" y="139.5" text-anchor="start" xml:space="preserve"><tspan>What macroeconomics?</tspan></text>
 </g>
 <g class="label" data-node="3.5" fill="#2e6f64" font-size="13">
-<text x="597.46" y="174.5" text-anchor="start" xml:space="preserve"><tspan>What computer science?</tspan></text>
+<text x="652.46" y="169.5" text-anchor="start" xml:space="preserve"><tspan>What computer science?</tspan></text>
 </g>
 <g class="label" data-node="4" fill="#4f6f31" font-size="15.3" filter="url(#cg-halo)">
-<text x="530.16" y="355" text-anchor="end" xml:space="preserve"><tspan>How does this contribute to</tspan></text>
-<text x="530.16" y="373" text-anchor="end" xml:space="preserve"><tspan>wider sensemaking?</tspan></text>
+<text x="585.16" y="340" text-anchor="end" xml:space="preserve"><tspan>How does this contribute to</tspan></text>
+<text x="585.16" y="358" text-anchor="end" xml:space="preserve"><tspan>wider sensemaking?</tspan></text>
 </g>
 <g class="label" data-node="4.1" fill="#4e6f30" font-size="13.8134">
-<text x="598.06" y="260.5" text-anchor="start" xml:space="preserve"><tspan>Why has crypto/web3 (narrative) been so</tspan></text>
-<text x="598.06" y="276.5" text-anchor="start" xml:space="preserve"><tspan>attractive (successful?)?</tspan></text>
+<text x="653.06" y="245.5" text-anchor="start" xml:space="preserve"><tspan>Why has crypto/web3 (narrative) been so</tspan></text>
+<text x="653.06" y="261.5" text-anchor="start" xml:space="preserve"><tspan>attractive (successful?)?</tspan></text>
 </g>
 <g class="label" data-node="4.2" fill="#527333" font-size="13.8134">
-<text x="598.06" y="307.5" text-anchor="start" xml:space="preserve"><tspan>How do we share what we are doing?</tspan></text>
+<text x="653.06" y="292.5" text-anchor="start" xml:space="preserve"><tspan>How do we share what we are doing?</tspan></text>
 </g>
 <g class="label" data-node="4.3" fill="#4c6c2f" font-size="13">
-<text x="598.06" y="337.5" text-anchor="start" xml:space="preserve"><tspan>How do we involve others in the</tspan></text>
-<text x="598.06" y="352.5" text-anchor="start" xml:space="preserve"><tspan>sensemaking process?</tspan></text>
+<text x="653.06" y="322.5" text-anchor="start" xml:space="preserve"><tspan>How do we involve others in the</tspan></text>
+<text x="653.06" y="337.5" text-anchor="start" xml:space="preserve"><tspan>sensemaking process?</tspan></text>
 </g>
 <g class="label" data-node="4.4" fill="#517331" font-size="13">
-<text x="598.06" y="382.5" text-anchor="start" xml:space="preserve"><tspan>What framework can we use to answer the</tspan></text>
-<text x="598.06" y="397.5" text-anchor="start" xml:space="preserve"><tspan>question of whether crypto or web3 is useful and in</tspan></text>
-<text x="598.06" y="412.5" text-anchor="start" xml:space="preserve"><tspan>what way …?</tspan></text>
+<text x="653.06" y="367.5" text-anchor="start" xml:space="preserve"><tspan>What framework can we use to answer the</tspan></text>
+<text x="653.06" y="382.5" text-anchor="start" xml:space="preserve"><tspan>question of whether crypto or web3 is useful and in</tspan></text>
+<text x="653.06" y="397.5" text-anchor="start" xml:space="preserve"><tspan>what way …?</tspan></text>
 </g>
 </g></svg>

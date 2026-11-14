@@ -120,3 +120,7 @@ The rule above, with three changes found by rendering real trees (`out/curvature
 
 The floor scales with the level-1 text size and with Coggle's stroke for the group's level, not the style's stroke, so `coggle-thin` draws the same curves. `--s-run N` forces the root group's S-run (at least the floor) and pushes its junctions out to fit it.
 
+
+## Review of the real renders (2026-11-14)
+
+On real trees the 240 floor failed: with aspect around 1.3–1.5 the steep branches read as near-vertical pipes with two tight corners (q3's outer branches, web3's pink branch, Q2's blue and teal running side by side). The floor is now 320 px at Coggle's sizes (about 35 root strokes). At 320 the curves read as Coggle's S; S-run 400 is indistinguishable from Coggle's own. v0.1 Q2 is 1034 px wide at the default against 1196 with Coggle's full run (14% narrower).

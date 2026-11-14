@@ -40,9 +40,9 @@ const USAGE = `Usage: tree-render <tree.md|tree.json> [--out DIR] [--name N] [--
          --sizes 22,17,15,14   font sizes in px: root, level 1, level 2, level 3+ (wraps grow with levels 1 and 2)
          --depth N             show only N levels below the root
          --root-run short|coggle   how branches clear labels: short (default; where Coggle's S would cross a
-                               label, Coggle's S over a shorter shared run, at least ~240 px, then a straight tail to
+                               label, Coggle's S over a shorter shared run, at least ~320 px, then a straight tail to
                                the junction), coggle (Coggle's S over the whole run: widest)
-         --s-run N             (short) force the root's shared S-run to N px (at least the floor, ~240 px at
+         --s-run N             (short) force the root's shared S-run to N px (at least the floor, ~320 px at
                                default sizes) and the level-1 junctions that far out: one tree at several widths
          (exit 1 if a branch crosses a label)
 

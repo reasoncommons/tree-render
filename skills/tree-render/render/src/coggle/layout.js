@@ -50,11 +50,11 @@ export const ROOT_RUNS = {
   coggle: { sRun: false, bandWraps: [], bandHeightCost: 0.5, bandWrapCost: 1, orphanBreak: false },
 };
 export const ROOT_RUN = 'short';
-// The shared S-run's floor: floor px at Coggle's sizes (about 25 of Coggle's 9.19 px root strokes: corners ≈ 0.28 ×
-// S-run ≥ 7 strokes; below it the S reads as an elbow), scaled with the level-1 text size and, for deeper groups, with
+// The shared S-run's floor: floor px at Coggle's sizes (about 35 of Coggle's 9.19 px root strokes; 240 was tried and
+// steep branches read as pipes with elbows, 2026-11-14 review; 320 still reads as Coggle's S), scaled with the level-1 text size and, for deeper groups, with
 // Coggle's stroke for that level (not the style's: a thin-stroked variant keeps the same curves). step: px per step
 // when raising the S-run for the winning arrangement.
-export const S_RUN = { floor: 240, step: 5 };
+export const S_RUN = { floor: 320, step: 5 };
 
 // Root with kind 'rule': px between the root text and the hairline.
 const RULE_GAP = 6;
