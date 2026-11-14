@@ -2,7 +2,7 @@
 
 A tree visual is made in two steps, like a slide. First, **content**: decide which nodes go in, how deep, and the exact words of each. Second, **render**: draw the prepared text well. This guide is for the first step. The renderer never rewrites text, so every word on the image is a choice you made here. Expect to go back and forth: render, look, cut, render again.
 
-The output of this step is a canonical JSON tree (see [render/TREE-FORMAT.md](render/TREE-FORMAT.md)) plus a `texts.md` that records where each string came from.
+The output of this step is a tree in Markdown (or JSON), in the format in [render/TREE-FORMAT.md](render/TREE-FORMAT.md), plus a `texts.md` that records where each string came from. The running example is [examples/speed-of-wisdom.md](../../examples/speed-of-wisdom.md).
 
 ## Start from the full tree, not a blank page
 
@@ -29,8 +29,13 @@ You compress an existing argument; you don't write a new one. Start from the sou
 
 Each level-1 node has a **lead**: the bold opening words that carry the claim on their own. The rest of the sentence, the **continuation**, is set lighter and qualifies or explains it. The lead must open the text exactly (`"lead"` is a prefix of `"text"`).
 
-- The lead should read as a complete thought or a strong fragment: "The risks are real", "The world races", "We should slow and steer,".
+- **A lead must stand alone as the point, like a heading.** Someone who reads only the bold should get the claim, not a sentence cut off mid-thought. "The risks are real", "The world races" and "We should slow and steer," all work.
 - Split where a reader scanning only the bold would still get the argument. Read the leads alone, top to bottom: they should tell the story.
+
+Before and after, from the "So…" branch of the speed-of-wisdom tree:
+
+- Before: "**So every actor should push** towards the speed of wisdom, each with its own lever." The bold reads "So every actor should push": push what, or where? The point is in the continuation.
+- After: "**So push towards the speed of wisdom:** every actor, with its own lever." The bold is now the conclusion on its own; the continuation says who does it.
 - Leaves are plain text, no lead. If a leaf needs a label, use a short prefix with a colon ("Labs: …").
 
 ## Length rules
@@ -47,7 +52,7 @@ These are ceilings, not targets. A leaf that wraps to three lines in the render 
 
 ## The "So…" branch
 
-A hypothesis tree ends in a synthesis: what follows from the branches above. Make it the last level-1 node, start its lead with "So", and set `"accent": true` so the renderer marks it. Its leaves are usually concrete actions, one per actor ("Labs: …", "States: …", "Individuals: …").
+A hypothesis tree ends in a synthesis: what follows from the branches above. Make it the last level-1 node and start its lead with "So". With `--palette`, the renderer draws the first level-1 branch starting "So" in the accent colour; in JSON you can also set `"accent": true` on it. Its leaves are usually concrete actions, one per actor ("Labs: …", "States: …", "Individuals: …").
 
 - Use "So" only where the source draws the conclusion. Don't add "so", "because" or "therefore" elsewhere unless the source states that logic.
 - Keep modality: if the source says actors *should* do something, the leaf is an imperative or a "should", never a claim that they *do* it.

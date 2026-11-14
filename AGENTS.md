@@ -4,7 +4,7 @@ Tree render turns question and hypothesis trees into visuals that are good infor
 
 ## Start clean
 
-- Work from the [SCQ](docs/plans/2026-10-19-tree-render-scq.md), the [LTP](reports/ltp/tree-render/tree-render.ltp.yaml) and the plan that comes out of them. The current brief is [docs/plans/2026-11-07-handoff.md](docs/plans/2026-11-07-handoff.md).
+- Work from the [SCQ](docs/plans/2026-10-19-tree-render-scq.md), the [LTP](reports/ltp/tree-render/tree-render.ltp.yaml) and the plan that comes out of them. Current work is in two Beads epics: "Tree styles roadmap" (`tree_render-5q0`) and "First good set of tree visuals" (`tree-render-bjp`). The [2026-11-07 handoff](docs/plans/2026-11-07-handoff.md) is the earlier brief.
 - `archive/` is reference only. Don't build on it, import from it or copy code out of it unless a plan explicitly says to. Lessons from it go into new docs in your own words.
 - `reports/ltp/` holds machine-drafted LTP files. Treat them as candidates until Rufus has reviewed them.
 - Application trees (for example the Wise AI trees) live in their own repos and use the skill. Don't put them here.

@@ -14,49 +14,64 @@ import { COGGLE_STYLE_NAMES } from '../src/coggle/styles.js';
 import { STYLE2_NAMES } from '../src/styles2/index.js';
 import { PALETTE_NAMES } from '../src/palettes.js';
 
-const USAGE = `Usage: tree-render <tree.md|tree.json> [--out DIR] [--name N] [--scale 2] [--no-png]
-                                     static render in the default style (styles/coggle-exact.json): DIR/<tree>.svg, .png (2×), .report.json
-       tree-render <tree.md|tree.json> --format 4x5|1x1|16x9|web [options]   framed canvas render (any option below but --style)
-       tree-render carousel <tree.md|tree.json> [options]   cover + one branch card per level-1 node
-       tree-render check <tree.md|tree.json> [options]      print the self-check report only
+const USAGE = `Usage: tree-render <tree.md|tree.json> [--style NAME] [options]
+                  writes <name>.svg and <name>.png (2x) in the current folder, or in --out DIR
        tree-render parse <tree.md|tree.json> [--out tree.json]
-       tree-render <tree.md|tree.json> --style <style.json|name> [--out DIR] [--name N] [--scale 2] [--no-png]
-                                     static render with a style (styles/*.json): writes DIR/N.svg, N.png (2×), N.report.json
-       tree-render <tree.md|tree.json> --style ribbon|dendrogram|lanes [--out DIR] [--name N] [--scale 2] [--no-png] [--root-style dot|centre|box|outline] [--palette P] [--font F]
-                                     the round-2 styles (src/styles2/), IBM Plex Sans with a red accent branch:
-                                       ribbon      tapered ribbons from the root to each answer, hairline S-curves to its points
-                                       dendrogram  S-curves to each answer, rounded elbows to its points
-                                       lanes       ribbons to each answer, each subtree on a soft band
-                                     --root-style: the root question right-aligned on a dot (dot, default), centred on a dot
-                                     (centre), in a light filled box (box; also --root-box) or a thin outlined box (outline); --font as for the coggle
-                                     styles (default IBM Plex Sans) (exit 1 if anything overlaps)
-       tree-render <tree.md|tree.json> --style coggle-exact [--out DIR] [--name N] [--scale 2] [--no-png] [--allow-collisions]
-                                     a faithful copy of Coggle's look (docs/design/references/coggle-spec.md) in Arimo
-                                     Grotesque at 22/15.3/13/12 px; branches are kept off labels unless --allow-collisions
-                                     (Coggle's own layout, in Coggle's Arimo, for comparisons)
-       tree-render <tree.md|tree.json> --style coggle-thin|coggle-thin-mono|coggle-broadsheet|coggle-letterpress [...]
-                                     variants of coggle-exact (src/coggle/styles.js): other fonts, branch widths, palette
-                                     shifts, background and root treatment on the same engine (coggle-hairline = coggle-thin)
-       coggle styles also take (for comparisons; defaults give the style's own look):
-         --font arimo|plex|atkinson|bricolage|merriweather|plexmono|quattro   set the text in that (embedded) font
-                               (coggle-exact: arimo, Coggle's own)
-         --sizes 22,17,15,14   font sizes in px: root, level 1, level 2, level 3+ (wraps grow with levels 1 and 2)
-         --depth N             show only N levels below the root
-         --root-run short|coggle   how branches clear labels: short (default; where Coggle's S would cross a
-                               label, Coggle's S over a shorter shared run, at least ~320 px, then a straight tail to
-                               the junction), coggle (Coggle's S over the whole run: widest)
-         --s-run N             (short) force the root's shared S-run to N px (at least the floor, ~320 px at
-                               default sizes) and the level-1 junctions that far out: one tree at several widths
-         (exit 1 if a branch crosses a label)
-       coggle styles and ribbon|dendrogram|lanes also take:
-         --palette wise-ink|wise-print   colours from src/palettes.js instead of the style's own: background,
-                               level-1 branch colours, a red accent branch (the level-1 node marked "accent", else
-                               the first starting "So"; coggle styles get one only with a palette), text ink, root box
-                               wise-ink    sumi ink branches on paper, seal-red accent, ink text
-                               wise-print  verdigris, ochre, indigo, celadon; ink text, bold leads in their branch colour
-                               (either way only the accent's level-1 lead is red; its other text is ink)
+                  convert a Markdown tree to canonical JSON (render/TREE-FORMAT.md)
+       tree-render --help legacy
+                  the older canvas engine and styles (framed cards, carousel, interactive page)
 
-Options:
+Styles (--style NAME):
+  coggle-exact   the default: Coggle's look, thick coloured S-curves, grey root box (Arimo)
+  coggle-thin    Coggle's layout with IBM Plex Sans, half-width branches, outlined root
+  ribbon         bold root on a dot, tapered ribbons to each answer, hairlines to its points
+  dendrogram     bold root on a dot, dark S-curves to each answer, rounded elbows to its points
+  lanes          ribbon's root and ribbons, each answer and its points on a soft grey band
+  (other names in render/styles/ are legacy: see --help legacy)
+
+Options (all styles):
+  --out DIR             output folder (default: current folder)
+  --name N              file name without extension (default: the tree's file name when no
+                        --style is given, else the style's name)
+  --no-png              write the SVG only (no browser needed)
+  --scale 2             PNG pixel scale (default 2)
+  --palette wise-ink|wise-print
+                        replace the style's colours: background, branch colours, a red accent
+                        branch (the level-1 node marked "accent", else the first starting "So"),
+                        text ink and root box
+  --font arimo|plex|atkinson|bricolage|merriweather|plexmono|quattro
+                        set the text in that embedded font
+
+Options (coggle-exact, coggle-thin):
+  --sizes 22,17,15,14   font sizes in px: root, level 1, level 2, level 3+
+  --depth N             show only N levels below the root
+  --root-run short|coggle
+                        how branches clear labels: short (default) draws Coggle's S over a
+                        shorter shared run, then a straight tail; coggle is Coggle's own, widest
+  --s-run N             force the root's shared S-run to N px (one tree at several widths)
+  --allow-collisions    Coggle's own layout, even where a branch crosses a label
+
+Options (ribbon, dendrogram, lanes):
+  --root-style dot|centre|box|outline
+                        the root question: right-aligned on a dot (default), centred on the dot,
+                        in a light filled box (also --root-box) or a thin outlined box
+
+Exit codes: 0 ok; 1 a branch crosses a label or text overlaps (shorten the text and render
+again); 2 usage error; 3 the PNG needs Chrome or Chromium (set CHROME=/path, or use --no-png).
+`;
+
+const LEGACY_USAGE = `Legacy: the older canvas engine and JSON styles. Kept working, but not developed and not
+recommended for new images. Use the styles in tree-render --help.
+
+Usage: tree-render <tree.md|tree.json> --format 4x5|1x1|16x9|web [options]   framed canvas render
+       tree-render carousel <tree.md|tree.json> [options]   cover + one branch card per level-1 node
+       tree-render check <tree.md|tree.json> [options]      the canvas engine's self-check report only
+       tree-render <tree.md|tree.json> --style <style.json|name> [--out DIR] [--name N] [--no-png]
+                  older JSON styles (render/styles/: river, coggle, v01, v01-thick, coggle-tree,
+                  current, options-2026-11-11/...): writes DIR/N.svg, N.png (2x), N.report.json
+       --style coggle-thin-mono|coggle-broadsheet|coggle-letterpress: parked coggle variants
+
+Canvas options:
   --format 4x5|1x1|16x9|web     canvas (default 4x5)
   --theme paper|garden|slate    colour theme (default paper)
   --view questions|qa|answers   what each node shows
@@ -70,19 +85,17 @@ Options:
   --html                        also write the interactive page (<out>.html)
   --state '#depth=1&fold=2.3'   render a saved fold state (the page's URL hash); flags win
   --emit json                   write the parsed tree as canonical JSON (to --out or stdout)
-  --style FILE|NAME             static render with a style (see above; default, river, …); --out is then a folder
-  --name N                      file name (no extension) for static output (default: the style's name with --style, else the tree's)
-  --no-png                      static render: skip the PNG
-  -h, --help                    show this help
 
-Writes <out>.svg and <out>.report.json and prints the report. Exit 1 on a hard check failure
-(overlap, overflow, fidelity, fonts, markers), 2 on a usage error, 3 when a PNG needs a browser.
+The canvas render writes <out>.svg and <out>.report.json and prints the report. Exit 1 on a hard
+check failure (overlap, overflow, fidelity, fonts, markers), 2 on a usage error, 3 when a PNG
+needs a browser.
 `;
 
 const VALUE_FLAGS = ['root-style', 'style', 'name', 'format', 'theme', 'view', 'labels', 'depth', 'root', 'kicker', 'footer', 'out', 'scale', 'state', 'emit', 'hue', 'font', 'sizes', 'root-run', 's-run', 'palette'];
 const BOOL_FLAGS = ['png', 'no-png', 'html', 'help', 'allow-collisions', 'root-box'];
 // Flags of the framed canvas render; with none of them (and no --style) a tree renders statically in the default style.
-const CANVAS_FLAGS = ['format', 'theme', 'view', 'labels', 'depth', 'root', 'kicker', 'footer', 'state', 'hue', 'html'];
+// --depth is not one: it also applies to the coggle styles, so the canvas render needs --format (or another flag here) for it.
+const CANVAS_FLAGS = ['format', 'theme', 'view', 'labels', 'root', 'kicker', 'footer', 'state', 'hue', 'html'];
 
 class UsageError extends Error {}
 
@@ -164,7 +177,7 @@ async function renderOne(tree, opts, a, out, measure) {
 
 async function main(argv) {
   const a = parseArgs(argv);
-  if (a.help || !argv.length) { process.stdout.write(USAGE); return 0; }
+  if (a.help || !argv.length) { process.stdout.write(a._[0] === 'legacy' ? LEGACY_USAGE : USAGE); return 0; }
   const sub = ['parse', 'carousel', 'check'].includes(a._[0]) ? a._.shift() : null;
   const file = a._[0];
 

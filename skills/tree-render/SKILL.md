@@ -1,84 +1,79 @@
 ---
 name: tree-render
-description: Use when turning a question tree or hypothesis tree (a root question or answer with supporting assertions) into a static image (SVG and PNG) for a web page or report. Covers preparing the text, then rendering a left-to-right branching tree with the bundled CLI. Not for flowcharts, org charts or architecture diagrams.
+description: Use when turning a question tree or hypothesis tree (a root question with supporting assertions or answers) into a static image (SVG and PNG) for a web page, report or post. Covers preparing the text, then rendering a left-to-right branching tree with the bundled CLI and checking the result. Not for flowcharts, org charts or architecture diagrams.
 ---
 
 # Tree render
 
-Turn a question or hypothesis tree into a static image that is good information design and compelling enough to share: root on the left, tapered coloured branches curving right, bold lead plus lighter continuation. The image goes into a web page or report as a PNG (or the SVG).
+Turn a question or hypothesis tree into a static image that is good information design and worth sharing: the root question on the left, coloured branches curving right, each main point with a bold lead. The output is an SVG and a PNG.
 
-Two steps, like making a slide: first decide the words, then draw them. The renderer never rewrites text, so every word on the image is a choice made in step 1.
+Work in two steps, like making a slide: first decide the words, then draw them. The renderer never rewrites text, so every word on the image is a choice you make in step 1.
 
 ## 1. Prepare the content
 
-Follow [CONTENT-GUIDE.md](CONTENT-GUIDE.md). In short: compress an existing argument, don't invent one; question root, answer as the title; assertions at level 1, two levels below the root; 3-5 branches, 2-4 leaves each; a bold `lead` on level-1 nodes; a "So..." accent branch for the conclusion; length limits per string (lead 6 words, continuation 12, leaf 14).
+Follow [CONTENT-GUIDE.md](CONTENT-GUIDE.md). The rules that matter most:
 
-Write the result as a canonical JSON tree ([render/TREE-FORMAT.md](render/TREE-FORMAT.md)) or as a Markdown tree (H1 title, nested `-` bullets, `**lead**` bold). Either works as input. Keep a `texts.md` beside it saying which strings are verbatim, cut or drafted, and what was left out.
+- Compress the user's argument; never invent claims, drop qualifiers or change "should" to "does".
+- The root is a plain question (about 8 words or fewer). Level 1 holds 3–5 assertions, not topics. Each has 2–4 short leaves. Two levels below the root.
+- Each level-1 node opens with a bold lead (6 words or fewer) that stands alone as the point, like a heading. Read alone, top to bottom, the leads tell the argument.
+- If the source draws a conclusion, make it the last level-1 node, starting "So".
+- Length limits: lead 6 words, the rest of a level-1 node 12, a leaf 14.
+
+Write the tree as Markdown ([render/TREE-FORMAT.md](render/TREE-FORMAT.md)): an H1 title, then nested `-` bullets with two-space indents, the first bullet being the root, and `**lead**` in bold. For example, [examples/speed-of-wisdom.md](../../examples/speed-of-wisdom.md). JSON works too. Tell the user which wording you drafted rather than took from them.
 
 ## 2. Render
 
-Run from `skills/tree-render/render/` (or use the full path to `bin/render.js`):
+Setup, once: Node 20 or later, then `npm install` in `skills/tree-render/render/`. For the PNG you need Chrome or Chromium (set `CHROME=/path/to/chrome` if it isn't found); without one, use `--no-png` and the SVG.
+
+From `skills/tree-render/render/`:
 
 ```
-node bin/render.js tree.json --out out/
+node bin/render.js tree.md --out out
 ```
 
-This writes `out/tree.svg` and `out/tree.png` (2x) and prints a one-line summary. The default style is `coggle-exact`, a faithful copy of Coggle's look (double-curve branches, Coggle's palette, text in a darker shade of its branch). The older styles stay available by name, e.g. `--style river` or `--style coggle` (files are then named after the style; add `--name tree` to keep the tree's name, and these also write `tree.report.json`). Other useful flags: `--no-png`, `--scale 2`, `--name N`.
+This writes `out/tree.svg` and `out/tree.png` (at 2x) in the default style, `coggle-exact`. With `--style NAME` the files are named after the style unless you add `--name NAME`.
 
-`node bin/render.js check tree.json` prints the self-check report only. `node bin/render.js parse tree.md --out tree.json` converts Markdown to canonical JSON.
+Pick a style by purpose:
 
-Five styles are in use (`--style <name>`):
+| Style | Look | Use when |
+| --- | --- | --- |
+| `coggle-exact` (default) | Coggle's look: thick coloured S-curves, grey root box | Most cases |
+| `coggle-thin` | The same layout in IBM Plex Sans, thin branches, outlined root | A quieter page |
+| `ribbon` | Bold root on a dot, tapered ribbons, hairlines to the leaves | A host site's own palette (with `--palette`) |
+| `dendrogram` | Dark S-curves, rounded elbows to the leaves | Print, or a sober look |
+| `lanes` | Like `ribbon`, each branch on a soft grey band | Many leaves per branch |
 
-| Style | Look |
-| --- | --- |
-| `coggle-exact` (default) | Coggle's look: thick coloured S-curves, its palette, the root in a grey box with chevrons. |
-| `coggle-thin` | Coggle's layout with IBM Plex Sans, half-width branches and an outlined root. |
-| `ribbon` | Bold root on a dot; tapered slate ribbons to each answer (red for the "So…" branch), hairline S-curves to its points. |
-| `dendrogram` | Bold root on a dot; dark S-curves to each answer, rounded grey elbows to its points. |
-| `lanes` | `ribbon`'s root and ribbons, each answer and its points on a soft grey band, a small dot before each point. |
+For example:
 
-`ribbon`, `dendrogram` and `lanes` (engine in `render/src/styles2/`) take `--root-style dot|centre|box|outline` for the root question: right-aligned on a dot (default), its lines centred on the dot, in a light filled Coggle-like box (`box`, also `--root-box`) or a thin outlined box (`outline`), the boxes with no chevrons and the branches leaving their right edge; they write SVG and PNG and exit 1 if any text overlaps.
+```
+node bin/render.js tree.md --style ribbon --palette wise-ink --root-style centre --out out
+```
 
-`--style coggle-exact` is a faithful copy of Coggle's own drawing (one stroked S-curve per branch with Coggle's widths, notched tails and arrow tips, its palette, each label in a darker shade of its branch, text at Coggle's 17/15.3/13/12 px (the root at 22 px in our layout; Coggle's 17 with `--allow-collisions`), set in Coggle's Arimo (`--font bricolage` and others on request), Coggle's label placement and spacing); it has its own engine in `render/src/coggle/` and the rules are in [docs/design/references/coggle-spec.md](../../docs/design/references/coggle-spec.md). Two deviations from Coggle: the layout favours height over width (narrower wraps and more room between sibling groups, so trees come out about square to portrait, which suits web pages and phones), and no branch is allowed to cross a label, so where a branch would run through a sibling's label that group opens up vertically or its labels wrap narrower (`--allow-collisions` restores Coggle's own layout, for comparisons). It writes SVG and PNG only (no report). A node may set `colour` and `textSize` (see `render/TREE-FORMAT.md`).
+Main options (the full list is in `node bin/render.js --help`):
 
-`coggle-exact` draws the root box with Coggle's chevrons (the little pointers on each side); the variants draw a plain box. In all coggle styles a bold lead runs on into the rest of the label (the `leadBreak` option, off by default, puts the lead on its own line, but it left dangling words). Variants of `coggle-exact` on the same engine (`render/src/coggle/styles.js`): `--style coggle-thin` (the candidate: IBM Plex Sans, half-width branches, outlined root; `coggle-hairline` is an alias). `coggle-thin-mono` (leaves and the text after each bold lead in IBM Plex Mono), `coggle-broadsheet` and `coggle-letterpress` remain in the code but are not candidates: switching just some words to mono does not work.
+- `--palette wise-ink|wise-print`: the Wisdom and AI site's colours, with a red accent on the "So" branch. Without it each style keeps its own colours.
+- `--font arimo|plex|atkinson|bricolage|merriweather|plexmono|quattro`: set the text in another embedded font.
+- `--root-style dot|centre|box|outline` (`ribbon`, `dendrogram`, `lanes`): how the root question is drawn.
+- `--depth N` (`coggle-exact`, `coggle-thin`): show only N levels below the root.
+- `--sizes 22,17,15,14` (`coggle-exact`, `coggle-thin`): font sizes in px for the root, level 1, level 2 and deeper. Choose from the leaf size up: fix the leaf (14–16 px on desktop), level 1 at about 1.2x, the root at about 1.6x; leaf 15 gives `--sizes 24,18,15,15`.
+- `--root-run` and `--s-run` (`coggle-exact`, `coggle-thin`): how wide the root's branches run; see [coggle-curvature.md](../../docs/design/references/coggle-curvature.md).
+- `--no-png`, `--scale N`, `--name N`, `--out DIR`.
 
-For comparing type on one shape, the coggle styles take `--font arimo|plex|atkinson|bricolage|merriweather|plexmono|quattro` (the text in that embedded font; `plexmono` is IBM Plex Mono for the whole tree, `quattro` iA Writer Quattro), `--sizes 22,17,15,14` (px for the root, level 1, level 2 and level 3+; the wraps grow with levels 1 and 2 so lines keep about the same words) `--depth N` (only N levels below the root), `--root-run short|coggle` (how branches clear labels: `short`, the default, draws Coggle's own S over a shorter shared run, at least about 320 px, then a straight tail under each level-1 label, so the tree is narrower but every curve keeps Coggle's corners; `coggle` is Coggle's S over the whole run and the widest tree) and `--s-run N` (force the root's shared S-run to N px, at least the floor, to render one tree at several widths: `--s-run 320` is the narrowest, larger values stretch it). Without them a style keeps its own look. With these styles the CLI exits 1 if a branch crosses a label. `render/scripts/deep-tree.js` nests whole trees under one root (e.g. an overview and its question trees) for a three-level test tree.
+A node in JSON may also set `colour` and `textSize` (coggle styles). To convert Markdown to JSON: `node bin/render.js parse tree.md --out tree.json`.
 
-Colour worlds: the coggle styles and `ribbon`, `dendrogram` and `lanes` take `--palette wise-ink|wise-print` (defined in `render/src/palettes.js`), which replaces the style's own colours: background, level-1 branch colours (cycled; children keep their parent's colour), a red accent branch (the level-1 node marked `"accent": true`, else the first whose text starts "So", with its whole subtree; coggle styles have an accent only with a palette), text ink, and the root box (fill for `coggle-exact`, outline for `coggle-thin`). Every text colour is darkened, if needed, to read at 4.5:1 on the background. `wise-ink` is sumi-ink branches on warm paper with a seal-red accent and ink text; `wise-print` takes the woodblock colours (deep verdigris, celadon, ochre, sumi grey, madder), with text in a darker shade of each branch. Both follow the Wisdom and AI site (paper `#fbfaf6`, ink `#1b1916`); pair them with `--font bricolage`, its body font. `ribbon`, `dendrogram` and `lanes` also take `--font` (default IBM Plex Sans). Without `--palette` every style keeps its own look.
-
-Sizing rule: choose sizes from the smallest (leaf) size up. Fix the leaf size first (it is the floor for reading, e.g. 14–16 px for desktop), then set level 1 at about 1.2× the leaf and the root at about 1.6× (rounded to 0.5 px): leaf 15 gives `--sizes 24,18,15,15`. A deeper tree keeps the leaf minimum and scales the levels above it, rather than shrinking the leaves. Only `--sizes` exists for now; the rule is not automated yet.
-
-Other styles live in `render/styles/` (`coggle`, `v01`, `v01-thick`, `coggle-tree`, `current`, and the 2026-11-11 experiments in `options-2026-11-11/`); pass the name or a file path to `--style`. Old, parked flags (`--format`, `--theme`, `carousel`, `--html`) are for framed social cards and the interactive view; ignore them for web and report images.
+Exit codes: 0 ok; 1 a branch crosses a label or text overlaps (the files are still written); 2 a usage error; 3 no browser for the PNG.
 
 ## 3. Look, then fix
 
-Always open the PNG and look at it, and read the check report (printed summary and `.report.json`). Check that:
+Always open the PNG and look at it. Check that:
 
-- no text overflows, overlaps or is clipped (a hard failure exits 1);
-- the report does not say `shrunk`: that means the tree was too wide and the whole image was scaled down, so the type got smaller;
-- the leads alone, read top to bottom, tell the argument;
-- no leaf wraps to three or more lines; the "So..." branch is in the accent colour.
+- nothing overlaps, overflows or is clipped (exit code 1 means it does);
+- the bold leads alone, read top to bottom, tell the argument;
+- no leaf wraps to three or more lines;
+- the branches look roughly balanced.
 
-Fix problems by changing the content: shorten the string, cut a clause, drop a leaf, merge two branches. Never fix them by shrinking the type. Then render again; expect two or three rounds.
-
-## Comparing styles
-
-To see several styles side by side on the same tree, put the style JSON files you want in a folder and run:
-
-```
-node scripts/options.js tree.json <styles-dir> <out-dir> [--no-png]
-```
-
-It renders the tree in every `*.json` in the folder and writes `<out-dir>/index.html` with each image, its check summary and its style JSON. Example: `node scripts/options.js test/fixtures/v01-q2.json styles/options-2026-11-11 /tmp/options`.
-
-## Setup
-
-- Node 20 or later.
-- `npm install` in `skills/tree-render/render/` (one dependency, opentype.js).
-- Chrome, or Playwright's chromium, for the PNG. Without a browser the SVG is still written, and the CLI exits 3 for the PNG. Use `--no-png` to skip it.
-- Install the skill by symlink: `ln -s <repo>/skills/tree-render ~/.claude/skills/tree-render`.
+Fix problems by changing the content: shorten a string, cut a clause, drop a leaf, merge two branches. Never fix them by shrinking the type. Render again; expect two or three rounds.
 
 ## Not in scope
 
-Deciding the argument itself (that is the tree's source), flowcharts, and the interactive view (parked; the code is kept but gets no more work).
+Deciding the argument itself (that comes from the source), flowcharts, and the interactive view (parked). `--help legacy` lists the older canvas engine (`--format`, `--theme`, `carousel`, `--html`, `check`) and JSON styles; don't use them for new images.

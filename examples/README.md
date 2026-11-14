@@ -1,12 +1,15 @@
 # Example trees
 
-Real question (issue) trees and question trees with answers, converted into one simple Markdown format for testing the renderer. Stats are computed by a script (`tree_stats.py`, kept outside the repo in the session scratchpad), counting a label as the bullet text after `- `.
+Trees in the Markdown format described in [TREE-FORMAT.md](../skills/tree-render/render/TREE-FORMAT.md).
 
-## Format
+- **[speed-of-wisdom.md](speed-of-wisdom.md)** is a prepared tree: content written for a share-quality image, following the [content guide](../skills/tree-render/CONTENT-GUIDE.md). It is the running example in the README and the docs. Start here.
+- The other files are real question (issue) trees and question trees with answers, copied as they were, for testing the renderer on long, deep, unprepared trees. They render, but they are not good images until they go through the content step.
 
-- An H1 title, then optional `kind:` (`question`, `hypothesis` or `qa`) and `source:` lines (source paths are relative to `~/src`), then nested `-` bullets with two-space indent. The first bullet is the root.
-- If a question has an answer or hypothesis, it is the first child, on a line starting `- A: `, before the sub-questions. `A:` lines are not counted as nodes.
+## Notes on the test trees
+
+- Each has an H1 title, `kind:` and `source:` lines (source paths are relative to `~/src`), then nested `-` bullets. If a question has an answer or hypothesis, it is its first child, on a line starting `- A: `. `A:` lines are not counted as nodes.
 - Wording is the original. Markup is stripped (bold markers, list numbers on the Wise AI trees, `**✅ ...**` answer markers), nothing is shortened.
+- Stats are computed by a script (`tree_stats.py`, kept outside the repo), counting a label as the bullet text after `- `.
 
 ## Files
 
