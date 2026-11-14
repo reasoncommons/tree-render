@@ -39,7 +39,7 @@ Paths are under `projects/wise-ai-briefing/`. The four questions, signed off 202
 - Command, for every tree: `node <renderer> <tree.json> --style ribbon --palette wise-ink --font bricolage --root-style centre --out <dir> --name <name>`.
   - Ribbon, ink and seal: ink ribbons and warm-grey hairlines on the site's paper, seal red once on the conclusion (the level-1 node marked `"accent": true`, by default the one starting "So"), text in the site's Bricolage.
   - Root: the question centred on the dot, no box (Rufus's pick). Alternative if wanted: `--root-style outline` (thin square-cornered box).
-  - Curves: `--curve coggle` is the default since 2026-11-14 (Coggle's S over a run of at least 320 px, so the outer branches are not vertical pipes; trees are about 110 px wider). Leave the flag off; `--curve ribbon` gives the older curve.
+  - Curves: leave the flag off for ribbon's own curve (the default; Rufus, 2026-11-14: keep it). `--curve coggle` is an option: Coggle's S over a run of at least 320 px, so the outer branches are not vertical pipes; trees are about 110 px wider.
 - Sizes: the style's own (a one-level tree's root is capped at 1.15× the questions).
 - One image per tree, made for desktop; phones show the same image.
 - Output: SVG and 2× PNG. The renderer exits 1 if any text overlaps; fix that, don't ship it.

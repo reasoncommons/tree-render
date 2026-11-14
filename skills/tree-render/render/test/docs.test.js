@@ -1,4 +1,4 @@
-// Docs smoke test: every `node … render.js …` command (fenced or inline code) in README.md or SKILL.md runs and
+// Docs smoke test: every `node … render.js …` command (fenced or inline code) in README.md, SKILL.md or docs/gallery.md runs and
 // exits 0 against the examples (with --no-png), and every flag the docs use is listed in --help. Keeps the
 // docs from drifting from the CLI.
 import { test } from 'node:test';
@@ -12,7 +12,7 @@ import { here, EXAMPLES } from './helpers.js';
 const RENDER = path.resolve(here, '..');
 const BIN = path.join(RENDER, 'bin', 'render.js');
 const ROOT = path.resolve(RENDER, '..', '..', '..');
-const DOCS = [path.join(ROOT, 'README.md'), path.join(ROOT, 'skills', 'tree-render', 'SKILL.md')];
+const DOCS = [path.join(ROOT, 'README.md'), path.join(ROOT, 'skills', 'tree-render', 'SKILL.md'), path.join(ROOT, 'docs', 'gallery.md')];
 const EXAMPLE = path.join(EXAMPLES, 'speed-of-wisdom.md');
 const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'tree-render-docs-'));
 test.after(() => fs.rmSync(dir, { recursive: true, force: true }));
@@ -68,7 +68,7 @@ for (const doc of DOCS) {
   });
 }
 
-test('docs: every --flag in README.md and SKILL.md is in --help', () => {
+test('docs: every --flag in README.md, SKILL.md and docs/gallery.md is in --help', () => {
   const help = run([BIN, '--help']).stdout;
   const flags = new Set();
   // Flags in renderer commands and in inline code (`--style NAME`); other tools' flags (git) are skipped.
@@ -80,4 +80,13 @@ test('docs: every --flag in README.md and SKILL.md is in --help', () => {
   // SKILL.md names a few legacy flags (--format, --theme, --html) to say they are legacy: `--help legacy` lists those.
   const legacy = run([BIN, '--help', 'legacy']).stdout;
   for (const f of flags) assert.ok(help.includes('--' + f) || legacy.includes('--' + f), `--${f} is in the docs but not in --help`);
+});
+
+test('docs: every image in docs/gallery.md and README.md exists', () => {
+  for (const doc of [path.join(ROOT, 'docs', 'gallery.md'), path.join(ROOT, 'README.md')]) {
+    const md = fs.readFileSync(doc, 'utf8');
+    const srcs = [...md.matchAll(/!\[[^\]]*\]\(([^)]+)\)|<img src="([^"]+)"/g)].map(m => m[1] || m[2]);
+    assert.ok(srcs.length > 0);
+    for (const s of srcs) assert.ok(fs.existsSync(path.resolve(path.dirname(doc), s)), `${path.relative(ROOT, doc)}: ${s} is missing`);
+  }
 });

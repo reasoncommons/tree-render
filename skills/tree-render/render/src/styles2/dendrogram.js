@@ -3,8 +3,8 @@
 // with `rootBox`, in a light box whose right edge the curves leave), and
 // the level-1 answers leave it on 2.5 px S-curves (no end dots: 2026-11-13); each answer's points hang off rounded
 // elbows (8 px corners, 1.25 px grey). The first point sits on its answer's baseline, so answer, leader and
-// first point read as one line. `curve: 'coggle'` (the default, or 'coggle-l1'): Coggle's cubic for the level-1 curves
-// (shared.js coggleCurve) over the curvature rule's run (coggleReach); 'ribbon' (alias 'current'): the older sCurve. Red marks the accent branch's curve, dot and lead.
+// first point read as one line. `curve: 'ribbon'` (the default, alias 'current'): the styles' own sCurve; 'coggle' (or 'coggle-l1'):
+// Coggle's cubic for the level-1 curves (shared.js coggleCurve) over the curvature rule's run (coggleReach). Red marks the accent branch's curve, dot and lead.
 import { Canvas, runsFor, xMiddleOf, sampleCubic } from '../directions/common.js';
 import { paletteText, ensureContrast } from '../palettes.js';
 import { RED, accentIndex, balanced, sCurve, cubicD, spreads, placeRoot, rootFor, checkCurve, coggleCurve, coggleReach, segsD, segsPts } from './shared.js';

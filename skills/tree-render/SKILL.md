@@ -49,12 +49,14 @@ For example:
 node bin/render.js tree.md --style ribbon --palette wise-ink --root-style centre --out out
 ```
 
+The [gallery](../../docs/gallery.md) shows each style and the main options on one tree, with the command for each.
+
 Main options (the full list is in `node bin/render.js --help`):
 
 - `--palette wise-ink|wise-print`: the Wisdom and AI site's colours, with a red accent on the "So" branch. Without it each style keeps its own colours.
 - `--font arimo|plex|atkinson|bricolage|merriweather|plexmono|quattro`: set the text in another embedded font.
 - `--root-style dot|centre|box|outline` (`ribbon`, `dendrogram`, `lanes`): how the root question is drawn.
-- `--curve coggle|coggle-l1|ribbon` (`ribbon`, `dendrogram`, `lanes`): the main branches' curve. `coggle` (default) is Coggle's S over a run of at least 320 px, longer for a tall tree so the outer branches stay soft S's, not vertical pipes; `ribbon` is the older, narrower curve. These styles draw two levels below the root and print a note if a tree has more.
+- `--curve ribbon|coggle|coggle-l1` (`ribbon`, `dendrogram`, `lanes`): the main branches' curve. `ribbon` (default) is the styles' own S; `coggle` is Coggle's S over a run of at least 320 px, longer for a tall tree so the outer branches stay soft S's, not vertical pipes (the tree is a little wider). These styles draw two levels below the root and print a note if a tree has more.
 - `--depth N` (`coggle-exact`, `coggle-thin`): show only N levels below the root.
 - `--sizes 22,17,15,14` (`coggle-exact`, `coggle-thin`): font sizes in px for the root, level 1, level 2 and deeper. Choose from the leaf size up: fix the leaf (14–16 px on desktop), level 1 at about 1.2x, the root at about 1.6x; leaf 15 gives `--sizes 24,18,15,15`.
 - `--root-run` and `--s-run` (`coggle-exact`, `coggle-thin`): how wide the root's branches run; see [coggle-curvature.md](../../docs/design/references/coggle-curvature.md).

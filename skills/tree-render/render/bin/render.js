@@ -55,11 +55,11 @@ Options (ribbon, dendrogram, lanes):
   --root-style dot|centre|box|outline
                         the root question: right-aligned on a dot (default), centred on the dot,
                         in a light filled box (also --root-box) or a thin outlined box
-  --curve coggle|coggle-l1|ribbon
-                        the branch curve: coggle (default: Coggle's S for the level-1 branches and
-                        ribbon's hairlines, over a run long enough to keep Coggle's corners),
-                        coggle-l1 (Coggle's for the level-1 branches only), or ribbon (the older,
-                        narrower S; also --curve current)
+  --curve ribbon|coggle|coggle-l1
+                        the branch curve: ribbon (default: the styles' own S; also --curve current),
+                        coggle (Coggle's S for the level-1 branches and ribbon's hairlines, over a
+                        run long enough to keep Coggle's corners), or coggle-l1 (Coggle's for the
+                        level-1 branches only)
 
 Exit codes: 0 ok; 1 a branch crosses a label or text overlaps (shorten the text and render
 again); 2 usage error; 3 the PNG needs Chrome or Chromium (set CHROME=/path, or use --no-png).

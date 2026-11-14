@@ -11,7 +11,7 @@ import { FONTS } from '../coggle/styles.js';
 export const STYLES2 = { ribbon: ribbon.ribbon, dendrogram, lanes: ribbon.lanes };
 export const STYLE2_NAMES = Object.keys(STYLES2);
 
-// Draws tree in `style`; options: { rootBox (true | 'outline'), rootCentre, palette, curve ('coggle' (default) | 'coggle-l1' | 'ribbon' (alias 'current')) } (palette: a PALETTES object). Returns the Canvas.
+// Draws tree in `style`; options: { rootBox (true | 'outline'), rootCentre, palette, curve ('ribbon' (default, alias 'current') | 'coggle' | 'coggle-l1') } (palette: a PALETTES object). Returns the Canvas.
 export function drawStyle2(tree, style, opts = {}) {
   const f = STYLES2[style];
   if (!f) throw new Error(`unknown style "${style}" (have: ${STYLE2_NAMES.join(', ')})`);

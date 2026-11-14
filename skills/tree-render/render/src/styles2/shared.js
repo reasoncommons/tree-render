@@ -99,10 +99,11 @@ export function placeRoot(cv, text, y, { size, wrap, dot, gap, box = false, cent
 // column, so there is no label to clear and no reason for a shorter S-run); branchSegments lengthens nothing then,
 // and only inserts a vertical when a branch rises more than R_MAX × its run. Short branches (chord < 75 px) get
 // Coggle's pull-in. Returns segments ({ c } cubics, { l } lines).
-// 'coggle' is the default (Rufus, 2026-11-14: Coggle's curves are better). 'ribbon' is the styles' own older S
-// (sCurve, a fixed shape whatever the rise); 'current' is its old name, kept as an alias.
-export const CURVES = ['coggle', 'coggle-l1', 'ribbon', 'current'];
-export const DEFAULT_CURVE = 'coggle';
+// 'ribbon' is the default: the styles' own S (sCurve, a fixed shape whatever the rise; Rufus, 2026-11-14: "i do like
+// old ribbon curves ... keep as default ... and keep coggle curves as option"); 'current' is its old name, kept as an
+// alias. 'coggle' (and 'coggle-l1') is the option, over the curvature rule's run (coggleReach).
+export const CURVES = ['ribbon', 'coggle', 'coggle-l1', 'current'];
+export const DEFAULT_CURVE = 'ribbon';
 export function checkCurve(curve = DEFAULT_CURVE) {
   if (!CURVES.includes(curve)) throw new Error(`unknown curve "${curve}" (have: ${CURVES.join(', ')})`);
   return curve === 'current' ? 'ribbon' : curve;

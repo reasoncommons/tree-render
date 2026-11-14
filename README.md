@@ -16,17 +16,24 @@ node bin/render.js ../../../examples/speed-of-wisdom.md --out out
 
 That writes `out/speed-of-wisdom.png` (the image above) and `out/speed-of-wisdom.svg`. No Chrome? Add `--no-png` and use the SVG.
 
-## Five styles
+## Gallery
 
 ![The same tree in five styles: ribbon (the default), coggle-exact, coggle-thin, dendrogram and lanes.](docs/images/styles-strip.png)
 
-`ribbon` is the default. Pick another with `--style`:
+Five styles: `ribbon` is the default; pick another with `--style`:
 
 ```bash
 node bin/render.js ../../../examples/speed-of-wisdom.md --style coggle-exact --out out
 ```
 
-`ribbon`, `dendrogram` and `lanes` draw their main branches with Coggle's curve (`--curve coggle`, the default) over a run long enough to keep its soft corners; `--curve ribbon` gives the older, narrower curve. They draw two levels below the root; for deeper trees use `coggle-exact`.
+Some useful variants: ribbon in a site's own palette and font, ribbon with Coggle's curves, Coggle's look in a print palette, and a one-level tree.
+
+| Ink and seal | Coggle's curves | Coggle, print palette | One level |
+| --- | --- | --- | --- |
+| [<img src="docs/images/gallery/ribbon-wise-ink.png" width="220" alt="Ribbon in wise-ink with Bricolage">](docs/gallery.md#ink-and-seal-the-wisdom-and-ai-site) | [<img src="docs/images/gallery/ribbon-curve-coggle.png" width="220" alt="Ribbon with Coggle's curves">](docs/gallery.md#coggles-curves) | [<img src="docs/images/gallery/coggle-exact-wise-print.png" width="220" alt="coggle-exact in wise-print with Bricolage">](docs/gallery.md#print-palette-with-bricolage) | [<img src="docs/images/gallery/ribbon-one-level.png" width="220" alt="A one-level ribbon tree">](docs/gallery.md#a-one-level-tree) |
+| `--palette wise-ink --font bricolage` | `--curve coggle` | `--style coggle-exact --palette wise-print --font bricolage` | `--root-style centre` |
+
+The [gallery](docs/gallery.md) shows every style and the main options on the same tree, each with the command that made it. `ribbon`, `dendrogram` and `lanes` draw their main branches with their own curve by default; `--curve coggle` gives Coggle's curve instead, over a run long enough to keep its soft corners (a little wider). They draw two levels below the root; for deeper trees use `coggle-exact`.
 
 ## Write your own tree
 

@@ -6,9 +6,9 @@
 // lanes: ribbon's root, ribbons and palette (no dot at the ribbon's end); each subtree sits on a soft
 // neutral band (red for the accent) across both text columns; no level-2 connectors, a small grey dot before
 // each point instead. `hue` (mock-up D-hue only): one restrained hue per branch. `mono` (mock-up A-mono only):
-// charcoal ribbons. `curve`: 'coggle' (the default: Coggle's cubic for the ribbons' centre lines and the hairlines,
-// shared.js coggleCurve, over a run set by the curvature rule, coggleReach), 'coggle-l1' (ribbons only) or 'ribbon'
-// (alias 'current': the older sCurve). `palette` (palettes.js): its colours instead of slate, ink and red. `rootBox`: the root in a light Coggle-like box (shared.js placeRoot) instead of on a dot.
+// charcoal ribbons. `curve`: 'ribbon' (the default, alias 'current': the styles' own sCurve), 'coggle' (Coggle's cubic
+// for the ribbons' centre lines and the hairlines, shared.js coggleCurve, over a run set by the curvature rule,
+// coggleReach) or 'coggle-l1' (ribbons only). `palette` (palettes.js): its colours instead of slate, ink and red. `rootBox`: the root in a light Coggle-like box (shared.js placeRoot) instead of on a dot.
 import { Canvas, runsFor, xMiddleOf, sampleCubic } from '../directions/common.js';
 import { PALETTE, adjust, darken } from '../coggle/colour.js';
 import { paletteText, ensureContrast } from '../palettes.js';

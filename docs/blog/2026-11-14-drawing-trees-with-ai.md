@@ -10,9 +10,9 @@ status: draft
 
 *Even with AI, getting to good UX takes a surprising amount of effort.*
 
-![The same tree in five styles: coggle-exact, coggle-thin, ribbon, dendrogram and lanes.](../images/styles-strip.png)
+![The same tree in five styles: ribbon (the default), coggle-exact, coggle-thin, dendrogram and lanes.](../images/styles-strip.png)
 
-This is where we ended up: five ways to draw a tree of thought, each good for something, plus a handful of tweaks for fonts, sizes, colours, the root and the curves. Ribbon is now the default, drawn with curves borrowed from [Coggle](https://coggle.it).
+This is where we ended up: five ways to draw a tree of thought, each good for something, plus a handful of tweaks for fonts, sizes, colours, the root and the curves. Ribbon is now the default, with its own curves; the curves borrowed from [Coggle](https://coggle.it) are an option.
 
 And this is where we started, a bulleted list:
 
@@ -105,7 +105,7 @@ The first real use is a set of trees for the Wisdom and AI site. We made two pal
 
 Real use also changed the content. A one-level tree has nothing underneath a node to explain it, so the top-level questions got fuller wording: "**Can we make AI good?** Not just working well, but aligned with what is good; and what can wisdom traditions add?"
 
-Last, we took the curvature lesson back to ribbon, dendrogram and lanes: `--curve coggle` draws their first-level branches, and ribbon's hairlines, with Coggle's cubic. The first try squeezed tall trees into pipes, because ribbon's branches were too short for the curve rule; with the run lengthened to at least 320 px (about 100 px wider) the curves came right, and that is now ribbon's default ([comparison](https://claude.ai/artifact/4vG9ZmUMsqrUdFZwBvh5f7)).
+Last, we took the curvature lesson back to ribbon, dendrogram and lanes: `--curve coggle` draws their first-level branches, and ribbon's hairlines, with Coggle's cubic. The first try squeezed tall trees into pipes, because ribbon's branches were too short for the curve rule; with the run lengthened to at least 320 px (about 100 px wider) the curves came right ([comparison](https://claude.ai/artifact/4vG9ZmUMsqrUdFZwBvh5f7)). We made it the default for an afternoon, then went back: I like ribbon's own curves, so they stay the default and Coggle's are an option, with the rule applied.
 
 ## The menu
 
@@ -115,7 +115,7 @@ We didn't end with one answer. Different trees and different sites want differen
 
 | Style | Use it when |
 | --- | --- |
-| `ribbon` | You want a host site's own palette, with one accent for the conclusion. The rough render, refined. The default. |
+| `ribbon` | You want a host site's own palette, with one accent for the conclusion. The rough render, refined, with its own curves (Coggle's are an option). The default. |
 | `coggle-exact` | You want colour: Coggle's look and curves, a hue per branch. The most beautiful. |
 | `coggle-thin` | You want the same layout, quieter: thin branches, an outlined root. |
 | `dendrogram` | It's for print, or you want a sober look: dark curves, rounded elbows to the leaves. |
@@ -127,7 +127,7 @@ The tweaks, most of which came out of one of the rounds above:
 - `--sizes` sets text sizes for the root, level 1, level 2 and deeper. Coggle's are the default.
 - `--palette wise-ink` or `wise-print`, with a red accent on the "So…" branch.
 - `--root-style dot|centre|box|outline` in ribbon, dendrogram and lanes.
-- `--curve coggle` in ribbon, dendrogram and lanes; `--root-run` and `--s-run` in the Coggle styles.
+- `--curve coggle` in ribbon, dendrogram and lanes swaps their own curves for Coggle's, over a run long enough to keep its corners; `--root-run` and `--s-run` in the Coggle styles.
 - `--depth N` shows only the top levels.
 
 ## What worked
