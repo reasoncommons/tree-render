@@ -60,7 +60,7 @@ export function balanced(runs, size, maxWidth, opts) {
 // The root question, bold, vertically centred on y (the middle of its first and last lines' x-heights).
 //   plain: right-aligned so it ends at x = 0, with a dot `gap` px to its right that the branches leave.
 //   box:   a light Coggle-like box (no border, no chevrons) ending at x = 0; the branches leave its right
-//          edge at mid-height. box: 'outline' draws the same box as a thin stroke (`boxStroke`), no fill.
+//          edge at mid-height. box: 'outline' draws a square-cornered box as a thin stroke (`boxStroke`), no fill.
 //   centre: like plain, but the lines are centred on each other (the block still ends at x = 0).
 // `ink`: text and dot colour; `boxFill`: the box's fill (a palette's root fill).
 // Returns { from, draw }: `from` is where the branches start; call draw() after the branches so the dot, box
@@ -86,7 +86,7 @@ export function placeRoot(cv, text, y, { size, wrap, dot, gap, box = false, cent
     from: { x: 0, y },
     draw: () => {
       const paint = box === 'outline' ? `fill="none" stroke="${boxStroke}" stroke-width="1.25"` : `fill="${boxFill}"`;
-      cv.els.push(`<rect x="${x0.toFixed(2)}" y="${y0.toFixed(2)}" width="${w.toFixed(2)}" height="${h.toFixed(2)}" rx="${box === 'outline' ? 4 : B.radius}" ${paint}/>`);
+      cv.els.push(`<rect x="${x0.toFixed(2)}" y="${y0.toFixed(2)}" width="${w.toFixed(2)}" height="${h.toFixed(2)}" rx="${box === 'outline' ? 0 : B.radius}" ${paint}/>`);
       cv.strokes.push({ pts: [{ x: x0, y: y0 }, { x: 0, y: y0 + h }], width: 0 });
       cv.text(b, -w / 2, top, { align: 'middle', lead: { fill: ink } });
     },

@@ -64,6 +64,6 @@ test('root style: centred lines on the dot, or a thin outlined box (no fill); bo
     assert.match(svgC, /text-anchor="middle"/, `${style}: centred root`);
     const o = drawStyle2(Q2, style, { rootBox: 'outline' }), svgO = o.els.join('');
     assert.deepEqual(o.check(), [], `${style} outline`);
-    assert.match(svgO, /<rect [^>]*rx="4" fill="none" stroke="#5d584f" stroke-width="1.25"\/>/, `${style}: outlined box`);
+    assert.match(svgO, /<rect [^>]*rx="0" fill="none" stroke="#5d584f" stroke-width="1.25"\/>/, `${style}: outlined box`);
   }
 });
