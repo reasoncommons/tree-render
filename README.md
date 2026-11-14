@@ -1,8 +1,10 @@
 # Tree render
 
-![A question tree drawn by tree-render: "How fast should we develop AI?" on the left, five tapered ribbons curving right to five bold-led answers (the last, the conclusion, in red), each with three or four short points on hairlines.](docs/images/hero-ribbon.png)
+Tree render turns a nested bullet list into a clear, good-looking image you can put on a web page or share. It is for trees of thought: a question and its answers, an argument and its reasons, a plan and its parts. It also helps you tighten the words, so the tree reads at a glance.
 
-Tree render turns a question or hypothesis tree into a clear, good-looking image you can put on a web page or share.
+![Before and after. Left: wordy notes as a nested bullet list, starting "How fast should we be developing AI? Given the existential risk…". Right: the same argument drawn by tree-render: the question "How fast should we develop AI?" on a dot, with five tapered branches curving right to five short points, each opening with a bold lead; the last, the conclusion, in red.](docs/images/hero-before-after.png)
+
+Question trees, issue trees, hypothesis trees, argument maps and mind-map-style outlines are all trees of thought, and all render the same way.
 
 ## Try it
 
@@ -14,7 +16,9 @@ npm install
 node bin/render.js ../../../examples/speed-of-wisdom.md --out out
 ```
 
-That writes `out/speed-of-wisdom.png` (the image above) and `out/speed-of-wisdom.svg`. No Chrome? Add `--no-png` and use the SVG.
+That writes `out/speed-of-wisdom.png` and `out/speed-of-wisdom.svg`. No Chrome? Add `--no-png` and use the SVG.
+
+![The full tree drawn by tree-render: "How fast should we develop AI?" on the left, five tapered ribbons curving right to five bold-led answers (the last, the conclusion, in red), each with three or four short points on hairlines.](docs/images/hero-ribbon.png)
 
 ## Gallery
 
@@ -37,7 +41,7 @@ The [gallery](docs/gallery.md) shows every style and the main options on the sam
 
 ## Write your own tree
 
-A tree is a Markdown file: an H1 title, then nested bullets indented two spaces. The first bullet is the root question. Put the opening words of each main point in bold: that is the lead, and read alone the leads should tell the argument.
+A tree is a Markdown file: an H1 title, then nested bullets indented two spaces. The first bullet is the root: usually a question, or a claim or goal. Put the opening words of each main point in bold: that is the lead, and read alone the leads should tell the argument.
 
 ```markdown
 # Go at the speed of wisdom

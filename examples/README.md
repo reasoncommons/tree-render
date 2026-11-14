@@ -1,10 +1,10 @@
 # Example trees
 
-Trees in the Markdown format described in [TREE-FORMAT.md](../skills/tree-render/render/TREE-FORMAT.md).
+Trees of thought as nested bullets, in the Markdown format described in [TREE-FORMAT.md](../skills/tree-render/render/TREE-FORMAT.md).
 
 - **[speed-of-wisdom.md](speed-of-wisdom.md)** is a prepared tree: content written for a share-quality image, following the [content guide](../skills/tree-render/CONTENT-GUIDE.md). It is the running example in the README and the docs. Start here.
 - **[four-questions.md](four-questions.md)** is a prepared one-level tree: the Wisdom and AI site's four questions, with nothing under them. It is the one-level example in the [gallery](../docs/gallery.md).
-- The other files are real question (issue) trees and question trees with answers, copied as they were, for testing the renderer on long, deep, unprepared trees. They render, but they are not good images until they go through the content step.
+- The other files are real trees as people wrote them (question or issue trees, some with answers), copied as they were, for testing the renderer on long, deep, unprepared trees. They render, but they are not good images until they go through the content step.
 
 ## Notes on the test trees
 

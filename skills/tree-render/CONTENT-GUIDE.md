@@ -1,12 +1,12 @@
 # Preparing a tree for rendering (the content step)
 
-A tree visual is made in two steps, like a slide. First, **content**: decide which nodes go in, how deep, and the exact words of each. Second, **render**: draw the prepared text well. This guide is for the first step. The renderer never rewrites text, so every word on the image is a choice you made here. Expect to go back and forth: render, look, cut, render again.
+A tree of thought (nested bullets: a question and its answers, an argument and its reasons, a plan and its parts) is turned into a visual in two steps, like a slide. First, **content**: decide which nodes go in, how deep, and the exact words of each. Second, **render**: draw the prepared text well. This guide is for the first step. The renderer never rewrites text, so every word on the image is a choice you made here. Expect to go back and forth: render, look, cut, render again.
 
 The output of this step is a tree in Markdown (or JSON), in the format in [render/TREE-FORMAT.md](render/TREE-FORMAT.md), plus a `texts.md` that records where each string came from. The running example is [examples/speed-of-wisdom.md](../../examples/speed-of-wisdom.md).
 
 ## Start from the full tree, not a blank page
 
-You compress an existing argument; you don't write a new one. Start from the source: the full question or hypothesis tree, its answers, and the essay or narrative it supports. The prepared tree is a view of that argument at a glance. If you find yourself inventing a claim to make a branch work, stop: the source needs fixing, not the picture.
+You compress an existing argument; you don't write a new one. Start from the source: the full outline (often a question or hypothesis tree), its answers, and the essay or narrative it supports. The prepared tree is a view of that argument at a glance. If you find yourself inventing a claim to make a branch work, stop: the source needs fixing, not the picture.
 
 ## Questions and answers
 

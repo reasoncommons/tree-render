@@ -1,11 +1,11 @@
 ---
 name: tree-render
-description: Use when turning a question tree or hypothesis tree (a root question with supporting assertions or answers) into a static image (SVG and PNG) for a web page, report or post. Covers preparing the text, then rendering a left-to-right branching tree with the bundled CLI and checking the result. Not for flowcharts, org charts or architecture diagrams.
+description: Use when turning a nested bullet list or tree of thought (an outline, argument map or mind-map-style tree: a root with its answers, reasons or parts; for example a question tree, issue tree or hypothesis tree) into a static image (SVG and PNG) for a web page, report or post. Covers preparing the text, then rendering a left-to-right branching tree with the bundled CLI and checking the result. Not for flowcharts, org charts or architecture diagrams.
 ---
 
 # Tree render
 
-Turn a question or hypothesis tree into a static image that is good information design and worth sharing: the root question on the left, coloured branches curving right, each main point with a bold lead. The output is an SVG and a PNG.
+Turn a nested bullet list, a tree of thought, into a static image that is good information design and worth sharing. The tree might be a question and its answers (a question, issue or hypothesis tree), an argument and its reasons, or a plan and its parts. The image has the root on the left, coloured branches curving right, each main point with a bold lead. The output is an SVG and a PNG.
 
 Work in two steps, like making a slide: first decide the words, then draw them. The renderer never rewrites text, so every word on the image is a choice you make in step 1.
 
