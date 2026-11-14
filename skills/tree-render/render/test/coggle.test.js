@@ -109,9 +109,9 @@ test('font sizes by level and Chrome-rounded "normal" line heights', () => {
 const T = await createCoggleText();
 const WEB3 = parse(readFixture('coggle-web3-eval.json'));
 // Coggle's own drawing: its layout (collisions allowed), the lead running on, and the chevrons on the root box.
-// Coggle's own layout is set in Coggle's Arimo (coggle-exact's coggleFont); our layout's default font is Bricolage.
+// coggle-exact is set in Coggle's Arimo in both layouts (Bricolage only on request).
 const COGGLE = { avoidCollisions: false, leadBreak: false, chevrons: true };
-const ARIMO_EXACT = { ...EXACT, font: EXACT.coggleFont };
+const ARIMO_EXACT = EXACT;
 
 test('web3 layout (Coggle\'s own, collisions allowed): level-1 junctions at x = 631, leaves 54 + 0.02 × height further on', () => {
   const L = coggleLayout(WEB3, T, COGGLE);
@@ -137,7 +137,7 @@ test('golden: with collisions allowed, the web3 fixture renders exactly Coggle\'
   assert.equal(svg, fs.readFileSync(golden, 'utf8'));
 });
 
-test('golden: the web3 fixture renders to the checked-in SVG (our layout, in its default font, Bricolage)', async () => {
+test('golden: the web3 fixture renders to the checked-in SVG (our layout, in its default font, Arimo)', async () => {
   const TB = await createCoggleText(EXACT.font);
   const svg = drawCoggle(coggleLayout(WEB3, TB), { fontCSS: '' });
   const golden = path.join(here, 'golden', 'coggle-web3-eval.svg');
@@ -460,12 +460,10 @@ test('root run middle: the Wise-style q2 fixture runs from the root to level 1 i
   }
 });
 
-test('coggle-exact: Bricolage Grotesque in our layout, Coggle\'s Arimo in Coggle\'s own; variants keep their own font', () => {
-  assert.equal(EXACT.font, FONTS.bricolage);
-  assert.equal(EXACT.coggleFont, FONTS.arimo);
+test('coggle-exact: Coggle\'s Arimo by default; Bricolage only with --font', () => {
+  assert.equal(EXACT.font, FONTS.arimo);
   assert.deepEqual(EXACT.sizes, [17, 15.3, 13, 12]);
   assert.equal(EXACT.rootSize, 22);
-  assert.equal(coggleStyle('coggle-thin').coggleFont, null);
 });
 
 for (const font of ['arimo', 'bricolage', 'plexmono', 'quattro', 'atkinson', 'merriweather', 'plex']) {

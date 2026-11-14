@@ -28,7 +28,7 @@ const USAGE = `Usage: tree-render <tree.md|tree.json> [--out DIR] [--name N] [--
                                        lanes       ribbons to each answer, each subtree on a soft band
                                      --root-box sets the root in a light box instead of on a dot (exit 1 if anything overlaps)
        tree-render <tree.md|tree.json> --style coggle-exact [--out DIR] [--name N] [--scale 2] [--no-png] [--allow-collisions]
-                                     a faithful copy of Coggle's look (docs/design/references/coggle-spec.md) in Bricolage
+                                     a faithful copy of Coggle's look (docs/design/references/coggle-spec.md) in Arimo
                                      Grotesque at 22/15.3/13/12 px; branches are kept off labels unless --allow-collisions
                                      (Coggle's own layout, in Coggle's Arimo, for comparisons)
        tree-render <tree.md|tree.json> --style coggle-thin|coggle-thin-mono|coggle-broadsheet|coggle-letterpress [...]
@@ -36,7 +36,7 @@ const USAGE = `Usage: tree-render <tree.md|tree.json> [--out DIR] [--name N] [--
                                      shifts, background and root treatment on the same engine (coggle-hairline = coggle-thin)
        coggle styles also take (for comparisons; defaults give the style's own look):
          --font arimo|plex|atkinson|bricolage|merriweather|plexmono|quattro   set the text in that (embedded) font
-                               (coggle-exact: bricolage; arimo, Coggle's own, with --allow-collisions)
+                               (coggle-exact: arimo, Coggle's own)
          --sizes 22,17,15,14   font sizes in px: root, level 1, level 2, level 3+ (wraps grow with levels 1 and 2)
          --depth N             show only N levels below the root
          --root-run middle|coggle   shape of the root's branches: middle (default; Coggle's S compressed horizontally:

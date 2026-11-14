@@ -3,7 +3,6 @@
 // root branch and text in a darker shade of its branch all stay. What a style can set:
 //   font          (our layout) family, files (regular + the weight the lead uses), boldWeight, CSS stack; optional mono
 //                 { family, file, stack, sizeDelta }: leaves and the text after a bold lead in that face
-//   coggleFont    the font in Coggle's own layout (avoidCollisions off), if not font (coggle-exact: Arimo)
 //   leadBreak     a bold lead sits on its own line(s), the rest starts on the next line (off in all styles:
 //                 it left dangling words, e.g. "Alignment: a shot in the / dark"; kept as an option)
 //   sizes         font size by level (root, 1, 2, 3+)
@@ -43,8 +42,7 @@ export const FONTS = { arimo: ARIMO, plex: PLEX, atkinson: ATKINSON, bricolage: 
 
 export const EXACT = {
   name: 'coggle-exact',
-  font: BRICOLAGE, // our layout (2026-11-13: Rufus's pick from the font comparison)
-  coggleFont: ARIMO, // Coggle's own layout (avoidCollisions off: the pinned comparison) keeps Coggle's Arimo
+  font: ARIMO, // Coggle's font; Bricolage only on request (--font bricolage), Rufus 2026-11-14
   sizes: FONT_SIZES,
   rootSize: 22, // 2026-11-12: Coggle's 17 px root read too small next to the branches
   branch: { scale: 1, min: 2 },
@@ -57,7 +55,7 @@ export const EXACT = {
 };
 
 // Variants draw the root without chevrons unless they say otherwise.
-const variant = (name, d) => ({ ...EXACT, coggleFont: null, ...d, name, root: { ...EXACT.root, chevrons: false, ...d.root } });
+const variant = (name, d) => ({ ...EXACT, ...d, name, root: { ...EXACT.root, chevrons: false, ...d.root } });
 
 const THIN = variant('coggle-thin', {
   font: PLEX,
